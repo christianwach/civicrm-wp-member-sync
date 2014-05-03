@@ -81,25 +81,25 @@ class Civi_WP_Member_Sync {
 		add_action( 'civicrm_instance_loaded', array( $this, 'initialise' ) );
 		
 		// load our Users utility class
-		require( CIVI_WP_MEMBER_SYNC_PLUGIN_PATH . 'civicrm-wp-member-sync-users.php' );
+		require( CIVI_WP_MEMBER_SYNC_PLUGIN_PATH . 'civi-wp-ms-users.php' );
 		
 		// instantiate
 		$this->users = new Civi_WP_Member_Sync_Users( $this );
 	
 		// load our Schedule utility class
-		require( CIVI_WP_MEMBER_SYNC_PLUGIN_PATH . 'civicrm-wp-member-sync-schedule.php' );
+		require( CIVI_WP_MEMBER_SYNC_PLUGIN_PATH . 'civi-wp-ms-schedule.php' );
 		
 		// instantiate
 		$this->schedule = new Civi_WP_Member_Sync_Schedule( $this );
 	
 		// load our Admin utility class
-		require( CIVI_WP_MEMBER_SYNC_PLUGIN_PATH . 'civicrm-wp-member-sync-admin.php' );
+		require( CIVI_WP_MEMBER_SYNC_PLUGIN_PATH . 'civi-wp-ms-admin.php' );
 		
 		// instantiate
 		$this->admin = new Civi_WP_Member_Sync_Admin( $this );
 	
 		// load our CiviCRM utility class
-		require( CIVI_WP_MEMBER_SYNC_PLUGIN_PATH . 'civicrm-wp-member-sync-members.php' );
+		require( CIVI_WP_MEMBER_SYNC_PLUGIN_PATH . 'civi-wp-ms-members.php' );
 		
 		// instantiate
 		$this->members = new Civi_WP_Member_Sync_Members( $this );

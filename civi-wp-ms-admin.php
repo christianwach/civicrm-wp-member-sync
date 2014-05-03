@@ -65,7 +65,7 @@ class Civi_WP_Member_Sync_Admin {
 		);
 	
 		// load our Migration utility class
-		require( CIVI_WP_MEMBER_SYNC_PLUGIN_PATH . 'civicrm-wp-member-sync-migrate.php' );
+		require( CIVI_WP_MEMBER_SYNC_PLUGIN_PATH . 'civi-wp-ms-migrate.php' );
 		
 		// instantiate
 		$this->migrate = new Civi_WP_Member_Sync_Migrate( $this );
@@ -258,7 +258,7 @@ class Civi_WP_Member_Sync_Admin {
 		wp_enqueue_style(
 		
 			'civi_wp_member_sync_admin_css', 
-			plugins_url( 'assets/css/civicrm-wp-member-sync.css', CIVI_WP_MEMBER_SYNC_PLUGIN_FILE ),
+			plugins_url( 'assets/css/civi-wp-ms.css', CIVI_WP_MEMBER_SYNC_PLUGIN_FILE ),
 			false,
 			CIVI_WP_MEMBER_SYNC_VERSION, // version
 			'all' // media
@@ -279,7 +279,7 @@ class Civi_WP_Member_Sync_Admin {
 		wp_enqueue_script(
 		
 			'civi_wp_member_sync_admin_js', 
-			plugins_url( 'assets/js/civicrm-wp-member-sync.js', CIVI_WP_MEMBER_SYNC_PLUGIN_FILE ),
+			plugins_url( 'assets/js/civi-wp-ms.js', CIVI_WP_MEMBER_SYNC_PLUGIN_FILE ),
 			array( 'jquery', 'jquery-form' ),
 			CIVI_WP_MEMBER_SYNC_VERSION // version
 		
