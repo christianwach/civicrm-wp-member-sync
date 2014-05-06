@@ -1159,34 +1159,46 @@ class Civi_WP_Member_Sync_Admin {
 			
 		}
 		
-		// access db object
-		global $wpdb;
+		// get membership type
+		$type_id = absint( $_GET['type_id'] );
 		
-		// construct table name
-		$table_name = $wpdb->prefix . 'civi_member_sync';
+		// sanity check
+		if ( empty( $type_id ) ) { return; }
 		
-		// construct query
-		$sql = $wpdb->prepare( "DELETE FROM $table_name WHERE `id` = %d", absint( $_GET['type_id'] ) );
+		// get method
+		$method = $this->setting_get( 'method' );
 		
-		// do query
-		if ( $wpdb->query( $sql ) ) {
+		// sanitize method
+		$method = ( $method == 'roles' ) ? 'roles' : 'capabilities';
+		
+		// get data
+		$data = $this->setting_get( 'data' );
+		
+		// get subset by method
+		$subset = ( isset( $data[$method] ) ) ? $data[$method] : false;
+		
+		// sanity check
+		if ( ! $subset ) { return; }
+		if ( ! isset( $subset[$type_id] ) ) { return; }
+		
+		// delete it
+		unset( $subset[$type_id] );
+		
+		// update data
+		$data[$method] = $subset;
 			
-			// get admin URLs
-			$urls = $this->page_get_urls();
-			
-			// redirect to list page with message
-			wp_redirect( $urls['list'] . '&syncrule=delete' );
-			die();
-			
-		} else {
-			
-			// show error
-			$this->errors[] = 7;
-			
-			// sad face
-			return false;
-			
-		}
+		// overwrite data
+		$this->setting_set( 'data', $data );
+	
+		// save
+		$this->settings_save();
+	
+		// get admin URLs
+		$urls = $this->page_get_urls();
+		
+		// redirect to list page with message
+		wp_redirect( $urls['list'] . '&syncrule=delete' );
+		die();
 		
 	}
 	
