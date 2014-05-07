@@ -67,7 +67,10 @@ class Civi_WP_Member_Sync_Members {
 			// intercept CiviCRM membership add/edit form submission
 			add_action( 'civicrm_postProcess', array( $this, 'membership_form_process' ), 10, 2 );
 		
-			//intercept a CiviCRM membership update
+			// intercept before a CiviCRM membership update
+			add_action( 'civicrm_pre', array( $this, 'membership_pre_update' ), 10, 4 );
+		
+			// intercept a CiviCRM membership update
 			add_action( 'civicrm_post', array( $this, 'membership_updated' ), 10, 4 );
 		
 		}
@@ -170,6 +173,35 @@ class Civi_WP_Member_Sync_Members {
 	 * @param object $objectRef the object
 	 * @return nothing
 	 */
+	public function membership_pre_update( $op, $objectName, $objectId, $objectRef ) {
+		
+		// disable
+		return;
+		
+		///*
+		print_r( array( 
+			'op' => $op,
+			'objectName' => $objectName,
+			'objectId' => $objectId,
+			'objectRef' => $objectRef,
+		)); die();
+		//*/
+	
+		// target our object type
+		if ( $objectName != 'Membership' ) { return; }
+		
+	}
+	
+	
+	
+	/**
+	 * @description: update a WP user role when a CiviCRM membership is updated
+	 * @param string $op the type of database operation
+	 * @param string $objectName the type of object
+	 * @param integer $objectId the ID of the object
+	 * @param object $objectRef the object
+	 * @return nothing
+	 */
 	public function membership_updated( $op, $objectName, $objectId, $objectRef ) {
 		
 		// target our object type
@@ -184,24 +216,30 @@ class Civi_WP_Member_Sync_Members {
 		)); die();
 		*/
 		
+		// kick out if not membership object
+		if ( ! is_a( $objectRef, 'CRM_Member_BAO_Membership' ) ) { return; }
+	
+		// kick out if we don't have a contact ID
+		if ( ! isset( $objectRef->contact_id ) ) { return; }
+	
+		// get WordPress user for this contact ID
+		$user = $this->parent_obj->users->wp_user_get_by_civi_id( $objectRef->contact_id );
+	
+		/*
+		print_r( array( 
+			'user' => $user,
+		)); die();
+		*/
+	
+		// kick out if we don't receive a valid user
+		if ( ! is_a( $user, 'WP_User' ) ) { return; }
+		if ( ! $user->exists() ) { return; }
+	
+		// exclude admins
+		if ( is_super_admin( $user->ID ) OR $user->has_cap( 'delete_users' ) ) { return; }
+	
 		// catch create and edit operations
 		if ( $op == 'edit' OR $op == 'create' ) {
-		
-			// kick out if not membership object
-			if ( ! is_a( $objectRef, 'CRM_Member_BAO_Membership' ) ) { return; }
-		
-			// kick out if we don't have a contact ID
-			if ( ! isset( $objectRef->contact_id ) ) { return; }
-		
-			// get WordPress user for this contact ID
-			$user = $this->parent_obj->users->wp_user_get_by_civi_id( $objectRef->contact_id );
-		
-			// kick out if we don't receive a valid user
-			if ( ! is_a( $user, 'WP_User' ) ) { return; }
-			if ( ! $user->exists() ) { return; }
-		
-			// exclude admins
-			if ( is_super_admin( $user->ID ) OR $user->has_cap( 'delete_users' ) ) { return; }
 		
 			// reformat $objectRef as if it was an API return
 			$membership = array( 
@@ -212,14 +250,22 @@ class Civi_WP_Member_Sync_Members {
 			// update WP user by membership
 			$success = $this->parent_obj->admin->rule_apply( $user, $membership );
 			// do we care about success?
+			
+			// --<
+			return;
 		
 		}
 		
 		// catch delete operation
 		if ( $op == 'delete' ) {
 		
-			// do we assign the expired role?
-		
+			// undo WP user's membership
+			$success = $this->parent_obj->admin->rule_undo( $user, $objectRef );
+			// do we care about success?
+			
+			// --<
+			return;
+			
 		}
 		
 	}
