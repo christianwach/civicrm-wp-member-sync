@@ -1313,13 +1313,13 @@ class Civi_WP_Member_Sync_Admin {
 				}
 		
 			} else {
-	
+				
 				// no - get role for expired status rule
 				$expired_wp_role = $association_rule['expired_wp_role'];
-			
+				
 				// if we have one (we should) and the user has a different role...
 				if ( ! empty( $expired_wp_role ) AND $expired_wp_role != $user_role ) {
-			
+					
 					// switch user's role to the expired role
 					$this->parent_obj->users->wp_role_set( $user, $user_role, $expired_wp_role );
 				
@@ -1334,8 +1334,11 @@ class Civi_WP_Member_Sync_Admin {
 		
 			// SYNC CAPABILITY
 			
-			// construct capability name
+			// construct membership type capability name
 			$capability = CIVI_WP_MEMBER_SYNC_CAP_PREFIX . $membership_type_id;
+		
+			// construct membership status capability name
+			$capability_status = $capability . '_' . $status_id;
 		
 			/*
 			print_r( array(
@@ -1343,35 +1346,45 @@ class Civi_WP_Member_Sync_Admin {
 				'current_rule' => $current_rule,
 				'expiry_rule' => $expiry_rule,
 				'capability' => $capability,
+				'capability_status' => $capability_status,
 			) ); die();
 			*/
 		
 			// does the user's membership status match a current status rule?
 			if ( isset( $status_id ) && array_search( $status_id, $current_rule ) ) {
 				
-				// add capability
-				$this->parent_obj->users->wp_cap_add( $user, $capability );
-			
 				// do we have the "Members" plugin?
 				if ( defined( 'MEMBERS_VERSION' ) ) {
 					
-					// add the custom capability
+					// add the plugin's custom capability
 					$this->parent_obj->users->wp_cap_add( $user, 'restrict_content' );
 		
 				}
 	
-			} else {
+				// add type capability
+				$this->parent_obj->users->wp_cap_add( $user, $capability );
 			
-				// remove capability
-				$this->parent_obj->users->wp_cap_remove( $user, $capability );
+				// clear status capabilities
+				$this->parent_obj->users->wp_cap_remove_status( $user, $capability );
+				
+				// add status capability
+				$this->parent_obj->users->wp_cap_add( $user, $capability_status );
+			
+			} else {
 			
 				// do we have the "Members" plugin?
 				if ( defined( 'MEMBERS_VERSION' ) ) {
 				
-					// remove the custom capability
+					// remove the plugin's custom capability
 					$this->parent_obj->users->wp_cap_remove( $user, 'restrict_content' );
 		
 				}
+				
+				// remove type capability
+				$this->parent_obj->users->wp_cap_remove( $user, $capability );
+			
+				// clear status capabilities
+				$this->parent_obj->users->wp_cap_remove_status( $user, $capability );
 				
 			}
 	
@@ -1464,8 +1477,23 @@ class Civi_WP_Member_Sync_Admin {
 	public function do_debug() {
 		
 		/*
+		// get membership status rules
+		$status_rules = $this->parent_obj->members->status_rules_get_all();
+		print_r( array( 
+			'status_rules' => $status_rules, 
+		) ); die();
+		*/
+		
+		/*
+		// get data
+		$data = $this->setting_get( 'data' );
+		print_r( array( 
+			'data' => $data, 
+		) ); die();
+		*/
+		
+		/*
 		$joe = new WP_User( 376 );
-		$this->parent_obj->users->wp_cap_remove( $joe, 'rest of the world' );
 		print_r( array( 
 			'joe' => $joe, 
 		) ); die();

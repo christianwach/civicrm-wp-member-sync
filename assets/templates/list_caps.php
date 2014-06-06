@@ -87,7 +87,20 @@
 					</td>
 					<td><?php echo $this->parent_obj->members->status_rules_get_current( $item['current_rule'] ); ?></td>
 					<td><?php echo $this->parent_obj->members->status_rules_get_current( $item['expiry_rule'] );?></td>
-					<td><?php echo CIVI_WP_MEMBER_SYNC_CAP_PREFIX . $key; ?></td>
+					<td><?php 
+						
+						// show custom capability for this rule
+						echo CIVI_WP_MEMBER_SYNC_CAP_PREFIX . $key;
+						
+						// is the Members plugin active?
+						if ( defined( 'MEMBERS_VERSION' ) ) {
+							
+							// show the custom capability
+							echo '<br>restrict_content';
+							
+						}
+					
+					?></td>
 				</tr>
 				<?php
 		

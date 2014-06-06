@@ -232,7 +232,7 @@ class Civi_WP_Member_Sync_Users {
 	/**
 	 * Remove a capability from a WordPress user
 	 * 
-	 * @param WP_User $user WP_User object of the logged-in user.
+	 * @param WP_User $user WP_User object
 	 * @param string $capability Capability name
 	 * @return void
 	 */
@@ -249,6 +249,52 @@ class Civi_WP_Member_Sync_Users {
 		
 			// yes, remove it
 			$user->remove_cap( $capability );
+		
+		}
+		
+	}
+	
+	
+		
+	/**
+	 * Clear all status capabilities from a WordPress user, since we don't necessarily
+	 * know which one the user had before the status change.
+	 * 
+	 * @param WP_User $user WP_User object
+	 * @param string $capability Capability name
+	 * @return void
+	 */
+	public function wp_cap_remove_status( $user, $capability ) {
+		
+		// kick out if we don't receive a valid user
+		if ( ! is_a( $user, 'WP_User' ) ) return;
+		
+		// sanity check params
+		if ( empty( $capability ) ) return;
+		
+		// get membership status rules
+		$status_rules = $this->parent_obj->members->status_rules_get_all();
+		
+		// sanity checks
+		if ( ! is_array( $status_rules ) ) return;
+		if ( count( $status_rules ) == 0 ) return;
+		
+		// get keys
+		$status_rule_ids = array_keys( $status_rules );
+		
+		// loop through them
+		foreach( $status_rule_ids AS $status_id ) {
+		
+			// construct membership status capability name
+			$capability_status = $capability . '_' . $status_id;
+		
+			// does this user have that capability?
+			if ( $user->has_cap( $capability_status ) ) {
+		
+				// yes, remove it
+				$user->remove_cap( $capability_status );
+		
+			}
 		
 		}
 		
