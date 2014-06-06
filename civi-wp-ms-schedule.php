@@ -22,6 +22,7 @@ class Civi_WP_Member_Sync_Schedule {
 	
 	/** 
 	 * Initialise this object
+	 * 
 	 * @param object $parent_obj The parent object
 	 * @return object
 	 */
@@ -39,7 +40,8 @@ class Civi_WP_Member_Sync_Schedule {
 	
 	/**
 	 * Initialise when CiviCRM initialises
-	 * @return nothing
+	 * 
+	 * @return void
 	 */
 	public function initialise() {
 		
@@ -75,8 +77,9 @@ class Civi_WP_Member_Sync_Schedule {
 	
 	/** 
 	 * Set up our scheduled event
+	 * 
 	 * @param string $interval One of the WordPress-defined intervals
-	 * @return nothing
+	 * @return void
 	 */
 	public function schedule( $interval ) {
 		
@@ -100,7 +103,8 @@ class Civi_WP_Member_Sync_Schedule {
 	
 	/** 
 	 * Clear our scheduled event
-	 * @return nothing
+	 * 
+	 * @return void
 	 */
 	public function unschedule() {
 		
@@ -122,7 +126,8 @@ class Civi_WP_Member_Sync_Schedule {
 	
 	/**
 	 * Called when a scheduled event is triggered
-	 * @return nothing
+	 * 
+	 * @return void
 	 */
 	public function schedule_callback() {
 		
@@ -142,6 +147,7 @@ class Civi_WP_Member_Sync_Schedule {
 	
 	/** 
 	 * Get schedule intervals
+	 * 
 	 * @return array $intervals Array of schedule interval arrays, keyed by interval slug
 	 */
 	public function intervals_get() {
@@ -159,7 +165,8 @@ class Civi_WP_Member_Sync_Schedule {
 	
 	/** 
 	 * Clear our legacy_scheduled event
-	 * @return nothing
+	 * 
+	 * @return void
 	 */
 	public function legacy_unschedule() {
 		

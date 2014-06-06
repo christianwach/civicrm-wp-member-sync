@@ -40,6 +40,7 @@ class Civi_WP_Member_Sync_Migrate {
 	
 	/** 
 	 * Check for legacy 'civi_member_sync' plugin
+	 * 
 	 * @return boolean $result
 	 */
 	public function legacy_plugin_exists() {
@@ -66,7 +67,8 @@ class Civi_WP_Member_Sync_Migrate {
 	
 	/** 
 	 * Migrate from 'civi_member_sync' to this plugin
-	 * @return nothing
+	 * 
+	 * @return void
 	 */
 	public function legacy_migrate() {
 		
@@ -89,6 +91,7 @@ class Civi_WP_Member_Sync_Migrate {
 	
 	/** 
 	 * Migrate 'civi_member_sync' data to our plugin settings
+	 * 
 	 * @return boolean $result
 	 */
 	public function legacy_data_migrate() {
@@ -140,6 +143,7 @@ class Civi_WP_Member_Sync_Migrate {
 	
 	/** 
 	 * Remove previous 'civi_member_sync' database tables
+	 * 
 	 * @return boolean $result
 	 */
 	public function legacy_table_delete( $table_name = 'civi_member_sync' ) {

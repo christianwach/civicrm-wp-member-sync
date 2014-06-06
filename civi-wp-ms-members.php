@@ -19,6 +19,7 @@ class Civi_WP_Member_Sync_Members {
 	
 	/** 
 	 * Initialise this object
+	 * 
 	 * @param object $parent_obj The parent object
 	 * @return object
 	 */
@@ -40,7 +41,8 @@ class Civi_WP_Member_Sync_Members {
 	
 	/**
 	 * Register hooks when CiviCRM initialises
-	 * @return nothing
+	 * 
+	 * @return void
 	 */
 	public function initialise() {
 	
@@ -85,6 +87,7 @@ class Civi_WP_Member_Sync_Members {
 	
 	/**
 	 * Sync all membership rules
+	 * 
 	 * @return bool $success True if successful, false otherwise
 	 */
 	public function sync_all() {
@@ -117,7 +120,8 @@ class Civi_WP_Member_Sync_Members {
 	
 	/**
 	 * Check user's membership record during logout
-	 * @return nothing
+	 * 
+	 * @return void
 	 */
 	public function sync_on_logout() {
 		
@@ -134,9 +138,10 @@ class Civi_WP_Member_Sync_Members {
 	
 	/**
 	 * Sync a user's role based on their membership record
+	 * 
 	 * @param string $user_login Logged in user's username
 	 * @param WP_User $user WP_User object of the logged-in user.
-	 * @return nothing
+	 * @return void
 	 */
 	public function sync_to_user( $user_login, $user ) {
 	
@@ -166,12 +171,13 @@ class Civi_WP_Member_Sync_Members {
 	
 	
 	/**
-	 * @description: update a WP user role when a CiviCRM membership is updated
+	 * Update a WP user role when a CiviCRM membership is updated
+	 * 
 	 * @param string $op the type of database operation
 	 * @param string $objectName the type of object
 	 * @param integer $objectId the ID of the object
 	 * @param object $objectRef the object
-	 * @return nothing
+	 * @return void
 	 */
 	public function membership_pre_update( $op, $objectName, $objectId, $objectRef ) {
 		
@@ -195,12 +201,13 @@ class Civi_WP_Member_Sync_Members {
 	
 	
 	/**
-	 * @description: update a WP user role when a CiviCRM membership is updated
+	 * Update a WP user role when a CiviCRM membership is updated
+	 * 
 	 * @param string $op the type of database operation
 	 * @param string $objectName the type of object
 	 * @param integer $objectId the ID of the object
 	 * @param object $objectRef the object
-	 * @return nothing
+	 * @return void
 	 */
 	public function membership_updated( $op, $objectName, $objectId, $objectRef ) {
 		
@@ -274,9 +281,10 @@ class Civi_WP_Member_Sync_Members {
 	
 	/**
 	 * Update a WordPress user role when a Civi membership is added
+	 * 
 	 * @param string $formName the CiviCRM form name
 	 * @param object $form the CiviCRM form object
-	 * @return nothing
+	 * @return void
 	 */
 	public function membership_form_process( $formName, &$form ) {
 		
@@ -296,6 +304,7 @@ class Civi_WP_Member_Sync_Members {
 	
 	/**
 	 * Get membership record by Civi contact ID
+	 * 
 	 * @param int $civi_contact_id The numerical CiviCRM contact ID
 	 * @return array $membership CiviCRM formatted membership data
 	 */
@@ -339,6 +348,7 @@ class Civi_WP_Member_Sync_Members {
 			
 	/**
 	 * Get name of CiviCRM membership type by ID
+	 * 
 	 * @param int $type_id the numeric ID of the membership type
 	 * @return string $name The name of the membership type
 	 */
@@ -373,6 +383,7 @@ class Civi_WP_Member_Sync_Members {
 	
 	/**
 	 * Get membership types
+	 * 
 	 * @return array $membership_type List of types, key is ID, value is name
 	 */
 	public function types_get_all() {
@@ -406,6 +417,7 @@ class Civi_WP_Member_Sync_Members {
 	
 	/**
 	 * Get membership status rules
+	 * 
 	 * @return array $membership_status List of status rules, key is ID, value is name
 	 */
 	public function status_rules_get_all() {
@@ -439,6 +451,7 @@ class Civi_WP_Member_Sync_Members {
 	
 	/**
 	 * Get role/membership names
+	 * 
 	 * @param string $values Serialised array of status rule IDs
 	 * @return string $status_rules The list of status rules, one per line
 	 */
@@ -467,6 +480,7 @@ class Civi_WP_Member_Sync_Members {
 	
 	/**
 	 * Get membership status rules for a particular item
+	 * 
 	 * @param string $values Serialised array of status rule IDs
 	 * @return array $rules_array The list of membership status rules for this item
 	 */

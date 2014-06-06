@@ -70,6 +70,7 @@ class Civi_WP_Member_Sync {
 	
 	/** 
 	 * Initialise this object
+	 * 
 	 * @return object
 	 */
 	function __construct() {
@@ -117,7 +118,8 @@ class Civi_WP_Member_Sync {
 	
 	/**
 	 * Perform plugin activation tasks
-	 * @return nothing
+	 * 
+	 * @return void
 	 */
 	public function activate() {
 		
@@ -130,7 +132,8 @@ class Civi_WP_Member_Sync {
 	
 	/**
 	 * Perform plugin deactivation tasks
-	 * @return nothing
+	 * 
+	 * @return void
 	 */
 	public function deactivate() {
 		
@@ -143,7 +146,8 @@ class Civi_WP_Member_Sync {
 	
 	/**
 	 * Initialise objects when CiviCRM initialises
-	 * @return nothing
+	 * 
+	 * @return void
 	 */
 	public function initialise() {
 		
@@ -221,7 +225,9 @@ register_deactivation_hook( __FILE__, array( $civi_wp_member_sync, 'deactivate' 
 
 /**
  * Add utility links to WordPress Plugin Listings Page
- * @return array $links The list of plugin links
+ * 
+ * @param array $links The existing list of plugin links
+ * @return array $links The amended list of plugin links
  */
 function civi_wp_member_sync_plugin_add_settings_link( $links ) {
 	

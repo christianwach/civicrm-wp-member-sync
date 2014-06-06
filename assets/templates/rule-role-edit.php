@@ -1,3 +1,4 @@
+<!-- assets/templates/rule-role-edit.php -->
 <div id="icon-options-general" class="icon32"></div> 
 
 <div class="wrap">

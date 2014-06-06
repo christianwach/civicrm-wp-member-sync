@@ -40,6 +40,7 @@ class Civi_WP_Member_Sync_Admin {
 	
 	/** 
 	 * Initialise this object
+	 * 
 	 * @param object $parent_obj The parent object
 	 * @return object
 	 */
@@ -76,7 +77,8 @@ class Civi_WP_Member_Sync_Admin {
 	
 	/**
 	 * Perform activation tasks
-	 * @return nothing
+	 * 
+	 * @return void
 	 */
 	public function activate() {
 		
@@ -92,7 +94,8 @@ class Civi_WP_Member_Sync_Admin {
 	
 	/**
 	 * Perform deactivation tasks
-	 * @return nothing
+	 * 
+	 * @return void
 	 */
 	public function deactivate() {
 		
@@ -104,7 +107,8 @@ class Civi_WP_Member_Sync_Admin {
 	
 	/**
 	 * Initialise when CiviCRM initialises
-	 * @return nothing
+	 * 
+	 * @return void
 	 */
 	public function initialise() {
 		
@@ -139,7 +143,8 @@ class Civi_WP_Member_Sync_Admin {
 	
 	/**
 	 * Add this plugin's Settings Page to the WordPress admin menu
-	 * @return nothing
+	 * 
+	 * @return void
 	 */
 	public function admin_menu() {
 		
@@ -231,7 +236,8 @@ class Civi_WP_Member_Sync_Admin {
 	
 	/** 
 	 * Initialise plugin help
-	 * @return nothing
+	 * 
+	 * @return void
 	 */
 	public function admin_head() {
 		
@@ -248,6 +254,8 @@ class Civi_WP_Member_Sync_Admin {
 	
 	/** 
 	 * Enqueue plugin options page css
+	 * 
+	 * @return void
 	 */
 	public function admin_css() {
 		
@@ -268,7 +276,8 @@ class Civi_WP_Member_Sync_Admin {
 	
 	/** 
 	 * Ensure jQuery and jQuery Form are available in WP admin
-	 * @return nothing
+	 * 
+	 * @return void
 	 */
 	public function admin_js() {
 		
@@ -307,9 +316,10 @@ class Civi_WP_Member_Sync_Admin {
 	
 	
 	/** 
-	 * @description: adds help copy to admin page in WP3.3+
-	 * @todo: 
-	 *
+	 * Adds help copy to admin page in WP3.3+
+	 * 
+	 * @param object $screen The existing WordPress screen object
+	 * @return object $screen The amended WordPress screen object
 	 */
 	public function admin_help( $screen ) {
 	
@@ -336,6 +346,7 @@ class Civi_WP_Member_Sync_Admin {
 	
 	/** 
 	 * Get help text
+	 * 
 	 * @return string $help Help formatted as HTML
 	 */
 	public function get_help() {
@@ -356,7 +367,8 @@ class Civi_WP_Member_Sync_Admin {
 	
 	/** 
 	 * Show civi_wp_member_sync_settings admin page
-	 * @return nothing
+	 * 
+	 * @return void
 	 */
 	public function page_settings() {
 		
@@ -403,7 +415,8 @@ class Civi_WP_Member_Sync_Admin {
 		
 	/** 
 	 * Show civi_wp_member_sync_manual_sync admin page
-	 * @return nothing
+	 * 
+	 * @return void
 	 */
 	public function page_manual_sync() {
 		
@@ -424,7 +437,8 @@ class Civi_WP_Member_Sync_Admin {
 		
 	/** 
 	 * Show civi_wp_member_sync_settings admin page
-	 * @return nothing
+	 * 
+	 * @return void
 	 */
 	public function page_rules_list() {
 		
@@ -464,7 +478,8 @@ class Civi_WP_Member_Sync_Admin {
 	
 	/** 
 	 * Show civi_wp_member_sync_rules admin page
-	 * @return nothing
+	 * 
+	 * @return void
 	 */
 	public function page_rule_add_edit() {
 	
@@ -496,7 +511,8 @@ class Civi_WP_Member_Sync_Admin {
 	
 	/** 
 	 * Show civi_wp_member_sync_rules admin page
-	 * @return nothing
+	 * 
+	 * @return void
 	 */
 	private function page_rule_add() {
 
@@ -535,7 +551,8 @@ class Civi_WP_Member_Sync_Admin {
 	
 	/** 
 	 * Show civi_wp_member_sync_rules admin page
-	 * @return nothing
+	 * 
+	 * @return void
 	 */
 	private function page_rule_edit() {
 	
@@ -592,6 +609,7 @@ class Civi_WP_Member_Sync_Admin {
 	
 	/** 
 	 * Get admin page URLs
+	 * 
 	 * @return array $admin_urls The array of admin page URLs
 	 */
 	public function page_get_urls() {
@@ -631,9 +649,10 @@ class Civi_WP_Member_Sync_Admin {
 	/**
 	 * Get the url to access a particular menu page based on the slug it was registered with.
 	 * If the slug hasn't been registered properly no url will be returned
+	 * 
 	 * @param string $menu_slug The slug name to refer to this menu by (should be unique for this menu)
 	 * @param bool $echo Whether or not to echo the url - default is true
-	 * @return string the url
+	 * @return string $url The URL
 	 */
 	public function network_menu_page_url($menu_slug, $echo = true) {
 		global $_parent_pages;
@@ -653,13 +672,16 @@ class Civi_WP_Member_Sync_Admin {
 		
 		if ( $echo ) echo $url;
 		
+		// --<
 		return $url;
+		
 	}
 	
 	
 	
 	/** 
 	 * Get the URL for the form action
+	 * 
 	 * @return string $target_url The URL for the admin form action
 	 */
 	public function admin_form_url_get() {
@@ -682,6 +704,7 @@ class Civi_WP_Member_Sync_Admin {
 	
 	/** 
 	 * Route settings updates to relevant methods
+	 * 
 	 * @return bool $result True on success, false otherwise
 	 */
 	public function settings_update_router() {
@@ -734,6 +757,7 @@ class Civi_WP_Member_Sync_Admin {
 	
 	/**
 	 * Get default plugin settings
+	 * 
 	 * @return array $settings The array of settings, keyed by setting name
 	 */
 	public function settings_get_default() {
@@ -765,7 +789,8 @@ class Civi_WP_Member_Sync_Admin {
 	
 	/**
 	 * Update plugin settings
-	 * @return nothing
+	 * 
+	 * @return void
 	 */
 	public function settings_update() {
 	
@@ -878,6 +903,7 @@ class Civi_WP_Member_Sync_Admin {
 	
 	/** 
 	 * Save the plugin's settings array
+	 * 
 	 * @return bool $result True if setting value has changed, false if not or if update failed
 	 */
 	public function settings_save() {
@@ -891,6 +917,7 @@ class Civi_WP_Member_Sync_Admin {
 	
 	/** 
 	 * Return a value for a specified setting
+	 * 
 	 * @return mixed $setting The value of the setting
 	 */
 	public function setting_get( $setting_name = '', $default = false ) {
@@ -909,7 +936,8 @@ class Civi_WP_Member_Sync_Admin {
 	
 	/** 
 	 * Set a value for a specified setting
-	 * @return nothing
+	 * 
+	 * @return void
 	 */
 	public function setting_set( $setting_name = '', $value = '' ) {
 	
@@ -931,6 +959,7 @@ class Civi_WP_Member_Sync_Admin {
 	
 	/**
 	 * Get an association rule by membership type ID
+	 * 
 	 * @param int $type_id The numeric ID of the Civi membership type
 	 * @param string $method The sync method (either 'roles' or 'capabilities')
 	 * @return mixed $rule Array if successful, boolean false otherwise
@@ -958,6 +987,7 @@ class Civi_WP_Member_Sync_Admin {
 	
 	/**
 	 * Update (or add) a membership rule
+	 * 
 	 * @return bool $success True if successful, false otherwise
 	 */
 	public function rule_update() {
@@ -1141,6 +1171,7 @@ class Civi_WP_Member_Sync_Admin {
 	
 	/**
 	 * Delete a membership rule
+	 * 
 	 * @return bool $success True if successful, false otherwise
 	 */
 	public function rule_delete() {
@@ -1203,6 +1234,7 @@ class Civi_WP_Member_Sync_Admin {
 	
 	/**
 	 * Assign WordPress role or capability based on membership status
+	 * 
 	 * @param WP_User $user WP_User object of the user in question
 	 * @param array $membership The membership details of the WordPress user in question
 	 * @return bool True if successful, false otherwise
@@ -1353,6 +1385,7 @@ class Civi_WP_Member_Sync_Admin {
 	
 	/**
 	 * Remove WordPress role or capability when a membership is deleted
+	 * 
 	 * @param WP_User $user WP_User object of the user in question
 	 * @param object $membership The membership details of the WordPress user in question
 	 * @return bool True if successful, false otherwise
@@ -1421,7 +1454,8 @@ class Civi_WP_Member_Sync_Admin {
 	
 	/** 
 	 * General debugging utility
-	 * @return nothing
+	 * 
+	 * @return void
 	 */
 	public function do_debug() {
 		

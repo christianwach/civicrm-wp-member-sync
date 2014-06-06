@@ -22,6 +22,7 @@ class Civi_WP_Member_Sync_Users {
 	
 	/** 
 	 * Initialise this object
+	 * 
 	 * @param object $parent_obj The parent object
 	 * @return object
 	 */
@@ -39,7 +40,8 @@ class Civi_WP_Member_Sync_Users {
 	
 	/**
 	 * Initialise when CiviCRM initialises
-	 * @return nothing
+	 * 
+	 * @return void
 	 */
 	public function initialise() {
 		
@@ -53,6 +55,7 @@ class Civi_WP_Member_Sync_Users {
 	
 	/**
 	 * Get WordPress user role
+	 * 
 	 * @param WP_User $user WP_User object
 	 * @return string $role Primary WordPress role for this user
 	 */
@@ -89,10 +92,11 @@ class Civi_WP_Member_Sync_Users {
 		
 	/**
 	 * Set WordPress user role
+	 * 
 	 * @param WP_User $user WP_User object of the logged-in user.
 	 * @param string $old_role Old WordPress role key
 	 * @param string $new_role New WordPress role key
-	 * @return nothing
+	 * @return void
 	 */
 	public function wp_role_set( $user, $old_role, $new_role ) {
 		
@@ -104,7 +108,7 @@ class Civi_WP_Member_Sync_Users {
 		if ( empty( $new_role ) ) return;
 		
 		// Remove old role then add new role, so that we don't inadventently 
-		// overwrite multiple roles, for example when BBPress is active
+		// overwrite multiple roles, for example when bbPress is active
 		
 		// remove user's existing role
 		$user->remove_role( $old_role );
@@ -122,6 +126,7 @@ class Civi_WP_Member_Sync_Users {
 	
 	/**
 	 * Get a WordPress role name by role key
+	 * 
 	 * @param string $key The machine-readable name of the WP_Role
 	 * @return string $role_name The human-readable name of the WP_Role
 	 */
@@ -147,6 +152,7 @@ class Civi_WP_Member_Sync_Users {
 		
 	/**
 	 * Get all WordPress role names
+	 * 
 	 * @return array $role_names An array of role names, keyed by role key
 	 */
 	public function wp_role_names_get_all() {
@@ -162,10 +168,10 @@ class Civi_WP_Member_Sync_Users {
 		// get names
 		$role_names = $wp_roles->get_names();
 		
-		// if we have BBPress active, filter out its custom roles
+		// if we have bbPress active, filter out its custom roles
 		if ( function_exists( 'bbp_get_blog_roles' ) ) {
 		
-			// get BBPress-filtered roles
+			// get bbPress-filtered roles
 			$bbp_roles = bbp_get_blog_roles();
 			
 			// init roles
@@ -198,9 +204,10 @@ class Civi_WP_Member_Sync_Users {
 	
 	/**
 	 * Add a capability to a WordPress user
-	 * @param WP_User $user WP_User object of the logged-in user.
+	 * 
+	 * @param WP_User $user WP_User object
 	 * @param string $capability Capability name
-	 * @return nothing
+	 * @return void
 	 */
 	public function wp_cap_add( $user, $capability ) {
 		
@@ -224,9 +231,10 @@ class Civi_WP_Member_Sync_Users {
 		
 	/**
 	 * Remove a capability from a WordPress user
+	 * 
 	 * @param WP_User $user WP_User object of the logged-in user.
 	 * @param string $capability Capability name
-	 * @return nothing
+	 * @return void
 	 */
 	public function wp_cap_remove( $user, $capability ) {
 		
@@ -254,6 +262,7 @@ class Civi_WP_Member_Sync_Users {
 	
 	/**
 	 * Get a WordPress user for a Civi contact ID
+	 * 
 	 * @param int $contact_id The numeric CiviCRM contact ID
 	 * @return WP_User $user WP_User object for the WordPress user
 	 */
@@ -283,6 +292,7 @@ class Civi_WP_Member_Sync_Users {
 	
 	/**
 	 * Get a Civi contact ID for a WordPress user object
+	 * 
 	 * @param WP_User $user WP_User object of the logged-in user.
 	 * @return int $civi_contact_id The numerical CiviCRM contact ID
 	 */
