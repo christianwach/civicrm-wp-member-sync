@@ -322,11 +322,32 @@ class Civi_WP_Member_Sync_Admin {
 	 * @return object $screen The amended WordPress screen object
 	 */
 	public function admin_help( $screen ) {
-	
-		//print_r( $screen ); die();
+		
+		// init suffix
+		$page = '';
+		
+		// the page ID is different in multisite
+		if ( is_multisite() ) {
+			$page = '-network';
+		}
+		
+		// init page IDs
+		$pages = array(
+			$this->settings_page . $page,
+			$this->sync_page . $page,
+			$this->rules_list_page . $page,
+			$this->rule_add_edit_page . $page,
+		);
+		
+		/*
+		print_r( array(
+			'screen' => $screen,
+			'pages' => $pages,
+		) ); die();
+		*/
 		
 		// kick out if not our screen
-		if ( $screen->id != $this->rules_list_page ) { return; }
+		if ( ! in_array( $screen->id, $pages ) ) { return $screen; }
 		
 		// add a tab - we can add more later
 		$screen->add_help_tab( array(
