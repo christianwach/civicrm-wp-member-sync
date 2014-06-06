@@ -800,8 +800,12 @@ class Civi_WP_Member_Sync_Admin {
 		
 		
 		
-		// debugging switch for admins and network admins - if set, triggers do_debug() below
-		if ( is_super_admin() AND isset( $_POST['civi_wp_member_sync_settings_debug'] ) ) {
+		// debugging switch for developers - if set, triggers do_debug() below
+		if ( 
+			defined( 'CIVI_WP_MEMBER_SYNC_DEBUG' ) AND 
+			CIVI_WP_MEMBER_SYNC_DEBUG AND 
+			isset( $_POST['civi_wp_member_sync_settings_debug'] ) 
+		) {
 			$settings_debug = absint( $_POST['civi_wp_member_sync_settings_debug'] );
 			$debug = $settings_debug ? 1 : 0;
 			if ( $debug ) { $this->do_debug(); }

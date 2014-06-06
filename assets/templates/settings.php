@@ -133,7 +133,7 @@
 			
 		</table>
 		
-		<?php if ( is_super_admin() ) { ?>
+		<?php if ( defined( 'CIVI_WP_MEMBER_SYNC_DEBUG' ) AND CIVI_WP_MEMBER_SYNC_DEBUG ) { ?>
 		
 			<h3><?php _e( 'Developer Testing', 'civi-wp-member-sync' ); ?></h3> 
 

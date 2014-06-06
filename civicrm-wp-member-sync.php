@@ -38,10 +38,14 @@ define( 'CIVI_WP_MEMBER_SYNC_PLUGIN_FILE', __FILE__ );
 if ( ! defined( 'CIVI_WP_MEMBER_SYNC_PLUGIN_URL' ) ) {
 	define( 'CIVI_WP_MEMBER_SYNC_PLUGIN_URL', plugin_dir_url( CIVI_WP_MEMBER_SYNC_PLUGIN_FILE ) );
 }
+
 // store PATH to this plugin's directory
 if ( ! defined( 'CIVI_WP_MEMBER_SYNC_PLUGIN_PATH' ) ) {
 	define( 'CIVI_WP_MEMBER_SYNC_PLUGIN_PATH', plugin_dir_path( CIVI_WP_MEMBER_SYNC_PLUGIN_FILE ) );
 }
+
+// debug flag for developers
+//define( 'CIVI_WP_MEMBER_SYNC_DEBUG', true );
 
 
 
