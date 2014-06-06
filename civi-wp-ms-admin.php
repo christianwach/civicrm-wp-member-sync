@@ -366,7 +366,7 @@ class Civi_WP_Member_Sync_Admin {
 	
 	
 	/** 
-	 * Show civi_wp_member_sync_settings admin page
+	 * Show settings page
 	 * 
 	 * @return void
 	 */
@@ -414,7 +414,7 @@ class Civi_WP_Member_Sync_Admin {
 	
 		
 	/** 
-	 * Show civi_wp_member_sync_manual_sync admin page
+	 * Show manual sync page
 	 * 
 	 * @return void
 	 */
@@ -436,7 +436,7 @@ class Civi_WP_Member_Sync_Admin {
 	
 		
 	/** 
-	 * Show civi_wp_member_sync_settings admin page
+	 * Show rules list page
 	 * 
 	 * @return void
 	 */
@@ -456,7 +456,21 @@ class Civi_WP_Member_Sync_Admin {
 		
 			// get data for this sync method
 			$data = ( isset( $all_data[$method] ) ) ? $all_data[$method] : array();
-		
+			
+			// get all membership types
+			$membership_types = $this->parent_obj->members->types_get_all();
+			
+			// assume we don't have all types
+			$have_all_types = false;
+			
+			// well, do we have all types populated?
+			if ( count( $data ) === count( $membership_types ) ) {
+				
+				// we do!
+				$have_all_types = true;
+				
+			}
+			
 			// include per method
 			if ( $method == 'roles' ) {
 			
@@ -477,7 +491,7 @@ class Civi_WP_Member_Sync_Admin {
 	
 	
 	/** 
-	 * Show civi_wp_member_sync_rules admin page
+	 * Decide whether to show add or edit page
 	 * 
 	 * @return void
 	 */
@@ -510,7 +524,7 @@ class Civi_WP_Member_Sync_Admin {
 	
 	
 	/** 
-	 * Show civi_wp_member_sync_rules admin page
+	 * Show add rule page
 	 * 
 	 * @return void
 	 */
@@ -521,12 +535,30 @@ class Civi_WP_Member_Sync_Admin {
 		
 		// get all membership types
 		$membership_types = $this->parent_obj->members->types_get_all();
-	
+		
 		// get all membership status rules
 		$status_rules = $this->parent_obj->members->status_rules_get_all();
 		
 		// get method
 		$method = $this->setting_get( 'method' );
+		
+		// get rules
+		$rules = $this->rules_get_by_method( $method );
+		
+		// if we get some...
+		if ( $rules !== false AND is_array( $rules ) AND count( $rules ) > 0 ) {
+		
+			// get used membership type IDs
+			$type_ids = array_keys( $rules );
+			
+			// loop and remove from membership_types array
+			foreach( $type_ids AS $type_id ) {
+				if ( isset( $membership_types[$type_id] ) ) {
+					unset( $membership_types[$type_id] );
+				}
+			}
+			
+		}
 		
 		// well?
 		if ( $method == 'roles' ) {
@@ -550,7 +582,7 @@ class Civi_WP_Member_Sync_Admin {
 	
 	
 	/** 
-	 * Show civi_wp_member_sync_rules admin page
+	 * Show edit rule page
 	 * 
 	 * @return void
 	 */
@@ -570,7 +602,7 @@ class Civi_WP_Member_Sync_Admin {
 		
 		// get requested membership type ID
 		$civi_member_type_id = absint( $_GET['type_id'] );
-
+		
 		// get rule by type
 		$selected_rule = $this->rule_get_by_type( $civi_member_type_id, $method );
 		
@@ -578,9 +610,27 @@ class Civi_WP_Member_Sync_Admin {
 		$current_rule = $selected_rule['current_rule'];
 		$expiry_rule = $selected_rule['expiry_rule'];
 		
+		// get rules
+		$rules = $this->rules_get_by_method( $method );
+		
+		// if we get some...
+		if ( $rules !== false AND is_array( $rules ) AND count( $rules ) > 0 ) {
+		
+			// get used membership type IDs
+			$type_ids = array_keys( $rules );
+			
+			// loop and remove from membership_types array
+			foreach( $type_ids AS $type_id ) {
+				if ( isset( $membership_types[$type_id] ) AND $civi_member_type_id != $type_id ) {
+					unset( $membership_types[$type_id] );
+				}
+			}
+			
+		}
+		
 		// do we need roles?
 		if ( $method == 'roles' ) {
-
+		
 			// get filtered roles
 			$roles = $this->parent_obj->users->wp_role_names_get_all();
 			//print_r( $roles ); die();
@@ -588,15 +638,15 @@ class Civi_WP_Member_Sync_Admin {
 			// get stored roles
 			$current_wp_role = $selected_rule['current_wp_role']; 
 			$expired_wp_role = $selected_rule['expired_wp_role']; 
-
+			
 			// include template file
 			include( CIVI_WP_MEMBER_SYNC_PLUGIN_PATH . 'assets/templates/rule-role-edit.php' );
-	
+			
 		} else {
-		
+			
 			// include template file
 			include( CIVI_WP_MEMBER_SYNC_PLUGIN_PATH . 'assets/templates/rule-cap-edit.php' );
-	
+			
 		}
 	
 	}
@@ -958,6 +1008,30 @@ class Civi_WP_Member_Sync_Admin {
 	
 	
 	//##########################################################################
+	
+	
+	
+	/**
+	 * Get all association rules by method
+	 * 
+	 * @param string $method The sync method (either 'roles' or 'capabilities')
+	 * @return mixed $rule Array if successful, boolean false otherwise
+	 */
+	public function rules_get_by_method( $method = 'roles' ) {
+		
+		// get data
+		$data = $this->setting_get( 'data' );
+		
+		// sanitize method
+		$method = ( $method == 'roles' ) ? 'roles' : 'capabilities';
+		
+		// get subset by method
+		$subset = ( isset( $data[$method] ) ) ? $data[$method] : false;
+		
+		// --<
+		return $subset;
+		
+	}
 	
 	
 	
@@ -1475,6 +1549,19 @@ class Civi_WP_Member_Sync_Admin {
 	 * @return void
 	 */
 	public function do_debug() {
+		
+		/*
+		// get data
+		$method = $this->setting_get( 'method' );
+		$rules = $this->rules_get_by_method( $method );
+		$type_ids = array_keys( $rules );
+		$membership_types = $this->parent_obj->members->types_get_all();
+		print_r( array( 
+			'rules' => $rules, 
+			'type_ids' => $type_ids, 
+			'membership_types' => $membership_types, 
+		) ); die();
+		*/
 		
 		/*
 		// get membership status rules

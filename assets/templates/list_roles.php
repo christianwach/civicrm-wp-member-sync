@@ -9,7 +9,17 @@
 		<a href="<?php echo $urls['manual_sync']; ?>" class="nav-tab"><?php _e( 'Manual Synchronize', 'civi-wp-member-sync' ); ?></a>
 	</h2>
 
-	<h3><?php _e( 'All Association Rules', 'civi-wp-member-sync' ); ?> <a class="add-new-h2" href="<?php echo $urls['rules']; ?>"><?php _e( 'Add New', 'civi-wp-member-sync' ); ?></a></h3> 
+	<h3><?php _e( 'All Association Rules', 'civi-wp-member-sync' ); ?><?php
+	
+		// if we don't have all our Membership Types populated...
+		if ( !$have_all_types ) {
+			
+			// show the 'Add New' button
+			?> <a class="add-new-h2" href="<?php echo $urls['rules']; ?>"><?php _e( 'Add New', 'civi-wp-member-sync' ); ?></a><?php
+		
+		}
+	
+	?></h3> 
 
 	<?php
 

@@ -26,54 +26,52 @@ if ( 'undefined' !== typeof CiviWpMemberSyncSettings ) {
  */
 jQuery(document).ready( function($) {
 	
-	
-	
 	// toggle other checkbox
 	$('.required-current').click( function(e) {
-			
-			var current_on,
-				current_id,
-				expire_id;
-			
-			// get checked
-			current_on = $(this).prop( 'checked' );
-			
-			// get class
-			current_class = $(this).prop( 'class' );
-			
-			// expire ID
-			expire_last_class = current_class.split(' ')[1];
-			expire_class = expire_last_class.split('-')[1];
-			expire_target = '.expire-' + expire_class;
-			
-			// check required elements...
-			$(expire_target).prop( 'checked', !current_on );
-			
+		
+		var current_on,
+			current_id,
+			expire_id;
+		
+		// get checked
+		current_on = $(this).prop( 'checked' );
+		
+		// get class
+		current_class = $(this).prop( 'class' );
+		
+		// expire ID
+		expire_last_class = current_class.split(' ')[1];
+		expire_class = expire_last_class.split('-')[1];
+		expire_target = '.expire-' + expire_class;
+		
+		// check required elements...
+		$(expire_target).prop( 'checked', !current_on );
+		
 	});
 	
 	
 	
 	// toggle other checkbox
 	$('.required-expire').click( function(e) {
-			
-			var expire_on,
-				expire_id,
-				current_id;
-			
-			// get checked
-			expire_on = $(this).prop( 'checked' );
-			
-			// get class
-			expire_class = $(this).prop( 'class' );
-			
-			// current ID
-			current_last_class = expire_class.split(' ')[1];
-			current_class = current_last_class.split('-')[1];
-			current_target = '.current-' + current_class;
-			
-			// check required elements...
-			$(current_target).prop( 'checked', !expire_on );
-			
+		
+		var expire_on,
+			expire_id,
+			current_id;
+		
+		// get checked
+		expire_on = $(this).prop( 'checked' );
+		
+		// get class
+		expire_class = $(this).prop( 'class' );
+		
+		// current ID
+		current_last_class = expire_class.split(' ')[1];
+		current_class = current_last_class.split('-')[1];
+		current_target = '.current-' + current_class;
+		
+		// check required elements...
+		$(current_target).prop( 'checked', !expire_on );
+		
 	});
 	
 	

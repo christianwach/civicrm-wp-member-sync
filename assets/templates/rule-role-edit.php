@@ -31,7 +31,7 @@
 	
 	?>
 
-	<p><?php _e( 'Choose a CiviMember Membership Type and a WordPress Role below. This will associate that Membership Type with the WordPress Role. If you would like the have the same Membership Type associated with more than one WordPress Role, you will need to add a second association rule after you have completed this one.', 'civi-wp-member-sync' ); ?></p>
+	<p><?php _e( 'Choose a CiviMember Membership Type and a WordPress Role below. This will associate that Membership Type with the WordPress Role.', 'civi-wp-member-sync' ); ?></p>
 	
 	<form method="post" id="civi_wp_member_sync_rules_form" action="<?php echo $this->admin_form_url_get(); ?>">
 		

@@ -31,7 +31,9 @@
 	
 	?>
 
-	<p><?php _e( 'Choose a CiviMember Membership Type and select the Current and Expired Statuses for it. Current Status adds a Membership Capability to the WordPress user, while Expired Status removes the Membership Capability from the WordPress user. If you would like the have the same Membership Type associated with more than one WordPress Capability, you will need to add a second association rule after you have completed this one.', 'civi-wp-member-sync' ); ?></p>
+	<p><?php _e( 'Choose a CiviMember Membership Type and select the Current and Expired Statuses for it. Current Status adds a Membership Capability to the WordPress user, while Expired Status removes the Membership Capability from the WordPress user. This capability will be of the form "civimember_ID", where "ID" is the numeric ID of the Membership Type. So, for Membership Type 2, the capability will be "civimember_2". If you have the "Members" plugin active, then the "restrict_content" capability will also be added.', 'civi-wp-member-sync' ); ?></p>
+	
+	<p><?php _e( 'An additional Membership Status Capability will also be added to the WordPress user that is tied to the status of their membership. This capability will be of the form "civimember_ID_NUM", where "ID" is the numeric ID of the Membership Type and "NUM" is the numeric ID of the Membership Status. So, for Membership Type 2 with Membership Status 4, the capability will be "civimember_2_4".', 'civi-wp-member-sync' ); ?></p>
 	
 	<form method="post" id="civi_wp_member_sync_rules_form" action="<?php echo $this->admin_form_url_get(); ?>">
 		
@@ -55,7 +57,7 @@
 				<th scope="row"><label class="current_label" for="current"><?php _e( 'Current Status', 'civi-wp-member-sync' ); ?> *</label></th>
 				<td>
 				<?php foreach( $status_rules AS $key => $value ) { ?>
-					<input type="checkbox" class="required-current" name="<?php echo 'current['.$key.']'; ?>" id="<?php echo 'current['.$key.']'; ?>" value="<?php echo $key; ?>" />
+					<input type="checkbox" class="required-current current-<?php echo $key; ?>" name="<?php echo 'current['.$key.']'; ?>" id="<?php echo 'current['.$key.']'; ?>" value="<?php echo $key; ?>" />
 					<label for="<?php echo 'current['.$key.']'; ?>"><?php echo $value; ?></label><br />
 				<?php } ?> 
 				</td>
@@ -65,7 +67,7 @@
 				<th scope="row"><label class="expire_label" for="expire"><?php _e( 'Expire Status', 'civi-wp-member-sync' ); ?> *</label></th>
 				<td>
 				<?php foreach( $status_rules AS $key => $value ) { ?>
-					<input type="checkbox" class="required-expire" name="<?php echo 'expire['.$key.']'; ?>" id="<?php echo 'expire['.$key.']'; ?>" value="<?php echo $key; ?>" />
+					<input type="checkbox" class="required-expire expire-<?php echo $key; ?>" name="<?php echo 'expire['.$key.']'; ?>" id="<?php echo 'expire['.$key.']'; ?>" value="<?php echo $key; ?>" />
 					<label for="<?php echo 'expire['.$key.']';?>"><?php echo $value; ?></label><br />
 				<?php } ?>
 				</td>
