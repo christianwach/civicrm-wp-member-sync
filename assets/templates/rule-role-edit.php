@@ -59,7 +59,6 @@
 					*/
 						?>
 						<select name="civi_member_type_id" id="civi_member_type_id" class ="required required-type">
-							<option value=""></option>
 							<?php
 						
 							// round we go...
