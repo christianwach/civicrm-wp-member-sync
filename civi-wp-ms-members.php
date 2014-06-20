@@ -201,7 +201,7 @@ class Civi_WP_Member_Sync_Members {
 	
 	
 	/**
-	 * Update a WP user role when a CiviCRM membership is updated
+	 * Update a WP user when a CiviCRM membership is updated
 	 * 
 	 * @param string $op the type of database operation
 	 * @param string $objectName the type of object
@@ -238,9 +238,26 @@ class Civi_WP_Member_Sync_Members {
 		)); die();
 		*/
 	
-		// kick out if we don't receive a valid user
-		if ( ! is_a( $user, 'WP_User' ) ) { return; }
-		if ( ! $user->exists() ) { return; }
+		// if we don't receive a valid user
+		if ( ! is_a( $user, 'WP_User' ) ) {
+			
+			// allow plugins to override this step with a filter
+			if ( true === apply_filters( 'civi_wp_member_sync_auto_create_wp_user', true ) ) {
+		
+				// create a WP user
+				$user = $this->parent_obj->users->wp_create_user( $civi_user );
+				
+				// bail if something goes wrong
+				if ( ! is_a( $user, 'WP_User' ) ) return;
+				
+			} else {
+			
+				// --<
+				return;
+		
+			}
+			
+		}
 	
 		// exclude admins
 		if ( is_super_admin( $user->ID ) OR $user->has_cap( 'delete_users' ) ) { return; }

@@ -382,6 +382,128 @@ class Civi_WP_Member_Sync_Users {
 	
 	
 	
+	//##########################################################################
+	
+	
+	
+	/*
+	 * Creates a WordPress User given a Civi contact
+	 * 
+	 * @param array $civi_contact The data for the Civi contact
+	 * @return mixed $user WP user object or false on failure
+	 */
+	public function wp_create_user( $civi_contact ) {
+	
+		// create username from display name
+		$user_name = sanitize_title( $civi_contact['display_name'] );
+		
+		// check if we have a user with that username
+		$user_id = username_exists( $user_name );
+		
+		/*
+		print_r( array(
+			'in' => 'wordpress_create_user',
+			'civi_contact' => $civi_contact,
+			'user_name' => $user_name,
+			'user_id' => $user_id,
+		) ); die();
+		*/
+		
+		// if not, check against email address
+		if ( ! $user_id AND email_exists( $civi_contact['email'] ) == false ) {
+			
+			// generate a random password
+			$random_password = wp_generate_password( 
+			
+				$length = 12, 
+				$include_standard_special_chars = false 
+				
+			);
+			
+			// remove filters
+			$this->remove_filters();
+			
+			// allow other plugins to be aware of what we're doing
+			do_action( 'civi_wp_member_sync_before_insert_user', $civi_contact );
+			
+			// create the user
+			$user_id = wp_insert_user( array(
+			
+				'user_login' => $user_name, 
+				'user_pass' => $random_password, 
+				'user_email' => $civi_contact['email'],
+				'first_name' => $civi_contact['first_name'],
+				'last_name' => $civi_contact['last_name'],
+				
+			) );
+			
+			// re-add filters
+			$this->add_filters();
+			
+			// allow other plugins to be aware of what we've done
+			do_action( 'civi_wp_member_sync_after_insert_user', $civi_contact, $user_id );
+			
+		}
+		
+		// sanity check
+		if ( is_numeric( $user_id ) AND $user_id ) {
+		
+			// return WP user
+			return get_user_by( 'id', $user_id );
+			
+		}
+	
+		// return error
+		return false;
+		
+	}
+	
+	
+	
+	/*
+	 * Remove filters (that we know of) that will interfere with creating a WordPress user
+	 * 
+	 * @return void
+	 */
+	private function remove_filters() {
+		
+		// remove Civi plugin filters
+		remove_action( 'user_register', array( civi_wp(), 'update_user' ) );
+		remove_action( 'profile_update', array( civi_wp(), 'update_user' ) );
+		
+		// remove CiviCRM WordPress Profile Sync filters
+		global $civicrm_wp_profile_sync;
+		if ( is_object( $civicrm_wp_profile_sync ) ) {
+			remove_action( 'user_register', array( $civicrm_wp_profile_sync, 'wordpress_contact_updated' ), 100 );
+			remove_action( 'profile_update', array( $civicrm_wp_profile_sync, 'wordpress_contact_updated' ), 100 );
+		}
+	
+	}
+	
+	
+	
+	/*
+	 * Add filters (that we know of) after creating a WordPress user
+	 * 
+	 * @return void
+	 */
+	private function add_filters() {
+		
+		// re-add Civi plugin filters
+		add_action( 'user_register', array( civi_wp(), 'update_user' ) );
+		add_action( 'profile_update', array( civi_wp(), 'update_user' ) );
+		
+		// re-add CiviCRM WordPress Profile Sync filters
+		global $civicrm_wp_profile_sync;
+		if ( is_object( $civicrm_wp_profile_sync ) ) {
+			add_action( 'user_register', array( $civicrm_wp_profile_sync, 'wordpress_contact_updated' ), 100, 1 );
+			add_action( 'profile_update', array( $civicrm_wp_profile_sync, 'wordpress_contact_updated' ), 100, 1 );
+		}
+	
+	}
+	
+	
+	
 } // class ends
 
 
