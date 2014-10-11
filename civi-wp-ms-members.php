@@ -243,9 +243,15 @@ class Civi_WP_Member_Sync_Members {
 			
 			// allow plugins to override this step with a filter
 			if ( true === apply_filters( 'civi_wp_member_sync_auto_create_wp_user', true ) ) {
-		
+				
+				// get Civi contact
+				$civi_contact = $this->parent_obj->users->civi_get_contact_by_contact_id( $objectRef->contact_id );
+				
+				// bail if something goes wrong
+				if ( $civi_contact === false ) return;
+				
 				// create a WP user
-				$user = $this->parent_obj->users->wp_create_user( $civi_user );
+				$user = $this->parent_obj->users->wp_create_user( $civi_contact );
 				
 				// bail if something goes wrong
 				if ( ! is_a( $user, 'WP_User' ) ) return;

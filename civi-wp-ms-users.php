@@ -366,7 +366,7 @@ class Civi_WP_Member_Sync_Users {
 			);
 			
 			// get the Civi contact ID
-			$civi_contact_id = CRM_Core_BAO_UFMatch::getContactId( $user->id );
+			$civi_contact_id = CRM_Core_BAO_UFMatch::getContactId( $user->ID );
 			
 			// sanity check
 			if ( ! $civi_contact_id ) {
@@ -377,6 +377,50 @@ class Civi_WP_Member_Sync_Users {
 		
 		// --<
 		return $civi_contact_id;
+		
+	}
+	
+	
+	
+	/**
+	 * Get CiviCRM contact data by contact ID
+	 * 
+	 * @param int $contact_id The numeric ID of the CiviCRM contact
+	 * @return mixed $civi_contact The array of data for the CiviCRM Contact, or false if not found
+	 */
+	public function civi_get_contact_by_contact_id( $contact_id ) {
+	
+		// kick out if no CiviCRM
+		if ( ! civi_wp()->initialize() ) return false;
+		
+		// get all contact data
+		$params = array(
+			'version' => 3,
+			'contact_id' => $contact_id,
+		);
+
+		// use API
+		$contact_data = civicrm_api( 'contact', 'get', $params );
+
+		// bail if we get any errors
+		if ( $contact_data['is_error'] == 1 ) return false;
+		if ( ! isset( $contact_data['values'] ) ) return false;
+		if ( count( $contact_data['values'] ) === 0 ) return false;
+		
+		// get contact
+		$contact = array_shift( $contact_data['values'] );
+		
+		/*
+		// debug
+		print_r( array( 
+			'method' => 'get_contact_by_contact_id',
+			'contact_id' => $contact_id,
+			'contact' => $contact,
+		)); die();
+		*/
+		
+		// --<
+		return $contact;
 		
 	}
 	
@@ -436,6 +480,26 @@ class Civi_WP_Member_Sync_Users {
 				'last_name' => $civi_contact['last_name'],
 				
 			) );
+			
+			// create UF Match
+			if ( ! is_wp_error( $user_id ) AND isset( $civi_contact['contact_id'] ) ) {
+
+				$transaction = new CRM_Core_Transaction();
+
+				// create the UF Match record
+				$ufmatch             = new CRM_Core_DAO_UFMatch();
+				$ufmatch->domain_id  = CRM_Core_Config::domainID();
+				$ufmatch->uf_id      = $user_id;
+				$ufmatch->contact_id = $civi_contact['contact_id'];
+				$ufmatch->uf_name    = $civi_contact['email'];
+
+				if ( ! $ufmatch->find( true ) ) {
+					$ufmatch->save();
+					$ufmatch->free();
+					$transaction->commit();
+				}
+				
+			}
 			
 			// re-add filters
 			$this->add_filters();
