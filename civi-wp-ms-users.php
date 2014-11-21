@@ -438,6 +438,11 @@ class Civi_WP_Member_Sync_Users {
 	 */
 	public function wp_create_user( $civi_contact ) {
 
+		// bail if no email address
+		if ( ! isset( $civi_contact['email'] ) OR empty( $civi_contact['email'] ) ) {
+			return false;
+		}
+
 		// create username from display name
 		$user_name = sanitize_title( $civi_contact['display_name'] );
 
