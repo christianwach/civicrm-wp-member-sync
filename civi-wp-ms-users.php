@@ -358,7 +358,7 @@ class Civi_WP_Member_Sync_Users {
 			CRM_Core_BAO_UFMatch::synchronizeUFMatch(
 				$user, // user object
 				$user->ID, // ID
-				$user->user_mail, // unique identifier
+				$user->user_email, // unique identifier
 				'WordPress', // CMS
 				null, // status
 				'Individual', // contact type
