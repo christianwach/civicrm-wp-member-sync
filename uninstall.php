@@ -1,4 +1,4 @@
-<?php /* 
+<?php /*
 --------------------------------------------------------------------------------
 CiviCRM WordPress Member Sync Uninstaller
 --------------------------------------------------------------------------------
@@ -20,7 +20,7 @@ if ( is_multisite() ) {
 
 	// delete multisite options
 	//delete_site_option( 'civi_wp_member_sync_network_settings );
-	
+
 }
 
 
