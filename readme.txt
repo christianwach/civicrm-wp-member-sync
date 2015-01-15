@@ -11,11 +11,15 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Keep WordPress users in sync with CiviCRM memberships by granting either a role or capabilities to users with that membership.
 
 
+
 == Description ==
 
 CiviCRM WordPress Member Sync keeps a WordPress user in sync with a CiviCRM membership by granting either a role or capabilities to a WordPress user who has that membership. This enables you to have, among other things, members-only content on your website that is only accessible to current members as defined by the membership types and status rules that you set up in CiviCRM.
 
+This plugin requires a minimum of WordPress 3.9 and CiviCRM 4.6-alpha. Please refer to the installation page for configuration instructions as well as for how to use this plugin with versions of CiviCRM prior to 4.6-alpha.
+
 This plugin is in active development. For feature requests and bug reports, please visit the GitHub repo at https://github.com/christianwach/civicrm-wp-member-sync
+
 
 
 == Installation ==
@@ -25,7 +29,7 @@ This plugin is in active development. For feature requests and bug reports, plea
 1. Make sure CiviCRM is activated
 1. Activate the plugin through the 'Plugins' menu in WordPress
 
-This plugin requires a minimum of WordPress 3.9, BuddyPress 1.8 and CiviCRM 4.6-alpha. For versions of CiviCRM prior to 4.6-alpha, this plugin requires the corresponding branch of the [CiviCRM WordPress plugin](https://github.com/civicrm/civicrm-wordpress) plus the custom WordPress.php hook file from the [CiviCRM Hook Tester repo on GitHub](https://github.com/christianwach/civicrm-wp-hook-tester) so that it overrides the built-in CiviCRM file. Please refer to the each repo for further instructions.
+This plugin requires a minimum of WordPress 3.9 and CiviCRM 4.6-alpha. For versions of CiviCRM prior to 4.6-alpha, this plugin requires the corresponding branch of the [CiviCRM WordPress plugin](https://github.com/civicrm/civicrm-wordpress) plus the custom WordPress.php hook file from the [CiviCRM Hook Tester repo on GitHub](https://github.com/christianwach/civicrm-wp-hook-tester) so that it overrides the built-in CiviCRM file. Please refer to the each repo for further instructions.
 
 <h4>Working with Roles</h4>
 
