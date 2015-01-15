@@ -12,7 +12,7 @@ Depends: CiviCRM
 --------------------------------------------------------------------------------
 
 Thanks to:
-Jag Kandasamy <http://www.orangecreative.net> for kicking the
+Jag Kandasamy <http://www.orangecreative.net> for the
 "Wordpress CiviMember Role Sync Plugin" <https://github.com/jeevajoy/Wordpress-CiviCRM-Member-Role-Sync>
 
 Tadpole Collective <https://tadpole.cc> for their fork:
