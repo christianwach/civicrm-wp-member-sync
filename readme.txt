@@ -14,11 +14,17 @@ Keep WordPress users in sync with CiviCRM memberships by granting either a role 
 
 == Description ==
 
-CiviCRM WordPress Member Sync keeps a WordPress user in sync with a CiviCRM membership by granting either a role or capabilities to a WordPress user who has that membership. This enables you to have, among other things, members-only content on your website that is only accessible to current members as defined by the membership types and status rules that you set up in CiviCRM.
+CiviCRM WordPress Member Sync keeps a WordPress user in sync with a CiviCRM membership by granting either a role or capabilities to a WordPress user who has that membership.
+
+This enables you to have, among other things, members-only content on your website that is only accessible to current members as defined by the membership types and status rules that you set up in CiviCRM.
+
+### Requirements
 
 This plugin requires a minimum of WordPress 3.9 and CiviCRM 4.6-alpha. It is compatible with the [Members](https://wordpress.org/plugins/members/) plugin. Please refer to the installation page for configuration instructions as well as for how to use this plugin with versions of CiviCRM prior to 4.6-alpha.
 
-This plugin is in active development. For feature requests and bug reports, please visit the GitHub repo at https://github.com/christianwach/civicrm-wp-member-sync
+### Plugin Development
+
+This plugin is in active development. For feature requests and bug reports (or if you're a plugin author and want to contribute) please visit the plugin's [GitHub repository](https://github.com/christianwach/civicrm-wp-member-sync).
 
 
 
@@ -26,7 +32,7 @@ This plugin is in active development. For feature requests and bug reports, plea
 
 1. Extract the plugin archive
 1. Upload plugin files to your `/wp-content/plugins/` directory
-1. Make sure CiviCRM is activated
+1. Make sure CiviCRM is activated and properly configured
 1. Activate the plugin through the 'Plugins' menu in WordPress
 
 This plugin requires a minimum of WordPress 3.9 and CiviCRM 4.6-alpha. For versions of CiviCRM prior to 4.6-alpha, this plugin requires the corresponding branch of the [CiviCRM WordPress plugin](https://github.com/civicrm/civicrm-wordpress) plus the custom WordPress.php hook file from the [CiviCRM Hook Tester repo on GitHub](https://github.com/christianwach/civicrm-wp-hook-tester) so that it overrides the built-in CiviCRM file. Please refer to the each repo for further instructions.
