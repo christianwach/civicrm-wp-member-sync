@@ -248,7 +248,6 @@ class Civi_WP_Member_Sync_Admin {
 
 		// there's a new screen object for help in 3.3
 		$screen = get_current_screen();
-		//print_r( $screen ); die();
 
 		// use method in this class
 		$this->admin_help( $screen );
@@ -420,7 +419,6 @@ class Civi_WP_Member_Sync_Admin {
 
 			// get all schedules
 			$schedules = $this->parent_obj->schedule->intervals_get();
-			//print_r( $schedules ); die();
 
 			// get our sync settings
 			$login = absint( $this->setting_get( 'login' ) );
@@ -591,7 +589,6 @@ class Civi_WP_Member_Sync_Admin {
 
 			// get filtered roles
 			$roles = $this->parent_obj->users->wp_role_names_get_all();
-			//print_r( $roles ); die();
 
 			// include template file
 			include( CIVI_WP_MEMBER_SYNC_PLUGIN_PATH . 'assets/templates/rule-role-add.php' );
@@ -804,9 +801,6 @@ class Civi_WP_Member_Sync_Admin {
 			// check that we trust the source of the request
 			check_admin_referer( 'civi_wp_member_sync_manual_sync_action', 'civi_wp_member_sync_nonce' );
 
-			// trace
-			//print_r( $_POST ); die();
-
 			// pass on
 			$result = $this->members->sync_all();
 
@@ -872,7 +866,6 @@ class Civi_WP_Member_Sync_Admin {
 
 		// check that we trust the source of the request
 		check_admin_referer( 'civi_wp_member_sync_settings_action', 'civi_wp_member_sync_nonce' );
-		//print_r( $_POST ); die();
 
 
 
@@ -1098,12 +1091,6 @@ class Civi_WP_Member_Sync_Admin {
 
 		// check that we trust the source of the data
 		check_admin_referer( 'civi_wp_member_sync_rule_action', 'civi_wp_member_sync_nonce' );
-
-		/*
-		print_r( array(
-			'POST' => $_POST,
-		) ); die();
-		*/
 
 		// default mode to 'add'
 		$mode = 'add';
@@ -1371,7 +1358,6 @@ class Civi_WP_Member_Sync_Admin {
 
 		// get association rule for this membership type
 		$association_rule = $this->rule_get_by_type( $membership_type_id, $method );
-		//print_r( $association_rule ); die();
 
 		// kick out if we have an error of some kind
 		if ( $association_rule === false ) return false;
@@ -1523,7 +1509,6 @@ class Civi_WP_Member_Sync_Admin {
 
 			// get association rule for this membership type
 			$association_rule = $this->rule_get_by_type( $membership->membership_type_id, $method );
-			//print_r( $association_rule ); die();
 
 			// kick out if we have an error of some kind
 			if ( $association_rule === false ) return false;

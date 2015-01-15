@@ -189,8 +189,6 @@ class Civi_WP_Member_Sync_Users {
 
 		}
 
-		//print_r( $role_names ); die();
-
 		// --<
 		return $role_names;
 

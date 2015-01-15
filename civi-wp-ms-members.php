@@ -105,7 +105,6 @@ class Civi_WP_Member_Sync_Members {
 
 		// get all WordPress users
 		$users = get_users( array( 'all_with_meta' => true ) );
-		//print_r( $users ); die();
 
 		// loop through all users
 		foreach( $users AS $user ) {
@@ -153,7 +152,6 @@ class Civi_WP_Member_Sync_Members {
 		// kick out if we don't receive a valid user
 		if ( ! is_a( $user, 'WP_User' ) ) return;
 		if ( ! $user->exists() ) return;
-		//print_r( array( $user_login, $user ) ); //die();
 
 		// exclude admins
 		if ( is_super_admin( $user->ID ) OR $user->has_cap( 'delete_users' ) ) return;
@@ -189,14 +187,14 @@ class Civi_WP_Member_Sync_Members {
 		// disable
 		return;
 
-		///*
+		/*
 		print_r( array(
 			'op' => $op,
 			'objectName' => $objectName,
 			'objectId' => $objectId,
 			'objectRef' => $objectRef,
 		)); die();
-		//*/
+		*/
 
 		// target our object type
 		if ( $objectName != 'Membership' ) return;
@@ -236,12 +234,6 @@ class Civi_WP_Member_Sync_Members {
 
 		// get WordPress user for this contact ID
 		$user = $this->parent_obj->users->wp_user_get_by_civi_id( $objectRef->contact_id );
-
-		/*
-		print_r( array(
-			'user' => $user,
-		)); die();
-		*/
 
 		// if we don't receive a valid user
 		if ( ! is_a( $user, 'WP_User' ) ) {
@@ -349,9 +341,6 @@ class Civi_WP_Member_Sync_Members {
 			'sequential' => '1',
 			'contact_id' => $civi_contact_id,
 		));
-
-		// trace
-		//print_r( $membership ); die();
 
 		// if we have membership details
 		if (
