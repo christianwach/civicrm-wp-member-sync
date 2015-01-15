@@ -53,12 +53,12 @@ class Civi_WP_Member_Sync_Admin {
 		$this->error_strings = array(
 
 			// update rules error strings
-			1 => __( 'Please select a CiviCRM Membership Type', 'civi-wp-member-sync' ),
-			2 => __( 'Please select a WordPress Role', 'civi-wp-member-sync' ),
-			3 => __( 'Please select a Current Status', 'civi-wp-member-sync' ),
-			4 => __( 'Please select an Expire Status', 'civi-wp-member-sync' ),
-			5 => __( 'Please select a WordPress Expiry Role', 'civi-wp-member-sync' ),
-			6 => __( 'You can not have the same Status Rule registered as both "Current" and "Expired"', 'civi-wp-member-sync' ),
+			1 => __( 'Please select a CiviCRM Membership Type', 'civicrm-wp-member-sync' ),
+			2 => __( 'Please select a WordPress Role', 'civicrm-wp-member-sync' ),
+			3 => __( 'Please select a Current Status', 'civicrm-wp-member-sync' ),
+			4 => __( 'Please select an Expire Status', 'civicrm-wp-member-sync' ),
+			5 => __( 'Please select a WordPress Expiry Role', 'civicrm-wp-member-sync' ),
+			6 => __( 'You can not have the same Status Rule registered as both "Current" and "Expired"', 'civicrm-wp-member-sync' ),
 
 		);
 
@@ -160,8 +160,8 @@ class Civi_WP_Member_Sync_Admin {
 			// add settings page to the Network Settings menu
 			$this->settings_page = add_submenu_page(
 				'settings.php',
-				__( 'CiviCRM WordPress Member Sync Settings', 'civi-wp-member-sync' ), // page title
-				__( 'CiviCRM WordPress Member Sync', 'civi-wp-member-sync' ), // menu title
+				__( 'CiviCRM WordPress Member Sync Settings', 'civicrm-wp-member-sync' ), // page title
+				__( 'CiviCRM WordPress Member Sync', 'civicrm-wp-member-sync' ), // menu title
 				'manage_options', // required caps
 				'civi_wp_member_sync_settings', // slug name
 				array( $this, 'page_settings' ) // callback
@@ -171,8 +171,8 @@ class Civi_WP_Member_Sync_Admin {
 
 			// add the settings page to the Settings menu
 			$this->settings_page = add_options_page(
-				__( 'CiviCRM WordPress Member Sync Settings', 'civi-wp-member-sync' ), // page title
-				__( 'CiviCRM WordPress Member Sync', 'civi-wp-member-sync' ), // menu title
+				__( 'CiviCRM WordPress Member Sync Settings', 'civicrm-wp-member-sync' ), // page title
+				__( 'CiviCRM WordPress Member Sync', 'civicrm-wp-member-sync' ), // menu title
 				'manage_options', // required caps
 				'civi_wp_member_sync_settings', // slug name
 				array( $this, 'page_settings' ) // callback
@@ -187,8 +187,8 @@ class Civi_WP_Member_Sync_Admin {
 		// add manual sync page
 		$this->sync_page = add_submenu_page(
 			'civi_wp_member_sync_settings', // parent slug
-			__( 'CiviCRM WordPress Member Sync: Manual Sync', 'civi-wp-member-sync' ), // page title
-			__( 'Manual Sync', 'civi-wp-member-sync' ), // menu title
+			__( 'CiviCRM WordPress Member Sync: Manual Sync', 'civicrm-wp-member-sync' ), // page title
+			__( 'Manual Sync', 'civicrm-wp-member-sync' ), // menu title
 			'manage_options', // required caps
 			'civi_wp_member_sync_manual_sync', // slug name
 			array( $this, 'page_manual_sync' ) // callback
@@ -201,8 +201,8 @@ class Civi_WP_Member_Sync_Admin {
 		// add rules listing page
 		$this->rules_list_page = add_submenu_page(
 			'civi_wp_member_sync_settings', // parent slug
-			__( 'CiviCRM WordPress Member Sync: List Rules', 'civi-wp-member-sync' ), // page title
-			__( 'List Rules', 'civi-wp-member-sync' ), // menu title
+			__( 'CiviCRM WordPress Member Sync: List Rules', 'civicrm-wp-member-sync' ), // page title
+			__( 'List Rules', 'civicrm-wp-member-sync' ), // menu title
 			'manage_options', // required caps
 			'civi_wp_member_sync_list', // slug name
 			array( $this, 'page_rules_list' ) // callback
@@ -215,8 +215,8 @@ class Civi_WP_Member_Sync_Admin {
 		// add rules page
 		$this->rule_add_edit_page = add_submenu_page(
 			'civi_wp_member_sync_settings', // parent slug
-			__( 'CiviCRM WordPress Member Sync: Association Rule', 'civi-wp-member-sync' ), // page title
-			__( 'Association Rule', 'civi-wp-member-sync' ), // menu title
+			__( 'CiviCRM WordPress Member Sync: Association Rule', 'civicrm-wp-member-sync' ), // page title
+			__( 'Association Rule', 'civicrm-wp-member-sync' ), // menu title
 			'manage_options', // required caps
 			'civi_wp_member_sync_rules', // slug name
 			array( $this, 'page_rule_add_edit' ) // callback
@@ -353,7 +353,7 @@ class Civi_WP_Member_Sync_Admin {
 		$screen->add_help_tab( array(
 
 			'id'      => 'civi_wp_member_sync',
-			'title'   => __( 'CiviCRM WordPress Member Sync', 'civi-wp-member-sync' ),
+			'title'   => __( 'CiviCRM WordPress Member Sync', 'civicrm-wp-member-sync' ),
 			'content' => $this->get_help(),
 
 		));
@@ -373,7 +373,7 @@ class Civi_WP_Member_Sync_Admin {
 	public function get_help() {
 
 		// stub help text, to be developed further...
-		$help = '<p>' . __( 'For further information about using CiviCRM WordPress Member Sync, please refer to the README.md that comes with this plugin.', 'civi-wp-member-sync' ) . '</p>';
+		$help = '<p>' . __( 'For further information about using CiviCRM WordPress Member Sync, please refer to the README.md that comes with this plugin.', 'civicrm-wp-member-sync' ) . '</p>';
 
 		// --<
 		return $help;
@@ -999,7 +999,7 @@ class Civi_WP_Member_Sync_Admin {
 
 		// sanity check
 		if ( $setting_name == '' ) {
-			wp_die( __( 'You must supply a setting to setting_get()', 'civi-wp-member-sync' ) );
+			wp_die( __( 'You must supply a setting to setting_get()', 'civicrm-wp-member-sync' ) );
 		}
 
 		// get setting
@@ -1018,7 +1018,7 @@ class Civi_WP_Member_Sync_Admin {
 
 		// sanity check
 		if ( $setting_name == '' ) {
-			wp_die( __( 'You must supply a setting to setting_set()', 'civi-wp-member-sync' ) );
+			wp_die( __( 'You must supply a setting to setting_set()', 'civicrm-wp-member-sync' ) );
 		}
 
 		// set setting
@@ -1281,7 +1281,7 @@ class Civi_WP_Member_Sync_Admin {
 			! wp_verify_nonce( $_GET['civi_wp_member_sync_delete_nonce'], 'civi_wp_member_sync_delete_link' )
 		) {
 
-			wp_die( __( 'Cheating, eh?', 'civi-wp-member-sync' ) );
+			wp_die( __( 'Cheating, eh?', 'civicrm-wp-member-sync' ) );
 			exit();
 
 		}

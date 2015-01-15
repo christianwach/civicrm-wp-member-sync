@@ -6,7 +6,7 @@ Description: Synchronize CiviCRM memberships with WordPress user roles or capabi
 Author: Christian Wach
 Version: 0.1
 Author URI: http://haystack.co.uk
-Text Domain: civi-wp-member-sync
+Text Domain: civicrm-wp-member-sync
 Domain Path: /languages
 Depends: CiviCRM
 --------------------------------------------------------------------------------
@@ -190,7 +190,7 @@ class Civi_WP_Member_Sync {
 			load_plugin_textdomain(
 
 				// unique name
-				'civi-wp-member-sync',
+				'civicrm-wp-member-sync',
 
 				// deprecated argument
 				false,
@@ -242,7 +242,7 @@ function civi_wp_member_sync_plugin_add_settings_link( $links ) {
 	$urls = $civi_wp_member_sync->admin->page_get_urls();
 
 	// add courtesy link
-	$links[] = '<a href="' . $urls['settings'] . '">' . __( 'Settings', 'civi-wp-member-sync' ) . '</a>';
+	$links[] = '<a href="' . $urls['settings'] . '">' . __( 'Settings', 'civicrm-wp-member-sync' ) . '</a>';
 
 	// --<
 	return $links;
