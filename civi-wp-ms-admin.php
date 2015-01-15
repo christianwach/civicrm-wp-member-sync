@@ -88,7 +88,7 @@ class Civi_WP_Member_Sync_Admin {
 	public function activate() {
 
 		// store version for later reference
-		add_option( 'civi_wp_member_sync_version', CIVI_MEMBER_SYNC_VERSION );
+		add_option( 'civi_wp_member_sync_version', CIVI_WP_MEMBER_SYNC_VERSION );
 
 		// store default settings
 		add_option( 'civi_wp_member_sync_settings', $this->settings_get_default() );
