@@ -239,7 +239,7 @@ function civi_wp_member_sync_plugin_add_settings_link( $links ) {
 	global $civi_wp_member_sync;
 
 	// get admin URLs
-	$urls = $civi_wp_member_sync->page_get_urls();
+	$urls = $civi_wp_member_sync->admin->page_get_urls();
 
 	// add courtesy link
 	$links[] = '<a href="' . $urls['settings'] . '">' . __( 'Settings', 'civi-wp-member-sync' ) . '</a>';
