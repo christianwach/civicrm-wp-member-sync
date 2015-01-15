@@ -27,6 +27,9 @@ class Civi_WP_Member_Sync_Admin {
 	public $rules_list_page;
 	public $rule_add_edit_page;
 
+	// plugin version
+	public $plugin_version;
+
 	// settings
 	public $settings = array();
 
@@ -88,7 +91,7 @@ class Civi_WP_Member_Sync_Admin {
 	public function activate() {
 
 		// store version for later reference
-		add_option( 'civi_wp_member_sync_version', CIVI_WP_MEMBER_SYNC_VERSION );
+		$this->store_version();
 
 		// store default settings
 		add_option( 'civi_wp_member_sync_settings', $this->settings_get_default() );
@@ -117,6 +120,12 @@ class Civi_WP_Member_Sync_Admin {
 	 */
 	public function initialise() {
 
+		// load plugin version
+		$this->plugin_version = get_option( 'civi_wp_member_sync_version', false );
+
+		// upgrade version if needed
+		if ( $this->plugin_version != CIVI_WP_MEMBER_SYNC_VERSION ) $this->store_version();
+
 		// load settings array
 		$this->settings = get_option( 'civi_wp_member_sync_settings', $this->settings );
 
@@ -137,6 +146,20 @@ class Civi_WP_Member_Sync_Admin {
 			}
 
 		}
+
+	}
+
+
+
+	/**
+	 * Store the plugin version
+	 *
+	 * @return void
+	 */
+	public function store_version() {
+
+		// store version
+		update_option( 'civi_wp_member_sync_version', CIVI_WP_MEMBER_SYNC_VERSION );
 
 	}
 
