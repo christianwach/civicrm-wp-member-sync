@@ -20,7 +20,7 @@ This enables you to have, among other things, members-only content on your websi
 
 ### Requirements
 
-This plugin requires a minimum of WordPress 3.9 and CiviCRM 4.6-alpha. It is compatible with the [Members](https://wordpress.org/plugins/members/) plugin. Please refer to the installation page for configuration instructions as well as for how to use this plugin with versions of CiviCRM prior to 4.6-alpha.
+This plugin requires a minimum of *WordPress 3.9* and *CiviCRM 4.6-alpha*. It is compatible with the [Members](https://wordpress.org/plugins/members/) plugin. Please refer to the installation page for configuration instructions as well as for how to use this plugin with versions of CiviCRM prior to 4.6-alpha.
 
 ### Plugin Development
 
