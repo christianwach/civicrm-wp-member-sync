@@ -62,11 +62,16 @@ class Civi_WP_Member_Sync_Admin {
 
 		);
 
-		// load our Migration utility class
-		require( CIVI_WP_MEMBER_SYNC_PLUGIN_PATH . 'civi-wp-ms-migrate.php' );
+		// test for constant
+		if ( defined( 'CIVI_WP_MEMBER_SYNC_MIGRATE' ) AND CIVI_WP_MEMBER_SYNC_MIGRATE ) {
 
-		// instantiate
-		$this->migrate = new Civi_WP_Member_Sync_Migrate( $this );
+			// load our Migration utility class
+			require( CIVI_WP_MEMBER_SYNC_PLUGIN_PATH . 'civi-wp-ms-migrate.php' );
+
+			// instantiate
+			$this->migrate = new Civi_WP_Member_Sync_Migrate( $this );
+
+		}
 
 		// --<
 		return $this;
@@ -400,7 +405,7 @@ class Civi_WP_Member_Sync_Admin {
 			$urls = $this->page_get_urls();
 
 			// do we have the legacy plugin?
-			if ( $this->migrate->legacy_plugin_exists() ) {
+			if ( isset( $this->migrate ) AND $this->migrate->legacy_plugin_exists() ) {
 
 				// include template file
 				include( CIVI_WP_MEMBER_SYNC_PLUGIN_PATH . 'assets/templates/migrate.php' );
@@ -785,7 +790,7 @@ class Civi_WP_Member_Sync_Admin {
 
 		// was the Migrate form submitted?
 		if( isset( $_POST[ 'civi_wp_member_sync_migrate_submit' ] ) ) {
-			$result = $this->legacy_migrate();
+			$result = $this->migrate->legacy_migrate();
 		}
 
 		// was the Settings form submitted?

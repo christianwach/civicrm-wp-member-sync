@@ -2,7 +2,16 @@
 --------------------------------------------------------------------------------
 Civi_WP_Member_Sync_Migrate Class
 --------------------------------------------------------------------------------
-Author note: this class is purely for me to migrate my existing data.
+
+Author note:
+
+This class is written for me to migrate my existing data. You may need to amend
+it for your needs if you want to migrate your data from either of the plugins
+that this one has built on.
+
+If you want to enable it, uncomment where CIVI_WP_MEMBER_SYNC_MIGRATE is defined
+in the main plugin file.
+
 --------------------------------------------------------------------------------
 */
 

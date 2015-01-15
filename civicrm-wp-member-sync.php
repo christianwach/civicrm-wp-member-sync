@@ -28,7 +28,7 @@ if ( ! defined( 'CIVI_WP_MEMBER_SYNC_CAP_PREFIX' ) ) {
 	define( 'CIVI_WP_MEMBER_SYNC_CAP_PREFIX', 'civimember_' );
 }
 
-// define plugin version (bump this to refresh CSS and JS)
+// define plugin version (bumping this will also refresh CSS and JS)
 define( 'CIVI_WP_MEMBER_SYNC_VERSION', '0.1' );
 
 // store reference to this file
@@ -46,6 +46,9 @@ if ( ! defined( 'CIVI_WP_MEMBER_SYNC_PLUGIN_PATH' ) ) {
 
 // debug flag for developers
 //define( 'CIVI_WP_MEMBER_SYNC_DEBUG', true );
+
+// migrate flag for developers (see civi-wp-ms-migrate.php)
+//define( 'CIVI_WP_MEMBER_SYNC_MIGRATE', true );
 
 
 
