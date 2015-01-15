@@ -149,10 +149,10 @@ class Civi_WP_Member_Sync_Admin {
 	public function admin_menu() {
 
 		// we must be network admin in multisite
-		if ( is_multisite() AND !is_super_admin() ) { return false; }
+		if ( is_multisite() AND !is_super_admin() ) return false;
 
 		// check user permissions
-		if ( !current_user_can('manage_options') ) { return false; }
+		if ( !current_user_can('manage_options') ) return false;
 
 		// multisite?
 		if ( is_multisite() ) {
@@ -1290,7 +1290,7 @@ class Civi_WP_Member_Sync_Admin {
 		$type_id = absint( $_GET['type_id'] );
 
 		// sanity check
-		if ( empty( $type_id ) ) { return; }
+		if ( empty( $type_id ) ) return;
 
 		// get method
 		$method = $this->setting_get( 'method' );
@@ -1305,8 +1305,8 @@ class Civi_WP_Member_Sync_Admin {
 		$subset = ( isset( $data[$method] ) ) ? $data[$method] : false;
 
 		// sanity check
-		if ( ! $subset ) { return; }
-		if ( ! isset( $subset[$type_id] ) ) { return; }
+		if ( ! $subset ) return;
+		if ( ! isset( $subset[$type_id] ) ) return;
 
 		// delete it
 		unset( $subset[$type_id] );
@@ -1344,10 +1344,10 @@ class Civi_WP_Member_Sync_Admin {
 		// you're using a plugin that enables multiple roles
 
 		// kick out if no CiviCRM
-		if ( ! civi_wp()->initialize() ) { return false; }
+		if ( ! civi_wp()->initialize() ) return false;
 
 		// kick out if we didn't get membership details passed
-		if ( $membership === false ) { return false; }
+		if ( $membership === false ) return false;
 
 		// get membership type and status rule
 		foreach( $membership['values'] AS $value ) {
@@ -1357,8 +1357,8 @@ class Civi_WP_Member_Sync_Admin {
 		//print_r( array( $membership_type_id, $status_id ) ); die();
 
 		// kick out if something went wrong
-		if ( ! isset( $membership_type_id ) ) { return false; }
-		if ( ! isset( $status_id ) ) { return false; }
+		if ( ! isset( $membership_type_id ) ) return false;
+		if ( ! isset( $status_id ) ) return false;
 
 		// get sync method and sanitize
 		$method = $this->setting_get( 'method' );
@@ -1369,7 +1369,7 @@ class Civi_WP_Member_Sync_Admin {
 		//print_r( $association_rule ); die();
 
 		// kick out if we have an error of some kind
-		if ( $association_rule === false ) { return false; }
+		if ( $association_rule === false ) return false;
 
 		// get status rules
 		$current_rule = $association_rule['current_rule'];
@@ -1521,7 +1521,7 @@ class Civi_WP_Member_Sync_Admin {
 			//print_r( $association_rule ); die();
 
 			// kick out if we have an error of some kind
-			if ( $association_rule === false ) { return false; }
+			if ( $association_rule === false ) return false;
 
 			// get role for expired status rule
 			$expired_wp_role = $association_rule['expired_wp_role'];

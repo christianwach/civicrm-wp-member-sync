@@ -324,7 +324,7 @@ class Civi_WP_Member_Sync_Users {
 		$user_id = CRM_Core_BAO_UFMatch::getUFId( $contact_id );
 
 		// kick out if we didn't get one
-		if ( empty( $user_id ) ) { return false; }
+		if ( empty( $user_id ) ) return false;
 
 		// get user object
 		$user = new WP_User( $user_id );

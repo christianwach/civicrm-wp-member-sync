@@ -98,7 +98,7 @@ class Civi_WP_Member_Sync_Members {
 	public function sync_all() {
 
 		// kick out if no CiviCRM
-		if ( ! civi_wp()->initialize() ) { return; }
+		if ( ! civi_wp()->initialize() ) return;
 
 		// make sure Civi file is included
 		require_once 'CRM/Core/BAO/UFMatch.php';
@@ -151,18 +151,18 @@ class Civi_WP_Member_Sync_Members {
 	public function sync_to_user( $user_login, $user ) {
 
 		// kick out if we don't receive a valid user
-		if ( ! is_a( $user, 'WP_User' ) ) { return; }
-		if ( ! $user->exists() ) { return; }
+		if ( ! is_a( $user, 'WP_User' ) ) return;
+		if ( ! $user->exists() ) return;
 		//print_r( array( $user_login, $user ) ); //die();
 
 		// exclude admins
-		if ( is_super_admin( $user->ID ) OR $user->has_cap( 'delete_users' ) ) { return; }
+		if ( is_super_admin( $user->ID ) OR $user->has_cap( 'delete_users' ) ) return;
 
 		// get Civi contact ID
 		$civi_contact_id = $this->parent_obj->users->civi_contact_id_get( $user );
 
 		// bail if we don't have one
-		if ( $civi_contact_id === false ) { return; }
+		if ( $civi_contact_id === false ) return;
 
 		// get membership
 		$membership = $this->membership_get_by_contact_id( $civi_contact_id );
@@ -199,7 +199,7 @@ class Civi_WP_Member_Sync_Members {
 		//*/
 
 		// target our object type
-		if ( $objectName != 'Membership' ) { return; }
+		if ( $objectName != 'Membership' ) return;
 
 	}
 
@@ -217,7 +217,7 @@ class Civi_WP_Member_Sync_Members {
 	public function membership_updated( $op, $objectName, $objectId, $objectRef ) {
 
 		// target our object type
-		if ( $objectName != 'Membership' ) { return; }
+		if ( $objectName != 'Membership' ) return;
 
 		/*
 		print_r( array(
@@ -229,10 +229,10 @@ class Civi_WP_Member_Sync_Members {
 		*/
 
 		// kick out if not membership object
-		if ( ! is_a( $objectRef, 'CRM_Member_BAO_Membership' ) ) { return; }
+		if ( ! is_a( $objectRef, 'CRM_Member_BAO_Membership' ) ) return;
 
 		// kick out if we don't have a contact ID
-		if ( ! isset( $objectRef->contact_id ) ) { return; }
+		if ( ! isset( $objectRef->contact_id ) ) return;
 
 		// get WordPress user for this contact ID
 		$user = $this->parent_obj->users->wp_user_get_by_civi_id( $objectRef->contact_id );
@@ -271,7 +271,7 @@ class Civi_WP_Member_Sync_Members {
 		}
 
 		// exclude admins
-		if ( is_super_admin( $user->ID ) OR $user->has_cap( 'delete_users' ) ) { return; }
+		if ( is_super_admin( $user->ID ) OR $user->has_cap( 'delete_users' ) ) return;
 
 		// catch create and edit operations
 		if ( $op == 'edit' OR $op == 'create' ) {
@@ -324,7 +324,7 @@ class Civi_WP_Member_Sync_Members {
 		*/
 
 		// kick out if not membership form
-		if ( ! is_a( $form, 'CRM_Member_Form_Membership' ) ) { return; }
+		if ( ! is_a( $form, 'CRM_Member_Form_Membership' ) ) return;
 
 	}
 
@@ -339,7 +339,7 @@ class Civi_WP_Member_Sync_Members {
 	public function membership_get_by_contact_id( $civi_contact_id ) {
 
 		// kick out if no CiviCRM
-		if ( ! civi_wp()->initialize() ) { return false; }
+		if ( ! civi_wp()->initialize() ) return false;
 
 		// get Civi membership details
 		$membership = civicrm_api( 'Membership', 'get', array(
@@ -383,8 +383,8 @@ class Civi_WP_Member_Sync_Members {
 	public function membership_name_get_by_id( $type_id = 0 ) {
 
 		// sanity checks
-		if ( ! is_numeric( $type_id ) ) { return false; }
-		if ( $type_id === 0 ) { return false; }
+		if ( ! is_numeric( $type_id ) ) return false;
+		if ( $type_id === 0 ) return false;
 
 		// init return
 		$name = '';
@@ -393,8 +393,8 @@ class Civi_WP_Member_Sync_Members {
 		$membership_types = $this->types_get_all();
 
 		// sanity checks
-		if ( ! is_array( $membership_types ) ) { return false; }
-		if ( count( $membership_types ) == 0 ) { return false; }
+		if ( ! is_array( $membership_types ) ) return false;
+		if ( count( $membership_types ) == 0 ) return false;
 
 		// flip for easier searching
 		$membership_types = array_flip( $membership_types );
@@ -518,8 +518,8 @@ class Civi_WP_Member_Sync_Members {
 		$status_rules = $this->status_rules_get_all();
 
 		// sanity checks
-		if ( ! is_array( $status_rules ) ) { return false; }
-		if ( count( $status_rules ) == 0 ) { return false; }
+		if ( ! is_array( $status_rules ) ) return false;
+		if ( count( $status_rules ) == 0 ) return false;
 
 		// flip for easier searching
 		$status_rules = array_flip( $status_rules );
