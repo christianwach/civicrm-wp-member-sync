@@ -7,17 +7,19 @@ This enables you to have, among other things, members-only content on your websi
 
 #### Notes ####
 
-This plugin has been developed using *WordPress 3.9*, *BuddyPress 1.9+* and *CiviCRM 4.4.5*. It requires the master branch of the [CiviCRM WordPress plugin](https://github.com/civicrm/civicrm-wordpress) plus the custom WordPress.php hook file from the [CiviCRM Hook Tester repo on GitHub](https://github.com/christianwach/civicrm-wp-hook-tester) so that it overrides the built-in *CiviCRM* file.
+This plugin has been developed using a minimum of *WordPress 3.9*, *BuddyPress 1.9+* and *CiviCRM 4.4.5*. For versions of *CiviCRM* prior to 4.6-alpha, this plugin requires the corresponding branch of the [CiviCRM WordPress plugin](https://github.com/civicrm/civicrm-wordpress) plus the custom WordPress.php hook file from the [CiviCRM Hook Tester repo on GitHub](https://github.com/christianwach/civicrm-wp-hook-tester) so that it overrides the built-in *CiviCRM* file. Please refer to the each repo for further instructions.
 
 This plugin builds on the [GitHub repo](https://github.com/tadpolecc/civi_member_sync) written by [Tadpole Collective](https://tadpole.cc) and  originally developed by [Jag Kandasamy](http://www.orangecreative.net). It has been given its own repo because it has diverged so significantly from its origins that it no longer makes sense to call it a fork or send changes upstream.
 
-**Please note:** This plugin is not fully tested in all environments and may not be production-ready for you. Use at your own risk.
+**Please note:** This plugin is still in active development and may not be production-ready for you. Use at your own risk.
 
 #### Configuration ####
 
 Before you get started, you wil need to create all of your membership types and status rules for *CiviMember*. If you select 'roles' as your synchronization method, you will also need to create the *WordPress* role(s) you would like to synchronize memberships with.
 
-**Note:** This plugin can sync membership roles on user login, user logout and on a scheduled basis. It can also sync a user's role when the membership is added, edited or deleted in *CiviCRM*.
+**Note:** This plugin can sync membership on user login, user logout and on a scheduled basis. It can also sync a user's role when the membership is added, edited or deleted in *CiviCRM*.
+
+###### Working with Roles ######
 
 1. Visit the plugin's admin page at *Settings* --> *CiviCRM WordPress Member Sync*.
 2. Click on *Add Association Rule* to create a rule. You will need to create a rule for every *CiviCRM* membership type you would like to synchronize. For every membership type, you will need to determine the *CiviMember* states that define the member as "current" thereby granting them the appropriate WordPress role or capabilities. It is most common to define *New*, *Current* & *Grace* as current. Similarly, select which states represent the "expired" status thereby removing the WordPress role from the user. It is most common to define *Expired*, *Pending*, *Cancelled* & *Deceased* as the expired status. If you select 'roles' as your synchronization method, also set the role to be assigned if the membership has expired in "Expiry Role". This is not needed when working with Capabilities.
@@ -25,7 +27,7 @@ Before you get started, you wil need to create all of your membership types and 
 
 ###### Working with Capabilities ######
 
-*Current Status* adds a Membership Capability to the *WordPress* user, while *Expired Status* removes the Membership Capability from the *WordPress* user. This capability will be of the form "civimember_ID", where "ID" is the numeric ID of the Membership Type. So, for Membership Type 2, the capability will be "civimember_2". 
+*Current Status* adds a Membership Capability to the *WordPress* user, while *Expired Status* removes the Membership Capability from the *WordPress* user. This capability will be of the form "civimember_ID", where "ID" is the numeric ID of the Membership Type. So, for Membership Type 2, the capability will be "civimember_2".
 
 **Note:** If you have the "Members" plugin active, then the "restrict_content" capability will also be added.
 
@@ -33,7 +35,7 @@ An additional Membership Status Capability will also be added to the *WordPress*
 
 ###### Test Test Test ######
 
-**Note:** Be sure to test this plugin thoroughly before using it in a production environment. At minimum, you should log in as a test user to ensure you have been granted the appropriate role or capabilities when that user is given membership. Then take away the membership for the user in their CiviCRM record, log back in as the test user, and make sure you no longer have that role or those capabilities.
+**Note:** Be sure to test this plugin thoroughly before using it in a production environment. At minimum, you should log in as a test user to ensure you have been granted the appropriate role or capabilities when that user is given membership. Then take away the membership for the user in their *CiviCRM* record, log back in as the test user, and make sure you no longer have that role or those capabilities.
 
 #### Installation ####
 
