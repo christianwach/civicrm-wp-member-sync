@@ -10,19 +10,19 @@
 	</h2>
 
 	<p><?php _e( 'Current Status adds a Membership Capability to the WordPress user, while Expired Status removes the Membership Capability from the WordPress user. This capability will be of the form "civimember_ID", where "ID" is the numeric ID of the Membership Type. So, for Membership Type 2, the capability will be "civimember_2". If you have the "Members" plugin active, then the "restrict_content" capability will also be added.', 'civi-wp-member-sync' ); ?></p>
-	
+
 	<p><?php _e( 'An additional Membership Status Capability will also be added to the WordPress user that is tied to the status of their membership. This capability will be of the form "civimember_ID_NUM", where "ID" is the numeric ID of the Membership Type and "NUM" is the numeric ID of the Membership Status. So, for Membership Type 2 with Membership Status 4, the capability will be "civimember_2_4".', 'civi-wp-member-sync' ); ?></p>
-	
+
 	<h3><?php _e( 'All Association Rules', 'civi-wp-member-sync' ); ?><?php
-	
+
 		// if we don't have all our Membership Types populated...
 		if ( !$have_all_types ) {
-			
+
 			// show the 'Add New' button
 			?> <a class="add-new-h2" href="<?php echo $urls['rules']; ?>"><?php _e( 'Add New', 'civi-wp-member-sync' ); ?></a><?php
-		
+
 		}
-	
+
 	?></h3>
 
 	<?php
@@ -30,7 +30,7 @@
 	// if we've updated, show message...
 	if ( isset( $_GET['syncrule'] ) ) {
 		echo '<div id="message" class="updated"><p>';
-	
+
 		// switch message based on result
 		switch( $_GET['syncrule'] ) {
 			case 'edit':
@@ -49,18 +49,18 @@
 
 	// if we've updated, show message (note that this will only display if we have JS turned off)
 	if ( isset( $this->errors ) AND is_array( $this->errors ) ) {
-	
+
 		// init messages
 		$error_messages = array();
-	
+
 		// construct array of messages based on error code
 		foreach( $this->errors AS $error_code ) {
 			$error_messages[] = $this->error_strings[$error_code];
 		}
-	
+
 		// show them
 		echo '<div id="message" class="error"><p>' . implode( '<br>', $error_messages ) . '</p></div>';
-	
+
 	}
 
 	?>
@@ -78,20 +78,20 @@
 
 		<tbody class="civi_wp_member_sync_table" id="civi_wp_member_sync_list">
 			<?php
-		
+
 			// loop through our data array, keyed by type ID
 			foreach( $data AS $key => $item ) {
-			
+
 				// construct URLs for this item
 				$edit_url = $urls['rules'] . '&mode=edit&type_id='.$key;
-				$delete_url = wp_nonce_url( 
+				$delete_url = wp_nonce_url(
 					$urls['list'] . '&syncrule=delete&type_id='.$key,
 					'civi_wp_member_sync_delete_link',
 					'civi_wp_member_sync_delete_nonce'
 				);
-			
+
 				?>
-				<tr> 
+				<tr>
 					<td>
 						<?php echo $this->parent_obj->members->membership_name_get_by_id( $key ); ?><br />
 						<div class="row-actions">
@@ -101,25 +101,25 @@
 					</td>
 					<td><?php echo $this->parent_obj->members->status_rules_get_current( $item['current_rule'] ); ?></td>
 					<td><?php echo $this->parent_obj->members->status_rules_get_current( $item['expiry_rule'] );?></td>
-					<td><?php 
-						
+					<td><?php
+
 						// show custom capability for this rule
 						echo CIVI_WP_MEMBER_SYNC_CAP_PREFIX . $key;
-						
+
 						// is the Members plugin active?
 						if ( defined( 'MEMBERS_VERSION' ) ) {
-							
+
 							// show the custom capability
 							echo '<br>restrict_content';
-							
+
 						}
-					
+
 					?></td>
 				</tr>
 				<?php
-		
+
 			}
-		
+
 			?>
 		</tbody>
 
