@@ -20,7 +20,7 @@ This enables you to have, among other things, members-only content on your websi
 
 ### Requirements
 
-This plugin requires a minimum of *WordPress 3.9* and *CiviCRM 4.6-alpha*. It is compatible with the [Members](https://wordpress.org/plugins/members/) plugin. Please refer to the installation page for configuration instructions as well as for how to use this plugin with versions of CiviCRM prior to 4.6-alpha.
+This plugin requires a minimum of *WordPress 3.9* and *CiviCRM 4.6-alpha1*. It is compatible with the [Members](https://wordpress.org/plugins/members/) plugin. Please refer to the installation page for configuration instructions as well as for how to use this plugin with versions of CiviCRM prior to 4.6-alpha1.
 
 ### Plugin Development
 
@@ -35,7 +35,7 @@ This plugin is in active development. For feature requests and bug reports (or i
 1. Make sure CiviCRM is activated and properly configured
 1. Activate the plugin through the 'Plugins' menu in WordPress
 
-This plugin requires a minimum of WordPress 3.9 and CiviCRM 4.6-alpha. For versions of CiviCRM prior to 4.6-alpha, this plugin requires the corresponding branch of the [CiviCRM WordPress plugin](https://github.com/civicrm/civicrm-wordpress) plus the custom WordPress.php hook file from the [CiviCRM Hook Tester repo on GitHub](https://github.com/christianwach/civicrm-wp-hook-tester) so that it overrides the built-in CiviCRM file. Please refer to the each repo for further instructions.
+This plugin requires a minimum of WordPress 3.9 and CiviCRM 4.6-alpha1. For versions of CiviCRM prior to 4.6-alpha1, this plugin requires the corresponding branch of the [CiviCRM WordPress plugin](https://github.com/civicrm/civicrm-wordpress) plus the custom WordPress.php hook file from the [CiviCRM Hook Tester repo on GitHub](https://github.com/christianwach/civicrm-wp-hook-tester) so that it overrides the built-in CiviCRM file. Please refer to the each repo for further instructions.
 
 <h4>Working with Roles</h4>
 
