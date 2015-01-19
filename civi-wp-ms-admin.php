@@ -863,7 +863,7 @@ class Civi_WP_Member_Sync_Admin {
 		$settings['data']['capabilities'] = array();
 
 		// set default method
-		$settings['method'] = 'roles';
+		$settings['method'] = 'capabilities';
 
 		// switch all sync settings on by default
 		$settings['login'] = 1;
@@ -907,7 +907,7 @@ class Civi_WP_Member_Sync_Admin {
 
 
 		// synchronization method
-		$settings_method = 'roles';
+		$settings_method = 'capabilities';
 		if ( isset( $_POST['civi_wp_member_sync_settings_method'] ) ) {
 			$settings_method = trim( $_POST['civi_wp_member_sync_settings_method'] );
 		}
