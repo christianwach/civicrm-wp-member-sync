@@ -15,23 +15,29 @@ This plugin builds on the [GitHub repo](https://github.com/tadpolecc/civi_member
 
 #### Configuration ####
 
-Before you get started, you wil need to create all of your membership types and status rules for *CiviMember*. If you select 'roles' as your synchronization method, you will also need to create the *WordPress* role(s) you would like to synchronize memberships with.
+Before you get started, you wil need to create all of your membership types and status rules for *CiviMember*. If you select 'roles' as your synchronization method, you will also need to create the *WordPress* role(s) you would like to synchronize memberships with. The default synchronisation method is 'capabilities', because *WordPress* has limited support for multiple roles.
 
 **Note:** This plugin can sync membership on user login, user logout and on a scheduled basis. It can also sync a user's role when the membership is added, edited or deleted in *CiviCRM*.
 
-###### Working with Roles ######
-
-1. Visit the plugin's admin page at *Settings* --> *CiviCRM WordPress Member Sync*.
-2. Click on *Add Association Rule* to create a rule. You will need to create a rule for every *CiviCRM* membership type you would like to synchronize. For every membership type, you will need to determine the *CiviMember* states that define the member as "current" thereby granting them the appropriate WordPress role or capabilities. It is most common to define *New*, *Current* & *Grace* as current. Similarly, select which states represent the "expired" status thereby removing the WordPress role from the user. It is most common to define *Expired*, *Pending*, *Cancelled* & *Deceased* as the expired status. If you select 'roles' as your synchronization method, also set the role to be assigned if the membership has expired in "Expiry Role". This is not needed when working with Capabilities.
-3. It may sometimes be necessary to manually synchronize users. Click on the "Manually Synchronize" tab on the admin page to do so. You will want to use this when you initially configure this plugin to synchronize your existing users.
-
 ###### Working with Capabilities ######
 
-*Current Status* adds a Membership Capability to the *WordPress* user, while *Expired Status* removes the Membership Capability from the *WordPress* user. This capability will be of the form "civimember_ID", where "ID" is the numeric ID of the Membership Type. So, for Membership Type 2, the capability will be "civimember_2".
+* Visit the plugin's admin page at "Settings" --> "CiviCRM WordPress Member Sync".
+* Select "Capabilities" as the sync method
+* Click on "Add Association Rule" to create a rule. You will need to create a rule for every CiviCRM membership type you would like to synchronize. For every membership type, you will need to determine the CiviMember states that define the member as "current" thereby granting them the appropriate WordPress capabilities. It is most common to define "New", "Current" and "Grace" as current. Similarly, select which states represent the "expired" status thereby removing the WordPress capabilities from the user. It is most common to define "Expired", "Pending", "Cancelled" and "Deceased" as the expired status.
+* "Current Status" adds a "Membership Capability" to the WordPress user, while "Expired Status" removes the "Membership Capability" from the WordPress user. This capability will be of the form "civimember_ID", where "ID" is the numeric ID of the Membership Type. So, for Membership Type 2, the capability will be "civimember_2".
+* **Note:** If you have the "[Members](https://wordpress.org/plugins/members/)" plugin active, then the "restrict_content" capability will also be added.
+* An additional "Membership Status Capability" will also be added to the WordPress user that is tied to the status of their membership. This capability will be of the form "civimember_ID_NUM", where "ID" is the numeric ID of the Membership Type and "NUM" is the numeric ID of the "Membership Status". So, for Membership Type 2 with Membership Status 4, the capability will be "civimember_2_4".
 
-**Note:** If you have the "Members" plugin active, then the "restrict_content" capability will also be added.
+###### Working with Roles ######
 
-An additional Membership Status Capability will also be added to the *WordPress* user that is tied to the status of their membership. This capability will be of the form "civimember_ID_NUM", where "ID" is the numeric ID of the Membership Type and "NUM" is the numeric ID of the Membership Status. So, for Membership Type 2 with Membership Status 4, the capability will be "civimember_2_4".
+* Visit the plugin's admin page at "Settings" --> "CiviCRM WordPress Member Sync".
+* Select "Roles" as the sync method
+* Click on "Add Association Rule" to create a rule. You will need to create a rule for every CiviCRM membership type you would like to synchronize. For every membership type, you will need to determine the CiviMember states that define the member as "current" thereby granting them the appropriate WordPress role. It is most common to define "New", "Current" and "Grace" as current. Similarly, select which states represent the "expired" status thereby removing the WordPress role from the user. It is most common to define "Expired", "Pending", "Cancelled" and "Deceased" as the expired status. With 'roles' as your synchronization method, also set the role to be assigned if the membership has expired in "Expiry Role". This is not needed when working with Capabilities.
+* It may sometimes be necessary to manually synchronize users. Click on the "Manually Synchronize" tab on the admin page to do so. You will want to use this when you initially configure this plugin to synchronize your existing users.
+
+###### Manual Synchronize ######
+
+It may sometimes be necessary to manually synchronize users. Click on the "Manually Synchronize" tab on the admin page to do so. You will want to use this when you initially configure this plugin to synchronize your existing users.
 
 ###### Test Test Test ######
 
