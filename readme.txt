@@ -26,6 +26,10 @@ This plugin requires a minimum of *WordPress 3.9* and *CiviCRM 4.6-alpha1*. It i
 
 This plugin is in active development. For feature requests and bug reports (or if you're a plugin author and want to contribute) please visit the plugin's [GitHub repository](https://github.com/christianwach/civicrm-wp-member-sync).
 
+### Shouts Out To...
+
+This plugin builds on the [work](https://github.com/tadpolecc/civi_member_sync) done by [Tadpole Collective](https://tadpole.cc) and originally developed by [Jag Kandasamy](http://www.orangecreative.net). Kudos.
+
 
 
 == Installation ==
