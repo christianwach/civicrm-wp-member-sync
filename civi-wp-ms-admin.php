@@ -147,6 +147,9 @@ class Civi_WP_Member_Sync_Admin {
 
 		}
 
+		// test for "Groups" plugin on init
+		add_action( 'init', array( $this, 'groups_plugin_hooks' ) );
+
 	}
 
 
@@ -1594,6 +1597,153 @@ class Civi_WP_Member_Sync_Admin {
 
 		// --<
 		return false;
+
+	}
+
+
+
+	//##########################################################################
+
+
+
+	/**
+	 * Register "Groups" plugin hooks if it's present
+	 *
+	 * @return void
+	 */
+	public function groups_plugin_hooks() {
+
+		// bail if we don't have the "Groups" plugin
+		if ( ! defined( 'GROUPS_CORE_VERSION' ) ) return;
+
+		// hook into rule add
+		add_action( 'civi_wp_member_sync_rule_add_capabilities', array( $this, 'groups_add_cap' ) );
+
+		// hook into rule edit
+		add_action( 'civi_wp_member_sync_rule_edit_capabilities', array( $this, 'groups_edit_cap' ) );
+
+		// hook into rule delete
+		add_action( 'civi_wp_member_sync_rule_delete_capabilities', array( $this, 'groups_delete_cap' ) );
+
+	}
+
+
+
+	/**
+	 * When an association rule is created, add capability to "Groups" plugin
+	 *
+	 * @param array $data The association rule data
+	 * @return void
+	 */
+	public function groups_add_cap( $data ) {
+
+		// add it as "read post" capability
+		$this->groups_read_cap_add( $data['capability'] );
+
+		// get existing capability
+		$capability = Groups_Capability::read_by_capability( $data['capability'] );
+
+		// bail if it already exists
+		if ( false !== $capability ) return;
+
+		// create a new capability
+		$capability_id = Groups_Capability::create( array( 'capability' => $data['capability'] ) );
+
+	}
+
+
+
+	/**
+	 * When an association rule is edited, edit capability in "Groups" plugin
+	 *
+	 * @param array $data The association rule data
+	 * @return void
+	 */
+	public function groups_edit_cap( $data ) {
+
+		// same as add
+		$this->groups_add_cap( $data );
+
+	}
+
+
+
+	/**
+	 * When an association rule is deleted, delete capability from "Groups" plugin
+	 *
+	 * @param array $data The association rule data
+	 * @return void
+	 */
+	public function groups_delete_cap( $data ) {
+
+		// delete from "read post" capabilities
+		$this->groups_read_cap_delete( $data['capability'] );
+
+		// get existing
+		$capability = Groups_Capability::read_by_capability( $data['capability'] );
+
+		// bail if it doesn't exist
+		if ( false === $capability ) return;
+
+		// delete capability
+		$capability_id = Groups_Capability::delete( $capability->capability_id );
+
+	}
+
+
+
+	/**
+	 * Add "read post" capability to "Groups" plugin
+	 *
+	 * @param array $capability The capability to add
+	 * @return void
+	 */
+	public function groups_read_cap_add( $capability ) {
+
+		// init with Groups default
+		$default_read_caps = array( Groups_Post_Access::READ_POST_CAPABILITY );
+
+		// get current
+		$current_read_caps = Groups_Options::get_option( Groups_Post_Access::READ_POST_CAPABILITIES, $default_read_caps );
+
+		// bail if we have it already
+		if ( in_array( $capability, $current_read_caps ) ) return;
+
+		// add the new capability
+		$current_read_caps[] = $capability;
+
+		// resave option
+		Groups_Options::update_option( Groups_Post_Access::READ_POST_CAPABILITIES, $current_read_caps );
+
+	}
+
+
+
+	/**
+	 * Delete "read post" capability from "Groups" plugin
+	 *
+	 * @param array $capability The capability to delete
+	 * @return void
+	 */
+	public function groups_read_cap_delete( $capability ) {
+
+		// init with Groups default
+		$default_read_caps = array( Groups_Post_Access::READ_POST_CAPABILITY );
+
+		// get current
+		$current_read_caps = Groups_Options::get_option( Groups_Post_Access::READ_POST_CAPABILITIES, $default_read_caps );
+
+		// get key if capability is present
+		$key = array_search( $capability, $current_read_caps );
+
+		// bail if we don't have it
+		if ( $key === false ) return;
+
+		// delete the capability
+		unset( $current_read_caps[$key] );
+
+		// resave option
+		Groups_Options::update_option( Groups_Post_Access::READ_POST_CAPABILITIES, $current_read_caps );
 
 	}
 
