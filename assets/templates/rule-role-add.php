@@ -52,9 +52,9 @@
 			</tr>
 
 			<tr class="form-field form-required">
-				<th scope="row"><label class="wp_role_label" for="wp_role"><?php _e( 'Select a WordPress Role', 'civi-wp-member-sync' ); ?> *</label></th>
+				<th scope="row"><label class="wp_role_label" for="current_wp_role"><?php _e( 'Select a WordPress Role', 'civi-wp-member-sync' ); ?> *</label></th>
 				<td>
-					<select name="wp_role" id="wp_role" class="required required-role">
+					<select name="current_wp_role" id="current_wp_role" class="required required-role">
 						<option value=""></option>
 						<?php foreach( $roles as $key => $value ) { ?>
 							<option value="<?php echo $key; ?>"><?php echo $value; ?></option>
