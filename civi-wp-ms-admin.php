@@ -825,7 +825,7 @@ class Civi_WP_Member_Sync_Admin {
 			check_admin_referer( 'civi_wp_member_sync_manual_sync_action', 'civi_wp_member_sync_nonce' );
 
 			// pass on
-			$result = $this->members->sync_all();
+			$result = $this->parent_obj->members->sync_all();
 
 		}
 
