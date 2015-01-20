@@ -1553,6 +1553,9 @@ class Civi_WP_Member_Sync_Admin {
 			// remove capability
 			$this->parent_obj->users->wp_cap_remove( $user, $capability );
 
+			// remove status capability
+			$this->parent_obj->users->wp_cap_remove_status( $user, $capability );
+
 			// do we have the "Members" plugin?
 			if ( defined( 'MEMBERS_VERSION' ) ) {
 
