@@ -827,8 +827,14 @@ class Civi_WP_Member_Sync_Admin {
 			// check that we trust the source of the request
 			check_admin_referer( 'civi_wp_member_sync_manual_sync_action', 'civi_wp_member_sync_nonce' );
 
+			// before we sync all, broadcast that we're going to
+			do_action( 'civi_wp_member_sync_pre_sync_all' );
+
 			// pass on
 			$result = $this->parent_obj->members->sync_all();
+
+			// and again, now that we're done
+			do_action( 'civi_wp_member_sync_after_sync_all' );
 
 		}
 
@@ -1625,6 +1631,9 @@ class Civi_WP_Member_Sync_Admin {
 		// hook into rule delete
 		add_action( 'civi_wp_member_sync_rule_delete_capabilities', array( $this, 'groups_delete_cap' ) );
 
+		// hook into manual sync process, before sync
+		add_action( 'civi_wp_member_sync_pre_sync_all', array( $this, 'groups_pre_sync' ) );
+
 	}
 
 
@@ -1744,6 +1753,37 @@ class Civi_WP_Member_Sync_Admin {
 
 		// resave option
 		Groups_Options::update_option( Groups_Post_Access::READ_POST_CAPABILITIES, $current_read_caps );
+
+	}
+
+
+
+	/**
+	 * Before a manual sync, make sure "Groups" plugin is in sync
+	 *
+	 * @return void
+	 */
+	public function groups_pre_sync() {
+
+		// get sync method and sanitize
+		$method = $this->setting_get( 'method' );
+		$method = ( $method == 'roles' ) ? 'roles' : 'capabilities';
+
+		// bail if we're not syncing capabilities
+		if ( $method != 'capabilities' ) return;
+
+		// get rules
+		$rules = $this->rules_get_by_method( $method );
+
+		// if we get some...
+		if ( $rules !== false AND is_array( $rules ) AND count( $rules ) > 0 ) {
+
+			// add capability to "Groups" plugin if not already present
+			foreach( $rules AS $rule ) {
+				$this->groups_add_cap( $rule );
+			}
+
+		}
 
 	}
 
