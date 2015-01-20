@@ -1247,6 +1247,18 @@ class Civi_WP_Member_Sync_Admin {
 
 			}
 
+			/**
+			 * Broadcast our association rule. This creates four possible actions:
+			 *
+			 * civi_wp_member_sync_rule_add_roles
+			 * civi_wp_member_sync_rule_add_capabilities
+			 * civi_wp_member_sync_rule_edit_roles
+			 * civi_wp_member_sync_rule_edit_capabilities
+			 *
+			 * @param array The new or updated association rule
+			 */
+			do_action( 'civi_wp_member_sync_rule_'. $mode . '_' . $method, $data[$method][$civi_member_type_id] );
+
 			/*
 			print_r( array(
 				'POST' => $_POST,
@@ -1322,6 +1334,17 @@ class Civi_WP_Member_Sync_Admin {
 		// sanity check
 		if ( ! $subset ) return;
 		if ( ! isset( $subset[$type_id] ) ) return;
+
+		/**
+		 * Broadcast that we're deleting an association rule. This creates two
+		 * actions, depending on the sync method:
+		 *
+		 * civi_wp_member_sync_rule_delete_roles
+		 * civi_wp_member_sync_rule_delete_capabilities
+		 *
+		 * @param array The association rule we're going to delete
+		 */
+		do_action( 'civi_wp_member_sync_rule_delete_' . $method, $subset[$type_id] );
 
 		// delete it
 		unset( $subset[$type_id] );
