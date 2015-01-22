@@ -110,7 +110,7 @@ class Civi_WP_Member_Sync_Members {
 		foreach( $users AS $user ) {
 
 			// skip if we don't have a valid user
-			if ( ! is_a( $user, 'WP_User' ) ) { continue; }
+			if ( ! ( $user instanceof 'WP_User' ) ) { continue; }
 			if ( ! $user->exists() ) { continue; }
 
 			// call login method
@@ -150,7 +150,7 @@ class Civi_WP_Member_Sync_Members {
 	public function sync_to_user( $user_login, $user ) {
 
 		// kick out if we don't receive a valid user
-		if ( ! is_a( $user, 'WP_User' ) ) return;
+		if ( ! ( $user instanceof 'WP_User' ) ) return;
 		if ( ! $user->exists() ) return;
 
 		// exclude admins
@@ -236,7 +236,7 @@ class Civi_WP_Member_Sync_Members {
 		$user = $this->parent_obj->users->wp_user_get_by_civi_id( $objectRef->contact_id );
 
 		// if we don't receive a valid user
-		if ( ! is_a( $user, 'WP_User' ) ) {
+		if ( ! ( $user instanceof 'WP_User' ) ) {
 
 			// allow plugins to override this step with a filter
 			if ( true === apply_filters( 'civi_wp_member_sync_auto_create_wp_user', true ) ) {
@@ -251,7 +251,7 @@ class Civi_WP_Member_Sync_Members {
 				$user = $this->parent_obj->users->wp_create_user( $civi_contact );
 
 				// bail if something goes wrong
-				if ( ! is_a( $user, 'WP_User' ) ) return;
+				if ( ! ( $user instanceof 'WP_User' ) ) return;
 
 			} else {
 

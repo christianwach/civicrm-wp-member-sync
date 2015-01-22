@@ -62,7 +62,7 @@ class Civi_WP_Member_Sync_Users {
 	public function wp_role_get( $user ) {
 
 		// kick out if we don't receive a valid user
-		if ( ! is_a( $user, 'WP_User' ) ) return false;
+		if ( ! ( $user instanceof 'WP_User' ) ) return false;
 
 		// only build role names array once, since this is called by the sync routine
 		if ( ! isset( $this->role_names ) ) {
@@ -101,7 +101,7 @@ class Civi_WP_Member_Sync_Users {
 	public function wp_role_set( $user, $old_role, $new_role ) {
 
 		// kick out if we don't receive a valid user
-		if ( ! is_a( $user, 'WP_User' ) ) return;
+		if ( ! ( $user instanceof 'WP_User' ) ) return;
 
 		// sanity check params
 		if ( empty( $old_role ) ) return;
@@ -210,7 +210,7 @@ class Civi_WP_Member_Sync_Users {
 	public function wp_cap_add( $user, $capability ) {
 
 		// kick out if we don't receive a valid user
-		if ( ! is_a( $user, 'WP_User' ) ) return;
+		if ( ! ( $user instanceof 'WP_User' ) ) return;
 
 		// sanity check params
 		if ( empty( $capability ) ) return;
@@ -237,7 +237,7 @@ class Civi_WP_Member_Sync_Users {
 	public function wp_cap_remove( $user, $capability ) {
 
 		// kick out if we don't receive a valid user
-		if ( ! is_a( $user, 'WP_User' ) ) return;
+		if ( ! ( $user instanceof 'WP_User' ) ) return;
 
 		// sanity check params
 		if ( empty( $capability ) ) return;
@@ -265,7 +265,7 @@ class Civi_WP_Member_Sync_Users {
 	public function wp_cap_remove_status( $user, $capability ) {
 
 		// kick out if we don't receive a valid user
-		if ( ! is_a( $user, 'WP_User' ) ) return;
+		if ( ! ( $user instanceof 'WP_User' ) ) return;
 
 		// sanity check params
 		if ( empty( $capability ) ) return;

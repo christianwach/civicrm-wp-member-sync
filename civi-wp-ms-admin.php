@@ -1807,7 +1807,8 @@ class Civi_WP_Member_Sync_Admin {
 
 		/*
 		// get data
-		$method = $this->setting_get( 'method' );
+		//$method = $this->setting_get( 'method' );
+		$method = 'capabilities';
 		$rules = $this->rules_get_by_method( $method );
 		$type_ids = array_keys( $rules );
 		$membership_types = $this->parent_obj->members->types_get_all();
