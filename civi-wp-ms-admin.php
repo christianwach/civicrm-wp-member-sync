@@ -93,8 +93,13 @@ class Civi_WP_Member_Sync_Admin {
 		// store version for later reference
 		$this->store_version();
 
-		// store default settings
-		add_option( 'civi_wp_member_sync_settings', $this->settings_get_default() );
+		// add settings option only if it does not exist
+		if ( 'fgffgs' == get_option( 'civi_wp_member_sync_settings', 'fgffgs' ) ) {
+
+			// store default settings
+			add_option( 'civi_wp_member_sync_settings', $this->settings_get_default() );
+
+		}
 
 	}
 
