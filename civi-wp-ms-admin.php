@@ -22,6 +22,7 @@ class Civi_WP_Member_Sync_Admin {
 	public $migrate;
 
 	// admin pages
+	public $parent_page;
 	public $settings_page;
 	public $sync_page;
 	public $rules_list_page;
@@ -194,35 +195,50 @@ class Civi_WP_Member_Sync_Admin {
 		if ( is_multisite() ) {
 
 			// add settings page to the Network Settings menu
-			$this->settings_page = add_submenu_page(
+			$this->parent_page = add_submenu_page(
 				'settings.php',
-				__( 'CiviCRM WordPress Member Sync Settings', 'civicrm-wp-member-sync' ), // page title
+				__( 'CiviCRM WordPress Member Sync: Settings', 'civicrm-wp-member-sync' ), // page title
 				__( 'CiviCRM WordPress Member Sync', 'civicrm-wp-member-sync' ), // menu title
 				'manage_options', // required caps
-				'civi_wp_member_sync_settings', // slug name
+				'civi_wp_member_sync_parent', // slug name
 				array( $this, 'page_settings' ) // callback
 			);
 
 		} else {
 
 			// add the settings page to the Settings menu
-			$this->settings_page = add_options_page(
-				__( 'CiviCRM WordPress Member Sync Settings', 'civicrm-wp-member-sync' ), // page title
+			$this->parent_page = add_options_page(
+				__( 'CiviCRM WordPress Member Sync: Settings', 'civicrm-wp-member-sync' ), // page title
 				__( 'CiviCRM WordPress Member Sync', 'civicrm-wp-member-sync' ), // menu title
 				'manage_options', // required caps
-				'civi_wp_member_sync_settings', // slug name
+				'civi_wp_member_sync_parent', // slug name
 				array( $this, 'page_settings' ) // callback
 			);
 
 		}
 
 		// add scripts and styles
+		add_action( 'admin_print_styles-'.$this->parent_page, array( $this, 'admin_css' ) );
+		add_action( 'admin_head-'.$this->parent_page, array( $this, 'admin_head' ), 50 );
+
+		// add settings page
+		$this->settings_page = add_submenu_page(
+			'civi_wp_member_sync_parent', // parent slug
+			__( 'CiviCRM WordPress Member Sync: Settings', 'civicrm-wp-member-sync' ), // page title
+			__( 'Settings', 'civicrm-wp-member-sync' ), // menu title
+			'manage_options', // required caps
+			'civi_wp_member_sync_settings', // slug name
+			array( $this, 'page_settings' ) // callback
+		);
+
+		// add scripts and styles
 		add_action( 'admin_print_styles-'.$this->settings_page, array( $this, 'admin_css' ) );
 		add_action( 'admin_head-'.$this->settings_page, array( $this, 'admin_head' ), 50 );
+		add_action( 'admin_head-'.$this->settings_page, array( $this, 'admin_menu_highlight' ), 50 );
 
 		// add manual sync page
 		$this->sync_page = add_submenu_page(
-			'civi_wp_member_sync_settings', // parent slug
+			'civi_wp_member_sync_parent', // parent slug
 			__( 'CiviCRM WordPress Member Sync: Manual Sync', 'civicrm-wp-member-sync' ), // page title
 			__( 'Manual Sync', 'civicrm-wp-member-sync' ), // menu title
 			'manage_options', // required caps
@@ -233,10 +249,11 @@ class Civi_WP_Member_Sync_Admin {
 		// add scripts and styles
 		add_action( 'admin_print_styles-'.$this->sync_page, array( $this, 'admin_css' ) );
 		add_action( 'admin_head-'.$this->sync_page, array( $this, 'admin_head' ), 50 );
+		add_action( 'admin_head-'.$this->sync_page, array( $this, 'admin_menu_highlight' ), 50 );
 
 		// add rules listing page
 		$this->rules_list_page = add_submenu_page(
-			'civi_wp_member_sync_settings', // parent slug
+			'civi_wp_member_sync_parent', // parent slug
 			__( 'CiviCRM WordPress Member Sync: List Rules', 'civicrm-wp-member-sync' ), // page title
 			__( 'List Rules', 'civicrm-wp-member-sync' ), // menu title
 			'manage_options', // required caps
@@ -247,10 +264,11 @@ class Civi_WP_Member_Sync_Admin {
 		// add scripts and styles
 		add_action( 'admin_print_styles-'.$this->rules_list_page, array( $this, 'admin_css' ) );
 		add_action( 'admin_head-'.$this->rules_list_page, array( $this, 'admin_head' ), 50 );
+		add_action( 'admin_head-'.$this->rules_list_page, array( $this, 'admin_menu_highlight' ), 50 );
 
 		// add rules page
 		$this->rule_add_edit_page = add_submenu_page(
-			'civi_wp_member_sync_settings', // parent slug
+			'civi_wp_member_sync_parent', // parent slug
 			__( 'CiviCRM WordPress Member Sync: Association Rule', 'civicrm-wp-member-sync' ), // page title
 			__( 'Association Rule', 'civicrm-wp-member-sync' ), // menu title
 			'manage_options', // required caps
@@ -262,9 +280,40 @@ class Civi_WP_Member_Sync_Admin {
 		add_action( 'admin_print_scripts-'.$this->rule_add_edit_page, array( $this, 'admin_js' ) );
 		add_action( 'admin_print_styles-'.$this->rule_add_edit_page, array( $this, 'admin_css' ) );
 		add_action( 'admin_head-'.$this->rule_add_edit_page, array( $this, 'admin_head' ), 50 );
+		add_action( 'admin_head-'.$this->rule_add_edit_page, array( $this, 'admin_menu_highlight' ), 50 );
 
 		// try and update options
 		$saved = $this->settings_update_router();
+
+	}
+
+
+
+	/**
+	 * This tells WP to highlight the plugin's menu item, regardless of which
+	 * actual admin screen we are on.
+	 *
+	 * @global string $plugin_page
+	 * @global array $submenu
+	 */
+	public function admin_menu_highlight() {
+
+		global $plugin_page, $submenu_file;
+		//print_r( array( $plugin_page, $submenu_file ) ); die();
+
+		// define subpages
+		$subpages = array(
+		 	'civi_wp_member_sync_settings',
+		 	'civi_wp_member_sync_manual_sync',
+		 	'civi_wp_member_sync_list',
+		 	'civi_wp_member_sync_rules',
+		 );
+
+		// This tweaks the Settings subnav menu to show only one menu item
+		if ( in_array( $plugin_page, $subpages ) ) {
+			$plugin_page = 'civi_wp_member_sync_parent';
+			$submenu_file = 'civi_wp_member_sync_parent';
+		}
 
 	}
 
