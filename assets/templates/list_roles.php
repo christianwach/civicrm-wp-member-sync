@@ -4,18 +4,18 @@
 <div class="wrap">
 
 	<h2 class="nav-tab-wrapper">
-		<a href="<?php echo $urls['settings']; ?>" class="nav-tab"><?php _e( 'Settings', 'civi-wp-member-sync' ); ?></a>
-		<a href="<?php echo $urls['list']; ?>" class="nav-tab nav-tab-active"><?php _e( 'Association Rules', 'civi-wp-member-sync' ); ?></a>
-		<a href="<?php echo $urls['manual_sync']; ?>" class="nav-tab"><?php _e( 'Manual Synchronize', 'civi-wp-member-sync' ); ?></a>
+		<a href="<?php echo $urls['settings']; ?>" class="nav-tab"><?php _e( 'Settings', 'civicrm-wp-member-sync' ); ?></a>
+		<a href="<?php echo $urls['list']; ?>" class="nav-tab nav-tab-active"><?php _e( 'Association Rules', 'civicrm-wp-member-sync' ); ?></a>
+		<a href="<?php echo $urls['manual_sync']; ?>" class="nav-tab"><?php _e( 'Manual Synchronize', 'civicrm-wp-member-sync' ); ?></a>
 	</h2>
 
-	<h3><?php _e( 'All Association Rules', 'civi-wp-member-sync' ); ?><?php
+	<h3><?php _e( 'All Association Rules', 'civicrm-wp-member-sync' ); ?><?php
 
 		// if we don't have all our Membership Types populated...
 		if ( !$have_all_types ) {
 
 			// show the 'Add New' button
-			?> <a class="add-new-h2" href="<?php echo $urls['rules']; ?>"><?php _e( 'Add New', 'civi-wp-member-sync' ); ?></a><?php
+			?> <a class="add-new-h2" href="<?php echo $urls['rules']; ?>"><?php _e( 'Add New', 'civicrm-wp-member-sync' ); ?></a><?php
 
 		}
 
@@ -30,13 +30,13 @@
 		// switch message based on result
 		switch( $_GET['syncrule'] ) {
 			case 'edit':
-				_e( 'Association Rule updated.', 'civi-wp-member-sync' );
+				_e( 'Association Rule updated.', 'civicrm-wp-member-sync' );
 				break;
 			case 'add':
-				_e( 'Association Rule added.', 'civi-wp-member-sync' );
+				_e( 'Association Rule added.', 'civicrm-wp-member-sync' );
 				break;
 			case 'delete':
-				_e( 'Association Rule deleted.', 'civi-wp-member-sync' );
+				_e( 'Association Rule deleted.', 'civicrm-wp-member-sync' );
 				break;
 		}
 
@@ -65,11 +65,11 @@
 
 		<thead>
 			<tr>
-				<th class="manage-column column-role" id="civi_member_type_id" scope="col"><?php _e( 'CiviCRM Membership Type', 'civi-wp-member-sync' ); ?></th>
-				<th class="manage-column column-role" id="current_rule" scope="col"><?php _e( 'Current Member Codes', 'civi-wp-member-sync' ); ?></th>
-				<th class="manage-column column-role" id="wp_mem_role" scope="col"><?php _e( 'Current WP Role', 'civi-wp-member-sync' ); ?></th>
-				<th class="manage-column column-role" id="expiry_rule" scope="col"><?php _e( 'Expired Member Codes', 'civi-wp-member-sync' ); ?></th>
-				<th class="manage-column column-role" id="expired_wp_role" scope="col"><?php _e( 'Expiry WP Role', 'civi-wp-member-sync' ); ?></th>
+				<th class="manage-column column-role" id="civi_member_type_id" scope="col"><?php _e( 'CiviCRM Membership Type', 'civicrm-wp-member-sync' ); ?></th>
+				<th class="manage-column column-role" id="current_rule" scope="col"><?php _e( 'Current Member Codes', 'civicrm-wp-member-sync' ); ?></th>
+				<th class="manage-column column-role" id="wp_mem_role" scope="col"><?php _e( 'Current WP Role', 'civicrm-wp-member-sync' ); ?></th>
+				<th class="manage-column column-role" id="expiry_rule" scope="col"><?php _e( 'Expired Member Codes', 'civicrm-wp-member-sync' ); ?></th>
+				<th class="manage-column column-role" id="expired_wp_role" scope="col"><?php _e( 'Expiry WP Role', 'civicrm-wp-member-sync' ); ?></th>
 			</tr>
 		</thead>
 
@@ -92,8 +92,8 @@
 					<td>
 						<?php echo $this->parent_obj->members->membership_name_get_by_id( $key ); ?><br />
 						<div class="row-actions">
-							<span class="edit"><a href="<?php echo $edit_url; ?>"><?php _e( 'Edit', 'civi-wp-member-sync' ); ?></a> | </span>
-							<span class="delete"><a href="<?php echo $delete_url; ?>" class="submitdelete"><?php _e( 'Delete', 'civi-wp-member-sync' );?></a></span>
+							<span class="edit"><a href="<?php echo $edit_url; ?>"><?php _e( 'Edit', 'civicrm-wp-member-sync' ); ?></a> | </span>
+							<span class="delete"><a href="<?php echo $delete_url; ?>" class="submitdelete"><?php _e( 'Delete', 'civicrm-wp-member-sync' );?></a></span>
 						</div>
 					</td>
 					<td><?php echo $this->parent_obj->members->status_rules_get_current( $item['current_rule'] ); ?></td>
