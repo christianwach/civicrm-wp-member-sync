@@ -311,21 +311,8 @@ class Civi_WP_Member_Sync_Users {
 			// construct membership status capability name
 			$capability_status = $capability . '_' . $status_id;
 
-			// does this user have that capability?
-			if ( $user->has_cap( $capability_status ) ) {
-
-				// yes, remove it
-				$user->remove_cap( $capability_status );
-
-				/**
-				 * Let other plugins know that a capability has been removed from a user
-				 *
-				 * @param object $user The WordPress user object
-				 * @param string $capability The name of the capability
-				 */
-				do_action( 'civi_wp_member_sync_remove_cap', $user, $capability_status );
-
-			}
+			// use local remove method
+			$this->wp_cap_remove( $user, $capability_status );
 
 		}
 
