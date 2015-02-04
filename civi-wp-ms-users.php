@@ -116,6 +116,15 @@ class Civi_WP_Member_Sync_Users {
 		// add new role
 		$user->add_role( $new_role );
 
+		/**
+		 * Let other plugins know that a user's role has been changed
+		 *
+		 * @param object $user The WordPress user object
+		 * @param string $new_role The new role that the user has
+		 * @param string $old_role The role that the user had before
+		 */
+		do_action( 'civi_wp_member_sync_set_role', $user, $new_role, $old_role );
+
 	}
 
 
@@ -221,6 +230,14 @@ class Civi_WP_Member_Sync_Users {
 			// no, add it
 			$user->add_cap( $capability );
 
+			/**
+			 * Let other plugins know that a capability has been added to a user
+			 *
+			 * @param object $user The WordPress user object
+			 * @param string $capability The name of the capability
+			 */
+			do_action( 'civi_wp_member_sync_add_cap', $user, $capability );
+
 		}
 
 	}
@@ -247,6 +264,14 @@ class Civi_WP_Member_Sync_Users {
 
 			// yes, remove it
 			$user->remove_cap( $capability );
+
+			/**
+			 * Let other plugins know that a capability has been removed from a user
+			 *
+			 * @param object $user The WordPress user object
+			 * @param string $capability The name of the capability
+			 */
+			do_action( 'civi_wp_member_sync_remove_cap', $user, $capability );
 
 		}
 
@@ -291,6 +316,14 @@ class Civi_WP_Member_Sync_Users {
 
 				// yes, remove it
 				$user->remove_cap( $capability_status );
+
+				/**
+				 * Let other plugins know that a capability has been removed from a user
+				 *
+				 * @param object $user The WordPress user object
+				 * @param string $capability The name of the capability
+				 */
+				do_action( 'civi_wp_member_sync_remove_cap', $user, $capability_status );
 
 			}
 
@@ -545,6 +578,11 @@ class Civi_WP_Member_Sync_Users {
 			remove_action( 'profile_update', array( $civicrm_wp_profile_sync, 'wordpress_contact_updated' ), 100 );
 		}
 
+		/**
+		 * Let other plugins know that we're removing user actions
+		 */
+		do_action( 'civi_wp_member_sync_remove_filters' );
+
 	}
 
 
@@ -566,6 +604,11 @@ class Civi_WP_Member_Sync_Users {
 			add_action( 'user_register', array( $civicrm_wp_profile_sync, 'wordpress_contact_updated' ), 100, 1 );
 			add_action( 'profile_update', array( $civicrm_wp_profile_sync, 'wordpress_contact_updated' ), 100, 1 );
 		}
+
+		/**
+		 * Let other plugins know that we're adding user actions
+		 */
+		do_action( 'civi_wp_member_sync_add_filters' );
 
 	}
 
