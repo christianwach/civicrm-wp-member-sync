@@ -554,9 +554,23 @@ class Civi_WP_Member_Sync_Users {
 	 */
 	private function remove_filters() {
 
-		// remove Civi plugin filters
-		remove_action( 'user_register', array( civi_wp()->users, 'update_user' ) );
-		remove_action( 'profile_update', array( civi_wp()->users, 'update_user' ) );
+		// get Civi instance
+		$civi = civi_wp();
+
+		// do we have the old-style plugin structure?
+		if ( method_exists( $civi, 'update_user' ) ) {
+
+			// remove previous Civi plugin filters
+			remove_action( 'user_register', array( civi_wp(), 'update_user' ) );
+			remove_action( 'profile_update', array( civi_wp(), 'update_user' ) );
+
+		} else {
+
+			// remove current Civi plugin filters
+			remove_action( 'user_register', array( civi_wp()->users, 'update_user' ) );
+			remove_action( 'profile_update', array( civi_wp()->users, 'update_user' ) );
+
+		}
 
 		// remove CiviCRM WordPress Profile Sync filters
 		global $civicrm_wp_profile_sync;
@@ -581,9 +595,23 @@ class Civi_WP_Member_Sync_Users {
 	 */
 	private function add_filters() {
 
-		// re-add Civi plugin filters
-		add_action( 'user_register', array( civi_wp()->users, 'update_user' ) );
-		add_action( 'profile_update', array( civi_wp()->users, 'update_user' ) );
+		// get Civi instance
+		$civi = civi_wp();
+
+		// do we have the old-style plugin structure?
+		if ( method_exists( $civi, 'update_user' ) ) {
+
+			// re-add previous Civi plugin filters
+			add_action( 'user_register', array( civi_wp(), 'update_user' ) );
+			add_action( 'profile_update', array( civi_wp(), 'update_user' ) );
+
+		} else {
+
+			// re-add current Civi plugin filters
+			add_action( 'user_register', array( civi_wp()->users, 'update_user' ) );
+			add_action( 'profile_update', array( civi_wp()->users, 'update_user' ) );
+
+		}
 
 		// re-add CiviCRM WordPress Profile Sync filters
 		global $civicrm_wp_profile_sync;
