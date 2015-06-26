@@ -3,8 +3,8 @@ Contributors: needle, cuny-academic-commons
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=PZSKM8T5ZP3SC
 Tags: civicrm, member, membership, sync
 Requires at least: 3.9
-Tested up to: 4.1
-Stable tag: 0.2.4
+Tested up to: 4.2
+Stable tag: 0.2.5
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -20,7 +20,7 @@ This enables you to have, among other things, members-only content on your websi
 
 ### Requirements
 
-This plugin requires a minimum of *WordPress 3.9* and *CiviCRM 4.6-alpha1*. It is compatible with the [Members](https://wordpress.org/plugins/members/) plugin. Please refer to the Installation page for configuration instructions as well as for how to use this plugin with versions of CiviCRM prior to 4.6-alpha1.
+This plugin requires a minimum of *WordPress 3.9* and *CiviCRM 4.6*. It is compatible with the [Members](https://wordpress.org/plugins/members/) and [Groups](https://wordpress.org/plugins/groups/) plugins. Please refer to the Installation page for configuration instructions as well as for how to use this plugin with versions of CiviCRM prior to 4.6.
 
 ### Plugin Development
 
@@ -39,7 +39,7 @@ This plugin builds on the [work](https://github.com/tadpolecc/civi_member_sync) 
 1. Make sure CiviCRM is activated and properly configured
 1. Activate the plugin through the 'Plugins' menu in WordPress
 
-This plugin requires a minimum of *WordPress 3.9* and *CiviCRM 4.6-alpha1*. For versions of CiviCRM prior to 4.6-alpha1, this plugin requires the corresponding branch of the [CiviCRM WordPress plugin](https://github.com/civicrm/civicrm-wordpress) plus the custom WordPress.php hook file from the [CiviCRM Hook Tester repo on GitHub](https://github.com/christianwach/civicrm-wp-hook-tester) so that it overrides the built-in CiviCRM file. Please refer to the each repo for further instructions.
+This plugin requires a minimum of *WordPress 3.9* and *CiviCRM 4.6*. For versions of CiviCRM prior to 4.6, this plugin requires the corresponding branch of the [CiviCRM WordPress plugin](https://github.com/civicrm/civicrm-wordpress) plus the custom WordPress.php hook file from the [CiviCRM Hook Tester repo on GitHub](https://github.com/christianwach/civicrm-wp-hook-tester) so that it overrides the built-in CiviCRM file. Please refer to the each repo for further instructions.
 
 The first thing to decide is whether you want CiviCRM WordPress Member Sync to synchronize CiviCRM Memberships to WordPress Roles or WordPress Capabilities. If, for example, you need your WordPress user roles to be independent of membership status, then choose Capabilities. The default synchronisation method is Capabilities, because WordPress has limited support for multiple roles.
 
@@ -71,6 +71,10 @@ It may sometimes be necessary to manually synchronize users. Click on the "Manua
 
 
 == Changelog ==
+
+= 0.2.5 =
+
+* Updates compatibility with Civi plugin
 
 = 0.2.4 =
 
