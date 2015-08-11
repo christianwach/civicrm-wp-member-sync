@@ -141,6 +141,33 @@ class Civi_WP_Member_Sync_Members {
 
 
 	/**
+	 * Check if a user's membership should by synced
+	 *
+	 * @param object $user The WordPress user object
+	 * @return bool $should_be_synced Whether or not the user should be synced
+	 */
+	public function user_should_be_synced( $user ) {
+
+		// kick out if we don't receive a valid user
+		if ( ! ( $user instanceof WP_User ) ) return false;
+		if ( ! $user->exists() ) return false;
+
+		// assume user should be synced
+		$should_be_synced = true;
+
+		// exclude admins by default
+		if ( is_super_admin( $user->ID ) OR $user->has_cap( 'delete_users' ) ) {
+			$should_be_synced = false;
+		}
+
+		// return result but allow filtering by other plugins
+		return apply_filters( 'civi_wp_member_sync_user_should_be_synced', $should_be_synced, $user );
+
+	}
+
+
+
+	/**
 	 * Sync a user's role based on their membership record
 	 *
 	 * @param string $user_login Logged in user's username
@@ -149,12 +176,8 @@ class Civi_WP_Member_Sync_Members {
 	 */
 	public function sync_to_user( $user_login, $user ) {
 
-		// kick out if we don't receive a valid user
-		if ( ! ( $user instanceof WP_User ) ) return;
-		if ( ! $user->exists() ) return;
-
-		// exclude admins
-		if ( is_super_admin( $user->ID ) OR $user->has_cap( 'delete_users' ) ) return;
+		// should this user be synced?
+		if ( ! $this->user_should_be_synced( $user ) ) return;
 
 		// get Civi contact ID
 		$civi_contact_id = $this->parent_obj->users->civi_contact_id_get( $user );
@@ -262,8 +285,8 @@ class Civi_WP_Member_Sync_Members {
 
 		}
 
-		// exclude admins
-		if ( is_super_admin( $user->ID ) OR $user->has_cap( 'delete_users' ) ) return;
+		// should this user be synced?
+		if ( ! $this->user_should_be_synced( $user ) ) return;
 
 		// catch create and edit operations
 		if ( $op == 'edit' OR $op == 'create' ) {
