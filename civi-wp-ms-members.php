@@ -250,7 +250,7 @@ class Civi_WP_Member_Sync_Members {
 		*/
 
 		// kick out if not membership object
-		if ( ! is_a( $objectRef, 'CRM_Member_BAO_Membership' ) ) return;
+		if ( ! ( $objectRef instanceof CRM_Member_BAO_Membership ) ) return;
 
 		// kick out if we don't have a contact ID
 		if ( ! isset( $objectRef->contact_id ) ) return;
@@ -339,7 +339,7 @@ class Civi_WP_Member_Sync_Members {
 		*/
 
 		// kick out if not membership form
-		if ( ! is_a( $form, 'CRM_Member_Form_Membership' ) ) return;
+		if ( ! ( $form instanceof CRM_Member_Form_Membership ) ) return;
 
 	}
 
