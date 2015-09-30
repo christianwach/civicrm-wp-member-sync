@@ -1688,6 +1688,9 @@ class Civi_WP_Member_Sync_Admin {
 		// hook into manual sync process, before sync
 		add_action( 'civi_wp_member_sync_pre_sync_all', array( $this, 'groups_pre_sync' ) );
 
+		// hook into save post and auto-restrict (DISABLED)
+		//add_action( 'save_post', array( $this, 'groups_intercept_save_post' ), 1, 2 );
+
 	}
 
 
@@ -1836,6 +1839,38 @@ class Civi_WP_Member_Sync_Admin {
 			foreach( $rules AS $rule ) {
 				$this->groups_add_cap( $rule );
 			}
+
+		}
+
+	}
+
+
+
+	/**
+	 * Auto-restrict a post based on the post type.
+	 *
+	 * This is a placeholder in case we want to extend this plugin to handle
+	 * automatic content restriction.
+	 *
+	 * @param int $post_id The numeric ID of the post
+	 * @param object $post The WordPress post object
+	 * @return void
+	 */
+	public function groups_intercept_save_post( $post_id, $post ) {
+
+		// bail if something went wrong
+		if( ! is_object( $post ) OR ! isset( $post->post_type ) ) return;
+
+		// do different things based on the post type
+		switch($post->post_type) {
+
+			case 'post':
+				// add your default capabilities
+				Groups_Post_Access::create( array( 'post_id'=>$post_id, 'capability'=>'Premium' ) );
+				break;
+
+			default:
+				// do other stuff
 
 		}
 
