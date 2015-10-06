@@ -22,7 +22,27 @@
 
 		<?php wp_nonce_field( 'civi_wp_member_sync_manual_sync_action', 'civi_wp_member_sync_nonce' ); ?>
 
-		<input class="button-primary" type="submit" id="civi_wp_member_sync_manual_sync_submit" name="civi_wp_member_sync_manual_sync_submit" value="<?php _e( 'Synchronize Now', 'civicrm-wp-member-sync' ); ?>" />
+		<table class="form-table">
+
+			<tr>
+				<th scope="row"><?php _e( 'Create WordPress Users', 'civicrm-wp-member-sync' ); ?></th>
+				<td>
+					<?php
+
+					// unchecked by default
+					$checked = '';
+					if ( isset( $login ) AND $login === 0 ) {
+						$checked = ' checked="checked"';
+					}
+
+					?><input type="checkbox" class="settings-checkbox" name="civi_wp_member_sync_manual_sync_create" id="civi_wp_member_sync_manual_sync_create" value="1"<?php echo $checked; ?> />
+					<label class="civi_wp_member_sync_manual_sync_label" for="civi_wp_member_sync_manual_sync_create"><?php _e( 'Create a WordPress User for each Member when one does not already exist.', 'civicrm-wp-member-sync' ); ?></label>
+				</td>
+			</tr>
+
+		</table>
+
+		<p><input class="button-primary" type="submit" id="civi_wp_member_sync_manual_sync_submit" name="civi_wp_member_sync_manual_sync_submit" value="<?php _e( 'Synchronize Now', 'civicrm-wp-member-sync' ); ?>" /></p>
 
 	</form>
 
