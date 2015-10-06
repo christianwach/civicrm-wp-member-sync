@@ -865,17 +865,17 @@ class Civi_WP_Member_Sync_Admin {
 		// init result
 		$result = false;
 
-		// was the Migrate form submitted?
+		// was the "Migrate" form submitted?
 		if( isset( $_POST[ 'civi_wp_member_sync_migrate_submit' ] ) ) {
 			$result = $this->migrate->legacy_migrate();
 		}
 
-		// was the Settings form submitted?
+		// was the "Settings" form submitted?
 		if( isset( $_POST[ 'civi_wp_member_sync_settings_submit' ] ) ) {
 			$result = $this->settings_update();
 		}
 
-		// was the Manual Sync form submitted?
+		// was the "Manual Sync" form submitted?
 		if( isset( $_POST[ 'civi_wp_member_sync_manual_sync_submit' ] ) ) {
 
 			// check that we trust the source of the request
@@ -884,7 +884,7 @@ class Civi_WP_Member_Sync_Admin {
 			// before we sync all, broadcast that we're going to
 			do_action( 'civi_wp_member_sync_pre_sync_all' );
 
-			// pass on
+			// sync all memberships for *existing* WordPress users
 			$result = $this->parent_obj->members->sync_all();
 
 			// and again, now that we're done
@@ -892,12 +892,12 @@ class Civi_WP_Member_Sync_Admin {
 
 		}
 
-		// was the Rule form submitted?
+		// was the "Rule" form submitted?
 		if( isset( $_POST[ 'civi_wp_member_sync_rules_submit' ] ) ) {
 			$result = $this->rule_update();
 		}
 
-		// was a Delete Link clicked?
+		// was a "Delete" link clicked?
 		if ( isset( $_GET['syncrule'] ) AND $_GET['syncrule'] == 'delete' ) {
 			if ( ! empty( $_GET['type_id'] ) AND is_numeric( $_GET['type_id'] ) ) {
 				$result = $this->rule_delete();
