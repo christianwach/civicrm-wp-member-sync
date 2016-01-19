@@ -88,11 +88,9 @@ class Civi_WP_Member_Sync_Schedule {
 
 			// add schedule
 			wp_schedule_event(
-
 				time(), // time when event fires
 				$interval, // event interval
 				'civi_wp_member_sync_refresh' // hook to fire
-
 			);
 
 		}
@@ -130,9 +128,6 @@ class Civi_WP_Member_Sync_Schedule {
 	 * @return void
 	 */
 	public function schedule_callback() {
-
-		// disable for now
-		return;
 
 		// call sync all method
 		$this->parent_obj->members->sync_all();
