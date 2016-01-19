@@ -7,7 +7,7 @@ Civi_WP_Member_Sync_Members Class
 
 
 /**
- * Class for encapsulating CiviMember functionality
+ * Class for encapsulating CiviMember functionality.
  */
 class Civi_WP_Member_Sync_Members {
 
@@ -23,7 +23,7 @@ class Civi_WP_Member_Sync_Members {
 
 
 	/**
-	 * Initialise this object
+	 * Initialise this object.
 	 *
 	 * @param object $parent_obj The parent object
 	 * @return object
@@ -45,7 +45,7 @@ class Civi_WP_Member_Sync_Members {
 
 
 	/**
-	 * Register hooks when CiviCRM initialises
+	 * Register hooks when CiviCRM initialises.
 	 *
 	 * @return void
 	 */
@@ -91,7 +91,7 @@ class Civi_WP_Member_Sync_Members {
 
 
 	/**
-	 * Sync all membership rules
+	 * Sync all membership rules.
 	 *
 	 * @return bool $success True if successful, false otherwise
 	 */
@@ -123,7 +123,7 @@ class Civi_WP_Member_Sync_Members {
 
 
 	/**
-	 * Check user's membership record during logout
+	 * Check user's membership record during logout.
 	 *
 	 * @return void
 	 */
@@ -141,7 +141,7 @@ class Civi_WP_Member_Sync_Members {
 
 
 	/**
-	 * Check if a user's membership should by synced
+	 * Check if a user's membership should by synced.
 	 *
 	 * @param object $user The WordPress user object
 	 * @return bool $should_be_synced Whether or not the user should be synced
@@ -168,7 +168,7 @@ class Civi_WP_Member_Sync_Members {
 
 
 	/**
-	 * Sync a user's role based on their membership record
+	 * Sync a user's role based on their membership record.
 	 *
 	 * @param string $user_login Logged in user's username
 	 * @param WP_User $user WP_User object of the logged-in user.
@@ -197,7 +197,7 @@ class Civi_WP_Member_Sync_Members {
 
 
 	/**
-	 * Update a WP user role when a CiviCRM membership is updated
+	 * Update a WP user role when a CiviCRM membership is updated.
 	 *
 	 * @param string $op the type of database operation
 	 * @param string $objectName the type of object
@@ -218,7 +218,7 @@ class Civi_WP_Member_Sync_Members {
 
 
 	/**
-	 * Update a WP user when a CiviCRM membership is updated
+	 * Update a WP user when a CiviCRM membership is updated.
 	 *
 	 * @param string $op the type of database operation
 	 * @param string $objectName the type of object
@@ -305,7 +305,7 @@ class Civi_WP_Member_Sync_Members {
 
 
 	/**
-	 * Update a WordPress user role when a CiviCRM membership is added
+	 * Update a WordPress user role when a CiviCRM membership is added.
 	 *
 	 * @param string $formName the CiviCRM form name
 	 * @param object $form the CiviCRM form object
@@ -321,7 +321,7 @@ class Civi_WP_Member_Sync_Members {
 
 
 	/**
-	 * Get membership record by CiviCRM contact ID
+	 * Get membership record by CiviCRM contact ID.
 	 *
 	 * @param int $civi_contact_id The numerical CiviCRM contact ID
 	 * @return array $membership CiviCRM formatted membership data
@@ -362,7 +362,7 @@ class Civi_WP_Member_Sync_Members {
 
 
 	/**
-	 * Get name of CiviCRM membership type by ID
+	 * Get name of CiviCRM membership type by ID.
 	 *
 	 * @param int $type_id the numeric ID of the membership type
 	 * @return string $name The name of the membership type
@@ -397,7 +397,7 @@ class Civi_WP_Member_Sync_Members {
 
 
 	/**
-	 * Get membership types
+	 * Get membership types.
 	 *
 	 * @return array $membership_type List of types, key is ID, value is name
 	 */
@@ -431,7 +431,7 @@ class Civi_WP_Member_Sync_Members {
 
 
 	/**
-	 * Get membership status rules
+	 * Get membership status rules.
 	 *
 	 * @return array $membership_status List of status rules, key is ID, value is name
 	 */
@@ -465,7 +465,7 @@ class Civi_WP_Member_Sync_Members {
 
 
 	/**
-	 * Get role/membership names
+	 * Get role/membership names.
 	 *
 	 * @param string $values Serialised array of status rule IDs
 	 * @return string $status_rules The list of status rules, one per line
@@ -494,7 +494,7 @@ class Civi_WP_Member_Sync_Members {
 
 
 	/**
-	 * Get membership status rules for a particular item
+	 * Get membership status rules for a particular item.
 	 *
 	 * @param string $values Serialised array of status rule IDs
 	 * @return array $rules_array The list of membership status rules for this item

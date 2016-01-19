@@ -7,7 +7,7 @@ Civi_WP_Member_Sync_Admin Class
 
 
 /**
- * Class for encapsulating admin functionality
+ * Class for encapsulating admin functionality.
  */
 class Civi_WP_Member_Sync_Admin {
 
@@ -43,7 +43,7 @@ class Civi_WP_Member_Sync_Admin {
 
 
 	/**
-	 * Initialise this object
+	 * Initialise this object.
 	 *
 	 * @param object $parent_obj The parent object
 	 * @return object
@@ -55,15 +55,12 @@ class Civi_WP_Member_Sync_Admin {
 
 		// define errors
 		$this->error_strings = array(
-
-			// update rules error strings
 			1 => __( 'Please select a CiviCRM Membership Type', 'civicrm-wp-member-sync' ),
 			2 => __( 'Please select a WordPress Role', 'civicrm-wp-member-sync' ),
 			3 => __( 'Please select a Current Status', 'civicrm-wp-member-sync' ),
 			4 => __( 'Please select an Expire Status', 'civicrm-wp-member-sync' ),
 			5 => __( 'Please select a WordPress Expiry Role', 'civicrm-wp-member-sync' ),
 			6 => __( 'You can not have the same Status Rule registered as both "Current" and "Expired"', 'civicrm-wp-member-sync' ),
-
 		);
 
 		// test for constant
@@ -85,7 +82,7 @@ class Civi_WP_Member_Sync_Admin {
 
 
 	/**
-	 * Perform activation tasks
+	 * Perform activation tasks.
 	 *
 	 * @return void
 	 */
@@ -107,7 +104,7 @@ class Civi_WP_Member_Sync_Admin {
 
 
 	/**
-	 * Perform deactivation tasks
+	 * Perform deactivation tasks.
 	 *
 	 * @return void
 	 */
@@ -120,7 +117,7 @@ class Civi_WP_Member_Sync_Admin {
 
 
 	/**
-	 * Initialise when CiviCRM initialises
+	 * Initialise when CiviCRM initialises.
 	 *
 	 * @return void
 	 */
@@ -161,7 +158,7 @@ class Civi_WP_Member_Sync_Admin {
 
 
 	/**
-	 * Store the plugin version
+	 * Store the plugin version.
 	 *
 	 * @return void
 	 */
@@ -179,7 +176,7 @@ class Civi_WP_Member_Sync_Admin {
 
 
 	/**
-	 * Add this plugin's Settings Page to the WordPress admin menu
+	 * Add this plugin's Settings Page to the WordPress admin menu.
 	 *
 	 * @return void
 	 */
@@ -290,7 +287,7 @@ class Civi_WP_Member_Sync_Admin {
 
 
 	/**
-	 * This tells WP to highlight the plugin's menu item, regardless of which
+	 * This tells WP to highlight the plugin's menu item, regardless of which.
 	 * actual admin screen we are on.
 	 *
 	 * @global string $plugin_page
@@ -319,7 +316,7 @@ class Civi_WP_Member_Sync_Admin {
 
 
 	/**
-	 * Initialise plugin help
+	 * Initialise plugin help.
 	 *
 	 * @return void
 	 */
@@ -336,7 +333,7 @@ class Civi_WP_Member_Sync_Admin {
 
 
 	/**
-	 * Enqueue plugin options page css
+	 * Enqueue plugin options page CSS.
 	 *
 	 * @return void
 	 */
@@ -344,13 +341,11 @@ class Civi_WP_Member_Sync_Admin {
 
 		// add admin stylesheet
 		wp_enqueue_style(
-
 			'civi_wp_member_sync_admin_css',
 			plugins_url( 'assets/css/civi-wp-ms.css', CIVI_WP_MEMBER_SYNC_PLUGIN_FILE ),
 			false,
 			CIVI_WP_MEMBER_SYNC_VERSION, // version
 			'all' // media
-
 		);
 
 	}
@@ -358,7 +353,7 @@ class Civi_WP_Member_Sync_Admin {
 
 
 	/**
-	 * Ensure jQuery and jQuery Form are available in WP admin
+	 * Ensure jQuery and jQuery Form are available in WP admin.
 	 *
 	 * @return void
 	 */
@@ -366,12 +361,10 @@ class Civi_WP_Member_Sync_Admin {
 
 		// add javascript plus dependencies
 		wp_enqueue_script(
-
 			'civi_wp_member_sync_admin_js',
 			plugins_url( 'assets/js/civi-wp-ms.js', CIVI_WP_MEMBER_SYNC_PLUGIN_FILE ),
 			array( 'jquery', 'jquery-form' ),
 			CIVI_WP_MEMBER_SYNC_VERSION // version
-
 		);
 
 		// set defaults
@@ -399,7 +392,7 @@ class Civi_WP_Member_Sync_Admin {
 
 
 	/**
-	 * Adds help copy to admin page in WP3.3+
+	 * Adds help copy to admin page in WP3.3+.
 	 *
 	 * @param object $screen The existing WordPress screen object
 	 * @return object $screen The amended WordPress screen object
@@ -427,11 +420,9 @@ class Civi_WP_Member_Sync_Admin {
 
 		// add a tab - we can add more later
 		$screen->add_help_tab( array(
-
 			'id'      => 'civi_wp_member_sync',
 			'title'   => __( 'CiviCRM WordPress Member Sync', 'civicrm-wp-member-sync' ),
 			'content' => $this->get_help(),
-
 		));
 
 		// --<
@@ -442,7 +433,7 @@ class Civi_WP_Member_Sync_Admin {
 
 
 	/**
-	 * Get help text
+	 * Get help text.
 	 *
 	 * @return string $help Help formatted as HTML
 	 */
@@ -463,7 +454,7 @@ class Civi_WP_Member_Sync_Admin {
 
 
 	/**
-	 * Show settings page
+	 * Show settings page.
 	 *
 	 * @return void
 	 */
@@ -510,7 +501,7 @@ class Civi_WP_Member_Sync_Admin {
 
 
 	/**
-	 * Show manual sync page
+	 * Show manual sync page.
 	 *
 	 * @return void
 	 */
@@ -532,7 +523,7 @@ class Civi_WP_Member_Sync_Admin {
 
 
 	/**
-	 * Show rules list page
+	 * Show rules list page.
 	 *
 	 * @return void
 	 */
@@ -587,7 +578,7 @@ class Civi_WP_Member_Sync_Admin {
 
 
 	/**
-	 * Decide whether to show add or edit page
+	 * Decide whether to show add or edit page.
 	 *
 	 * @return void
 	 */
@@ -620,7 +611,7 @@ class Civi_WP_Member_Sync_Admin {
 
 
 	/**
-	 * Show add rule page
+	 * Show add rule page.
 	 *
 	 * @return void
 	 */
@@ -677,7 +668,7 @@ class Civi_WP_Member_Sync_Admin {
 
 
 	/**
-	 * Show edit rule page
+	 * Show edit rule page.
 	 *
 	 * @return void
 	 */
@@ -752,7 +743,7 @@ class Civi_WP_Member_Sync_Admin {
 
 
 	/**
-	 * Get admin page URLs
+	 * Get admin page URLs.
 	 *
 	 * @return array $admin_urls The array of admin page URLs
 	 */
@@ -792,7 +783,7 @@ class Civi_WP_Member_Sync_Admin {
 
 	/**
 	 * Get the url to access a particular menu page based on the slug it was registered with.
-	 * If the slug hasn't been registered properly no url will be returned
+	 * If the slug hasn't been registered properly no url will be returned.
 	 *
 	 * @param string $menu_slug The slug name to refer to this menu by (should be unique for this menu)
 	 * @param bool $echo Whether or not to echo the url - default is true
@@ -824,7 +815,7 @@ class Civi_WP_Member_Sync_Admin {
 
 
 	/**
-	 * Get the URL for the form action
+	 * Get the URL for the form action.
 	 *
 	 * @return string $target_url The URL for the admin form action
 	 */
@@ -847,7 +838,7 @@ class Civi_WP_Member_Sync_Admin {
 
 
 	/**
-	 * Route settings updates to relevant methods
+	 * Route settings updates to relevant methods.
 	 *
 	 * @return bool $result True on success, false otherwise
 	 */
@@ -903,7 +894,7 @@ class Civi_WP_Member_Sync_Admin {
 
 
 	/**
-	 * Get default plugin settings
+	 * Get default plugin settings.
 	 *
 	 * @return array $settings The array of settings, keyed by setting name
 	 */
@@ -935,7 +926,7 @@ class Civi_WP_Member_Sync_Admin {
 
 
 	/**
-	 * Update plugin settings
+	 * Update plugin settings.
 	 *
 	 * @return void
 	 */
@@ -1052,7 +1043,7 @@ class Civi_WP_Member_Sync_Admin {
 
 
 	/**
-	 * Save the plugin's settings array
+	 * Save the plugin's settings array.
 	 *
 	 * @return bool $result True if setting value has changed, false if not or if update failed
 	 */
@@ -1066,7 +1057,7 @@ class Civi_WP_Member_Sync_Admin {
 
 
 	/**
-	 * Return a value for a specified setting
+	 * Return a value for a specified setting.
 	 *
 	 * @return mixed $setting The value of the setting
 	 */
@@ -1085,7 +1076,7 @@ class Civi_WP_Member_Sync_Admin {
 
 
 	/**
-	 * Set a value for a specified setting
+	 * Set a value for a specified setting.
 	 *
 	 * @return void
 	 */
@@ -1108,7 +1099,7 @@ class Civi_WP_Member_Sync_Admin {
 
 
 	/**
-	 * Get all association rules by method
+	 * Get all association rules by method.
 	 *
 	 * @param string $method The sync method (either 'roles' or 'capabilities')
 	 * @return mixed $rule Array if successful, boolean false otherwise
@@ -1132,7 +1123,7 @@ class Civi_WP_Member_Sync_Admin {
 
 
 	/**
-	 * Get an association rule by membership type ID
+	 * Get an association rule by membership type ID.
 	 *
 	 * @param int $type_id The numeric ID of the CiviCRM membership type
 	 * @param string $method The sync method (either 'roles' or 'capabilities')
@@ -1160,7 +1151,7 @@ class Civi_WP_Member_Sync_Admin {
 
 
 	/**
-	 * Update (or add) a membership rule
+	 * Update (or add) a membership rule.
 	 *
 	 * @return bool $success True if successful, false otherwise
 	 */
@@ -1333,7 +1324,7 @@ class Civi_WP_Member_Sync_Admin {
 
 
 	/**
-	 * Delete a membership rule
+	 * Delete a membership rule.
 	 *
 	 * @return bool $success True if successful, false otherwise
 	 */
@@ -1407,7 +1398,7 @@ class Civi_WP_Member_Sync_Admin {
 
 
 	/**
-	 * Assign WordPress role or capability based on membership status
+	 * Assign WordPress role or capability based on membership status.
 	 *
 	 * @param WP_User $user WP_User object of the user in question
 	 * @param array $membership The membership details of the WordPress user in question
@@ -1549,7 +1540,7 @@ class Civi_WP_Member_Sync_Admin {
 
 
 	/**
-	 * Remove WordPress role or capability when a membership is deleted
+	 * Remove WordPress role or capability when a membership is deleted.
 	 *
 	 * @param WP_User $user WP_User object of the user in question
 	 * @param object $membership The membership details of the WordPress user in question
@@ -1620,7 +1611,7 @@ class Civi_WP_Member_Sync_Admin {
 
 
 	/**
-	 * Register "Groups" plugin hooks if it's present
+	 * Register "Groups" plugin hooks if it's present.
 	 *
 	 * @return void
 	 */
@@ -1649,7 +1640,7 @@ class Civi_WP_Member_Sync_Admin {
 
 
 	/**
-	 * When an association rule is created, add capability to "Groups" plugin
+	 * When an association rule is created, add capability to "Groups" plugin.
 	 *
 	 * @param array $data The association rule data
 	 * @return void
@@ -1673,7 +1664,7 @@ class Civi_WP_Member_Sync_Admin {
 
 
 	/**
-	 * When an association rule is edited, edit capability in "Groups" plugin
+	 * When an association rule is edited, edit capability in "Groups" plugin.
 	 *
 	 * @param array $data The association rule data
 	 * @return void
@@ -1688,7 +1679,7 @@ class Civi_WP_Member_Sync_Admin {
 
 
 	/**
-	 * When an association rule is deleted, delete capability from "Groups" plugin
+	 * When an association rule is deleted, delete capability from "Groups" plugin.
 	 *
 	 * @param array $data The association rule data
 	 * @return void
@@ -1712,7 +1703,7 @@ class Civi_WP_Member_Sync_Admin {
 
 
 	/**
-	 * Add "read post" capability to "Groups" plugin
+	 * Add "read post" capability to "Groups" plugin.
 	 *
 	 * @param array $capability The capability to add
 	 * @return void
@@ -1739,7 +1730,7 @@ class Civi_WP_Member_Sync_Admin {
 
 
 	/**
-	 * Delete "read post" capability from "Groups" plugin
+	 * Delete "read post" capability from "Groups" plugin.
 	 *
 	 * @param array $capability The capability to delete
 	 * @return void
@@ -1769,7 +1760,7 @@ class Civi_WP_Member_Sync_Admin {
 
 
 	/**
-	 * Before a manual sync, make sure "Groups" plugin is in sync
+	 * Before a manual sync, make sure "Groups" plugin is in sync.
 	 *
 	 * @return void
 	 */
@@ -1836,7 +1827,7 @@ class Civi_WP_Member_Sync_Admin {
 
 
 	/**
-	 * General debugging utility
+	 * General debugging utility.
 	 *
 	 * @return void
 	 */

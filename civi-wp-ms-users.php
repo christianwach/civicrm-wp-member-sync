@@ -7,7 +7,7 @@ Civi_WP_Member_Sync_Users Class
 
 
 /**
- * Class for encapsulating WordPress user functionality
+ * Class for encapsulating WordPress user functionality.
  */
 class Civi_WP_Member_Sync_Users {
 
@@ -21,7 +21,7 @@ class Civi_WP_Member_Sync_Users {
 
 
 	/**
-	 * Initialise this object
+	 * Initialise this object.
 	 *
 	 * @param object $parent_obj The parent object
 	 * @return object
@@ -39,7 +39,7 @@ class Civi_WP_Member_Sync_Users {
 
 
 	/**
-	 * Initialise when CiviCRM initialises
+	 * Initialise when CiviCRM initialises.
 	 *
 	 * @return void
 	 */
@@ -54,7 +54,7 @@ class Civi_WP_Member_Sync_Users {
 
 
 	/**
-	 * Get WordPress user role
+	 * Get WordPress user role.
 	 *
 	 * @param WP_User $user WP_User object
 	 * @return string $role Primary WordPress role for this user
@@ -91,7 +91,7 @@ class Civi_WP_Member_Sync_Users {
 
 
 	/**
-	 * Set WordPress user role
+	 * Set WordPress user role.
 	 *
 	 * @param WP_User $user WP_User object of the logged-in user.
 	 * @param string $old_role Old WordPress role key
@@ -134,7 +134,7 @@ class Civi_WP_Member_Sync_Users {
 
 
 	/**
-	 * Get a WordPress role name by role key
+	 * Get a WordPress role name by role key.
 	 *
 	 * @param string $key The machine-readable name of the WP_Role
 	 * @return string $role_name The human-readable name of the WP_Role
@@ -160,7 +160,7 @@ class Civi_WP_Member_Sync_Users {
 
 
 	/**
-	 * Get all WordPress role names
+	 * Get all WordPress role names.
 	 *
 	 * @return array $role_names An array of role names, keyed by role key
 	 */
@@ -210,7 +210,7 @@ class Civi_WP_Member_Sync_Users {
 
 
 	/**
-	 * Add a capability to a WordPress user
+	 * Add a capability to a WordPress user.
 	 *
 	 * @param WP_User $user WP_User object
 	 * @param string $capability Capability name
@@ -245,7 +245,7 @@ class Civi_WP_Member_Sync_Users {
 
 
 	/**
-	 * Remove a capability from a WordPress user
+	 * Remove a capability from a WordPress user.
 	 *
 	 * @param WP_User $user WP_User object
 	 * @param string $capability Capability name
@@ -266,7 +266,7 @@ class Civi_WP_Member_Sync_Users {
 			$user->remove_cap( $capability );
 
 			/**
-			 * Let other plugins know that a capability has been removed from a user
+			 * Let other plugins know that a capability has been removed from a user.
 			 *
 			 * @param object $user The WordPress user object
 			 * @param string $capability The name of the capability
@@ -325,7 +325,7 @@ class Civi_WP_Member_Sync_Users {
 
 
 	/**
-	 * Get a WordPress user for a CiviCRM contact ID
+	 * Get a WordPress user for a CiviCRM contact ID.
 	 *
 	 * @param int $contact_id The numeric CiviCRM contact ID
 	 * @return WP_User $user WP_User object for the WordPress user
@@ -355,7 +355,7 @@ class Civi_WP_Member_Sync_Users {
 
 
 	/**
-	 * Get a CiviCRM contact ID for a WordPress user object
+	 * Get a CiviCRM contact ID for a WordPress user object.
 	 *
 	 * @param WP_User $user WP_User object of the logged-in user.
 	 * @return int $civi_contact_id The numerical CiviCRM contact ID
@@ -401,7 +401,7 @@ class Civi_WP_Member_Sync_Users {
 
 
 	/**
-	 * Get CiviCRM contact data by contact ID
+	 * Get CiviCRM contact data by contact ID.
 	 *
 	 * @param int $contact_id The numeric ID of the CiviCRM contact
 	 * @return mixed $civi_contact The array of data for the CiviCRM Contact, or false if not found
@@ -440,7 +440,7 @@ class Civi_WP_Member_Sync_Users {
 
 
 	/*
-	 * Creates a WordPress User given a CiviCRM contact
+	 * Creates a WordPress User given a CiviCRM contact.
 	 *
 	 * @param array $civi_contact The data for the CiviCRM contact
 	 * @return mixed $user WP user object or false on failure
@@ -477,13 +477,11 @@ class Civi_WP_Member_Sync_Users {
 
 			// create the user
 			$user_id = wp_insert_user( array(
-
 				'user_login' => $user_name,
 				'user_pass' => $random_password,
 				'user_email' => $civi_contact['email'],
 				'first_name' => $civi_contact['first_name'],
 				'last_name' => $civi_contact['last_name'],
-
 			) );
 
 			// create UF Match
@@ -530,7 +528,7 @@ class Civi_WP_Member_Sync_Users {
 
 
 	/*
-	 * Remove filters (that we know of) that will interfere with creating a WordPress user
+	 * Remove filters (that we know of) that will interfere with creating a WordPress user.
 	 *
 	 * @return void
 	 */
@@ -571,7 +569,7 @@ class Civi_WP_Member_Sync_Users {
 
 
 	/*
-	 * Add filters (that we know of) after creating a WordPress user
+	 * Add filters (that we know of) after creating a WordPress user.
 	 *
 	 * @return void
 	 */
