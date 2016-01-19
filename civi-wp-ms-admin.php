@@ -299,7 +299,6 @@ class Civi_WP_Member_Sync_Admin {
 	public function admin_menu_highlight() {
 
 		global $plugin_page, $submenu_file;
-		//print_r( array( $plugin_page, $submenu_file ) ); die();
 
 		// define subpages
 		$subpages = array(
@@ -422,13 +421,6 @@ class Civi_WP_Member_Sync_Admin {
 			$this->rules_list_page . $page,
 			$this->rule_add_edit_page . $page,
 		);
-
-		/*
-		print_r( array(
-			'screen' => $screen,
-			'pages' => $pages,
-		) ); die();
-		*/
 
 		// kick out if not our screen
 		if ( ! in_array( $screen->id, $pages ) ) { return $screen; }
@@ -736,7 +728,6 @@ class Civi_WP_Member_Sync_Admin {
 
 			// get filtered roles
 			$roles = $this->parent_obj->users->wp_role_names_get_all();
-			//print_r( $roles ); die();
 
 			// get stored roles
 			$current_wp_role = $selected_rule['current_wp_role'];
@@ -1245,16 +1236,6 @@ class Civi_WP_Member_Sync_Admin {
 
 		}
 
-		/*
-		print_r( array(
-			'POST' => $_POST,
-			'current_rule' => $current_rule,
-			'expiry_rule' => $expiry_rule,
-			'intersect' => $intersect,
-			'current_expire_clash' => ( $current_expire_clash ? 'y' : 'n' ),
-		) ); die();
-		*/
-
 		// do we want roles?
 		if ( $method == 'roles' ) {
 
@@ -1321,13 +1302,6 @@ class Civi_WP_Member_Sync_Admin {
 			 * @param array The new or updated association rule
 			 */
 			do_action( 'civi_wp_member_sync_rule_'. $mode . '_' . $method, $data[$method][$civi_member_type_id] );
-
-			/*
-			print_r( array(
-				'POST' => $_POST,
-				'data' => $data,
-			) ); die();
-			*/
 
 			// overwrite data
 			$this->setting_set( 'data', $data );
@@ -1455,7 +1429,6 @@ class Civi_WP_Member_Sync_Admin {
 			$membership_type_id = $value['membership_type_id'];
 			$status_id = $value['status_id'];
 		}
-		//print_r( array( $membership_type_id, $status_id ) ); die();
 
 		// kick out if something went wrong
 		if ( ! isset( $membership_type_id ) ) return false;
@@ -1482,16 +1455,6 @@ class Civi_WP_Member_Sync_Admin {
 
 			// get primary WP role
 			$user_role = $this->parent_obj->users->wp_role_get( $user );
-
-			/*
-			print_r( array(
-				'status_id' => $status_id,
-				'current_rule' => $current_rule,
-				'expiry_rule' => $expiry_rule,
-				'user_role' => $user_role,
-				'wp_role' => $association_rule['current_wp_role'],
-			) ); die();
-			*/
 
 			// does the user's membership status match a current status rule?
 			if ( isset( $status_id ) && array_search( $status_id, $current_rule ) ) {
@@ -1534,16 +1497,6 @@ class Civi_WP_Member_Sync_Admin {
 
 			// construct membership status capability name
 			$capability_status = $capability . '_' . $status_id;
-
-			/*
-			print_r( array(
-				'status_id' => $status_id,
-				'current_rule' => $current_rule,
-				'expiry_rule' => $expiry_rule,
-				'capability' => $capability,
-				'capability_status' => $capability_status,
-			) ); die();
-			*/
 
 			// does the user's membership status match a current status rule?
 			if ( isset( $status_id ) && array_search( $status_id, $current_rule ) ) {

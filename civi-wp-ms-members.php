@@ -210,15 +210,6 @@ class Civi_WP_Member_Sync_Members {
 		// disable
 		return;
 
-		/*
-		print_r( array(
-			'op' => $op,
-			'objectName' => $objectName,
-			'objectId' => $objectId,
-			'objectRef' => $objectRef,
-		)); die();
-		*/
-
 		// target our object type
 		if ( $objectName != 'Membership' ) return;
 
@@ -239,15 +230,6 @@ class Civi_WP_Member_Sync_Members {
 
 		// target our object type
 		if ( $objectName != 'Membership' ) return;
-
-		/*
-		print_r( array(
-			'op' => $op,
-			'objectName' => $objectName,
-			'objectId' => $objectId,
-			'objectRef' => $objectRef,
-		)); die();
-		*/
 
 		// kick out if not membership object
 		if ( ! ( $objectRef instanceof CRM_Member_BAO_Membership ) ) return;
@@ -330,13 +312,6 @@ class Civi_WP_Member_Sync_Members {
 	 * @return void
 	 */
 	public function membership_form_process( $formName, &$form ) {
-
-		/*
-		print_r( array(
-			'formName' => $formName,
-			'form' => $form,
-		) ); die();
-		*/
 
 		// kick out if not membership form
 		if ( ! ( $form instanceof CRM_Member_Form_Membership ) ) return;

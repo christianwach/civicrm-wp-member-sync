@@ -107,7 +107,6 @@ class Civi_WP_Member_Sync_Migrate {
 
 		// grab default data (there will only be the skeleton array)
 		$data = $this->parent_obj->setting_get( 'data' );
-		//print_r( $data ); die();
 
 		// access database object
 		global $wpdb;
@@ -135,8 +134,6 @@ class Civi_WP_Member_Sync_Migrate {
 				);
 
 			}
-
-			//print_r( $data ); die();
 
 			// overwrite existing data
 			$this->parent_obj->setting_set( 'data', $data );

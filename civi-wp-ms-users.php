@@ -428,15 +428,6 @@ class Civi_WP_Member_Sync_Users {
 		// get contact
 		$contact = array_shift( $contact_data['values'] );
 
-		/*
-		// debug
-		print_r( array(
-			'method' => 'get_contact_by_contact_id',
-			'contact_id' => $contact_id,
-			'contact' => $contact,
-		)); die();
-		*/
-
 		// --<
 		return $contact;
 
@@ -466,15 +457,6 @@ class Civi_WP_Member_Sync_Users {
 
 		// check if we have a user with that username
 		$user_id = username_exists( $user_name );
-
-		/*
-		print_r( array(
-			'in' => 'wordpress_create_user',
-			'civi_contact' => $civi_contact,
-			'user_name' => $user_name,
-			'user_id' => $user_id,
-		) ); die();
-		*/
 
 		// if not, check against email address
 		if ( ! $user_id AND email_exists( $civi_contact['email'] ) == false ) {
