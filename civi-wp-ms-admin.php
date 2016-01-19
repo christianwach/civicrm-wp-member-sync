@@ -1889,67 +1889,6 @@ class Civi_WP_Member_Sync_Admin {
 	 */
 	public function do_debug() {
 
-		/*
-		// get data
-		//$method = $this->setting_get( 'method' );
-		$method = 'capabilities';
-		$rules = $this->rules_get_by_method( $method );
-		$type_ids = array_keys( $rules );
-		$membership_types = $this->parent_obj->members->types_get_all();
-		print_r( array(
-			'rules' => $rules,
-			'type_ids' => $type_ids,
-			'membership_types' => $membership_types,
-		) ); die();
-		*/
-
-		/*
-		// get membership status rules
-		$status_rules = $this->parent_obj->members->status_rules_get_all();
-		print_r( array(
-			'status_rules' => $status_rules,
-		) ); die();
-		*/
-
-		/*
-		// get data
-		$data = $this->setting_get( 'data' );
-		print_r( array(
-			'data' => $data,
-		) ); die();
-		*/
-
-		/*
-		$joe = new WP_User( 376 );
-		print_r( array(
-			'joe' => $joe,
-		) ); die();
-		*/
-
-		/*
-		global $current_user;
-		$me = new WP_User( $current_user->ID );
-		print_r( array(
-			'current_user' => $current_user,
-			'me' => $me,
-		) ); die();
-
-		// get all WordPress users
-		$users = get_users( array( 'all_with_meta' => true ) );
-		print_r( $users ); die();
-
-		global $wp_roles;
-		$roles = $wp_roles->get_names();
-
-		// get all role names
-		$role_names = $this->parent_obj->users->wp_role_names_get_all();
-
-		print_r( array(
-			'WP Roles' => $roles,
-			'WP Role Names' => $role_names,
-		) ); die();
-		*/
-
 	}
 
 
