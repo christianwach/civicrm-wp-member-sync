@@ -979,7 +979,7 @@ class Civi_WP_Member_Sync_Admin {
 
 
 
-		// civicrm sync enabled
+		// CiviCRM sync enabled
 		if ( isset( $_POST['civi_wp_member_sync_settings_civicrm'] ) ) {
 			$settings_civicrm = absint( $_POST['civi_wp_member_sync_settings_civicrm'] );
 		} else {
@@ -1134,7 +1134,7 @@ class Civi_WP_Member_Sync_Admin {
 	/**
 	 * Get an association rule by membership type ID
 	 *
-	 * @param int $type_id The numeric ID of the Civi membership type
+	 * @param int $type_id The numeric ID of the CiviCRM membership type
 	 * @param string $method The sync method (either 'roles' or 'capabilities')
 	 * @return mixed $rule Array if successful, boolean false otherwise
 	 */

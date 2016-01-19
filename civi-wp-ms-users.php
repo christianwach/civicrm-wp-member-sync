@@ -325,7 +325,7 @@ class Civi_WP_Member_Sync_Users {
 
 
 	/**
-	 * Get a WordPress user for a Civi contact ID
+	 * Get a WordPress user for a CiviCRM contact ID
 	 *
 	 * @param int $contact_id The numeric CiviCRM contact ID
 	 * @return WP_User $user WP_User object for the WordPress user
@@ -335,10 +335,10 @@ class Civi_WP_Member_Sync_Users {
 		// kick out if no CiviCRM
 		if ( ! civi_wp()->initialize() ) return false;
 
-		// make sure Civi file is included
+		// make sure CiviCRM file is included
 		require_once 'CRM/Core/BAO/UFMatch.php';
 
-		// search using Civi's logic
+		// search using CiviCRM's logic
 		$user_id = CRM_Core_BAO_UFMatch::getUFId( $contact_id );
 
 		// kick out if we didn't get one
@@ -355,7 +355,7 @@ class Civi_WP_Member_Sync_Users {
 
 
 	/**
-	 * Get a Civi contact ID for a WordPress user object
+	 * Get a CiviCRM contact ID for a WordPress user object
 	 *
 	 * @param WP_User $user WP_User object of the logged-in user.
 	 * @return int $civi_contact_id The numerical CiviCRM contact ID
@@ -365,7 +365,7 @@ class Civi_WP_Member_Sync_Users {
 		// kick out if no CiviCRM
 		if ( ! civi_wp()->initialize() ) return false;
 
-		// make sure Civi file is included
+		// make sure CiviCRM file is included
 		require_once 'CRM/Core/BAO/UFMatch.php';
 
 		// do initial search
@@ -383,7 +383,7 @@ class Civi_WP_Member_Sync_Users {
 				null // is_login
 			);
 
-			// get the Civi contact ID
+			// get the CiviCRM contact ID
 			$civi_contact_id = CRM_Core_BAO_UFMatch::getContactId( $user->ID );
 
 			// sanity check
@@ -440,9 +440,9 @@ class Civi_WP_Member_Sync_Users {
 
 
 	/*
-	 * Creates a WordPress User given a Civi contact
+	 * Creates a WordPress User given a CiviCRM contact
 	 *
-	 * @param array $civi_contact The data for the Civi contact
+	 * @param array $civi_contact The data for the CiviCRM contact
 	 * @return mixed $user WP user object or false on failure
 	 */
 	public function wp_create_user( $civi_contact ) {
@@ -536,19 +536,19 @@ class Civi_WP_Member_Sync_Users {
 	 */
 	private function remove_filters() {
 
-		// get Civi instance
+		// get CiviCRM instance
 		$civi = civi_wp();
 
 		// do we have the old-style plugin structure?
 		if ( method_exists( $civi, 'update_user' ) ) {
 
-			// remove previous Civi plugin filters
+			// remove previous CiviCRM plugin filters
 			remove_action( 'user_register', array( civi_wp(), 'update_user' ) );
 			remove_action( 'profile_update', array( civi_wp(), 'update_user' ) );
 
 		} else {
 
-			// remove current Civi plugin filters
+			// remove current CiviCRM plugin filters
 			remove_action( 'user_register', array( civi_wp()->users, 'update_user' ) );
 			remove_action( 'profile_update', array( civi_wp()->users, 'update_user' ) );
 
@@ -577,19 +577,19 @@ class Civi_WP_Member_Sync_Users {
 	 */
 	private function add_filters() {
 
-		// get Civi instance
+		// get CiviCRM instance
 		$civi = civi_wp();
 
 		// do we have the old-style plugin structure?
 		if ( method_exists( $civi, 'update_user' ) ) {
 
-			// re-add previous Civi plugin filters
+			// re-add previous CiviCRM plugin filters
 			add_action( 'user_register', array( civi_wp(), 'update_user' ) );
 			add_action( 'profile_update', array( civi_wp(), 'update_user' ) );
 
 		} else {
 
-			// re-add current Civi plugin filters
+			// re-add current CiviCRM plugin filters
 			add_action( 'user_register', array( civi_wp()->users, 'update_user' ) );
 			add_action( 'profile_update', array( civi_wp()->users, 'update_user' ) );
 

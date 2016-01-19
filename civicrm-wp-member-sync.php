@@ -252,7 +252,7 @@ function civi_wp_member_sync_plugin_add_settings_link( $links ) {
 
 }
 
-// contstriuct filter
+// construct filter
 $plugin = plugin_basename( __FILE__ );
 add_filter( "plugin_action_links_$plugin", 'civi_wp_member_sync_plugin_add_settings_link' );
 

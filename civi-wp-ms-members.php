@@ -65,7 +65,7 @@ class Civi_WP_Member_Sync_Members {
 
 		}
 
-		// get our civicrm sync setting
+		// get our CiviCRM sync setting
 		$civicrm = absint( $this->parent_obj->admin->setting_get( 'civicrm' ) );
 
 		// add hooks if set
@@ -100,7 +100,7 @@ class Civi_WP_Member_Sync_Members {
 		// kick out if no CiviCRM
 		if ( ! civi_wp()->initialize() ) return;
 
-		// make sure Civi file is included
+		// make sure CiviCRM file is included
 		require_once 'CRM/Core/BAO/UFMatch.php';
 
 		// get all WordPress users
@@ -179,7 +179,7 @@ class Civi_WP_Member_Sync_Members {
 		// should this user be synced?
 		if ( ! $this->user_should_be_synced( $user ) ) return;
 
-		// get Civi contact ID
+		// get CiviCRM contact ID
 		$civi_contact_id = $this->parent_obj->users->civi_contact_id_get( $user );
 
 		// bail if we don't have one
@@ -246,7 +246,7 @@ class Civi_WP_Member_Sync_Members {
 			// allow plugins to override this step with a filter
 			if ( true === apply_filters( 'civi_wp_member_sync_auto_create_wp_user', true ) ) {
 
-				// get Civi contact
+				// get CiviCRM contact
 				$civi_contact = $this->parent_obj->users->civi_get_contact_by_contact_id( $objectRef->contact_id );
 
 				// bail if something goes wrong
@@ -305,7 +305,7 @@ class Civi_WP_Member_Sync_Members {
 
 
 	/**
-	 * Update a WordPress user role when a Civi membership is added
+	 * Update a WordPress user role when a CiviCRM membership is added
 	 *
 	 * @param string $formName the CiviCRM form name
 	 * @param object $form the CiviCRM form object
@@ -321,7 +321,7 @@ class Civi_WP_Member_Sync_Members {
 
 
 	/**
-	 * Get membership record by Civi contact ID
+	 * Get membership record by CiviCRM contact ID
 	 *
 	 * @param int $civi_contact_id The numerical CiviCRM contact ID
 	 * @return array $membership CiviCRM formatted membership data
@@ -331,7 +331,7 @@ class Civi_WP_Member_Sync_Members {
 		// kick out if no CiviCRM
 		if ( ! civi_wp()->initialize() ) return false;
 
-		// get Civi membership details
+		// get CiviCRM membership details
 		$membership = civicrm_api( 'Membership', 'get', array(
 			'version' => '3',
 			'page' => 'CiviCRM',
@@ -349,7 +349,7 @@ class Civi_WP_Member_Sync_Members {
 
 		) {
 
-			// Civi should return a 'values' array with just one element
+			// CiviCRM should return a 'values' array with just one element
 			return $membership;
 
 		}
