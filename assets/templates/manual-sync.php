@@ -1,11 +1,11 @@
 <!-- assets/templates/manual_sync.php -->
 <div class="wrap">
 
-	<h2 class="nav-tab-wrapper">
+	<h1 class="nav-tab-wrapper">
 		<a href="<?php echo $urls['settings']; ?>" class="nav-tab"><?php _e( 'Settings', 'civicrm-wp-member-sync' ); ?></a>
 		<a href="<?php echo $urls['list']; ?>" class="nav-tab"><?php _e( 'Association Rules', 'civicrm-wp-member-sync' ); ?></a>
 		<a href="<?php echo $urls['manual_sync']; ?>" class="nav-tab nav-tab-active"><?php _e( 'Manual Synchronize', 'civicrm-wp-member-sync' ); ?></a>
-	</h2>
+	</h1>
 
 	<?php
 

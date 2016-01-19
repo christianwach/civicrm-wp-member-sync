@@ -8,3 +8,8 @@ CiviCRM WordPress Member Sync CSS
 {
 	color: #f00;
 }
+
+h1.nav-tab-wrapper
+{
+	padding-bottom: 0;
+}
