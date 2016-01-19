@@ -158,14 +158,14 @@ class Civi_WP_Member_Sync {
 	 */
 	public function initialise() {
 
+		// initialise Admin object
+		$this->admin->initialise();
+
 		// initialise users object
 		$this->users->initialise();
 
 		// initialise schedule object
 		$this->schedule->initialise();
-
-		// initialise Admin object
-		$this->admin->initialise();
 
 		// initialise CiviCRM object
 		$this->members->initialise();
