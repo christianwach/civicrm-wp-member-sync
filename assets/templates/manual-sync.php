@@ -27,15 +27,7 @@
 			<tr>
 				<th scope="row"><?php _e( 'Create WordPress Users', 'civicrm-wp-member-sync' ); ?></th>
 				<td>
-					<?php
-
-					// unchecked by default
-					$checked = '';
-					if ( isset( $login ) AND $login === 0 ) {
-						$checked = ' checked="checked"';
-					}
-
-					?><input type="checkbox" class="settings-checkbox" name="civi_wp_member_sync_manual_sync_create" id="civi_wp_member_sync_manual_sync_create" value="1"<?php echo $checked; ?> />
+					<input type="checkbox" class="settings-checkbox" name="civi_wp_member_sync_manual_sync_create" id="civi_wp_member_sync_manual_sync_create" value="1" />
 					<label class="civi_wp_member_sync_manual_sync_label" for="civi_wp_member_sync_manual_sync_create"><?php _e( 'Create a WordPress User for each Member when one does not already exist.', 'civicrm-wp-member-sync' ); ?></label>
 				</td>
 			</tr>
