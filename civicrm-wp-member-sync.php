@@ -260,6 +260,23 @@ register_deactivation_hook( __FILE__, array( $civi_wp_member_sync, 'deactivate' 
 
 
 /**
+ * Utility for retrieving a reference to this plugin.
+ *
+ * @since 0.2.7
+ *
+ * @return object $civi_wp_member_sync The plugin reference
+ */
+function civicrm_wpms() {
+
+	// return reference
+	global $civi_wp_member_sync;
+	return $civi_wp_member_sync;
+
+}
+
+
+
+/**
  * Add utility links to WordPress Plugin Listings Page
  *
  * @param array $links The existing list of plugin links
