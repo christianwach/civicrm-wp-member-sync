@@ -77,10 +77,8 @@ class Civi_WP_Member_Sync {
 
 	/**
 	 * Initialise this object.
-	 *
-	 * @return object
 	 */
-	function __construct() {
+	public function __construct() {
 
 		// use translation
 		add_action( 'plugins_loaded', array( $this, 'translation' ) );
@@ -111,9 +109,6 @@ class Civi_WP_Member_Sync {
 
 		// instantiate
 		$this->members = new Civi_WP_Member_Sync_Members( $this );
-
-		// --<
-		return $this;
 
 	}
 

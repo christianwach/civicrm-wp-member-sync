@@ -26,15 +26,11 @@ class Civi_WP_Member_Sync_Members {
 	 * Initialise this object.
 	 *
 	 * @param object $parent_obj The parent object
-	 * @return object
 	 */
-	function __construct( $parent_obj ) {
+	public function __construct( $parent_obj ) {
 
 		// store reference to parent
 		$this->parent_obj = $parent_obj;
-
-		// --<
-		return $this;
 
 	}
 
