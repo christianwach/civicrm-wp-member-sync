@@ -19,6 +19,8 @@ in the main plugin file.
 
 /**
  * Class for encapsulating migration functionality.
+ *
+ * @since 0.1
  */
 class Civi_WP_Member_Sync_Migrate {
 
@@ -30,6 +32,8 @@ class Civi_WP_Member_Sync_Migrate {
 
 	/**
 	 * Initialise this object.
+	 *
+	 * @since 0.1
 	 *
 	 * @param object $parent_obj The parent object
 	 */
@@ -48,6 +52,8 @@ class Civi_WP_Member_Sync_Migrate {
 
 	/**
 	 * Check for legacy 'civi_member_sync' plugin.
+	 *
+	 * @since 0.1
 	 *
 	 * @return boolean $result
 	 */
@@ -76,6 +82,8 @@ class Civi_WP_Member_Sync_Migrate {
 	/**
 	 * Migrate from 'civi_member_sync' to this plugin.
 	 *
+	 * @since 0.1
+	 *
 	 * @return void
 	 */
 	public function legacy_migrate() {
@@ -99,6 +107,8 @@ class Civi_WP_Member_Sync_Migrate {
 
 	/**
 	 * Migrate 'civi_member_sync' data to our plugin settings.
+	 *
+	 * @since 0.1
 	 *
 	 * @return boolean $result
 	 */
@@ -148,6 +158,8 @@ class Civi_WP_Member_Sync_Migrate {
 
 	/**
 	 * Remove previous 'civi_member_sync' database tables.
+	 *
+	 * @since 0.1
 	 *
 	 * @return boolean $result
 	 */

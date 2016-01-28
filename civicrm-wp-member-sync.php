@@ -54,6 +54,8 @@ if ( ! defined( 'CIVI_WP_MEMBER_SYNC_PLUGIN_PATH' ) ) {
 
 /**
  * Class for encapsulating plugin functionality.
+ *
+ * @since 0.1
  */
 class Civi_WP_Member_Sync {
 
@@ -77,6 +79,8 @@ class Civi_WP_Member_Sync {
 
 	/**
 	 * Initialise this object.
+	 *
+	 * @since 0.1
 	 */
 	public function __construct() {
 
@@ -121,6 +125,8 @@ class Civi_WP_Member_Sync {
 	/**
 	 * Perform plugin activation tasks.
 	 *
+	 * @since 0.1
+	 *
 	 * @return void
 	 */
 	public function activate() {
@@ -135,6 +141,8 @@ class Civi_WP_Member_Sync {
 	/**
 	 * Perform plugin deactivation tasks.
 	 *
+	 * @since 0.1
+	 *
 	 * @return void
 	 */
 	public function deactivate() {
@@ -148,6 +156,8 @@ class Civi_WP_Member_Sync {
 
 	/**
 	 * Initialise objects when CiviCRM initialises.
+	 *
+	 * @since 0.1
 	 *
 	 * @return void
 	 */
@@ -178,6 +188,8 @@ class Civi_WP_Member_Sync {
 
 	/**
 	 * Load translation if present.
+	 *
+	 * @since 0.1
 	 */
 	public function translation() {
 
