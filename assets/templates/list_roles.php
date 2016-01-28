@@ -88,16 +88,16 @@
 				?>
 				<tr>
 					<td>
-						<?php echo $this->parent_obj->members->membership_name_get_by_id( $key ); ?><br />
+						<?php echo $this->plugin->members->membership_name_get_by_id( $key ); ?><br />
 						<div class="row-actions">
 							<span class="edit"><a href="<?php echo $edit_url; ?>"><?php _e( 'Edit', 'civicrm-wp-member-sync' ); ?></a> | </span>
 							<span class="delete"><a href="<?php echo $delete_url; ?>" class="submitdelete"><?php _e( 'Delete', 'civicrm-wp-member-sync' );?></a></span>
 						</div>
 					</td>
-					<td><?php echo $this->parent_obj->members->status_rules_get_current( $item['current_rule'] ); ?></td>
-					<td><?php echo $this->parent_obj->users->wp_role_name_get( $item['current_wp_role'] ); ?></td>
-					<td><?php echo $this->parent_obj->members->status_rules_get_current( $item['expiry_rule'] );?></td>
-					<td><?php echo $this->parent_obj->users->wp_role_name_get( $item['expired_wp_role'] ); ?></td>
+					<td><?php echo $this->plugin->members->status_rules_get_current( $item['current_rule'] ); ?></td>
+					<td><?php echo $this->plugin->users->wp_role_name_get( $item['current_wp_role'] ); ?></td>
+					<td><?php echo $this->plugin->members->status_rules_get_current( $item['expiry_rule'] );?></td>
+					<td><?php echo $this->plugin->users->wp_role_name_get( $item['expired_wp_role'] ); ?></td>
 				</tr>
 				<?php
 
