@@ -252,7 +252,7 @@ class Civi_WP_Member_Sync_Admin {
 		if ( is_admin() ) {
 
 			// multisite?
-			if ( is_multisite() ) {
+			if ( $this->is_network_activated() ) {
 
 				// add admin page to Network menu
 				add_action( 'network_admin_menu', array( $this, 'admin_menu' ), 30 );
@@ -309,7 +309,7 @@ class Civi_WP_Member_Sync_Admin {
 		if ( !current_user_can('manage_options') ) return false;
 
 		// multisite?
-		if ( is_multisite() ) {
+		if ( $this->is_network_activated() ) {
 
 			// add settings page to the Network Settings menu
 			$this->parent_page = add_submenu_page(
@@ -533,7 +533,7 @@ class Civi_WP_Member_Sync_Admin {
 		$page = '';
 
 		// the page ID is different in multisite
-		if ( is_multisite() ) {
+		if ( $this->is_network_activated() ) {
 			$page = '-network';
 		}
 
@@ -902,7 +902,7 @@ class Civi_WP_Member_Sync_Admin {
 		$this->urls = array();
 
 		// multisite?
-		if ( is_multisite() ) {
+		if ( $this->is_network_activated() ) {
 
 			// get admin page URLs via our adapted method
 			$this->urls['settings'] = $this->network_menu_page_url( 'civi_wp_member_sync_settings', false );
@@ -937,7 +937,7 @@ class Civi_WP_Member_Sync_Admin {
 	 * @param bool $echo Whether or not to echo the url - default is true
 	 * @return string $url The URL
 	 */
-	public function network_menu_page_url($menu_slug, $echo = true) {
+	public function network_menu_page_url( $menu_slug, $echo = true ) {
 		global $_parent_pages;
 
 		if ( isset( $_parent_pages[$menu_slug] ) ) {
