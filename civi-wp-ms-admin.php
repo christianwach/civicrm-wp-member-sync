@@ -187,6 +187,50 @@ class Civi_WP_Member_Sync_Admin {
 
 
 	/**
+	 * Test if this plugin is network activated.
+	 *
+	 * @since 0.2.7
+	 *
+	 * @return bool $is_network_active True if network activated, false otherwise
+	 */
+	public function is_network_activated() {
+
+		// only need to test once
+		static $is_network_active;
+
+		// have we done this already?
+		if ( isset( $is_network_active ) ) return $is_network_active;
+
+		// if not multisite, it cannot be
+		if ( ! is_multisite() ) {
+
+			// set flag
+			$is_network_active = false;
+
+			// kick out
+			return $is_network_active;
+
+		}
+
+		// make sure plugin file is included when outside admin
+		if ( ! function_exists( 'is_plugin_active_for_network' ) ) {
+			require_once( ABSPATH . '/wp-admin/includes/plugin.php' );
+		}
+
+		// get path from 'plugins' directory to this plugin
+		$this_plugin = plugin_basename( CIVI_WP_MEMBER_SYNC_PLUGIN_FILE );
+
+		// test if network active
+		$is_network_active = is_plugin_active_for_network( $this_plugin );
+
+		// --<
+		return $is_network_active;
+
+	}
+
+
+
+	/**
 	 * Initialise when CiviCRM initialises.
 	 *
 	 * @since 0.1
