@@ -22,26 +22,94 @@ class Civi_WP_Member_Sync_Admin {
 	 */
 	public $plugin;
 
-	// migration object
+	/**
+	 * Migration object.
+	 *
+	 * @since 0.1
+	 * @access public
+	 * @var object $migrate The migration object
+	 */
 	public $migrate;
 
-	// admin pages
+	/**
+	 * Parent Page.
+	 *
+	 * @since 0.1
+	 * @access public
+	 * @var str $parent_page The parent page
+	 */
 	public $parent_page;
+
+	/**
+	 * Settings Page.
+	 *
+	 * @since 0.1
+	 * @access public
+	 * @var str $settings_page The settings page
+	 */
 	public $settings_page;
+
+	/**
+	 * Manual Sync Page.
+	 *
+	 * @since 0.1
+	 * @access public
+	 * @var str $sync_page The manual sync page
+	 */
 	public $sync_page;
+
+	/**
+	 * List Association Rules Page.
+	 *
+	 * @since 0.1
+	 * @access public
+	 * @var str $rules_list_page The list rules page
+	 */
 	public $rules_list_page;
+
+	/**
+	 * Add or edit Association Rule Page.
+	 *
+	 * @since 0.1
+	 * @access public
+	 * @var str $rules_list_page The add/edit rules page
+	 */
 	public $rule_add_edit_page;
 
-	// plugin version
+	/**
+	 * Plugin version.
+	 *
+	 * @since 0.1
+	 * @access public
+	 * @var str $plugin_version The plugin version (numeric string)
+	 */
 	public $plugin_version;
 
-	// settings
+	/**
+	 * Plugin settings.
+	 *
+	 * @since 0.1
+	 * @access public
+	 * @var array $settings The plugin settings
+	 */
 	public $settings = array();
 
-	// form error messages
+	/**
+	 * Form error messages.
+	 *
+	 * @since 0.1
+	 * @access public
+	 * @var array $error_strings The form error messages
+	 */
 	public $error_strings;
 
-	// errors in current submission
+	/**
+	 * Errors in current form submission.
+	 *
+	 * @since 0.1
+	 * @access public
+	 * @var array $error_strings The errors in current form submission
+	 */
 	public $errors;
 
 

@@ -53,26 +53,48 @@ if ( ! defined( 'CIVI_WP_MEMBER_SYNC_PLUGIN_PATH' ) ) {
 
 
 /**
- * Class for encapsulating plugin functionality.
+ * CiviCRM WordPress Member Sync
+ *
+ * A class for encapsulating plugin functionality.
  *
  * @since 0.1
  */
 class Civi_WP_Member_Sync {
 
 	/**
-	 * Properties
+	 * WordPress Users utilities object.
+	 *
+	 * @since 0.1
+	 * @access public
+	 * @var object $user The users utilities object
 	 */
-
-	// Users utilities class
 	public $users;
 
-	// Schedule utilities class
+	/**
+	 * WordPress Scheduled Events utilities object.
+	 *
+	 * @since 0.1
+	 * @access public
+	 * @var object $schedule The scheduled events utilities object
+	 */
 	public $schedule;
 
-	// Admin utilities class
+	/**
+	 * Admin utilities object.
+	 *
+	 * @since 0.1
+	 * @access public
+	 * @var object $admin The admin utilities object
+	 */
 	public $admin;
 
-	// CiviMember utilities class
+	/**
+	 * CiviCRM Membership utilities object.
+	 *
+	 * @since 0.1
+	 * @access public
+	 * @var object $members The membership utilities object
+	 */
 	public $members;
 
 
