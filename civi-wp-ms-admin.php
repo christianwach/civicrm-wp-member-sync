@@ -367,7 +367,7 @@ class Civi_WP_Member_Sync_Admin {
 
 
 	/**
-	 * This tells WP to highlight the plugin's menu item, regardless of which.
+	 * Tell WordPress to highlight the plugin's menu item, regardless of which
 	 * actual admin screen we are on.
 	 *
 	 * @since 0.1
