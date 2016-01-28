@@ -14,11 +14,13 @@ Civi_WP_Member_Sync_Admin Class
 class Civi_WP_Member_Sync_Admin {
 
 	/**
-	 * Properties
+	 * Plugin (calling) object.
+	 *
+	 * @since 0.1
+	 * @access public
+	 * @var object $plugin The plugin object
 	 */
-
-	// parent object
-	public $parent_obj;
+	public $plugin;
 
 	// migration object
 	public $migrate;
@@ -49,12 +51,12 @@ class Civi_WP_Member_Sync_Admin {
 	 *
 	 * @since 0.1
 	 *
-	 * @param object $parent_obj The parent object
+	 * @param object $plugin The plugin object
 	 */
-	public function __construct( $parent_obj ) {
+	public function __construct( $plugin ) {
 
-		// store reference to parent
-		$this->parent_obj = $parent_obj;
+		// store reference to plugin
+		$this->plugin = $plugin;
 
 		// define errors
 		$this->error_strings = array(
@@ -505,7 +507,7 @@ class Civi_WP_Member_Sync_Admin {
 			$method = $this->setting_get( 'method' );
 
 			// get all schedules
-			$schedules = $this->parent_obj->schedule->intervals_get();
+			$schedules = $this->plugin->schedule->intervals_get();
 
 			// get our sync settings
 			$login = absint( $this->setting_get( 'login' ) );
@@ -573,7 +575,7 @@ class Civi_WP_Member_Sync_Admin {
 			$data = ( isset( $all_data[$method] ) ) ? $all_data[$method] : array();
 
 			// get all membership types
-			$membership_types = $this->parent_obj->members->types_get_all();
+			$membership_types = $this->plugin->members->types_get_all();
 
 			// assume we don't have all types
 			$have_all_types = false;
@@ -653,10 +655,10 @@ class Civi_WP_Member_Sync_Admin {
 		$urls = $this->page_get_urls();
 
 		// get all membership types
-		$membership_types = $this->parent_obj->members->types_get_all();
+		$membership_types = $this->plugin->members->types_get_all();
 
 		// get all membership status rules
-		$status_rules = $this->parent_obj->members->status_rules_get_all();
+		$status_rules = $this->plugin->members->status_rules_get_all();
 
 		// get method
 		$method = $this->setting_get( 'method' );
@@ -683,7 +685,7 @@ class Civi_WP_Member_Sync_Admin {
 		if ( $method == 'roles' ) {
 
 			// get filtered roles
-			$roles = $this->parent_obj->users->wp_role_names_get_all();
+			$roles = $this->plugin->users->wp_role_names_get_all();
 
 			// include template file
 			include( CIVI_WP_MEMBER_SYNC_PLUGIN_PATH . 'assets/templates/rule-role-add.php' );
@@ -712,10 +714,10 @@ class Civi_WP_Member_Sync_Admin {
 		$urls = $this->page_get_urls();
 
 		// get all membership types
-		$membership_types = $this->parent_obj->members->types_get_all();
+		$membership_types = $this->plugin->members->types_get_all();
 
 		// get all membership status rules
-		$status_rules = $this->parent_obj->members->status_rules_get_all();
+		$status_rules = $this->plugin->members->status_rules_get_all();
 
 		// get method
 		$method = $this->setting_get( 'method' );
@@ -752,7 +754,7 @@ class Civi_WP_Member_Sync_Admin {
 		if ( $method == 'roles' ) {
 
 			// get filtered roles
-			$roles = $this->parent_obj->users->wp_role_names_get_all();
+			$roles = $this->plugin->users->wp_role_names_get_all();
 
 			// get stored roles
 			$current_wp_role = $selected_rule['current_wp_role'];
@@ -909,7 +911,7 @@ class Civi_WP_Member_Sync_Admin {
 			do_action( 'civi_wp_member_sync_pre_sync_all' );
 
 			// sync all memberships for *existing* WordPress users
-			$result = $this->parent_obj->members->sync_all();
+			$result = $this->plugin->members->sync_all();
 
 			// and again, now that we're done
 			do_action( 'civi_wp_member_sync_after_sync_all' );
@@ -1041,7 +1043,7 @@ class Civi_WP_Member_Sync_Admin {
 		if ( $existing_schedule == 1 AND $settings_schedule === 0 ) {
 
 			// clear current scheduled event
-			$this->parent_obj->schedule->unschedule();
+			$this->plugin->schedule->unschedule();
 
 		}
 
@@ -1060,10 +1062,10 @@ class Civi_WP_Member_Sync_Admin {
 			if ( $settings_schedule AND $settings_interval != $existing_interval ) {
 
 				// clear current scheduled event
-				$this->parent_obj->schedule->unschedule();
+				$this->plugin->schedule->unschedule();
 
 				// now add new scheduled event
-				$this->parent_obj->schedule->schedule( $settings_interval );
+				$this->plugin->schedule->schedule( $settings_interval );
 
 			}
 
@@ -1507,7 +1509,7 @@ class Civi_WP_Member_Sync_Admin {
 			// SYNC ROLES
 
 			// get primary WP role
-			$user_role = $this->parent_obj->users->wp_role_get( $user );
+			$user_role = $this->plugin->users->wp_role_get( $user );
 
 			// does the user's membership status match a current status rule?
 			if ( isset( $status_id ) && array_search( $status_id, $current_rule ) ) {
@@ -1519,7 +1521,7 @@ class Civi_WP_Member_Sync_Admin {
 				if (  ! empty( $wp_role ) AND $wp_role != $user_role ) {
 
 					// no - set new role
-					$this->parent_obj->users->wp_role_set( $user, $user_role, $wp_role );
+					$this->plugin->users->wp_role_set( $user, $user_role, $wp_role );
 
 				}
 
@@ -1532,7 +1534,7 @@ class Civi_WP_Member_Sync_Admin {
 				if ( ! empty( $expired_wp_role ) AND $expired_wp_role != $user_role ) {
 
 					// switch user's role to the expired role
-					$this->parent_obj->users->wp_role_set( $user, $user_role, $expired_wp_role );
+					$this->plugin->users->wp_role_set( $user, $user_role, $expired_wp_role );
 
 				}
 
@@ -1558,18 +1560,18 @@ class Civi_WP_Member_Sync_Admin {
 				if ( defined( 'MEMBERS_VERSION' ) ) {
 
 					// add the plugin's custom capability
-					$this->parent_obj->users->wp_cap_add( $user, 'restrict_content' );
+					$this->plugin->users->wp_cap_add( $user, 'restrict_content' );
 
 				}
 
 				// add type capability
-				$this->parent_obj->users->wp_cap_add( $user, $capability );
+				$this->plugin->users->wp_cap_add( $user, $capability );
 
 				// clear status capabilities
-				$this->parent_obj->users->wp_cap_remove_status( $user, $capability );
+				$this->plugin->users->wp_cap_remove_status( $user, $capability );
 
 				// add status capability
-				$this->parent_obj->users->wp_cap_add( $user, $capability_status );
+				$this->plugin->users->wp_cap_add( $user, $capability_status );
 
 			} else {
 
@@ -1577,15 +1579,15 @@ class Civi_WP_Member_Sync_Admin {
 				if ( defined( 'MEMBERS_VERSION' ) ) {
 
 					// remove the plugin's custom capability
-					$this->parent_obj->users->wp_cap_remove( $user, 'restrict_content' );
+					$this->plugin->users->wp_cap_remove( $user, 'restrict_content' );
 
 				}
 
 				// remove type capability
-				$this->parent_obj->users->wp_cap_remove( $user, $capability );
+				$this->plugin->users->wp_cap_remove( $user, $capability );
 
 				// clear status capabilities
-				$this->parent_obj->users->wp_cap_remove_status( $user, $capability );
+				$this->plugin->users->wp_cap_remove_status( $user, $capability );
 
 			}
 
@@ -1622,7 +1624,7 @@ class Civi_WP_Member_Sync_Admin {
 			// assign the expired role
 
 			// get primary WP role
-			$user_role = $this->parent_obj->users->wp_role_get( $user );
+			$user_role = $this->plugin->users->wp_role_get( $user );
 
 			// get association rule for this membership type
 			$association_rule = $this->rule_get_by_type( $membership->membership_type_id, $method );
@@ -1634,7 +1636,7 @@ class Civi_WP_Member_Sync_Admin {
 			$expired_wp_role = $association_rule['expired_wp_role'];
 
 			// switch user's role to the expired role
-			$this->parent_obj->users->wp_role_set( $user, $user_role, $expired_wp_role );
+			$this->plugin->users->wp_role_set( $user, $user_role, $expired_wp_role );
 
 			// --<
 			return true;
@@ -1645,16 +1647,16 @@ class Civi_WP_Member_Sync_Admin {
 			$capability = CIVI_WP_MEMBER_SYNC_CAP_PREFIX . $membership->membership_type_id;
 
 			// remove capability
-			$this->parent_obj->users->wp_cap_remove( $user, $capability );
+			$this->plugin->users->wp_cap_remove( $user, $capability );
 
 			// remove status capability
-			$this->parent_obj->users->wp_cap_remove_status( $user, $capability );
+			$this->plugin->users->wp_cap_remove_status( $user, $capability );
 
 			// do we have the "Members" plugin?
 			if ( defined( 'MEMBERS_VERSION' ) ) {
 
 				// remove the custom capability
-				$this->parent_obj->users->wp_cap_remove( $user, 'restrict_content' );
+				$this->plugin->users->wp_cap_remove( $user, 'restrict_content' );
 
 			}
 

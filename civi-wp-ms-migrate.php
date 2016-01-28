@@ -25,8 +25,13 @@ in the main plugin file.
 class Civi_WP_Member_Sync_Migrate {
 
 	/**
-	 * Properties
+	 * Plugin (calling) object.
+	 *
+	 * @since 0.1
+	 * @access public
+	 * @var object $plugin The plugin object
 	 */
+	public $plugin;
 
 
 
@@ -35,12 +40,12 @@ class Civi_WP_Member_Sync_Migrate {
 	 *
 	 * @since 0.1
 	 *
-	 * @param object $parent_obj The parent object
+	 * @param object $plugin The plugin object
 	 */
-	public function __construct( $parent_obj ) {
+	public function __construct( $plugin ) {
 
-		// store reference to parent
-		$this->parent_obj = $parent_obj;
+		// store reference to plugin
+		$this->plugin = $plugin;
 
 	}
 
@@ -63,7 +68,7 @@ class Civi_WP_Member_Sync_Migrate {
 		return false;
 
 		// grab default data to test for the default array
-		$data = $this->parent_obj->setting_get( 'data' );
+		$data = $this->plugin->setting_get( 'data' );
 
 		// don't show migration if we have data
 		if ( count( $data['roles'] ) > 0 ) return false;
@@ -115,7 +120,7 @@ class Civi_WP_Member_Sync_Migrate {
 	public function legacy_data_migrate() {
 
 		// grab default data (there will only be the skeleton array)
-		$data = $this->parent_obj->setting_get( 'data' );
+		$data = $this->plugin->setting_get( 'data' );
 
 		// access database object
 		global $wpdb;
@@ -145,10 +150,10 @@ class Civi_WP_Member_Sync_Migrate {
 			}
 
 			// overwrite existing data
-			$this->parent_obj->setting_set( 'data', $data );
+			$this->plugin->setting_set( 'data', $data );
 
 			// save
-			$this->parent_obj->settings_save();
+			$this->plugin->settings_save();
 
 		}
 

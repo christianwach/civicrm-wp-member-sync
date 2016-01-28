@@ -14,11 +14,13 @@ Civi_WP_Member_Sync_Schedule Class
 class Civi_WP_Member_Sync_Schedule {
 
 	/**
-	 * Properties
+	 * Plugin (calling) object.
+	 *
+	 * @since 0.1
+	 * @access public
+	 * @var object $plugin The plugin object
 	 */
-
-	// parent object
-	public $parent_obj;
+	public $plugin;
 
 
 
@@ -27,12 +29,12 @@ class Civi_WP_Member_Sync_Schedule {
 	 *
 	 * @since 0.1
 	 *
-	 * @param object $parent_obj The parent object
+	 * @param object $plugin The plugin object
 	 */
-	public function __construct( $parent_obj ) {
+	public function __construct( $plugin ) {
 
-		// store reference to parent
-		$this->parent_obj = $parent_obj;
+		// store reference to plugin
+		$this->plugin = $plugin;
 
 	}
 
@@ -48,13 +50,13 @@ class Civi_WP_Member_Sync_Schedule {
 	public function initialise() {
 
 		// get our schedule sync setting
-		$schedule = absint( $this->parent_obj->admin->setting_get( 'schedule' ) );
+		$schedule = absint( $this->plugin->admin->setting_get( 'schedule' ) );
 
 		// add schedule if set
 		if ( $schedule === 1 ) {
 
 			// get our interval setting
-			$interval = $this->parent_obj->admin->setting_get( 'interval' );
+			$interval = $this->plugin->admin->setting_get( 'interval' );
 
 			// sanity check
 			if ( ! empty( $interval ) ) {
@@ -138,7 +140,7 @@ class Civi_WP_Member_Sync_Schedule {
 	public function schedule_callback() {
 
 		// call sync all method
-		$this->parent_obj->members->sync_all();
+		$this->plugin->members->sync_all();
 
 	}
 

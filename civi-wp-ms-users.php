@@ -14,11 +14,13 @@ Civi_WP_Member_Sync_Users Class
 class Civi_WP_Member_Sync_Users {
 
 	/**
-	 * Properties
+	 * Plugin (calling) object.
+	 *
+	 * @since 0.1
+	 * @access public
+	 * @var object $plugin The plugin object
 	 */
-
-	// parent object
-	public $parent_obj;
+	public $plugin;
 
 
 
@@ -27,12 +29,12 @@ class Civi_WP_Member_Sync_Users {
 	 *
 	 * @since 0.1
 	 *
-	 * @param object $parent_obj The parent object
+	 * @param object $plugin The plugin object
 	 */
-	public function __construct( $parent_obj ) {
+	public function __construct( $plugin ) {
 
-		// store reference to parent
-		$this->parent_obj = $parent_obj;
+		// store reference to plugin
+		$this->plugin = $plugin;
 
 	}
 
@@ -312,7 +314,7 @@ class Civi_WP_Member_Sync_Users {
 		if ( empty( $capability ) ) return;
 
 		// get membership status rules
-		$status_rules = $this->parent_obj->members->status_rules_get_all();
+		$status_rules = $this->plugin->members->status_rules_get_all();
 
 		// sanity checks
 		if ( ! is_array( $status_rules ) ) return;
