@@ -1,12 +1,8 @@
-<?php /*
---------------------------------------------------------------------------------
-Civi_WP_Member_Sync_Schedule Class
---------------------------------------------------------------------------------
-*/
-
-
+<?php
 
 /**
+ * CiviCRM WordPress Member Sync Schedule class.
+ *
  * Class for encapsulating WordPress scheduling functionality.
  *
  * @since 0.1

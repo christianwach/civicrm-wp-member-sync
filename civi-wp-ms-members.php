@@ -1,13 +1,9 @@
-<?php /*
---------------------------------------------------------------------------------
-Civi_WP_Member_Sync_Members Class
---------------------------------------------------------------------------------
-*/
-
-
+<?php
 
 /**
- * Class for encapsulating CiviMember functionality.
+ * CiviCRM WordPress Member Sync Membership class.
+ *
+ * Class for encapsulating CiviCRM Membership functionality.
  *
  * @since 0.1
  */

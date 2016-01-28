@@ -1,24 +1,16 @@
-<?php /*
---------------------------------------------------------------------------------
-Civi_WP_Member_Sync_Migrate Class
---------------------------------------------------------------------------------
-
-Author note:
-
-This class is written for me to migrate my existing data. You may need to amend
-it for your needs if you want to migrate your data from either of the plugins
-that this one has built on.
-
-If you want to enable it, uncomment where CIVI_WP_MEMBER_SYNC_MIGRATE is defined
-in the main plugin file.
-
---------------------------------------------------------------------------------
-*/
-
-
+<?php
 
 /**
+ * CiviCRM WordPress Member Sync Migrate class.
+ *
  * Class for encapsulating migration functionality.
+ *
+ * Author note:
+ * This class is written for me to migrate my existing data. You may need to
+ * amend it for your needs if you want to migrate your data from either of the
+ * plugins that this one has built on.
+ * If you want to enable it, uncomment where CIVI_WP_MEMBER_SYNC_MIGRATE is
+ * defined in the main plugin file.
  *
  * @since 0.1
  */

@@ -53,7 +53,7 @@ if ( ! defined( 'CIVI_WP_MEMBER_SYNC_PLUGIN_PATH' ) ) {
 
 
 /**
- * CiviCRM WordPress Member Sync
+ * CiviCRM WordPress Member Sync class.
  *
  * A class for encapsulating plugin functionality.
  *

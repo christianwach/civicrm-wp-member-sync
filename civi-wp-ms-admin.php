@@ -1,12 +1,8 @@
-<?php /*
---------------------------------------------------------------------------------
-Civi_WP_Member_Sync_Admin Class
---------------------------------------------------------------------------------
-*/
-
-
+<?php
 
 /**
+ * CiviCRM WordPress Member Sync Admin class.
+ *
  * Class for encapsulating admin functionality.
  *
  * @since 0.1
