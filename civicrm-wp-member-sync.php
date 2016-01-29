@@ -290,8 +290,11 @@ function civi_wp_member_sync_plugin_add_settings_link( $links, $file ) {
 	// maybe add settings link
 	if ( $file == plugin_basename( dirname( __FILE__ ) . '/civicrm-wp-member-sync.php' ) ) {
 
-		// is this Network Admin? Also check sub-site listings (since WordPress 4.4)
-		if ( is_network_admin() OR civicrm_wpms()->admin->is_network_activated() ) {
+		// is this Network Admin? Also check sub-site listings (since WordPress 4.4) and show for network admins
+		if ( 
+			is_network_admin() OR 
+			( is_super_admin() AND civicrm_wpms()->admin->is_network_activated() ) 
+		) {
 			$link = add_query_arg( array( 'page' => 'civi_wp_member_sync_parent' ), network_admin_url( 'settings.php' ) );
 		} else {
 			$link = add_query_arg( array( 'page' => 'civi_wp_member_sync_parent' ), admin_url( 'options-general.php' ) );
