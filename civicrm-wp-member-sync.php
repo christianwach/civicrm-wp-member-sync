@@ -277,7 +277,9 @@ function civicrm_wpms() {
 
 
 /**
- * Add utility links to WordPress Plugin Listings Pages.
+ * Add courtesy links on WordPress plugin listings pages.
+ *
+ * @since 0.1
  *
  * @param array $links The existing list of plugin links
  * @param str $file The name of the plugin file
@@ -285,10 +287,10 @@ function civicrm_wpms() {
  */
 function civi_wp_member_sync_plugin_add_settings_link( $links, $file ) {
 
-	// add settings link
+	// maybe add settings link
 	if ( $file == plugin_basename( dirname( __FILE__ ) . '/civicrm-wp-member-sync.php' ) ) {
 
-		// is this Network Admin? Also check sub-site listings since WordPress 4.4
+		// is this Network Admin? Also check sub-site listings (since WordPress 4.4)
 		if ( is_network_admin() OR civicrm_wpms()->admin->is_network_activated() ) {
 			$link = add_query_arg( array( 'page' => 'civi_wp_member_sync_parent' ), network_admin_url( 'settings.php' ) );
 		} else {
