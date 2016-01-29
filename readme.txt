@@ -72,6 +72,11 @@ It may sometimes be necessary to manually synchronize users. Click on the "Manua
 
 == Changelog ==
 
+= 0.2.7 =
+
+* Disambiguate network-activated and site-activated installs
+* Fix courtesy links to settings pages
+
 = 0.2.6 =
 
 * Fixes scheduled sync
