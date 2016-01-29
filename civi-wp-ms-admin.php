@@ -348,10 +348,10 @@ class Civi_WP_Member_Sync_Admin {
 	public function admin_menu() {
 
 		// we must be network admin in multisite
-		if ( is_multisite() AND !is_super_admin() ) return false;
+		if ( is_multisite() AND ! is_super_admin() ) return false;
 
 		// check user permissions
-		if ( !current_user_can('manage_options') ) return false;
+		if ( ! current_user_can( 'manage_options' ) ) return false;
 
 		// multisite?
 		if ( $this->is_network_activated() ) {
@@ -640,7 +640,7 @@ class Civi_WP_Member_Sync_Admin {
 	public function page_settings() {
 
 		// check user permissions
-		if ( current_user_can('manage_options') ) {
+		if ( current_user_can( 'manage_options' ) ) {
 
 			// get admin page URLs
 			$urls = $this->page_get_urls();
@@ -689,7 +689,7 @@ class Civi_WP_Member_Sync_Admin {
 	public function page_manual_sync() {
 
 		// check user permissions
-		if ( current_user_can('manage_options') ) {
+		if ( current_user_can( 'manage_options' ) ) {
 
 			// get admin page URLs
 			$urls = $this->page_get_urls();
@@ -713,7 +713,7 @@ class Civi_WP_Member_Sync_Admin {
 	public function page_rules_list() {
 
 		// check user permissions
-		if ( current_user_can('manage_options') ) {
+		if ( current_user_can( 'manage_options' ) ) {
 
 			// get admin page URLs
 			$urls = $this->page_get_urls();
@@ -736,7 +736,7 @@ class Civi_WP_Member_Sync_Admin {
 			// well, do we have all types populated?
 			if ( count( $data ) === count( $membership_types ) ) {
 
-				// we do!
+				// we do
 				$have_all_types = true;
 
 			}
@@ -770,7 +770,7 @@ class Civi_WP_Member_Sync_Admin {
 	public function page_rule_add_edit() {
 
 		// check user permissions
-		if ( current_user_can('manage_options') ) {
+		if ( current_user_can( 'manage_options' ) ) {
 
 			// default mode
 			$mode = 'add';
@@ -996,7 +996,7 @@ class Civi_WP_Member_Sync_Admin {
 			$url = '';
 		}
 
-		$url = esc_url($url);
+		$url = esc_url( $url );
 
 		if ( $echo ) echo $url;
 
@@ -1045,17 +1045,17 @@ class Civi_WP_Member_Sync_Admin {
 		$result = false;
 
 		// was the "Migrate" form submitted?
-		if( isset( $_POST[ 'civi_wp_member_sync_migrate_submit' ] ) ) {
+		if( isset( $_POST['civi_wp_member_sync_migrate_submit'] ) ) {
 			$result = $this->migrate->legacy_migrate();
 		}
 
 		// was the "Settings" form submitted?
-		if( isset( $_POST[ 'civi_wp_member_sync_settings_submit' ] ) ) {
+		if( isset( $_POST['civi_wp_member_sync_settings_submit'] ) ) {
 			$result = $this->settings_update();
 		}
 
 		// was the "Manual Sync" form submitted?
-		if( isset( $_POST[ 'civi_wp_member_sync_manual_sync_submit' ] ) ) {
+		if( isset( $_POST['civi_wp_member_sync_manual_sync_submit'] ) ) {
 
 			// check that we trust the source of the request
 			check_admin_referer( 'civi_wp_member_sync_manual_sync_action', 'civi_wp_member_sync_nonce' );
@@ -1072,7 +1072,7 @@ class Civi_WP_Member_Sync_Admin {
 		}
 
 		// was the "Rule" form submitted?
-		if( isset( $_POST[ 'civi_wp_member_sync_rules_submit' ] ) ) {
+		if( isset( $_POST['civi_wp_member_sync_rules_submit'] ) ) {
 			$result = $this->rule_update();
 		}
 
