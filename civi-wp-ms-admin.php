@@ -160,10 +160,10 @@ class Civi_WP_Member_Sync_Admin {
 		$this->store_version();
 
 		// add settings option only if it does not exist
-		if ( 'fgffgs' == get_option( 'civi_wp_member_sync_settings', 'fgffgs' ) ) {
+		if ( 'fgffgs' == $this->option_get( 'civi_wp_member_sync_settings', 'fgffgs' ) ) {
 
 			// store default settings
-			add_option( 'civi_wp_member_sync_settings', $this->settings_get_default() );
+			$this->option_save( 'civi_wp_member_sync_settings', $this->settings_get_default() );
 
 		}
 
@@ -240,21 +240,24 @@ class Civi_WP_Member_Sync_Admin {
 	public function initialise() {
 
 		// load plugin version
-		$this->plugin_version = get_option( 'civi_wp_member_sync_version', false );
+		$this->plugin_version = $this->option_get( 'civi_wp_member_sync_version', false );
+
+		// perform any upgrade tasks
+		$this->upgrade_tasks();
 
 		// upgrade version if needed
 		if ( $this->plugin_version != CIVI_WP_MEMBER_SYNC_VERSION ) $this->store_version();
 
 		// load settings array
-		$this->settings = get_option( 'civi_wp_member_sync_settings', $this->settings );
+		$this->settings = $this->option_get( 'civi_wp_member_sync_settings', $this->settings );
 
 		// is this the back end?
 		if ( is_admin() ) {
 
-			// multisite?
+			// multisite and network-activated?
 			if ( $this->is_network_activated() ) {
 
-				// add admin page to Network menu
+				// add admin page to Network Settings menu
 				add_action( 'network_admin_menu', array( $this, 'admin_menu' ), 30 );
 
 			} else {
@@ -274,6 +277,48 @@ class Civi_WP_Member_Sync_Admin {
 
 
 	/**
+	 * Perform upgrade tasks.
+	 *
+	 * @since 0.2.7
+	 *
+	 * @return void
+	 */
+	public function upgrade_tasks() {
+
+		// if the current version is less than 0.2.7 and we're upgrading to 0.2.7+
+		if (
+			version_compare( $this->plugin_version, '0.2.7', '<' ) AND
+			version_compare( CIVI_WP_MEMBER_SYNC_VERSION, '0.2.7', '>=' )
+		) {
+
+			// check if this plugin is network-activated
+			if ( $this->is_network_activated() ) {
+
+				// get existing settings from local options
+				$settings = get_option( 'civi_wp_member_sync_settings', array() );
+
+				// what if we don't have any?
+				if ( ! array_key_exists( 'data', $settings ) ) {
+					return;
+				}
+
+				// migrate to network settings
+				$this->settings = $settings;
+				$this->settings_save();
+
+				// delete local options
+				delete_option( 'civi_wp_member_sync_version' );
+				delete_option( 'civi_wp_member_sync_settings' );
+
+			}
+
+		}
+
+	}
+
+
+
+	/**
 	 * Store the plugin version.
 	 *
 	 * @since 0.1
@@ -283,7 +328,7 @@ class Civi_WP_Member_Sync_Admin {
 	public function store_version() {
 
 		// store version
-		update_option( 'civi_wp_member_sync_version', CIVI_WP_MEMBER_SYNC_VERSION );
+		$this->option_save( 'civi_wp_member_sync_version', CIVI_WP_MEMBER_SYNC_VERSION );
 
 	}
 
@@ -1208,7 +1253,7 @@ class Civi_WP_Member_Sync_Admin {
 	public function settings_save() {
 
 		// update WordPress option and return result
-		return update_option( 'civi_wp_member_sync_settings', $this->settings );
+		return $this->option_save( 'civi_wp_member_sync_settings', $this->settings );
 
 	}
 
@@ -1251,6 +1296,96 @@ class Civi_WP_Member_Sync_Admin {
 
 		// set setting
 		$this->settings[ $setting_name ] = $value;
+
+	}
+
+
+
+	//##########################################################################
+
+
+
+	/**
+	 * Get a WordPress option.
+	 *
+	 * @since 0.2.7
+	 *
+	 * @param string $key The option name
+	 * @param mixed $default The default option value if none exists
+	 * @return mixed $value
+	 */
+	public function option_get( $key, $default = null ) {
+
+		// if multisite and network activated
+		if ( $this->is_network_activated() ) {
+
+			// get site option
+			$value = get_site_option( $key, $default );
+
+		} else {
+
+			// get option
+			$value = get_option( $key, $default );
+
+		}
+
+		// --<
+		return $value;
+
+	}
+
+
+
+	/**
+	 * Save a WordPress option.
+	 *
+	 * @since 0.2.7
+	 *
+	 * @param string $key The option name
+	 * @param mixed $value The value to save
+	 * @return void
+	 */
+	public function option_save( $key, $value ) {
+
+		// if multisite and network activated
+		if ( $this->is_network_activated() ) {
+
+			// update site option
+			update_site_option( $key, $value );
+
+		} else {
+
+			// update option
+			update_option( $key, $value );
+
+		}
+
+	}
+
+
+
+	/**
+	 * Delete a WordPress option.
+	 *
+	 * @since 0.2.7
+	 *
+	 * @param string $key The option name
+	 * @return void
+	 */
+	public function option_delete( $key ) {
+
+		// if multisite and network activated
+		if ( $this->is_network_activated() ) {
+
+			// delete site option
+			delete_site_option( $key, $value );
+
+		} else {
+
+			// delete option
+			delete_option( $key, $value );
+
+		}
 
 	}
 

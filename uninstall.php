@@ -17,9 +17,17 @@ if ( ! defined( 'WP_UNINSTALL_PLUGIN' ) ) { exit(); }
 function civi_wp_member_sync_reset_caps() {
 
 	// get existing settings
-	$settings = get_option( 'civi_wp_member_sync_settings' );
+	$settings = get_option( 'civi_wp_member_sync_settings', array() );
 
-	// bail if we have no data
+	// try network options if we have no data
+	if ( ! array_key_exists( 'data', $settings ) ) {
+
+		// get existing network settings
+		$settings = get_site_option( 'civi_wp_member_sync_settings', array() );
+
+	}
+
+	// bail if we still have no data
 	if ( ! array_key_exists( 'data', $settings ) ) return;
 
 	// get 'capabilities' association rules
@@ -71,12 +79,9 @@ function civi_wp_member_sync_reset_caps() {
 		if ( count( $capabilities ) > 0 ) {
 			foreach( $capabilities AS $capability ) {
 
-				// if they have the capability
+				// remove capability if they have it
 				if ( $user->has_cap( $capability ) ) {
-
-					// remove it
 					$user->remove_cap( $capability );
-
 				}
 
 			}
@@ -98,8 +103,9 @@ delete_option( 'civi_wp_member_sync_settings' );
 // are we deleting in multisite?
 if ( is_multisite() ) {
 
-	// delete multisite options
-	//delete_site_option( 'civi_wp_member_sync_network_settings );
+	// delete network-activated options
+	delete_site_option( 'civi_wp_member_sync_version' );
+	delete_site_option( 'civi_wp_member_sync_settings' );
 
 }
 
