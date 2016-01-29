@@ -10,8 +10,13 @@
 	<?php
 
 	// if we've updated, show message...
-	if ( isset( $_GET['updated'] ) AND $_GET['updated'] == 'true' ) {
-		echo '<div id="message" class="updated"><p>'.__( 'Options updated.', 'civicrm-wp-member-sync' ).'</p></div>';
+	if ( $this->is_network_activated() AND isset( $_GET['updated'] ) AND $_GET['updated'] == 'true' ) {
+		echo '<div id="setting-error-settings_updated" class="updated settings-error notice is-dismissible">' .
+				'<p><strong>' . __( 'Settings saved.', 'civicrm-wp-member-sync' ) . '</strong></p>' .
+				'<button type="button" class="notice-dismiss">' .
+					'<span class="screen-reader-text">' . __( 'Dismiss this notice.', 'civicrm-wp-member-sync' ) . '</span>' .
+				'</button>' .
+			 '</div>';
 	}
 
 	?>
