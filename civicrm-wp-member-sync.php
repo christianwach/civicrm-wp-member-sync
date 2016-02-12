@@ -291,9 +291,9 @@ function civi_wp_member_sync_plugin_add_settings_link( $links, $file ) {
 	if ( $file == plugin_basename( dirname( __FILE__ ) . '/civicrm-wp-member-sync.php' ) ) {
 
 		// is this Network Admin? Also check sub-site listings (since WordPress 4.4) and show for network admins
-		if ( 
-			is_network_admin() OR 
-			( is_super_admin() AND civicrm_wpms()->admin->is_network_activated() ) 
+		if (
+			is_network_admin() OR
+			( is_super_admin() AND civicrm_wpms()->admin->is_network_activated() )
 		) {
 			$link = add_query_arg( array( 'page' => 'civi_wp_member_sync_parent' ), network_admin_url( 'settings.php' ) );
 		} else {
