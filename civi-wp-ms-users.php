@@ -111,7 +111,7 @@ class Civi_WP_Member_Sync_Users {
 		if ( empty( $old_role ) ) return;
 		if ( empty( $new_role ) ) return;
 
-		// Remove old role then add new role, so that we don't inadventently
+		// Remove old role then add new role, so that we don't inadvertently
 		// overwrite multiple roles, for example when bbPress is active
 
 		// remove user's existing role
