@@ -44,8 +44,6 @@ class Civi_WP_Member_Sync_Members {
 	 * Register hooks when CiviCRM initialises.
 	 *
 	 * @since 0.1
-	 *
-	 * @return void
 	 */
 	public function initialise() {
 
@@ -126,8 +124,6 @@ class Civi_WP_Member_Sync_Members {
 	 * Check user's membership record during logout.
 	 *
 	 * @since 0.1
-	 *
-	 * @return void
 	 */
 	public function sync_on_logout() {
 
@@ -178,7 +174,6 @@ class Civi_WP_Member_Sync_Members {
 	 *
 	 * @param string $user_login Logged in user's username
 	 * @param WP_User $user WP_User object of the logged-in user.
-	 * @return void
 	 */
 	public function sync_to_user( $user_login, $user ) {
 
@@ -211,7 +206,6 @@ class Civi_WP_Member_Sync_Members {
 	 * @param string $objectName the type of object
 	 * @param integer $objectId the ID of the object
 	 * @param object $objectRef the object
-	 * @return void
 	 */
 	public function membership_pre_update( $op, $objectName, $objectId, $objectRef ) {
 
@@ -234,7 +228,6 @@ class Civi_WP_Member_Sync_Members {
 	 * @param string $objectName the type of object
 	 * @param integer $objectId the ID of the object
 	 * @param object $objectRef the object
-	 * @return void
 	 */
 	public function membership_updated( $op, $objectName, $objectId, $objectRef ) {
 
@@ -321,7 +314,6 @@ class Civi_WP_Member_Sync_Members {
 	 *
 	 * @param string $formName the CiviCRM form name
 	 * @param object $form the CiviCRM form object
-	 * @return void
 	 */
 	public function membership_form_process( $formName, &$form ) {
 

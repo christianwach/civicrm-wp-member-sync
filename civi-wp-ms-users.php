@@ -40,8 +40,6 @@ class Civi_WP_Member_Sync_Users {
 	 * Initialise when CiviCRM initialises.
 	 *
 	 * @since 0.1
-	 *
-	 * @return void
 	 */
 	public function initialise() {
 
@@ -100,7 +98,6 @@ class Civi_WP_Member_Sync_Users {
 	 * @param WP_User $user WP_User object of the logged-in user.
 	 * @param string $old_role Old WordPress role key
 	 * @param string $new_role New WordPress role key
-	 * @return void
 	 */
 	public function wp_role_set( $user, $old_role, $new_role ) {
 
@@ -224,7 +221,6 @@ class Civi_WP_Member_Sync_Users {
 	 *
 	 * @param WP_User $user WP_User object
 	 * @param string $capability Capability name
-	 * @return void
 	 */
 	public function wp_cap_add( $user, $capability ) {
 
@@ -261,7 +257,6 @@ class Civi_WP_Member_Sync_Users {
 	 *
 	 * @param WP_User $user WP_User object
 	 * @param string $capability Capability name
-	 * @return void
 	 */
 	public function wp_cap_remove( $user, $capability ) {
 
@@ -299,7 +294,6 @@ class Civi_WP_Member_Sync_Users {
 	 *
 	 * @param WP_User $user WP_User object
 	 * @param string $capability Capability name
-	 * @return void
 	 */
 	public function wp_cap_remove_status( $user, $capability ) {
 
@@ -553,8 +547,6 @@ class Civi_WP_Member_Sync_Users {
 	 * Remove filters (that we know of) that will interfere with creating a WordPress user.
 	 *
 	 * @since 0.1
-	 *
-	 * @return void
 	 */
 	private function remove_filters() {
 
@@ -596,8 +588,6 @@ class Civi_WP_Member_Sync_Users {
 	 * Add filters (that we know of) after creating a WordPress user.
 	 *
 	 * @since 0.1
-	 *
-	 * @return void
 	 */
 	private function add_filters() {
 

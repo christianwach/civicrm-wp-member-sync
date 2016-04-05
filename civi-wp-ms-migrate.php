@@ -80,8 +80,6 @@ class Civi_WP_Member_Sync_Migrate {
 	 * Migrate from 'civi_member_sync' to this plugin.
 	 *
 	 * @since 0.1
-	 *
-	 * @return void
 	 */
 	public function legacy_migrate() {
 

@@ -148,8 +148,6 @@ class Civi_WP_Member_Sync {
 	 * Perform plugin activation tasks.
 	 *
 	 * @since 0.1
-	 *
-	 * @return void
 	 */
 	public function activate() {
 
@@ -164,8 +162,6 @@ class Civi_WP_Member_Sync {
 	 * Perform plugin deactivation tasks.
 	 *
 	 * @since 0.1
-	 *
-	 * @return void
 	 */
 	public function deactivate() {
 
@@ -180,8 +176,6 @@ class Civi_WP_Member_Sync {
 	 * Initialise objects when CiviCRM initialises.
 	 *
 	 * @since 0.1
-	 *
-	 * @return void
 	 */
 	public function initialise() {
 

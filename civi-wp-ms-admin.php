@@ -151,8 +151,6 @@ class Civi_WP_Member_Sync_Admin {
 	 * Perform activation tasks.
 	 *
 	 * @since 0.1
-	 *
-	 * @return void
 	 */
 	public function activate() {
 
@@ -175,8 +173,6 @@ class Civi_WP_Member_Sync_Admin {
 	 * Perform deactivation tasks.
 	 *
 	 * @since 0.1
-	 *
-	 * @return void
 	 */
 	public function deactivate() {
 
@@ -234,8 +230,6 @@ class Civi_WP_Member_Sync_Admin {
 	 * Initialise when CiviCRM initialises.
 	 *
 	 * @since 0.1
-	 *
-	 * @return void
 	 */
 	public function initialise() {
 
@@ -280,8 +274,6 @@ class Civi_WP_Member_Sync_Admin {
 	 * Perform upgrade tasks.
 	 *
 	 * @since 0.2.7
-	 *
-	 * @return void
 	 */
 	public function upgrade_tasks() {
 
@@ -322,8 +314,6 @@ class Civi_WP_Member_Sync_Admin {
 	 * Store the plugin version.
 	 *
 	 * @since 0.1
-	 *
-	 * @return void
 	 */
 	public function store_version() {
 
@@ -342,8 +332,6 @@ class Civi_WP_Member_Sync_Admin {
 	 * Add this plugin's Settings Page to the WordPress admin menu.
 	 *
 	 * @since 0.1
-	 *
-	 * @return void
 	 */
 	public function admin_menu() {
 
@@ -486,8 +474,6 @@ class Civi_WP_Member_Sync_Admin {
 	 * Initialise plugin help.
 	 *
 	 * @since 0.1
-	 *
-	 * @return void
 	 */
 	public function admin_head() {
 
@@ -505,8 +491,6 @@ class Civi_WP_Member_Sync_Admin {
 	 * Enqueue plugin options page CSS.
 	 *
 	 * @since 0.1
-	 *
-	 * @return void
 	 */
 	public function admin_css() {
 
@@ -527,8 +511,6 @@ class Civi_WP_Member_Sync_Admin {
 	 * Ensure jQuery and jQuery Form are available in WP admin.
 	 *
 	 * @since 0.1
-	 *
-	 * @return void
 	 */
 	public function admin_js() {
 
@@ -634,8 +616,6 @@ class Civi_WP_Member_Sync_Admin {
 	 * Show settings page.
 	 *
 	 * @since 0.1
-	 *
-	 * @return void
 	 */
 	public function page_settings() {
 
@@ -683,8 +663,6 @@ class Civi_WP_Member_Sync_Admin {
 	 * Show manual sync page.
 	 *
 	 * @since 0.1
-	 *
-	 * @return void
 	 */
 	public function page_manual_sync() {
 
@@ -707,8 +685,6 @@ class Civi_WP_Member_Sync_Admin {
 	 * Show rules list page.
 	 *
 	 * @since 0.1
-	 *
-	 * @return void
 	 */
 	public function page_rules_list() {
 
@@ -764,8 +740,6 @@ class Civi_WP_Member_Sync_Admin {
 	 * Decide whether to show add or edit page.
 	 *
 	 * @since 0.1
-	 *
-	 * @return void
 	 */
 	public function page_rule_add_edit() {
 
@@ -799,8 +773,6 @@ class Civi_WP_Member_Sync_Admin {
 	 * Show add rule page.
 	 *
 	 * @since 0.1
-	 *
-	 * @return void
 	 */
 	private function page_rule_add() {
 
@@ -858,8 +830,6 @@ class Civi_WP_Member_Sync_Admin {
 	 * Show edit rule page.
 	 *
 	 * @since 0.1
-	 *
-	 * @return void
 	 */
 	private function page_rule_edit() {
 
@@ -1128,8 +1098,6 @@ class Civi_WP_Member_Sync_Admin {
 	 * Update plugin settings.
 	 *
 	 * @since 0.1
-	 *
-	 * @return void
 	 */
 	public function settings_update() {
 
@@ -1284,8 +1252,6 @@ class Civi_WP_Member_Sync_Admin {
 	 * Set a value for a specified setting.
 	 *
 	 * @since 0.1
-	 *
-	 * @return void
 	 */
 	public function setting_set( $setting_name = '', $value = '' ) {
 
@@ -1343,7 +1309,6 @@ class Civi_WP_Member_Sync_Admin {
 	 *
 	 * @param string $key The option name
 	 * @param mixed $value The value to save
-	 * @return void
 	 */
 	public function option_save( $key, $value ) {
 
@@ -1370,7 +1335,6 @@ class Civi_WP_Member_Sync_Admin {
 	 * @since 0.2.7
 	 *
 	 * @param string $key The option name
-	 * @return void
 	 */
 	public function option_delete( $key ) {
 
@@ -1923,8 +1887,6 @@ class Civi_WP_Member_Sync_Admin {
 	 * Register "Groups" plugin hooks if it's present.
 	 *
 	 * @since 0.2.3
-	 *
-	 * @return void
 	 */
 	public function groups_plugin_hooks() {
 
@@ -1956,7 +1918,6 @@ class Civi_WP_Member_Sync_Admin {
 	 * @since 0.2.3
 	 *
 	 * @param array $data The association rule data
-	 * @return void
 	 */
 	public function groups_add_cap( $data ) {
 
@@ -1982,7 +1943,6 @@ class Civi_WP_Member_Sync_Admin {
 	 * @since 0.2.3
 	 *
 	 * @param array $data The association rule data
-	 * @return void
 	 */
 	public function groups_edit_cap( $data ) {
 
@@ -1999,7 +1959,6 @@ class Civi_WP_Member_Sync_Admin {
 	 * @since 0.2.3
 	 *
 	 * @param array $data The association rule data
-	 * @return void
 	 */
 	public function groups_delete_cap( $data ) {
 
@@ -2025,7 +1984,6 @@ class Civi_WP_Member_Sync_Admin {
 	 * @since 0.2.3
 	 *
 	 * @param array $capability The capability to add
-	 * @return void
 	 */
 	public function groups_read_cap_add( $capability ) {
 
@@ -2054,7 +2012,6 @@ class Civi_WP_Member_Sync_Admin {
 	 * @since 0.2.3
 	 *
 	 * @param array $capability The capability to delete
-	 * @return void
 	 */
 	public function groups_read_cap_delete( $capability ) {
 
@@ -2084,8 +2041,6 @@ class Civi_WP_Member_Sync_Admin {
 	 * Before a manual sync, make sure "Groups" plugin is in sync.
 	 *
 	 * @since 0.2.3
-	 *
-	 * @return void
 	 */
 	public function groups_pre_sync() {
 
@@ -2123,7 +2078,6 @@ class Civi_WP_Member_Sync_Admin {
 	 *
 	 * @param int $post_id The numeric ID of the post
 	 * @param object $post The WordPress post object
-	 * @return void
 	 */
 	public function groups_intercept_save_post( $post_id, $post ) {
 
@@ -2155,8 +2109,6 @@ class Civi_WP_Member_Sync_Admin {
 	 * General debugging utility.
 	 *
 	 * @since 0.1
-	 *
-	 * @return void
 	 */
 	public function do_debug() {
 
