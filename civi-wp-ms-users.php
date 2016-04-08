@@ -469,7 +469,7 @@ class Civi_WP_Member_Sync_Users {
 		}
 
 		// create username from display name
-		$user_name = sanitize_title( $civi_contact['display_name'] );
+		$user_name = sanitize_user( $civi_contact['display_name'] );
 
 		// check if we have a user with that username
 		$user_id = username_exists( $user_name );
@@ -479,10 +479,8 @@ class Civi_WP_Member_Sync_Users {
 
 			// generate a random password
 			$random_password = wp_generate_password(
-
 				$length = 12,
 				$include_standard_special_chars = false
-
 			);
 
 			// remove filters
