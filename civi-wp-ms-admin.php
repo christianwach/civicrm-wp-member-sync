@@ -1673,7 +1673,6 @@ class Civi_WP_Member_Sync_Admin {
 	 *
 	 * @param WP_User $user WP_User object of the user in question
 	 * @param array $membership The membership details of the WordPress user in question
-	 * @return bool True if successful, false otherwise
 	 */
 	public function rule_apply( $user, $membership = false ) {
 
@@ -1681,130 +1680,127 @@ class Civi_WP_Member_Sync_Admin {
 		// you're using a plugin that enables multiple roles
 
 		// kick out if no CiviCRM
-		if ( ! civi_wp()->initialize() ) return false;
+		if ( ! civi_wp()->initialize() ) return;
 
 		// kick out if we didn't get membership details passed
-		if ( $membership === false ) return false;
+		if ( $membership === false ) return;
 
-		// get membership type and status rule
+		// loop through the supplied memberships
 		foreach( $membership['values'] AS $value ) {
+
+			// continue if something went wrong
+			if ( ! isset( $value['membership_type_id'] ) ) continue;
+			if ( ! isset( $value['status_id'] ) ) continue;
+
+			// get membership type and status rule
 			$membership_type_id = $value['membership_type_id'];
 			$status_id = $value['status_id'];
-		}
 
-		// kick out if something went wrong
-		if ( ! isset( $membership_type_id ) ) return false;
-		if ( ! isset( $status_id ) ) return false;
+			// get sync method and sanitize
+			$method = $this->setting_get( 'method' );
+			$method = ( $method == 'roles' ) ? 'roles' : 'capabilities';
 
-		// get sync method and sanitize
-		$method = $this->setting_get( 'method' );
-		$method = ( $method == 'roles' ) ? 'roles' : 'capabilities';
+			// get association rule for this membership type
+			$association_rule = $this->rule_get_by_type( $membership_type_id, $method );
 
-		// get association rule for this membership type
-		$association_rule = $this->rule_get_by_type( $membership_type_id, $method );
+			// continue with next rule if we have an error of some kind
+			if ( $association_rule === false ) continue;
 
-		// kick out if we have an error of some kind
-		if ( $association_rule === false ) return false;
+			// get status rules
+			$current_rule = $association_rule['current_rule'];
+			$expiry_rule = $association_rule['expiry_rule'];
 
-		// get status rules
-		$current_rule = $association_rule['current_rule'];
-		$expiry_rule = $association_rule['expiry_rule'];
+			// which sync method are we using?
+			if ( $method == 'roles' ) {
 
-		// which sync method are we using?
-		if ( $method == 'roles' ) {
+				// SYNC ROLES
 
-			// SYNC ROLES
-
-			// get primary WP role
-			$user_role = $this->plugin->users->wp_role_get( $user );
-
-			// does the user's membership status match a current status rule?
-			if ( isset( $status_id ) && array_search( $status_id, $current_rule ) ) {
-
-				// yes - get role for current status rule
-				$wp_role = $association_rule['current_wp_role'];
-
-				// if we have one (we should) and the user has a different role...
-				if (  ! empty( $wp_role ) AND $wp_role != $user_role ) {
-
-					// no - set new role
-					$this->plugin->users->wp_role_set( $user, $user_role, $wp_role );
-
-				}
-
-			} else {
-
-				// no - get role for expired status rule
+				// get roles for this status rule
+				$current_wp_role = $association_rule['current_wp_role'];
 				$expired_wp_role = $association_rule['expired_wp_role'];
 
-				// if we have one (we should) and the user has a different role...
-				if ( ! empty( $expired_wp_role ) AND $expired_wp_role != $user_role ) {
+				// continue if something went wrong
+				if ( empty( $association_rule['current_wp_role'] ) ) continue;
+				if ( empty( $association_rule['expired_wp_role'] ) ) continue;
 
-					// switch user's role to the expired role
-					$this->plugin->users->wp_role_set( $user, $user_role, $expired_wp_role );
+				// does the user's membership status match a current status rule?
+				if ( isset( $status_id ) && array_search( $status_id, $current_rule ) ) {
 
-				}
+					// add current role if the user does not have it
+					if ( ! $this->plugin->users->wp_has_role( $user, $current_wp_role ) ) {
+						$this->plugin->users->wp_role_add( $user, $current_wp_role );
+					}
 
-			}
+					// remove expired role if the user has it
+					if ( $this->plugin->users->wp_has_role( $user, $expired_wp_role ) ) {
+						$this->plugin->users->wp_role_remove( $user, $expired_wp_role );
+					}
 
-			// --<
-			return true;
+				} else {
 
-		} else {
+					// remove current role if the user has it
+					if ( $this->plugin->users->wp_has_role( $user, $current_wp_role ) ) {
+						$this->plugin->users->wp_role_remove( $user, $current_wp_role );
+					}
 
-			// SYNC CAPABILITY
-
-			// construct membership type capability name
-			$capability = CIVI_WP_MEMBER_SYNC_CAP_PREFIX . $membership_type_id;
-
-			// construct membership status capability name
-			$capability_status = $capability . '_' . $status_id;
-
-			// does the user's membership status match a current status rule?
-			if ( isset( $status_id ) && array_search( $status_id, $current_rule ) ) {
-
-				// do we have the "Members" plugin?
-				if ( defined( 'MEMBERS_VERSION' ) ) {
-
-					// add the plugin's custom capability
-					$this->plugin->users->wp_cap_add( $user, 'restrict_content' );
+					// add expired role if the user does not have it
+					if ( ! $this->plugin->users->wp_has_role( $user, $expired_wp_role ) ) {
+						$this->plugin->users->wp_role_add( $user, $expired_wp_role );
+					}
 
 				}
-
-				// add type capability
-				$this->plugin->users->wp_cap_add( $user, $capability );
-
-				// clear status capabilities
-				$this->plugin->users->wp_cap_remove_status( $user, $capability );
-
-				// add status capability
-				$this->plugin->users->wp_cap_add( $user, $capability_status );
 
 			} else {
 
-				// do we have the "Members" plugin?
-				if ( defined( 'MEMBERS_VERSION' ) ) {
+				// SYNC CAPABILITY
 
-					// remove the plugin's custom capability
-					$this->plugin->users->wp_cap_remove( $user, 'restrict_content' );
+				// construct membership type capability name
+				$capability = CIVI_WP_MEMBER_SYNC_CAP_PREFIX . $membership_type_id;
+
+				// construct membership status capability name
+				$capability_status = $capability . '_' . $status_id;
+
+				// does the user's membership status match a current status rule?
+				if ( isset( $status_id ) && array_search( $status_id, $current_rule ) ) {
+
+					// do we have the "Members" plugin?
+					if ( defined( 'MEMBERS_VERSION' ) ) {
+
+						// add the plugin's custom capability
+						$this->plugin->users->wp_cap_add( $user, 'restrict_content' );
+
+					}
+
+					// add type capability
+					$this->plugin->users->wp_cap_add( $user, $capability );
+
+					// clear status capabilities
+					$this->plugin->users->wp_cap_remove_status( $user, $capability );
+
+					// add status capability
+					$this->plugin->users->wp_cap_add( $user, $capability_status );
+
+				} else {
+
+					// do we have the "Members" plugin?
+					if ( defined( 'MEMBERS_VERSION' ) ) {
+
+						// remove the plugin's custom capability
+						$this->plugin->users->wp_cap_remove( $user, 'restrict_content' );
+
+					}
+
+					// remove type capability
+					$this->plugin->users->wp_cap_remove( $user, $capability );
+
+					// clear status capabilities
+					$this->plugin->users->wp_cap_remove_status( $user, $capability );
 
 				}
 
-				// remove type capability
-				$this->plugin->users->wp_cap_remove( $user, $capability );
-
-				// clear status capabilities
-				$this->plugin->users->wp_cap_remove_status( $user, $capability );
-
 			}
 
-			// --<
-			return true;
-
 		}
-
-		// --<
-		return false;
 
 	}
 
@@ -1813,11 +1809,14 @@ class Civi_WP_Member_Sync_Admin {
 	/**
 	 * Remove WordPress role or capability when a membership is deleted.
 	 *
+	 * This method is only called when a Membership is removed from a user in
+	 * the CiviCRM admin. The membership details passed to this method will
+	 * therefore only ever be for a single membership.
+	 *
 	 * @since 0.1
 	 *
 	 * @param WP_User $user WP_User object of the user in question
 	 * @param object $membership The membership details of the WordPress user in question
-	 * @return bool True if successful, false otherwise
 	 */
 	public function rule_undo( $user, $membership = false ) {
 
@@ -1828,25 +1827,71 @@ class Civi_WP_Member_Sync_Admin {
 		// which sync method are we using?
 		if ( $method == 'roles' ) {
 
-			// assign the expired role
-
-			// get primary WP role
-			$user_role = $this->plugin->users->wp_role_get( $user );
+			/**
+			 * When there are multiple memberships, remove both the current role
+			 * and the expired role. If this is the only remaining membership
+			 * that the user has, however, then simply switch the current role
+			 * for the expired role. This is to prevent users ending up with no
+			 * role whatsoever.
+			 */
 
 			// get association rule for this membership type
 			$association_rule = $this->rule_get_by_type( $membership->membership_type_id, $method );
 
-			// kick out if we have an error of some kind
-			if ( $association_rule === false ) return false;
+			// kick out if something went wrong
+			if ( $association_rule === false ) return;
+			if ( empty( $association_rule['current_wp_role'] ) ) return;
+			if ( empty( $association_rule['expired_wp_role'] ) ) return;
 
-			// get role for expired status rule
+			// get roles for this status rule
+			$current_wp_role = $association_rule['current_wp_role'];
 			$expired_wp_role = $association_rule['expired_wp_role'];
 
-			// switch user's role to the expired role
-			$this->plugin->users->wp_role_set( $user, $user_role, $expired_wp_role );
+			// get memberships for this user
+			$memberships = $this->plugin->members->membership_get_by_contact_id( $membership->contact_id );
 
-			// --<
-			return true;
+			// if this user has a remaining membership
+			if (
+				$memberships !== false AND
+				$memberships['is_error'] == 0 AND
+				isset( $memberships['values'] ) AND
+				count( $memberships['values'] ) > 0
+			) {
+
+				/**
+				 * There's a special case here where the membership being removed
+				 * may cause the user to be left with no role at all if both the
+				 * current and expired roles are removed.
+				 *
+				 * Additionally, roles defined by other rules may be affected by
+				 * removing the roles associated with this membership.
+				 *
+				 * The logic adopted here is that we still go ahead and remove
+				 * both roles and then perform a rule sync so that the remaining
+				 * rules are applied.
+				 */
+
+				// remove current role if the user has it
+				if ( $this->plugin->users->wp_has_role( $user, $current_wp_role ) ) {
+					$this->plugin->users->wp_role_remove( $user, $current_wp_role );
+				}
+
+				// remove expired role if the user has it
+				if ( $this->plugin->users->wp_has_role( $user, $expired_wp_role ) ) {
+					$this->plugin->users->wp_role_remove( $user, $expired_wp_role );
+				}
+
+				// perform sync for this user
+				$this->rule_apply( $user, $memberships );
+
+			} else {
+
+				// replace the current role with the expired role
+				if ( $this->plugin->users->wp_has_role( $user, $current_wp_role ) ) {
+					$this->plugin->users->wp_role_replace( $user, $current_wp_role, $expired_wp_role );
+				}
+
+			}
 
 		} else {
 
@@ -1867,13 +1912,7 @@ class Civi_WP_Member_Sync_Admin {
 
 			}
 
-			// --<
-			return true;
-
 		}
-
-		// --<
-		return false;
 
 	}
 

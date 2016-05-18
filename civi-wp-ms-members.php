@@ -190,8 +190,7 @@ class Civi_WP_Member_Sync_Members {
 		$membership = $this->membership_get_by_contact_id( $civi_contact_id );
 
 		// update WP user
-		$success = $this->plugin->admin->rule_apply( $user, $membership );
-		// do we care about success?
+		$this->plugin->admin->rule_apply( $user, $membership );
 
 	}
 
@@ -283,8 +282,7 @@ class Civi_WP_Member_Sync_Members {
 			);
 
 			// update WP user by membership
-			$success = $this->plugin->admin->rule_apply( $user, $membership );
-			// do we care about success?
+			$this->plugin->admin->rule_apply( $user, $membership );
 
 			// --<
 			return;
@@ -295,8 +293,7 @@ class Civi_WP_Member_Sync_Members {
 		if ( $op == 'delete' ) {
 
 			// undo WP user's membership
-			$success = $this->plugin->admin->rule_undo( $user, $objectRef );
-			// do we care about success?
+			$this->plugin->admin->rule_undo( $user, $objectRef );
 
 			// --<
 			return;
@@ -348,14 +345,12 @@ class Civi_WP_Member_Sync_Members {
 
 		// if we have membership details
 		if (
-
 			$membership['is_error'] == 0 AND
 			isset( $membership['values'] ) AND
 			count( $membership['values'] ) > 0
-
 		) {
 
-			// CiviCRM should return a 'values' array with just one element
+			// CiviCRM should return a 'values' array
 			return $membership;
 
 		}

@@ -52,7 +52,31 @@ class Civi_WP_Member_Sync_Users {
 
 
 	/**
-	 * Get WordPress user role.
+	 * Check if a WordPress user has a particular role.
+	 *
+	 * @since 0.2.8
+	 *
+	 * @param WP_User $user WP_User object
+	 * @param string $role WordPress role key
+	 * @return bool $has_role True if this user has the supplied role, false otherwise
+	 */
+	public function wp_has_role( $user, $role ) {
+
+		// kick out if we don't receive a valid user
+		if ( ! ( $user instanceof WP_User ) ) return false;
+
+		// check via WordPress function
+		$has_role = user_can( $user, $role );
+
+		// --<
+		return $has_role;
+
+	}
+
+
+
+	/**
+	 * Get primary WordPress user role.
 	 *
 	 * @since 0.1
 	 *
@@ -91,15 +115,123 @@ class Civi_WP_Member_Sync_Users {
 
 
 	/**
-	 * Set WordPress user role.
+	 * Get all current roles for a WordPress user.
+	 *
+	 * The roles returned exclude any that are assigned by bbPress.
+	 *
+	 * @since 0.2.8
+	 *
+	 * @param WP_User $user WP_User object
+	 * @return array $roles WordPress roles for this user
+	 */
+	public function wp_roles_get_all( $user ) {
+
+		// kick out if we don't receive a valid user
+		if ( ! ( $user instanceof WP_User ) ) return false;
+
+		// init return
+		$user_roles = array();
+
+		// only build role names array once
+		if ( ! isset( $this->role_names ) ) {
+
+			// get role names array
+			$this->role_names = $this->wp_role_names_get_all();
+
+		}
+
+		// init filtered array in same format as $user->roles
+		$filtered_roles = array_keys( $this->role_names );
+
+		// check all user roles
+		foreach ( $user->roles AS $role ) {
+
+			// add role to return array if it's a "blog" role
+			if ( $role AND in_array( $role, $filtered_roles ) ) {
+				$user_roles[] = $role;
+			}
+
+		}
+
+		// --<
+		return $user_roles;
+
+	}
+
+
+
+	/**
+	 * Add a role to a WordPress user.
+	 *
+	 * @since 0.2.8
+	 *
+	 * @param WP_User $user WordPress user object
+	 * @param string $role WordPress role key
+	 */
+	public function wp_role_add( $user, $role ) {
+
+		// kick out if we don't receive a valid user
+		if ( ! ( $user instanceof WP_User ) ) return;
+
+		// sanity check param
+		if ( empty( $role ) ) return;
+
+		// add role to user
+		$user->add_role( $role );
+
+		/**
+		 * Let other plugins know that a role has been added to a user.
+		 *
+		 * @param WP_User $user The WordPress user object
+		 * @param string $role The new role added to the user
+		 */
+		do_action( 'civi_wp_member_sync_add_role', $user, $role );
+
+	}
+
+
+
+	/**
+	 * Remove a role from a WordPress user.
+	 *
+	 * @since 0.2.8
+	 *
+	 * @param WP_User $user WordPress user object
+	 * @param string $role WordPress role key
+	 */
+	public function wp_role_remove( $user, $role ) {
+
+		// kick out if we don't receive a valid user
+		if ( ! ( $user instanceof WP_User ) ) return;
+
+		// sanity check param
+		if ( empty( $role ) ) return;
+
+		// remove role from user
+		$user->remove_role( $role );
+
+		/**
+		 * Let other plugins know that a role has been removed from a user.
+		 *
+		 * @param WP_User $user The WordPress user object
+		 * @param string $role The role removed from the user
+		 */
+		do_action( 'civi_wp_member_sync_remove_role', $user, $role );
+
+	}
+
+
+
+	/**
+	 * Replace a WordPress user role.
 	 *
 	 * @since 0.1
 	 *
-	 * @param WP_User $user WP_User object of the logged-in user.
+	 * @param WP_User $user WordPress user object
 	 * @param string $old_role Old WordPress role key
 	 * @param string $new_role New WordPress role key
 	 */
-	public function wp_role_set( $user, $old_role, $new_role ) {
+	public function wp_role_replace( $user, $old_role, $new_role ) {
 
 		// kick out if we don't receive a valid user
 		if ( ! ( $user instanceof WP_User ) ) return;
