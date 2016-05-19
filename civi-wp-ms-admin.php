@@ -6,6 +6,8 @@
  * Class for encapsulating admin functionality.
  *
  * @since 0.1
+ *
+ * @package Civi_WP_Member_Sync
  */
 class Civi_WP_Member_Sync_Admin {
 
@@ -1030,13 +1032,22 @@ class Civi_WP_Member_Sync_Admin {
 			// check that we trust the source of the request
 			check_admin_referer( 'civi_wp_member_sync_manual_sync_action', 'civi_wp_member_sync_nonce' );
 
-			// before we sync all, broadcast that we're going to
+			/**
+			 * Let other plugins know that we're about to sync all users.
+			 *
+			 * @since 0.1
+			 */
 			do_action( 'civi_wp_member_sync_pre_sync_all' );
 
 			// sync all memberships for *existing* WordPress users
 			$result = $this->plugin->members->sync_all();
 
 			// and again, now that we're done
+			/**
+			 * Let other plugins know that we've synced all users.
+			 *
+			 * @since 0.1
+			 */
 			do_action( 'civi_wp_member_sync_after_sync_all' );
 
 		}
@@ -1087,7 +1098,14 @@ class Civi_WP_Member_Sync_Admin {
 		// set default schedule interval
 		$settings['interval'] = 'daily';
 
-		// allow filtering
+		/**
+		 * Allow settings to be filtered.
+		 *
+		 * @since 0.1
+		 *
+		 * @param array $settings The default settings for this plugin
+		 * @return array $settings The modified default settings for this plugin
+		 */
 		return apply_filters( 'civi_wp_member_sync_default_settings', $settings );
 
 	}

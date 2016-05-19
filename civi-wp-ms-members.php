@@ -6,6 +6,8 @@
  * Class for encapsulating CiviCRM Membership functionality.
  *
  * @since 0.1
+ *
+ * @package Civi_WP_Member_Sync
  */
 class Civi_WP_Member_Sync_Members {
 
@@ -160,7 +162,15 @@ class Civi_WP_Member_Sync_Members {
 			$should_be_synced = false;
 		}
 
-		// return result but allow filtering by other plugins
+		/**
+		 * Let other plugins override whether a user should be synced.
+		 *
+		 * @since 0.2
+		 *
+		 * @param bool $should_be_synced True if the user should be synced, false otherwise
+		 * @param object $user The WordPress user object
+		 * @param bool $should_be_synced The modified value of the sync flag
+		 */
 		return apply_filters( 'civi_wp_member_sync_user_should_be_synced', $should_be_synced, $user );
 
 	}
@@ -245,7 +255,14 @@ class Civi_WP_Member_Sync_Members {
 		// if we don't receive a valid user
 		if ( ! ( $user instanceof WP_User ) ) {
 
-			// allow plugins to override this step with a filter
+			/**
+			 * Let other plugins override whether a user should be created.
+			 *
+			 * @since 0.2
+			 *
+			 * @param bool True - users should be created by default
+			 * @return bool True if users should be created, false otherwise
+			 */
 			if ( true === apply_filters( 'civi_wp_member_sync_auto_create_wp_user', true ) ) {
 
 				// get CiviCRM contact

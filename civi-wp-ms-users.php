@@ -6,6 +6,8 @@
  * Class for encapsulating WordPress user functionality.
  *
  * @since 0.1
+ *
+ * @package Civi_WP_Member_Sync
  */
 class Civi_WP_Member_Sync_Users {
 
@@ -250,7 +252,7 @@ class Civi_WP_Member_Sync_Users {
 		$user->add_role( $new_role );
 
 		/**
-		 * Let other plugins know that a user's role has been changed
+		 * Let other plugins know that a user's role has been changed.
 		 *
 		 * @param object $user The WordPress user object
 		 * @param string $new_role The new role that the user has
@@ -369,7 +371,7 @@ class Civi_WP_Member_Sync_Users {
 			$user->add_cap( $capability );
 
 			/**
-			 * Let other plugins know that a capability has been added to a user
+			 * Let other plugins know that a capability has been added to a user.
 			 *
 			 * @param object $user The WordPress user object
 			 * @param string $capability The name of the capability
@@ -618,7 +620,14 @@ class Civi_WP_Member_Sync_Users {
 			// remove filters
 			$this->remove_filters();
 
-			// allow other plugins to be aware of what we're doing
+			/**
+			 * Let other plugins know that we're about to insert a user.
+			 *
+			 * @since 0.1
+			 *
+			 * @param array $civi_contact The CiviCRM contact object
+			 * @param int $user_id The numeric ID of the WordPress user
+			 */
 			do_action( 'civi_wp_member_sync_before_insert_user', $civi_contact );
 
 			// create the user
@@ -653,7 +662,14 @@ class Civi_WP_Member_Sync_Users {
 			// re-add filters
 			$this->add_filters();
 
-			// allow other plugins to be aware of what we've done
+			/**
+			 * Let other plugins know that we've inserted a user.
+			 *
+			 * @since 0.1
+			 *
+			 * @param array $civi_contact The CiviCRM contact object
+			 * @param int $user_id The numeric ID of the WordPress user
+			 */
 			do_action( 'civi_wp_member_sync_after_insert_user', $civi_contact, $user_id );
 
 		}
@@ -706,7 +722,9 @@ class Civi_WP_Member_Sync_Users {
 		}
 
 		/**
-		 * Let other plugins know that we're removing user actions
+		 * Let other plugins know that we're removing user actions.
+		 *
+		 * @since 0.1
 		 */
 		do_action( 'civi_wp_member_sync_remove_filters' );
 
@@ -747,7 +765,9 @@ class Civi_WP_Member_Sync_Users {
 		}
 
 		/**
-		 * Let other plugins know that we're adding user actions
+		 * Let other plugins know that we're adding user actions.
+		 *
+		 * @since 0.1
 		 */
 		do_action( 'civi_wp_member_sync_add_filters' );
 

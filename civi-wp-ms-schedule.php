@@ -6,6 +6,8 @@
  * Class for encapsulating WordPress scheduling functionality.
  *
  * @since 0.1
+ *
+ * @package Civi_WP_Member_Sync
  */
 class Civi_WP_Member_Sync_Schedule {
 

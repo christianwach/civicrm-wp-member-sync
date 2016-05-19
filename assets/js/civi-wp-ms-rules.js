@@ -1,10 +1,10 @@
-/*
---------------------------------------------------------------------------------
-CiviCRM WordPress Member Sync Javascript
---------------------------------------------------------------------------------
-*/
-
-
+/**
+ * CiviCRM WordPress Member Sync Rules Javascript.
+ *
+ * Implements sync functionality on the plugin's Add Rule and Edit Rule admin pages.
+ *
+ * @package Civi_WP_Member_Sync
+ */
 
 // defaults
 var cwms_method = 'roles',
@@ -19,14 +19,22 @@ if ( 'undefined' !== typeof CiviWpMemberSyncSettings ) {
 
 }
 
-
-
 /**
- * When the page is ready...
+ * Pass the jQuery shortcut in.
+ *
+ * @since 0.1
+ *
+ * @param {Object} $ The jQuery object.
  */
 jQuery(document).ready( function($) {
 
-	// toggle other checkbox
+	/**
+	 * Toggle matching checkbox in expire array.
+	 *
+	 * @since 0.1
+	 *
+	 * @param {Object} e The click event object
+	 */
 	$('.required-current').click( function(e) {
 
 		var current_on,
@@ -44,14 +52,18 @@ jQuery(document).ready( function($) {
 		expire_class = expire_last_class.split('-')[1];
 		expire_target = '.expire-' + expire_class;
 
-		// check required elements...
+		// check required elements
 		$(expire_target).prop( 'checked', !current_on );
 
 	});
 
-
-
-	// toggle other checkbox
+	/**
+	 * Toggle matching checkbox in current array.
+	 *
+	 * @since 0.1
+	 *
+	 * @param {Object} e The click event object
+	 */
 	$('.required-expire').click( function(e) {
 
 		var expire_on,
@@ -69,14 +81,18 @@ jQuery(document).ready( function($) {
 		current_class = current_last_class.split('-')[1];
 		current_target = '.current-' + current_class;
 
-		// check required elements...
+		// check required elements
 		$(current_target).prop( 'checked', !expire_on );
 
 	});
 
-
-
-	// cursory error checking
+	/**
+	 * Basic error-checking on form submission.
+	 *
+	 * @since 0.1
+	 *
+	 * @param {Object} e The click event object
+	 */
 	$(':submit').click( function(e) {
 
 		// init vars
@@ -87,7 +103,7 @@ jQuery(document).ready( function($) {
 		// only check membership type if in add mode
 		if ( cwms_mode == 'add' ) {
 
-			// check required role elements...
+			// check required role elements
 			$('.required-type').each( function() {
 
 				// if it's empty
@@ -113,7 +129,7 @@ jQuery(document).ready( function($) {
 		// only check roles if that's our sync method
 		if ( cwms_method == 'roles' ) {
 
-			// check required role elements...
+			// check required role elements
 			$('.required-role').each( function() {
 
 				// if it's empty
@@ -136,10 +152,10 @@ jQuery(document).ready( function($) {
 
 		}
 
-		// check current checkboxes...
+		// check current checkboxes
 		$('.required-current').each( function() {
 
-			// if checked...
+			// if checked
 			if ( $(this).prop( 'checked' ) ) {
 				current_checked = true;
 			}
@@ -153,10 +169,10 @@ jQuery(document).ready( function($) {
 			$('label.current_label').removeClass( 'req' );
 		}
 
-		// check expire checkboxes...
+		// check expire checkboxes
 		$('.required-expire').each( function() {
 
-			// if checked...
+			// if checked
 			if ( $(this).prop( 'checked' ) ) {
 				expire_checked = true;
 			}
@@ -170,18 +186,11 @@ jQuery(document).ready( function($) {
 			$('label.expire_label').removeClass( 'req' );
 		}
 
-		// did we pass?
+		// prevent form submission if any single check failed
 		if ( !passed || !current_checked || !expire_checked ) {
-
-			// no, prevent form submission
 			e.preventDefault();
-
 		}
 
 	});
 
-
-
 });
-
-
