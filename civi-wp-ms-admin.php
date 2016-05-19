@@ -427,7 +427,7 @@ class Civi_WP_Member_Sync_Admin {
 		);
 
 		// add scripts and styles
-		add_action( 'admin_print_scripts-'.$this->rule_add_edit_page, array( $this, 'admin_js' ) );
+		add_action( 'admin_print_scripts-'.$this->rule_add_edit_page, array( $this, 'admin_js_rules_page' ) );
 		add_action( 'admin_print_styles-'.$this->rule_add_edit_page, array( $this, 'admin_css' ) );
 		add_action( 'admin_head-'.$this->rule_add_edit_page, array( $this, 'admin_head' ), 50 );
 		add_action( 'admin_head-'.$this->rule_add_edit_page, array( $this, 'admin_menu_highlight' ), 50 );
@@ -508,16 +508,16 @@ class Civi_WP_Member_Sync_Admin {
 
 
 	/**
-	 * Ensure jQuery and jQuery Form are available in WP admin.
+	 * Enqueue required scripts on the Add Rule and Edit Rule pages.
 	 *
 	 * @since 0.1
 	 */
-	public function admin_js() {
+	public function admin_js_rules_page() {
 
 		// add javascript plus dependencies
 		wp_enqueue_script(
-			'civi_wp_member_sync_admin_js',
-			plugins_url( 'assets/js/civi-wp-ms.js', CIVI_WP_MEMBER_SYNC_PLUGIN_FILE ),
+			'civi_wp_member_sync_rules_js',
+			plugins_url( 'assets/js/civi-wp-ms-rules.js', CIVI_WP_MEMBER_SYNC_PLUGIN_FILE ),
 			array( 'jquery', 'jquery-form' ),
 			CIVI_WP_MEMBER_SYNC_VERSION // version
 		);
@@ -537,7 +537,7 @@ class Civi_WP_Member_Sync_Admin {
 
 		// localize our script
 		wp_localize_script(
-			'civi_wp_member_sync_admin_js',
+			'civi_wp_member_sync_rules_js',
 			'CiviWpMemberSyncSettings',
 			$vars
 		);
