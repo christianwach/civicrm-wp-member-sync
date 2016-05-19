@@ -11,11 +11,11 @@ var cwms_method = 'roles',
 	cwms_mode = 'add';
 
 // test for our localisation object
-if ( 'undefined' !== typeof CiviWpMemberSyncSettings ) {
+if ( 'undefined' !== typeof CiviCRM_WP_Member_Sync_Rules ) {
 
 	// override var
-	cwms_method = CiviWpMemberSyncSettings.method;
-	cwms_mode = CiviWpMemberSyncSettings.mode;
+	cwms_method = CiviCRM_WP_Member_Sync_Rules.method;
+	cwms_mode = CiviCRM_WP_Member_Sync_Rules.mode;
 
 }
 

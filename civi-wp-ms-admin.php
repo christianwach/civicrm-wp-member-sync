@@ -540,7 +540,7 @@ class Civi_WP_Member_Sync_Admin {
 		// localize our script
 		wp_localize_script(
 			'civi_wp_member_sync_rules_js',
-			'CiviWpMemberSyncSettings',
+			'CiviCRM_WP_Member_Sync_Rules',
 			$vars
 		);
 
