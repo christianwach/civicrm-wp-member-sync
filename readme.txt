@@ -72,6 +72,11 @@ It may sometimes be necessary to manually synchronize users. Click on the "Manua
 
 == Changelog ==
 
+= 0.3 =
+
+* Support multiple Memberships per Contact
+* AJAX-driven Manual Sync admin page
+
 = 0.2.7 =
 
 * Disambiguate network-activated and site-activated installs
