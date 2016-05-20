@@ -1758,14 +1758,14 @@ class Civi_WP_Member_Sync_Admin {
 
 
 	/**
-	 * Assign WordPress role or capability based on membership status.
+	 * Manage WordPress roles or capabilities based on the status of a user's memberships.
 	 *
 	 * @since 0.1
 	 *
 	 * @param WP_User $user WP_User object of the user in question
-	 * @param array $membership The membership details of the WordPress user in question
+	 * @param array $memberships The memberships of the WordPress user in question
 	 */
-	public function rule_apply( $user, $membership = false ) {
+	public function rule_apply( $user, $memberships = false ) {
 
 		// removed check for admin user - DO NOT call this for admins UNLESS
 		// you're using a plugin that enables multiple roles
@@ -1773,19 +1773,19 @@ class Civi_WP_Member_Sync_Admin {
 		// kick out if no CiviCRM
 		if ( ! civi_wp()->initialize() ) return;
 
-		// kick out if we didn't get membership details passed
-		if ( $membership === false ) return;
+		// kick out if we didn't get memberships passed
+		if ( $memberships === false ) return;
 
 		// loop through the supplied memberships
-		foreach( $membership['values'] AS $value ) {
+		foreach( $memberships['values'] AS $membership ) {
 
 			// continue if something went wrong
-			if ( ! isset( $value['membership_type_id'] ) ) continue;
-			if ( ! isset( $value['status_id'] ) ) continue;
+			if ( ! isset( $membership['membership_type_id'] ) ) continue;
+			if ( ! isset( $membership['status_id'] ) ) continue;
 
 			// get membership type and status rule
-			$membership_type_id = $value['membership_type_id'];
-			$status_id = $value['status_id'];
+			$membership_type_id = $membership['membership_type_id'];
+			$status_id = $membership['status_id'];
 
 			// get sync method and sanitize
 			$method = $this->setting_get( 'method' );
