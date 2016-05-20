@@ -118,7 +118,7 @@
 						}
 					}
 
-					?><input type="checkbox" class="required-current" name="<?php echo 'current['.$key.']'; ?>" id="<?php echo 'current['.$key.']'; ?>" value="<?php echo $key; ?>"<?php echo $checked; ?> />
+					?><input type="checkbox" class="required-current current-<?php echo $key; ?>" name="<?php echo 'current['.$key.']'; ?>" id="<?php echo 'current['.$key.']'; ?>" value="<?php echo $key; ?>"<?php echo $checked; ?> />
 					<label for="<?php echo 'current['.$key.']'; ?>"><?php echo $value; ?></label><br />
 					<?php
 
@@ -143,7 +143,7 @@
 						}
 					}
 
-					?><input type="checkbox" class="required-expire" name="<?php echo 'expire['.$key.']'; ?>" id="<?php echo 'expire['.$key.']'; ?>" value="<?php echo $key; ?>"<?php echo $checked; ?> />
+					?><input type="checkbox" class="required-expire expire-<?php echo $key; ?>" name="<?php echo 'expire['.$key.']'; ?>" id="<?php echo 'expire['.$key.']'; ?>" value="<?php echo $key; ?>"<?php echo $checked; ?> />
 					<label for="<?php echo 'expire['.$key.']';?>"><?php echo $value; ?></label><br />
 					<?php
 

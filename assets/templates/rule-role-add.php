@@ -65,7 +65,7 @@
 				<th scope="row"><label class="current_label" for="current"><?php _e( 'Current Status', 'civicrm-wp-member-sync' ); ?> *</label></th>
 				<td>
 				<?php foreach( $status_rules AS $key => $value ) { ?>
-					<input type="checkbox" class="required-current" name="<?php echo 'current['.$key.']'; ?>" id="<?php echo 'current['.$key.']'; ?>" value="<?php echo $key; ?>" />
+					<input type="checkbox" class="required-current current-<?php echo $key; ?>" name="<?php echo 'current['.$key.']'; ?>" id="<?php echo 'current['.$key.']'; ?>" value="<?php echo $key; ?>" />
 					<label for="<?php echo 'current['.$key.']'; ?>"><?php echo $value; ?></label><br />
 				<?php } ?>
 				</td>
@@ -75,7 +75,7 @@
 				<th scope="row"><label class="expire_label" for="expire"><?php _e( 'Expire Status', 'civicrm-wp-member-sync' ); ?> *</label></th>
 				<td>
 				<?php foreach( $status_rules AS $key => $value ) { ?>
-					<input type="checkbox" class="required-expire" name="<?php echo 'expire['.$key.']'; ?>" id="<?php echo 'expire['.$key.']'; ?>" value="<?php echo $key; ?>" />
+					<input type="checkbox" class="required-expire expire-<?php echo $key; ?>" name="<?php echo 'expire['.$key.']'; ?>" id="<?php echo 'expire['.$key.']'; ?>" value="<?php echo $key; ?>" />
 					<label for="<?php echo 'expire['.$key.']';?>"><?php echo $value; ?></label><br />
 				<?php } ?>
 				</td>
