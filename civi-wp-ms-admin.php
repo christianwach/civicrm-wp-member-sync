@@ -1806,7 +1806,7 @@ class Civi_WP_Member_Sync_Admin {
 
 				// SYNC ROLES
 
-				// get roles for this status rule
+				// get roles for this association rule
 				$current_wp_role = $association_rule['current_wp_role'];
 				$expired_wp_role = $association_rule['expired_wp_role'];
 
@@ -1938,7 +1938,7 @@ class Civi_WP_Member_Sync_Admin {
 			$current_wp_role = $association_rule['current_wp_role'];
 			$expired_wp_role = $association_rule['expired_wp_role'];
 
-			// get memberships for this user
+			// get remaining memberships for this user
 			$memberships = $this->plugin->members->membership_get_by_contact_id( $membership->contact_id );
 
 			// if this user has a remaining membership
