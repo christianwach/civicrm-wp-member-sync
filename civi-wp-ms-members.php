@@ -80,6 +80,14 @@ class Civi_WP_Member_Sync_Members {
 
 		}
 
+		// is this the back end?
+		if ( is_admin() ) {
+
+			// add AJAX handler
+			add_action( 'wp_ajax_sync_memberships', array( $this, 'sync_all_civicrm_memberships' ) );
+
+		}
+
 	}
 
 
@@ -89,13 +97,153 @@ class Civi_WP_Member_Sync_Members {
 
 
 	/**
-	 * Sync all membership rules.
+	 * Sync membership rules for all CiviCRM Memberships.
+	 *
+	 * @since 0.2.8
+	 */
+	public function sync_all_civicrm_memberships() {
+
+		// kick out if no CiviCRM
+		if ( ! civi_wp()->initialize() ) return;
+
+		// init AJAX return
+		$data = array();
+
+		// assume not creating users
+		$create_users = false;
+
+		// override "create users" flag if chosen
+		if ( isset( $_POST['create_users'] ) AND $_POST['create_users'] == 'y' ) {
+			$create_users = true;
+		}
+
+		// if the memberships offset value doesn't exist
+		if ( 'fgffgs' == get_option( '_civi_wpms_memberships_offset', 'fgffgs' ) ) {
+
+			// start at the beginning
+			$memberships_offset = 0;
+			add_option( '_civi_wpms_memberships_offset', '0' );
+
+		} else {
+
+			// use the existing value
+			$memberships_offset = intval( get_option( '_civi_wpms_memberships_offset', '0' ) );
+
+		}
+
+		// get CiviCRM memberships
+		$memberships = civicrm_api( 'Membership', 'get', array(
+			'version' => '3',
+			'sequential' => '1',
+			'options' => array(
+				'limit' => '5',
+				'offset' => $memberships_offset,
+			),
+		));
+
+		// if we have membership details
+		if (
+			$memberships['is_error'] == 0 AND
+			isset( $memberships['values'] ) AND
+			count( $memberships['values'] ) > 0
+		) {
+
+			// set finished flag
+			$data['finished'] = 'false';
+
+			// set from and to flags
+			$data['from'] = intval( $memberships_offset );
+			$data['to'] = $data['from'] + 5;
+
+			// loop through memberships
+			foreach( $memberships['values'] AS $membership ) {
+
+				// get contact ID
+				$civi_contact_id = isset( $membership['contact_id'] ) ? $membership['contact_id'] : false;
+
+				// sanity check
+				if ( $civi_contact_id === false ) continue;
+
+				// get WordPress user
+				$user = $this->plugin->users->wp_user_get_by_civi_id( $civi_contact_id );
+
+				// if we don't have a valid user
+				if ( ! ( $user instanceof WP_User ) OR ! $user->exists() ) {
+
+					// create a WordPress user if asked to
+					if ( $create_users ) {
+
+						// maybe create WordPress user
+						$user = $this->plugin->users->wp_user_create_from_contact_id( $civi_contact_id );
+
+						// skip to next if something goes wrong
+						if ( $user === false ) continue;
+						if ( ! ( $user instanceof WP_User ) OR ! $user->exists() ) continue;
+
+					}
+
+				}
+
+				// should this user be synced?
+				if ( ! $this->user_should_be_synced( $user ) ) continue;
+
+				/**
+				 * The use of existing code here is not the most efficient way to
+				 * sync each membership. However, given that in most cases there
+				 * will only be one membership per contact, I think the overhead
+				 * will be minimal. Moreover, this new chunked sync method limits
+				 * the impact of a manual sync per request.
+				 */
+
+				// get *all* memberships for this contact
+				$memberships = $this->membership_get_by_contact_id( $civi_contact_id );
+
+				// apply rules for this WordPress user
+				$this->plugin->admin->rule_apply( $user, $memberships );
+
+			}
+
+			// increment memberships offset option
+			update_option( '_civi_wpms_memberships_offset', (string) $data['to'] );
+
+		} else {
+
+			// delete the option to start from the beginning
+			delete_option( '_civi_wpms_memberships_offset' );
+
+			// set finished flag
+			$data['finished'] = 'true';
+
+		}
+
+		// is this an AJAX request?
+		if ( defined( 'DOING_AJAX' ) AND DOING_AJAX ) {
+
+			// set reasonable headers
+			header('Content-type: text/plain');
+			header("Cache-Control: no-cache");
+			header("Expires: -1");
+
+			// echo
+			echo json_encode( $data );
+
+			// die
+			exit();
+
+		}
+
+	}
+
+
+
+	/**
+	 * Sync all membership rules for existing WordPress users.
 	 *
 	 * @since 0.1
 	 *
 	 * @return bool $success True if successful, false otherwise
 	 */
-	public function sync_all() {
+	public function sync_all_wp_user_memberships() {
 
 		// kick out if no CiviCRM
 		if ( ! civi_wp()->initialize() ) return;
@@ -255,34 +403,11 @@ class Civi_WP_Member_Sync_Members {
 		// if we don't receive a valid user
 		if ( ! ( $user instanceof WP_User ) ) {
 
-			/**
-			 * Let other plugins override whether a user should be created.
-			 *
-			 * @since 0.2
-			 *
-			 * @param bool True - users should be created by default
-			 * @return bool True if users should be created, false otherwise
-			 */
-			if ( true === apply_filters( 'civi_wp_member_sync_auto_create_wp_user', true ) ) {
+			// maybe create WordPress user
+			$user = $this->plugin->users->wp_user_create_from_contact_id( $membership['contact_id'] );
 
-				// get CiviCRM contact
-				$civi_contact = $this->plugin->users->civi_get_contact_by_contact_id( $objectRef->contact_id );
-
-				// bail if something goes wrong
-				if ( $civi_contact === false ) return;
-
-				// create a WP user
-				$user = $this->plugin->users->wp_create_user( $civi_contact );
-
-				// bail if something goes wrong
-				if ( ! ( $user instanceof WP_User ) ) return;
-
-			} else {
-
-				// --<
-				return;
-
-			}
+			// bail if something goes wrong
+			if ( $user === false ) return;
 
 		}
 
@@ -411,6 +536,36 @@ class Civi_WP_Member_Sync_Members {
 
 		// --<
 		return $name;
+
+	}
+
+
+
+	/**
+	 * Retrieve the number of Memberships.
+	 *
+	 * @since 0.2.8
+	 *
+	 * @return int
+	 */
+	public function memberships_get_count() {
+
+		// kick out if no CiviCRM
+		if ( ! civi_wp()->initialize() ) return;
+
+		// get CiviCRM memberships
+		$membership_count = civicrm_api( 'Membership', 'getcount', array(
+			'version' => '3',
+			'options' => array(
+				'limit' => '99999999',
+			),
+		));
+
+		// sanity check in case of error
+		if ( ! is_numeric( $membership_count ) ) $membership_count = 0;
+
+		// --<
+		return $membership_count;
 
 	}
 

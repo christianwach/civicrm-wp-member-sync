@@ -28,13 +28,15 @@
 				<th scope="row"><?php _e( 'Create WordPress Users', 'civicrm-wp-member-sync' ); ?></th>
 				<td>
 					<input type="checkbox" class="settings-checkbox" name="civi_wp_member_sync_manual_sync_create" id="civi_wp_member_sync_manual_sync_create" value="1" />
-					<label class="civi_wp_member_sync_manual_sync_label" for="civi_wp_member_sync_manual_sync_create"><?php _e( 'Create a WordPress User for each Member when one does not already exist.', 'civicrm-wp-member-sync' ); ?></label>
+					<label class="civi_wp_member_sync_manual_sync_label" for="civi_wp_member_sync_manual_sync_create"><?php _e( 'Create a WordPress User for each Membership when one does not already exist.', 'civicrm-wp-member-sync' ); ?></label>
 				</td>
 			</tr>
 
 		</table>
 
-		<p><input class="button-primary" type="submit" id="civi_wp_member_sync_manual_sync_submit" name="civi_wp_member_sync_manual_sync_submit" value="<?php _e( 'Synchronize Now', 'civicrm-wp-member-sync' ); ?>" /></p>
+		<div id="progress-bar"><div class="progress-label"></div></div>
+
+		<p><input type="submit" id="civi_wp_member_sync_manual_sync_submit" name="civi_wp_member_sync_manual_sync_submit" value="<?php if ( 'fgffgs' == get_option( '_civi_wpms_memberships_offset', 'fgffgs' ) ) { _e( 'Synchronize Now', 'civicrm-wp-member-sync' ); } else { _e( 'Continue Sync', 'civicrm-wp-member-sync' ); } ?>" class="button-primary" /><?php if ( 'fgffgs' == get_option( '_civi_wpms_memberships_offset', 'fgffgs' ) ) {} else { ?> <input type="submit" id="civi_wp_member_sync_manual_sync_stop" name="civi_wp_member_sync_manual_sync_stop" value="<?php _e( 'Stop Sync', 'civicrm-wp-member-sync' ); ?>" class="button-secondary" /><?php } ?></p>
 
 	</form>
 

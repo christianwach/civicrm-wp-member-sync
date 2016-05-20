@@ -131,7 +131,7 @@ class Civi_WP_Member_Sync_Schedule {
 	public function schedule_callback() {
 
 		// call sync all method
-		$this->plugin->members->sync_all();
+		$this->plugin->members->sync_all_wp_user_memberships();
 
 	}
 

@@ -587,7 +587,53 @@ class Civi_WP_Member_Sync_Users {
 
 
 
-	/*
+	/**
+	 * Create a WordPress user for a given CiviCRM Contact ID.
+	 *
+	 * @since 0.2.8
+	 *
+	 * @param int $civi_contact_id The numerical CiviCRM contact ID
+	 * @return object $user The WordPress user object, false on error
+	 */
+	public function wp_user_create_from_contact_id( $civi_contact_id ) {
+
+		/**
+		 * Let other plugins override whether a user should be created.
+		 *
+		 * @since 0.2
+		 *
+		 * @param bool True - users should be created by default
+		 * @return bool True if users should be created, false otherwise
+		 */
+		if ( true === apply_filters( 'civi_wp_member_sync_auto_create_wp_user', true ) ) {
+
+			// get CiviCRM contact
+			$civi_contact = $this->civi_get_contact_by_contact_id( $civi_contact_id );
+
+			// bail if something goes wrong
+			if ( $civi_contact === false ) return false;
+
+			// create a WP user
+			$user = $this->wp_create_user( $civi_contact );
+
+			// bail if something goes wrong
+			if ( ! ( $user instanceof WP_User ) ) return false;
+
+			// return user
+			return $user;
+
+		} else {
+
+			// --<
+			return false;
+
+		}
+
+	}
+
+
+
+	/**
 	 * Creates a WordPress User given a CiviCRM contact.
 	 *
 	 * @since 0.1
@@ -603,7 +649,7 @@ class Civi_WP_Member_Sync_Users {
 		}
 
 		// create username from display name
-		$user_name = sanitize_user( $civi_contact['display_name'] );
+		$user_name = sanitize_title( sanitize_user( $civi_contact['display_name'] ) );
 
 		// check if we have a user with that username
 		$user_id = username_exists( $user_name );
@@ -689,7 +735,7 @@ class Civi_WP_Member_Sync_Users {
 
 
 
-	/*
+	/**
 	 * Remove filters (that we know of) that will interfere with creating a WordPress user.
 	 *
 	 * @since 0.1
@@ -732,7 +778,7 @@ class Civi_WP_Member_Sync_Users {
 
 
 
-	/*
+	/**
 	 * Add filters (that we know of) after creating a WordPress user.
 	 *
 	 * @since 0.1

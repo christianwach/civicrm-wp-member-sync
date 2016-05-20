@@ -399,7 +399,9 @@ class Civi_WP_Member_Sync_Admin {
 		);
 
 		// add scripts and styles
+		add_action( 'admin_print_scripts-'.$this->sync_page, array( $this, 'admin_js_sync_page' ) );
 		add_action( 'admin_print_styles-'.$this->sync_page, array( $this, 'admin_css' ) );
+		add_action( 'admin_print_styles-'.$this->sync_page, array( $this, 'admin_css_sync_page' ) );
 		add_action( 'admin_head-'.$this->sync_page, array( $this, 'admin_head' ), 50 );
 		add_action( 'admin_head-'.$this->sync_page, array( $this, 'admin_menu_highlight' ), 50 );
 
@@ -490,7 +492,7 @@ class Civi_WP_Member_Sync_Admin {
 
 
 	/**
-	 * Enqueue plugin options page CSS.
+	 * Enqueue common stylesheet for this plugin's admin pages.
 	 *
 	 * @since 0.1
 	 */
@@ -500,6 +502,26 @@ class Civi_WP_Member_Sync_Admin {
 		wp_enqueue_style(
 			'civi_wp_member_sync_admin_css',
 			plugins_url( 'assets/css/civi-wp-ms.css', CIVI_WP_MEMBER_SYNC_PLUGIN_FILE ),
+			false,
+			CIVI_WP_MEMBER_SYNC_VERSION, // version
+			'all' // media
+		);
+
+	}
+
+
+
+	/**
+	 * Enqueue stylesheet for this plugin's "Manual Sync" page.
+	 *
+	 * @since 0.2.8
+	 */
+	public function admin_css_sync_page() {
+
+		// add manual sync stylesheet
+		wp_enqueue_style(
+			'civi_wp_member_sync_manual_sync_css',
+			plugins_url( 'assets/css/civi-wp-ms-sync.css', CIVI_WP_MEMBER_SYNC_PLUGIN_FILE ),
 			false,
 			CIVI_WP_MEMBER_SYNC_VERSION, // version
 			'all' // media
@@ -541,6 +563,52 @@ class Civi_WP_Member_Sync_Admin {
 		wp_localize_script(
 			'civi_wp_member_sync_rules_js',
 			'CiviCRM_WP_Member_Sync_Rules',
+			$vars
+		);
+
+	}
+
+
+
+	/**
+	 * Enqueue required scripts on the Manual Sync page.
+	 *
+	 * @since 0.2.8
+	 */
+	public function admin_js_sync_page() {
+
+		// enqueue javascript
+		wp_enqueue_script(
+			'civi_wp_member_sync_sync_js',
+			plugins_url( 'assets/js/civi-wp-ms-sync.js', CIVI_WP_MEMBER_SYNC_PLUGIN_FILE ),
+			array( 'jquery', 'jquery-ui-core', 'jquery-ui-progressbar' ),
+			CIVI_WP_MEMBER_SYNC_VERSION // version
+		);
+
+		// init localisation
+		$localisation = array(
+			'total' => __( '{{total}} memberships to sync...', 'civicrm-wp-member-sync' ),
+			'current' => __( 'Processing memberships {{from}} to {{to}}', 'civicrm-wp-member-sync' ),
+			'complete' => __( 'Processing memberships {{from}} to {{to}} complete', 'civicrm-wp-member-sync' ),
+			'done' => __( 'All done!', 'civicrm-wp-member-sync' ),
+		);
+
+		// init settings
+		$settings = array(
+			'ajax_url' => admin_url( 'admin-ajax.php' ),
+			'total_memberships' => $this->plugin->members->memberships_get_count(),
+		);
+
+		// localisation array
+		$vars = array(
+			'localisation' => $localisation,
+			'settings' => $settings,
+		);
+
+		// localise the WordPress way
+		wp_localize_script(
+			'civi_wp_member_sync_sync_js',
+			'CiviCRM_WP_Member_Sync_Settings',
 			$vars
 		);
 
@@ -1026,6 +1094,12 @@ class Civi_WP_Member_Sync_Admin {
 			$result = $this->settings_update();
 		}
 
+	 	// was the "Stop Sync" button pressed?
+		if( isset( $_POST['civi_wp_member_sync_manual_sync_stop'] ) ) {
+			delete_option( '_civi_wpms_memberships_offset' );
+			return;
+		}
+
 		// was the "Manual Sync" form submitted?
 		if( isset( $_POST['civi_wp_member_sync_manual_sync_submit'] ) ) {
 
@@ -1040,9 +1114,8 @@ class Civi_WP_Member_Sync_Admin {
 			do_action( 'civi_wp_member_sync_pre_sync_all' );
 
 			// sync all memberships for *existing* WordPress users
-			$result = $this->plugin->members->sync_all();
+			$result = $this->plugin->members->sync_all_civicrm_memberships();
 
-			// and again, now that we're done
 			/**
 			 * Let other plugins know that we've synced all users.
 			 *
@@ -2168,6 +2241,26 @@ class Civi_WP_Member_Sync_Admin {
 	 * @since 0.1
 	 */
 	public function do_debug() {
+
+		// kick out if no CiviCRM
+		if ( ! civi_wp()->initialize() ) return;
+
+		// get CiviCRM memberships
+		$memberships = civicrm_api( 'Membership', 'getcount', array(
+			'version' => '3',
+			'options' => array(
+				'limit' => '99999999',
+			),
+		));
+
+		print_r( $memberships ); die();
+
+		/*
+		$date = CRM_Utils_Date::getToday();
+		$current = CRM_Utils_Date::customFormat($date, '%Y-%m-%d');
+
+		CRM_Member_BAO_Membership::getMembershipCount($key, $current);
+		*/
 
 	}
 

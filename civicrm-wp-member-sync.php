@@ -45,7 +45,7 @@ if ( ! defined( 'CIVI_WP_MEMBER_SYNC_PLUGIN_PATH' ) ) {
 }
 
 // debug flag for developers
-//define( 'CIVI_WP_MEMBER_SYNC_DEBUG', true );
+define( 'CIVI_WP_MEMBER_SYNC_DEBUG', true );
 
 // migrate flag for developers (see civi-wp-ms-migrate.php)
 //define( 'CIVI_WP_MEMBER_SYNC_MIGRATE', true );
