@@ -301,7 +301,7 @@ var CiviCRM_WP_Member_Sync_Manual_Sync = CiviCRM_WP_Member_Sync_Manual_Sync || {
 					action: 'sync_memberships',
 
 					// send "create users" flag
-					create_users: CiviCRM_WP_Member_Sync_Manual_Sync.settings.get_create_users()
+					civi_wp_member_sync_manual_sync_create: CiviCRM_WP_Member_Sync_Manual_Sync.settings.get_create_users()
 
 				},
 

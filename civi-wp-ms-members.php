@@ -113,7 +113,10 @@ class Civi_WP_Member_Sync_Members {
 		$create_users = false;
 
 		// override "create users" flag if chosen
-		if ( isset( $_POST['create_users'] ) AND $_POST['create_users'] == 'y' ) {
+		if (
+			isset( $_POST['civi_wp_member_sync_manual_sync_create'] ) AND
+			$_POST['civi_wp_member_sync_manual_sync_create'] == 'y'
+		) {
 			$create_users = true;
 		}
 
