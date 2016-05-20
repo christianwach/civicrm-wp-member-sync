@@ -1760,6 +1760,23 @@ class Civi_WP_Member_Sync_Admin {
 	/**
 	 * Manage WordPress roles or capabilities based on the status of a user's memberships.
 	 *
+	 * The following notes are to describe how this method should be enhanced:
+	 *
+	 * There are sometimes situations - when there are multiple roles assigned via
+	 * multiple memberships - where a role may be incorrectly removed (and perhaps
+	 * added but I haven't tested that fully yet) if the association rules share a
+	 * common "expired" role, such as "Anonymous User".
+	 *
+	 * The current logic may remove the expired role because other rules may be
+	 * applied after the rule which assigns the expired role. If they are - and
+	 * they are not expired memberships - the exipred rule will therefore be
+	 * removed from the user.
+	 *
+	 * It seems that what's needed is to parse the rules prior to applying them
+	 * to determine the final set of roles that a user should have. These rules
+	 * can then be applied in one go, thus avoiding the overrides resulting from
+	 * the conflicting rules.
+	 *
 	 * @since 0.1
 	 *
 	 * @param WP_User $user WP_User object of the user in question
