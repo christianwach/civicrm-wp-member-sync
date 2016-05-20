@@ -407,7 +407,7 @@ class Civi_WP_Member_Sync_Members {
 		if ( ! ( $user instanceof WP_User ) ) {
 
 			// maybe create WordPress user
-			$user = $this->plugin->users->wp_user_create_from_contact_id( $membership['contact_id'] );
+			$user = $this->plugin->users->wp_user_create_from_contact_id( $objectRef->contact_id );
 
 			// bail if something goes wrong
 			if ( $user === false ) return;
