@@ -428,6 +428,16 @@ class Civi_WP_Member_Sync_Members {
 				// bail if something goes wrong
 				if ( $user === false ) return;
 
+				// get sync method and sanitize
+				$method = $this->plugin->admin->setting_get( 'method' );
+				$method = ( $method == 'roles' ) ? 'roles' : 'capabilities';
+
+				// when syncing roles, remove the default role from the
+				// new user - rule_apply() will set a role when it runs
+				if ( $method == 'roles' ) {
+					$user->remove_role( get_option( 'default_role' ) );
+				}
+
 			}
 
 			// should this user be synced?
