@@ -78,6 +78,9 @@ class Civi_WP_Member_Sync_Members {
 			// intercept a CiviCRM membership update
 			add_action( 'civicrm_post', array( $this, 'membership_updated' ), 10, 4 );
 
+			// intercept a CiviCRM membership deletion
+			add_action( 'civicrm_post', array( $this, 'membership_deleted' ), 10, 4 );
+
 		}
 
 		// is this the back end?
@@ -410,25 +413,25 @@ class Civi_WP_Member_Sync_Members {
 		// kick out if we don't have a contact ID
 		if ( ! isset( $objectRef->contact_id ) ) return;
 
-		// get WordPress user for this contact ID
-		$user = $this->plugin->users->wp_user_get_by_civi_id( $objectRef->contact_id );
-
-		// if we don't receive a valid user
-		if ( ! ( $user instanceof WP_User ) ) {
-
-			// maybe create WordPress user
-			$user = $this->plugin->users->wp_user_create_from_contact_id( $objectRef->contact_id );
-
-			// bail if something goes wrong
-			if ( $user === false ) return;
-
-		}
-
-		// should this user be synced?
-		if ( ! $this->user_should_be_synced( $user ) ) return;
-
-		// catch create and edit operations
+		// only process create and edit operations
 		if ( $op == 'edit' OR $op == 'create' ) {
+
+			// get WordPress user for this contact ID
+			$user = $this->plugin->users->wp_user_get_by_civi_id( $objectRef->contact_id );
+
+			// if we don't receive a valid user
+			if ( ! ( $user instanceof WP_User ) ) {
+
+				// maybe create WordPress user
+				$user = $this->plugin->users->wp_user_create_from_contact_id( $objectRef->contact_id );
+
+				// bail if something goes wrong
+				if ( $user === false ) return;
+
+			}
+
+			// should this user be synced?
+			if ( ! $this->user_should_be_synced( $user ) ) return;
 
 			// reformat $objectRef as if it was an API return
 			$membership = array(
@@ -439,21 +442,47 @@ class Civi_WP_Member_Sync_Members {
 			// update WordPress user by membership
 			$this->plugin->admin->rule_apply( $user, $membership );
 
-			// --<
-			return;
-
 		}
 
-		// catch delete operation
-		if ( $op == 'delete' ) {
+	}
 
-			// undo WordPress user's membership
-			$this->plugin->admin->rule_undo( $user, $objectRef );
 
-			// --<
-			return;
 
-		}
+	/**
+	 * Update a WordPress user when a CiviCRM membership is deleted.
+	 *
+	 * @since 0.3
+	 *
+	 * @param string $op the type of database operation
+	 * @param string $objectName the type of object
+	 * @param integer $objectId the ID of the object
+	 * @param object $objectRef the object
+	 */
+	public function membership_deleted( $op, $objectName, $objectId, $objectRef ) {
+
+		// target our object type
+		if ( $objectName != 'Membership' ) return;
+
+		// kick out if not membership object
+		if ( ! ( $objectRef instanceof CRM_Member_BAO_Membership ) ) return;
+
+		// kick out if we don't have a contact ID
+		if ( ! isset( $objectRef->contact_id ) ) return;
+
+		// only process delete operations
+		if ( $op != 'delete' ) return;
+
+		// get WordPress user for this contact ID
+		$user = $this->plugin->users->wp_user_get_by_civi_id( $objectRef->contact_id );
+
+		// bail if we don't receive a valid user
+		if ( ! ( $user instanceof WP_User ) ) return;
+
+		// should this user be synced?
+		if ( ! $this->user_should_be_synced( $user ) ) return;
+
+		// undo WordPress user's membership
+		$this->plugin->admin->rule_undo( $user, $objectRef );
 
 	}
 
