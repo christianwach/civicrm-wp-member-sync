@@ -613,7 +613,7 @@ class Civi_WP_Member_Sync_Users {
 			// bail if something goes wrong
 			if ( $civi_contact === false ) return false;
 
-			// create a WP user
+			// create a WordPress user
 			$user = $this->wp_create_user( $civi_contact );
 
 			// bail if something goes wrong
@@ -639,7 +639,7 @@ class Civi_WP_Member_Sync_Users {
 	 * @since 0.1
 	 *
 	 * @param array $civi_contact The data for the CiviCRM contact
-	 * @return mixed $user WP user object or false on failure
+	 * @return mixed $user WordPress user object or false on failure
 	 */
 	public function wp_create_user( $civi_contact ) {
 
@@ -723,7 +723,7 @@ class Civi_WP_Member_Sync_Users {
 		// sanity check
 		if ( is_numeric( $user_id ) AND $user_id ) {
 
-			// return WP user
+			// return WordPress user
 			return get_user_by( 'id', $user_id );
 
 		}

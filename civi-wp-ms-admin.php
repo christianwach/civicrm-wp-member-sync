@@ -1588,7 +1588,7 @@ class Civi_WP_Member_Sync_Admin {
 		// do we want roles?
 		if ( $method == 'roles' ) {
 
-			// check and sanitise WP Role
+			// check and sanitise WordPress Role
 			if(
 				isset( $_POST['current_wp_role'] ) AND
 				! empty( $_POST['current_wp_role'] )

@@ -360,7 +360,7 @@ class Civi_WP_Member_Sync_Members {
 		// get membership
 		$membership = $this->membership_get_by_contact_id( $civi_contact_id );
 
-		// update WP user
+		// update WordPress user
 		$this->plugin->admin->rule_apply( $user, $membership );
 
 	}
@@ -368,7 +368,7 @@ class Civi_WP_Member_Sync_Members {
 
 
 	/**
-	 * Update a WP user role when a CiviCRM membership is updated.
+	 * Update a WordPress user role when a CiviCRM membership is updated.
 	 *
 	 * @since 0.1
 	 *
@@ -390,7 +390,7 @@ class Civi_WP_Member_Sync_Members {
 
 
 	/**
-	 * Update a WP user when a CiviCRM membership is updated.
+	 * Update a WordPress user when a CiviCRM membership is updated.
 	 *
 	 * @since 0.1
 	 *
@@ -436,7 +436,7 @@ class Civi_WP_Member_Sync_Members {
 				'values' => array( (array) $objectRef ),
 			);
 
-			// update WP user by membership
+			// update WordPress user by membership
 			$this->plugin->admin->rule_apply( $user, $membership );
 
 			// --<
@@ -447,7 +447,7 @@ class Civi_WP_Member_Sync_Members {
 		// catch delete operation
 		if ( $op == 'delete' ) {
 
-			// undo WP user's membership
+			// undo WordPress user's membership
 			$this->plugin->admin->rule_undo( $user, $objectRef );
 
 			// --<
