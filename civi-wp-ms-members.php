@@ -407,9 +407,6 @@ class Civi_WP_Member_Sync_Members {
 		// target our object type
 		if ( $objectName != 'Membership' ) return;
 
-		// kick out if not membership object
-		if ( ! ( $objectRef instanceof CRM_Member_BAO_Membership ) ) return;
-
 		// kick out if we don't have a contact ID
 		if ( ! isset( $objectRef->contact_id ) ) return;
 
@@ -472,9 +469,6 @@ class Civi_WP_Member_Sync_Members {
 
 		// target our object type
 		if ( $objectName != 'Membership' ) return;
-
-		// kick out if not membership object
-		if ( ! ( $objectRef instanceof CRM_Member_BAO_Membership ) ) return;
 
 		// kick out if we don't have a contact ID
 		if ( ! isset( $objectRef->contact_id ) ) return;
