@@ -76,6 +76,7 @@ It may sometimes be necessary to manually synchronize users. Click on the "Manua
 
 * Support multiple Memberships per Contact
 * AJAX-driven Manual Sync admin page
+* Fix sync when Membership is renewed
 
 = 0.2.7 =
 
