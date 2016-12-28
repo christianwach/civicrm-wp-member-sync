@@ -72,6 +72,10 @@ It may sometimes be necessary to manually synchronize users. Click on the "Manua
 
 == Changelog ==
 
+= 0.3.1 =
+
+* Fix bug in PHP 7
+
 = 0.3 =
 
 * Support multiple Memberships per Contact
