@@ -1580,7 +1580,6 @@ class Civi_WP_Member_Sync_Admin {
 			$intersect = array_intersect_assoc( $current_rule, $expiry_rule );
 			if ( ! empty( $intersect ) ) {
 				$current_expire_clash = true;
-				break;
 			}
 
 		}
