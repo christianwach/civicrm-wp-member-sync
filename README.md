@@ -1,6 +1,8 @@
 CiviCRM WordPress Member Sync
 =============================
 
+*Please note:* this is the development repository for CiviCRM WordPress Member Sync. The plugin is also available [in the WordPress Plugin Directory](https://wordpress.org/plugins/civicrm-wp-member-sync/), which is the best place to get it from if you're not a developer.
+
 The *CiviCRM WordPress Member Sync* plugin keeps a *WordPress* user in sync with a *CiviCRM* membership by granting either a role or capabilities to a *WordPress* user who has that membership.
 
 This enables you to have, among other things, members-only content on your website that is only accessible to current members as defined by the membership types and status rules that you set up in *CiviCRM*.
