@@ -2,9 +2,9 @@
 # This file is distributed under the same license as the CiviCRM WordPress Member Sync package.
 msgid ""
 msgstr ""
-"Project-Id-Version: CiviCRM WordPress Member Sync 0.3\n"
+"Project-Id-Version: CiviCRM WordPress Member Sync 0.3.1\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/civicrm-wp-member-sync\n"
-"POT-Creation-Date: 2016-06-20 13:01:58+00:00\n"
+"POT-Creation-Date: 2016-12-28 20:47:14+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -383,7 +383,7 @@ msgstr ""
 msgid "You must supply a setting to setting_set()"
 msgstr ""
 
-#: civi-wp-ms-admin.php:1699
+#: civi-wp-ms-admin.php:1698
 msgid "Cheating, eh?"
 msgstr ""
 #. Plugin Name of the plugin/theme
