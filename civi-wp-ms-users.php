@@ -651,6 +651,17 @@ class Civi_WP_Member_Sync_Users {
 		// create username from display name
 		$user_name = sanitize_title( sanitize_user( $civi_contact['display_name'] ) );
 
+		/**
+		 * Let plugins override the username.
+		 *
+		 * @since 0.1
+		 *
+		 * @param str $user_name The previously-generated WordPress username
+		 * @param array $civi_contact The CiviCRM contact data
+		 * @return str $user_name The modified WordPress username
+		 */
+		$user_name = apply_filters( 'civi_wp_member_sync_new_username', $user_name, $civi_contact );
+
 		// check if we have a user with that username
 		$user_id = username_exists( $user_name );
 
