@@ -672,7 +672,6 @@ class Civi_WP_Member_Sync_Users {
 			 * @since 0.1
 			 *
 			 * @param array $civi_contact The CiviCRM contact object
-			 * @param int $user_id The numeric ID of the WordPress user
 			 */
 			do_action( 'civi_wp_member_sync_before_insert_user', $civi_contact );
 
