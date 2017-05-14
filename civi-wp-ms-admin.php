@@ -1433,12 +1433,12 @@ class Civi_WP_Member_Sync_Admin {
 		if ( $this->is_network_activated() ) {
 
 			// delete site option
-			delete_site_option( $key, $value );
+			delete_site_option( $key );
 
 		} else {
 
 			// delete option
-			delete_option( $key, $value );
+			delete_option( $key );
 
 		}
 
