@@ -1843,6 +1843,9 @@ class Civi_WP_Member_Sync_Admin {
 						$this->plugin->users->wp_role_remove( $user, $expired_wp_role );
 					}
 
+					// set flag for action
+					$flag = 'current';
+
 				} else {
 
 					// remove current role if the user has it
@@ -1855,7 +1858,27 @@ class Civi_WP_Member_Sync_Admin {
 						$this->plugin->users->wp_role_add( $user, $expired_wp_role );
 					}
 
+					// set flag for action
+					$flag = 'expired';
+
 				}
+
+				/**
+				 * Fires after application of rule to user when syncing roles.
+				 *
+				 * This creates two possible actions:
+				 *
+				 * civi_wp_member_sync_rule_apply_roles_current
+				 * civi_wp_member_sync_rule_apply_roles_expired
+				 *
+				 * @since 0.3.2
+				 *
+				 * @param WP_User $user The WordPress user object
+				 * @param int $membership_type_id The ID of the CiviCRM membership type
+				 * @param int $status_id The ID of the CiviCRM membership status
+				 * @param array $association_rule The rule used to apply the changes
+				 */
+				do_action( 'civi_wp_member_sync_rule_apply_roles_' . $flag, $user, $membership_type_id, $status_id, $association_rule );
 
 			} else {
 
@@ -1887,6 +1910,9 @@ class Civi_WP_Member_Sync_Admin {
 					// add status capability
 					$this->plugin->users->wp_cap_add( $user, $capability_status );
 
+					// set flag for action
+					$flag = 'current';
+
 				} else {
 
 					// do we have the "Members" plugin?
@@ -1903,7 +1929,31 @@ class Civi_WP_Member_Sync_Admin {
 					// clear status capabilities
 					$this->plugin->users->wp_cap_remove_status( $user, $capability );
 
+					// set flag for action
+					$flag = 'expired';
+
 				}
+
+				/**
+				 * Fires after application of rule to user when syncing capabilities.
+				 *
+				 * This creates two possible actions:
+				 *
+				 * civi_wp_member_sync_rule_apply_caps_current
+				 * civi_wp_member_sync_rule_apply_caps_expired
+				 *
+				 * The status capability can be derived from the combination of
+				 * $capability and $status_id and is therefore not needed when
+				 * firing this action.
+				 *
+				 * @since 0.3.2
+				 *
+				 * @param WP_User $user The WordPress user object
+				 * @param int $membership_type_id The ID of the CiviCRM membership type
+				 * @param int $status_id The ID of the CiviCRM membership status
+				 * @param array $capability The membership type capability added or removed
+				 */
+				do_action( 'civi_wp_member_sync_rule_apply_caps_' . $flag, $user, $membership_type_id, $status_id, $capability );
 
 			}
 
