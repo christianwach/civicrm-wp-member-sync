@@ -72,6 +72,10 @@ It may sometimes be necessary to manually synchronize users. Click on the "Manua
 
 == Changelog ==
 
+= 0.3.2 =
+
+* Add filter for username prior to creation of WordPress user
+
 = 0.3.1 =
 
 * Fix bug in PHP 7
