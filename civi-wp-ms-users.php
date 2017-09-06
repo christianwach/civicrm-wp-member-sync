@@ -603,9 +603,10 @@ class Civi_WP_Member_Sync_Users {
 		 * @since 0.2
 		 *
 		 * @param bool True - users should be created by default
+		 * @param int $civi_contact_id The numeric ID of the CiviCRM Contact
 		 * @return bool True if users should be created, false otherwise
 		 */
-		if ( true === apply_filters( 'civi_wp_member_sync_auto_create_wp_user', true ) ) {
+		if ( true === apply_filters( 'civi_wp_member_sync_auto_create_wp_user', true, $civi_contact_id ) ) {
 
 			// get CiviCRM contact
 			$civi_contact = $this->civi_get_contact_by_contact_id( $civi_contact_id );
