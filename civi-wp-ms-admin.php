@@ -16,7 +16,7 @@ class Civi_WP_Member_Sync_Admin {
 	 *
 	 * @since 0.1
 	 * @access public
-	 * @var object $plugin The plugin object
+	 * @var object $plugin The plugin object.
 	 */
 	public $plugin;
 
@@ -25,7 +25,7 @@ class Civi_WP_Member_Sync_Admin {
 	 *
 	 * @since 0.1
 	 * @access public
-	 * @var object $migrate The migration object
+	 * @var object $migrate The migration object.
 	 */
 	public $migrate;
 
@@ -34,7 +34,7 @@ class Civi_WP_Member_Sync_Admin {
 	 *
 	 * @since 0.1
 	 * @access public
-	 * @var str $parent_page The parent page
+	 * @var str $parent_page The parent page.
 	 */
 	public $parent_page;
 
@@ -43,7 +43,7 @@ class Civi_WP_Member_Sync_Admin {
 	 *
 	 * @since 0.1
 	 * @access public
-	 * @var str $settings_page The settings page
+	 * @var str $settings_page The settings page.
 	 */
 	public $settings_page;
 
@@ -52,7 +52,7 @@ class Civi_WP_Member_Sync_Admin {
 	 *
 	 * @since 0.1
 	 * @access public
-	 * @var str $sync_page The manual sync page
+	 * @var str $sync_page The manual sync page.
 	 */
 	public $sync_page;
 
@@ -61,7 +61,7 @@ class Civi_WP_Member_Sync_Admin {
 	 *
 	 * @since 0.1
 	 * @access public
-	 * @var str $rules_list_page The list rules page
+	 * @var str $rules_list_page The list rules page.
 	 */
 	public $rules_list_page;
 
@@ -70,7 +70,7 @@ class Civi_WP_Member_Sync_Admin {
 	 *
 	 * @since 0.1
 	 * @access public
-	 * @var str $rules_list_page The add/edit rules page
+	 * @var str $rules_list_page The add/edit rules page.
 	 */
 	public $rule_add_edit_page;
 
@@ -79,7 +79,7 @@ class Civi_WP_Member_Sync_Admin {
 	 *
 	 * @since 0.1
 	 * @access public
-	 * @var str $plugin_version The plugin version (numeric string)
+	 * @var str $plugin_version The plugin version. (numeric string)
 	 */
 	public $plugin_version;
 
@@ -88,7 +88,7 @@ class Civi_WP_Member_Sync_Admin {
 	 *
 	 * @since 0.1
 	 * @access public
-	 * @var array $settings The plugin settings
+	 * @var array $settings The plugin settings.
 	 */
 	public $settings = array();
 
@@ -97,7 +97,7 @@ class Civi_WP_Member_Sync_Admin {
 	 *
 	 * @since 0.1
 	 * @access public
-	 * @var array $error_strings The form error messages
+	 * @var array $error_strings The form error messages.
 	 */
 	public $error_strings;
 
@@ -106,7 +106,7 @@ class Civi_WP_Member_Sync_Admin {
 	 *
 	 * @since 0.1
 	 * @access public
-	 * @var array $error_strings The errors in current form submission
+	 * @var array $error_strings The errors in current form submission.
 	 */
 	public $errors;
 
@@ -117,7 +117,7 @@ class Civi_WP_Member_Sync_Admin {
 	 *
 	 * @since 0.1
 	 *
-	 * @param object $plugin The plugin object
+	 * @param object $plugin The plugin object.
 	 */
 	public function __construct( $plugin ) {
 
@@ -189,7 +189,7 @@ class Civi_WP_Member_Sync_Admin {
 	 *
 	 * @since 0.2.7
 	 *
-	 * @return bool $is_network_active True if network activated, false otherwise
+	 * @return bool $is_network_active True if network activated, false otherwise.
 	 */
 	public function is_network_activated() {
 
@@ -621,8 +621,8 @@ class Civi_WP_Member_Sync_Admin {
 	 *
 	 * @since 0.1
 	 *
-	 * @param object $screen The existing WordPress screen object
-	 * @return object $screen The amended WordPress screen object
+	 * @param object $screen The existing WordPress screen object.
+	 * @return object $screen The amended WordPress screen object.
 	 */
 	public function admin_help( $screen ) {
 
@@ -664,7 +664,7 @@ class Civi_WP_Member_Sync_Admin {
 	 *
 	 * @since 0.1
 	 *
-	 * @return string $help Help formatted as HTML
+	 * @return string $help Help formatted as HTML.
 	 */
 	public function get_help() {
 
@@ -976,7 +976,7 @@ class Civi_WP_Member_Sync_Admin {
 	 *
 	 * @since 0.1
 	 *
-	 * @return array $admin_urls The array of admin page URLs
+	 * @return array $admin_urls The array of admin page URLs.
 	 */
 	public function page_get_urls() {
 
@@ -1018,9 +1018,9 @@ class Civi_WP_Member_Sync_Admin {
 	 *
 	 * @since 0.1
 	 *
-	 * @param string $menu_slug The slug name to refer to this menu by (should be unique for this menu)
-	 * @param bool $echo Whether or not to echo the url - default is true
-	 * @return string $url The URL
+	 * @param string $menu_slug The slug name to refer to this menu by (should be unique for this menu).
+	 * @param bool $echo Whether or not to echo the url - default is true.
+	 * @return string $url The URL.
 	 */
 	public function network_menu_page_url( $menu_slug, $echo = true ) {
 		global $_parent_pages;
@@ -1052,7 +1052,7 @@ class Civi_WP_Member_Sync_Admin {
 	 *
 	 * @since 0.1
 	 *
-	 * @return string $target_url The URL for the admin form action
+	 * @return string $target_url The URL for the admin form action.
 	 */
 	public function admin_form_url_get() {
 
@@ -1077,7 +1077,7 @@ class Civi_WP_Member_Sync_Admin {
 	 *
 	 * @since 0.1
 	 *
-	 * @return bool $result True on success, false otherwise
+	 * @return bool $result True on success, false otherwise.
 	 */
 	public function settings_update_router() {
 
@@ -1149,7 +1149,7 @@ class Civi_WP_Member_Sync_Admin {
 	 *
 	 * @since 0.1
 	 *
-	 * @return array $settings The array of settings, keyed by setting name
+	 * @return array $settings The array of settings, keyed by setting name.
 	 */
 	public function settings_get_default() {
 
@@ -1307,7 +1307,7 @@ class Civi_WP_Member_Sync_Admin {
 	 *
 	 * @since 0.1
 	 *
-	 * @return bool $result True if setting value has changed, false if not or if update failed
+	 * @return bool $result True if setting value has changed, false if not or if update failed.
 	 */
 	public function settings_save() {
 
@@ -1323,7 +1323,7 @@ class Civi_WP_Member_Sync_Admin {
 	 *
 	 * @since 0.1
 	 *
-	 * @return mixed $setting The value of the setting
+	 * @return mixed $setting The value of the setting.
 	 */
 	public function setting_get( $setting_name = '', $default = false ) {
 
@@ -1367,9 +1367,9 @@ class Civi_WP_Member_Sync_Admin {
 	 *
 	 * @since 0.2.7
 	 *
-	 * @param string $key The option name
-	 * @param mixed $default The default option value if none exists
-	 * @return mixed $value
+	 * @param string $key The option name.
+	 * @param mixed $default The default option value if none exists.
+	 * @return mixed $value The option value.
 	 */
 	public function option_get( $key, $default = null ) {
 
@@ -1398,8 +1398,8 @@ class Civi_WP_Member_Sync_Admin {
 	 *
 	 * @since 0.2.7
 	 *
-	 * @param string $key The option name
-	 * @param mixed $value The value to save
+	 * @param string $key The option name.
+	 * @param mixed $value The value to save.
 	 */
 	public function option_save( $key, $value ) {
 
@@ -1425,7 +1425,7 @@ class Civi_WP_Member_Sync_Admin {
 	 *
 	 * @since 0.2.7
 	 *
-	 * @param string $key The option name
+	 * @param string $key The option name.
 	 */
 	public function option_delete( $key ) {
 
@@ -1455,8 +1455,8 @@ class Civi_WP_Member_Sync_Admin {
 	 *
 	 * @since 0.1
 	 *
-	 * @param string $method The sync method (either 'roles' or 'capabilities')
-	 * @return mixed $rule Array if successful, boolean false otherwise
+	 * @param string $method The sync method (either 'roles' or 'capabilities').
+	 * @return mixed $rule Array if successful, boolean false otherwise.
 	 */
 	public function rules_get_by_method( $method = 'roles' ) {
 
@@ -1481,9 +1481,9 @@ class Civi_WP_Member_Sync_Admin {
 	 *
 	 * @since 0.1
 	 *
-	 * @param int $type_id The numeric ID of the CiviCRM membership type
-	 * @param string $method The sync method (either 'roles' or 'capabilities')
-	 * @return mixed $rule Array if successful, boolean false otherwise
+	 * @param int $type_id The numeric ID of the CiviCRM membership type.
+	 * @param string $method The sync method (either 'roles' or 'capabilities').
+	 * @return mixed $rule Array if successful, boolean false otherwise.
 	 */
 	public function rule_get_by_type( $type_id, $method = 'roles' ) {
 
@@ -1511,7 +1511,7 @@ class Civi_WP_Member_Sync_Admin {
 	 *
 	 * @since 0.1
 	 *
-	 * @return bool $success True if successful, false otherwise
+	 * @return bool $success True if successful, false otherwise.
 	 */
 	public function rule_update() {
 
@@ -1647,7 +1647,7 @@ class Civi_WP_Member_Sync_Admin {
 			 * civi_wp_member_sync_rule_edit_roles
 			 * civi_wp_member_sync_rule_edit_capabilities
 			 *
-			 * @param array The new or updated association rule
+			 * @param array The new or updated association rule.
 			 */
 			do_action( 'civi_wp_member_sync_rule_'. $mode . '_' . $method, $data[$method][$civi_member_type_id] );
 
@@ -1685,7 +1685,7 @@ class Civi_WP_Member_Sync_Admin {
 	 *
 	 * @since 0.1
 	 *
-	 * @return bool $success True if successful, false otherwise
+	 * @return bool $success True if successful, false otherwise.
 	 */
 	public function rule_delete() {
 
@@ -1778,8 +1778,8 @@ class Civi_WP_Member_Sync_Admin {
 	 *
 	 * @since 0.1
 	 *
-	 * @param WP_User $user WP_User object of the user in question
-	 * @param array $memberships The memberships of the WordPress user in question
+	 * @param WP_User $user WP_User object of the user in question.
+	 * @param array $memberships The memberships of the WordPress user in question.
 	 */
 	public function rule_apply( $user, $memberships = false ) {
 
@@ -1873,10 +1873,10 @@ class Civi_WP_Member_Sync_Admin {
 				 *
 				 * @since 0.3.2
 				 *
-				 * @param WP_User $user The WordPress user object
-				 * @param int $membership_type_id The ID of the CiviCRM membership type
-				 * @param int $status_id The ID of the CiviCRM membership status
-				 * @param array $association_rule The rule used to apply the changes
+				 * @param WP_User $user The WordPress user object.
+				 * @param int $membership_type_id The ID of the CiviCRM membership type.
+				 * @param int $status_id The ID of the CiviCRM membership status.
+				 * @param array $association_rule The rule used to apply the changes.
 				 */
 				do_action( 'civi_wp_member_sync_rule_apply_roles_' . $flag, $user, $membership_type_id, $status_id, $association_rule );
 
@@ -1948,10 +1948,10 @@ class Civi_WP_Member_Sync_Admin {
 				 *
 				 * @since 0.3.2
 				 *
-				 * @param WP_User $user The WordPress user object
-				 * @param int $membership_type_id The ID of the CiviCRM membership type
-				 * @param int $status_id The ID of the CiviCRM membership status
-				 * @param array $capability The membership type capability added or removed
+				 * @param WP_User $user The WordPress user object.
+				 * @param int $membership_type_id The ID of the CiviCRM membership type.
+				 * @param int $status_id The ID of the CiviCRM membership status.
+				 * @param array $capability The membership type capability added or removed.
 				 */
 				do_action( 'civi_wp_member_sync_rule_apply_caps_' . $flag, $user, $membership_type_id, $status_id, $capability );
 
@@ -1984,7 +1984,7 @@ class Civi_WP_Member_Sync_Admin {
 		// which sync method are we using?
 		if ( $method == 'roles' ) {
 
-			/**
+			/*
 			 * When there are multiple memberships, remove both the current role
 			 * and the expired role. If this is the only remaining membership
 			 * that the user has, however, then simply switch the current role
@@ -2015,7 +2015,7 @@ class Civi_WP_Member_Sync_Admin {
 				count( $memberships['values'] ) > 0
 			) {
 
-				/**
+				/*
 				 * There's a special case here where the membership being removed
 				 * may cause the user to be left with no role at all if both the
 				 * current and expired roles are removed.
@@ -2113,7 +2113,7 @@ class Civi_WP_Member_Sync_Admin {
 	 *
 	 * @since 0.2.3
 	 *
-	 * @param array $data The association rule data
+	 * @param array $data The association rule data.
 	 */
 	public function groups_add_cap( $data ) {
 
@@ -2138,7 +2138,7 @@ class Civi_WP_Member_Sync_Admin {
 	 *
 	 * @since 0.2.3
 	 *
-	 * @param array $data The association rule data
+	 * @param array $data The association rule data.
 	 */
 	public function groups_edit_cap( $data ) {
 
@@ -2154,7 +2154,7 @@ class Civi_WP_Member_Sync_Admin {
 	 *
 	 * @since 0.2.3
 	 *
-	 * @param array $data The association rule data
+	 * @param array $data The association rule data.
 	 */
 	public function groups_delete_cap( $data ) {
 
@@ -2179,7 +2179,7 @@ class Civi_WP_Member_Sync_Admin {
 	 *
 	 * @since 0.2.3
 	 *
-	 * @param array $capability The capability to add
+	 * @param array $capability The capability to add.
 	 */
 	public function groups_read_cap_add( $capability ) {
 
@@ -2207,7 +2207,7 @@ class Civi_WP_Member_Sync_Admin {
 	 *
 	 * @since 0.2.3
 	 *
-	 * @param array $capability The capability to delete
+	 * @param array $capability The capability to delete.
 	 */
 	public function groups_read_cap_delete( $capability ) {
 
@@ -2272,8 +2272,8 @@ class Civi_WP_Member_Sync_Admin {
 	 * This is a placeholder in case we want to extend this plugin to handle
 	 * automatic content restriction.
 	 *
-	 * @param int $post_id The numeric ID of the post
-	 * @param object $post The WordPress post object
+	 * @param int $post_id The numeric ID of the post.
+	 * @param object $post The WordPress post object.
 	 */
 	public function groups_intercept_save_post( $post_id, $post ) {
 

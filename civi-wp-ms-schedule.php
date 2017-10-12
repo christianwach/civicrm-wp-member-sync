@@ -16,7 +16,7 @@ class Civi_WP_Member_Sync_Schedule {
 	 *
 	 * @since 0.1
 	 * @access public
-	 * @var object $plugin The plugin object
+	 * @var object $plugin The plugin object.
 	 */
 	public $plugin;
 
@@ -27,7 +27,7 @@ class Civi_WP_Member_Sync_Schedule {
 	 *
 	 * @since 0.1
 	 *
-	 * @param object $plugin The plugin object
+	 * @param object $plugin The plugin object.
 	 */
 	public function __construct( $plugin ) {
 
@@ -80,7 +80,7 @@ class Civi_WP_Member_Sync_Schedule {
 	 *
 	 * @since 0.1
 	 *
-	 * @param string $interval One of the WordPress-defined intervals
+	 * @param string $interval One of the WordPress-defined intervals.
 	 */
 	public function schedule( $interval ) {
 
@@ -146,7 +146,7 @@ class Civi_WP_Member_Sync_Schedule {
 	 *
 	 * @since 0.1
 	 *
-	 * @return array $intervals Array of schedule interval arrays, keyed by interval slug
+	 * @return array $intervals Array of schedule interval arrays, keyed by interval slug.
 	 */
 	public function intervals_get() {
 

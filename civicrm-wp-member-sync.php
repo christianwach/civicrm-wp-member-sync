@@ -66,7 +66,7 @@ class Civi_WP_Member_Sync {
 	 *
 	 * @since 0.1
 	 * @access public
-	 * @var object $user The users utilities object
+	 * @var object $user The users utilities object.
 	 */
 	public $users;
 
@@ -75,7 +75,7 @@ class Civi_WP_Member_Sync {
 	 *
 	 * @since 0.1
 	 * @access public
-	 * @var object $schedule The scheduled events utilities object
+	 * @var object $schedule The scheduled events utilities object.
 	 */
 	public $schedule;
 
@@ -84,7 +84,7 @@ class Civi_WP_Member_Sync {
 	 *
 	 * @since 0.1
 	 * @access public
-	 * @var object $admin The admin utilities object
+	 * @var object $admin The admin utilities object.
 	 */
 	public $admin;
 
@@ -93,7 +93,7 @@ class Civi_WP_Member_Sync {
 	 *
 	 * @since 0.1
 	 * @access public
-	 * @var object $members The membership utilities object
+	 * @var object $members The membership utilities object.
 	 */
 	public $members;
 
@@ -258,7 +258,7 @@ register_deactivation_hook( __FILE__, array( $civi_wp_member_sync, 'deactivate' 
  *
  * @since 0.2.7
  *
- * @return object $civi_wp_member_sync The plugin reference
+ * @return object $civi_wp_member_sync The plugin reference.
  */
 function civicrm_wpms() {
 
@@ -275,9 +275,9 @@ function civicrm_wpms() {
  *
  * @since 0.1
  *
- * @param array $links The existing list of plugin links
- * @param str $file The name of the plugin file
- * @return array $links The amended list of plugin links
+ * @param array $links The existing list of plugin links.
+ * @param str $file The name of the plugin file.
+ * @return array $links The amended list of plugin links.
  */
 function civi_wp_member_sync_plugin_add_settings_link( $links, $file ) {
 

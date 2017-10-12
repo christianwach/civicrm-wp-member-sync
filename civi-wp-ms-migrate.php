@@ -23,7 +23,7 @@ class Civi_WP_Member_Sync_Migrate {
 	 *
 	 * @since 0.1
 	 * @access public
-	 * @var object $plugin The plugin object
+	 * @var object $plugin The plugin object.
 	 */
 	public $plugin;
 
@@ -34,7 +34,7 @@ class Civi_WP_Member_Sync_Migrate {
 	 *
 	 * @since 0.1
 	 *
-	 * @param object $plugin The plugin object
+	 * @param object $plugin The plugin object.
 	 */
 	public function __construct( $plugin ) {
 
@@ -106,8 +106,6 @@ class Civi_WP_Member_Sync_Migrate {
 	 * Migrate 'civi_member_sync' data to our plugin settings.
 	 *
 	 * @since 0.1
-	 *
-	 * @return boolean $result
 	 */
 	public function legacy_data_migrate() {
 

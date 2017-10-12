@@ -27,7 +27,7 @@ class Civi_WP_Member_Sync_Members {
 	 *
 	 * @since 0.1
 	 *
-	 * @param object $plugin The plugin object
+	 * @param object $plugin The plugin object.
 	 */
 	public function __construct( $plugin ) {
 
@@ -203,7 +203,7 @@ class Civi_WP_Member_Sync_Members {
 				// should this user be synced?
 				if ( ! $this->user_should_be_synced( $user ) ) continue;
 
-				/**
+				/*
 				 * The use of existing code here is not the most efficient way to
 				 * sync each membership. However, given that in most cases there
 				 * will only be one membership per contact, I think the overhead
@@ -257,7 +257,7 @@ class Civi_WP_Member_Sync_Members {
 	 *
 	 * @since 0.1
 	 *
-	 * @return bool $success True if successful, false otherwise
+	 * @return bool $success True if successful, false otherwise.
 	 */
 	public function sync_all_wp_user_memberships() {
 
@@ -309,8 +309,8 @@ class Civi_WP_Member_Sync_Members {
 	 *
 	 * @since 0.2.6
 	 *
-	 * @param object $user The WordPress user object
-	 * @return bool $should_be_synced Whether or not the user should be synced
+	 * @param object $user The WordPress user object.
+	 * @return bool $should_be_synced Whether or not the user should be synced.
 	 */
 	public function user_should_be_synced( $user ) {
 
@@ -331,9 +331,9 @@ class Civi_WP_Member_Sync_Members {
 		 *
 		 * @since 0.2
 		 *
-		 * @param bool $should_be_synced True if the user should be synced, false otherwise
-		 * @param object $user The WordPress user object
-		 * @param bool $should_be_synced The modified value of the sync flag
+		 * @param bool $should_be_synced True if the user should be synced, false otherwise.
+		 * @param object $user The WordPress user object.
+		 * @param bool $should_be_synced The modified value of the sync flag.
 		 */
 		return apply_filters( 'civi_wp_member_sync_user_should_be_synced', $should_be_synced, $user );
 
@@ -346,7 +346,7 @@ class Civi_WP_Member_Sync_Members {
 	 *
 	 * @since 0.1
 	 *
-	 * @param string $user_login Logged in user's username
+	 * @param string $user_login Logged in user's username.
 	 * @param WP_User $user WP_User object of the logged-in user.
 	 */
 	public function sync_to_user( $user_login, $user ) {
@@ -375,10 +375,10 @@ class Civi_WP_Member_Sync_Members {
 	 *
 	 * @since 0.1
 	 *
-	 * @param string $op the type of database operation
-	 * @param string $objectName the type of object
-	 * @param integer $objectId the ID of the object
-	 * @param object $objectRef the object
+	 * @param string $op the type of database operation.
+	 * @param string $objectName the type of object.
+	 * @param integer $objectId the ID of the object.
+	 * @param object $objectRef the object.
 	 */
 	public function membership_pre_update( $op, $objectName, $objectId, $objectRef ) {
 
@@ -397,10 +397,10 @@ class Civi_WP_Member_Sync_Members {
 	 *
 	 * @since 0.1
 	 *
-	 * @param string $op the type of database operation
-	 * @param string $objectName the type of object
-	 * @param integer $objectId the ID of the object
-	 * @param object $objectRef the object
+	 * @param string $op the type of database operation.
+	 * @param string $objectName the type of object.
+	 * @param integer $objectId the ID of the object.
+	 * @param object $objectRef the object.
 	 */
 	public function membership_updated( $op, $objectName, $objectId, $objectRef ) {
 
@@ -460,10 +460,10 @@ class Civi_WP_Member_Sync_Members {
 	 *
 	 * @since 0.3
 	 *
-	 * @param string $op the type of database operation
-	 * @param string $objectName the type of object
-	 * @param integer $objectId the ID of the object
-	 * @param object $objectRef the object
+	 * @param string $op the type of database operation.
+	 * @param string $objectName the type of object.
+	 * @param integer $objectId the ID of the object.
+	 * @param object $objectRef the object.
 	 */
 	public function membership_deleted( $op, $objectName, $objectId, $objectRef ) {
 
@@ -497,8 +497,8 @@ class Civi_WP_Member_Sync_Members {
 	 *
 	 * @since 0.1
 	 *
-	 * @param string $formName the CiviCRM form name
-	 * @param object $form the CiviCRM form object
+	 * @param string $formName the CiviCRM form name.
+	 * @param object $form the CiviCRM form object.
 	 */
 	public function membership_form_process( $formName, &$form ) {
 
@@ -514,8 +514,8 @@ class Civi_WP_Member_Sync_Members {
 	 *
 	 * @since 0.1
 	 *
-	 * @param int $civi_contact_id The numerical CiviCRM contact ID
-	 * @return array $membership CiviCRM formatted membership data
+	 * @param int $civi_contact_id The numerical CiviCRM contact ID.
+	 * @return array $membership CiviCRM formatted membership data.
 	 */
 	public function membership_get_by_contact_id( $civi_contact_id ) {
 
@@ -555,8 +555,8 @@ class Civi_WP_Member_Sync_Members {
 	 *
 	 * @since 0.1
 	 *
-	 * @param int $type_id the numeric ID of the membership type
-	 * @return string $name The name of the membership type
+	 * @param int $type_id the numeric ID of the membership type.
+	 * @return string $name The name of the membership type.
 	 */
 	public function membership_name_get_by_id( $type_id = 0 ) {
 
@@ -592,12 +592,12 @@ class Civi_WP_Member_Sync_Members {
 	 *
 	 * @since 0.2.8
 	 *
-	 * @return int
+	 * @return int $membership_count The number of memberships.
 	 */
 	public function memberships_get_count() {
 
 		// kick out if no CiviCRM
-		if ( ! civi_wp()->initialize() ) return;
+		if ( ! civi_wp()->initialize() ) return 0;
 
 		// get CiviCRM memberships
 		$membership_count = civicrm_api( 'Membership', 'getcount', array(
@@ -622,7 +622,7 @@ class Civi_WP_Member_Sync_Members {
 	 *
 	 * @since 0.1
 	 *
-	 * @return array $membership_type List of types, key is ID, value is name
+	 * @return array $membership_type List of types, key is ID, value is name.
 	 */
 	public function types_get_all() {
 
@@ -658,7 +658,7 @@ class Civi_WP_Member_Sync_Members {
 	 *
 	 * @since 0.1
 	 *
-	 * @return array $membership_status List of status rules, key is ID, value is name
+	 * @return array $membership_status List of status rules, key is ID, value is name.
 	 */
 	public function status_rules_get_all() {
 
@@ -694,8 +694,8 @@ class Civi_WP_Member_Sync_Members {
 	 *
 	 * @since 0.1
 	 *
-	 * @param string $values Serialised array of status rule IDs
-	 * @return string $status_rules The list of status rules, one per line
+	 * @param string $values Serialised array of status rule IDs.
+	 * @return string $status_rules The list of status rules, one per line.
 	 */
 	public function status_rules_get_current( $values ) {
 
@@ -725,8 +725,8 @@ class Civi_WP_Member_Sync_Members {
 	 *
 	 * @since 0.1
 	 *
-	 * @param string $values Serialised array of status rule IDs
-	 * @return array $rules_array The list of membership status rules for this item
+	 * @param string $values Serialised array of status rule IDs.
+	 * @return array $rules_array The list of membership status rules for this item.
 	 */
 	public function status_rules_get_current_array( $values ) {
 
