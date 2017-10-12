@@ -599,11 +599,11 @@ class Civi_WP_Member_Sync_Members {
 		// kick out if no CiviCRM
 		if ( ! civi_wp()->initialize() ) return 0;
 
-		// get CiviCRM memberships
+		// get all CiviCRM memberships
 		$membership_count = civicrm_api( 'Membership', 'getcount', array(
 			'version' => '3',
 			'options' => array(
-				'limit' => '99999999',
+				'limit' => '0',
 			),
 		));
 
@@ -635,10 +635,13 @@ class Civi_WP_Member_Sync_Members {
 		// return empty array if no CiviCRM
 		if ( ! civi_wp()->initialize() ) return array();
 
-		// get membership details
+		// get all membership type details
 		$membership_type_details = civicrm_api( 'MembershipType', 'get', array(
 			'version' => '3',
 			'sequential' => '1',
+			'options' => array(
+				'limit' => '0',
+			),
 		));
 
 		// construct array of types
@@ -671,10 +674,13 @@ class Civi_WP_Member_Sync_Members {
 		// return empty array if no CiviCRM
 		if ( ! civi_wp()->initialize() ) return array();
 
-		// get membership details
+		// get all membership status details
 		$membership_status_details = civicrm_api( 'MembershipStatus', 'get', array(
 			'version' => '3',
 			'sequential' => '1',
+			'options' => array(
+				'limit' => '0',
+			),
 		));
 
 		// construct array of status rules
