@@ -72,6 +72,11 @@ It may sometimes be necessary to manually synchronize users. Click on the "Manua
 
 == Changelog ==
 
+= 0.3.3 =
+
+* Pass CiviCRM contact ID to "civi_wp_member_sync_auto_create_wp_user" filter
+* Allow limitless API queries where needed
+
 = 0.3.2 =
 
 * Add filter for username prior to creation of WordPress user
