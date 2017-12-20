@@ -396,6 +396,10 @@ class Civi_WP_Member_Sync_Members {
 	/**
 	 * Update a WordPress user when a CiviCRM membership is updated.
 	 *
+	 * As noted by @axaak, this method should not blindly apply the rule for the
+	 * edited membership because it is possible that a contact has multiple
+	 * memberships and the one being edited may be a historical record.
+	 *
 	 * @since 0.1
 	 *
 	 * @param string $op the type of database operation.
@@ -440,6 +444,45 @@ class Civi_WP_Member_Sync_Members {
 
 			// should this user be synced?
 			if ( ! $this->user_should_be_synced( $user ) ) return;
+
+			// is this an edit?
+			if ( $op == 'edit' ) {
+
+				// get all the memberships for this contact
+				$all = $this->membership_get_by_contact_id( $objectRef->contact_id );
+
+				// sanity check
+				if (
+					$all !== false AND
+					$all['is_error'] == 0 AND
+					isset( $all['values'] ) AND
+					count( $all['values'] ) > 0
+				) {
+
+					// get most current
+					$current = array_pop( $all['values'] );
+
+					// bail if the edited one is not the most current one
+					if ( $objectId != $current['id'] ) {
+						return;
+					}
+
+				} else {
+
+					// WTF? We should have one!
+					$e = new Exception;
+					$trace = $e->getTraceAsString();
+					error_log( print_r( array(
+						'method' => __METHOD__,
+						'message' => __( 'Expected at least one membership.', 'civicrm-wp-member-sync' ),
+						'api-return' => $all,
+						'backtrace' => $trace,
+					), true ) );
+					return;
+
+				}
+
+			}
 
 			// reformat $objectRef as if it was an API return
 			$membership = array(
@@ -538,14 +581,6 @@ class Civi_WP_Member_Sync_Members {
 				'sort' => 'end_date',
 			),
 		));
-
-		$e = new Exception;
-		$trace = $e->getTraceAsString();
-		error_log( print_r( array(
-			'method' => __METHOD__,
-			'membership' => $membership,
-			'backtrace' => $trace,
-		), true ) );
 
 		// if we have membership details
 		if (
