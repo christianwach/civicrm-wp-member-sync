@@ -144,6 +144,7 @@ class Civi_WP_Member_Sync_Members {
 			'options' => array(
 				'limit' => '5',
 				'offset' => $memberships_offset,
+				'sort' => 'contact_id, end_date',
 			),
 		));
 
