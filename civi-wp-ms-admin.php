@@ -1768,7 +1768,7 @@ class Civi_WP_Member_Sync_Admin {
 	 *
 	 * The current logic may remove the expired role because other rules may be
 	 * applied after the rule which assigns the expired role. If they are - and
-	 * they are not expired memberships - the exipred rule will therefore be
+	 * they are not expired memberships - the expired rule will therefore be
 	 * removed from the user.
 	 *
 	 * It seems that what's needed is to parse the rules prior to applying them

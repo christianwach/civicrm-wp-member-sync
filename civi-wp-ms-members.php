@@ -510,7 +510,13 @@ class Civi_WP_Member_Sync_Members {
 
 
 	/**
-	 * Get membership record by CiviCRM contact ID.
+	 * Get membership records by CiviCRM contact ID.
+	 *
+	 * This method has been refined to get the Memberships ordered by end date.
+	 * The reason for this is that Civi_WP_Member_Sync_Admin::rule_apply() has
+	 * an implicit expectation of membership sequence because subsequent checks
+	 * override those that come before. For further info, refer to the docblock
+	 * for rule_apply(). Props @axaak.
 	 *
 	 * @since 0.1
 	 *
@@ -525,11 +531,20 @@ class Civi_WP_Member_Sync_Members {
 		// get CiviCRM membership details
 		$membership = civicrm_api( 'Membership', 'get', array(
 			'version' => '3',
-			'page' => 'CiviCRM',
-			'q' => 'civicrm/ajax/rest',
 			'sequential' => '1',
 			'contact_id' => $civi_contact_id,
+			'options' => array(
+				'sort' => 'end_date',
+			),
 		));
+
+		$e = new Exception;
+		$trace = $e->getTraceAsString();
+		error_log( print_r( array(
+			'method' => __METHOD__,
+			'membership' => $membership,
+			'backtrace' => $trace,
+		), true ) );
 
 		// if we have membership details
 		if (
