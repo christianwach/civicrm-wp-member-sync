@@ -445,53 +445,11 @@ class Civi_WP_Member_Sync_Members {
 			// should this user be synced?
 			if ( ! $this->user_should_be_synced( $user ) ) return;
 
-			// is this an edit?
-			if ( $op == 'edit' ) {
+			// get all the memberships for this contact
+			$memberships = $this->membership_get_by_contact_id( $objectRef->contact_id );
 
-				// get all the memberships for this contact
-				$all = $this->membership_get_by_contact_id( $objectRef->contact_id );
-
-				// sanity check
-				if (
-					$all !== false AND
-					$all['is_error'] == 0 AND
-					isset( $all['values'] ) AND
-					count( $all['values'] ) > 0
-				) {
-
-					// get most current
-					$current = array_pop( $all['values'] );
-
-					// bail if the edited one is not the most current one
-					if ( $objectId != $current['id'] ) {
-						return;
-					}
-
-				} else {
-
-					// WTF? We should have one!
-					$e = new Exception;
-					$trace = $e->getTraceAsString();
-					error_log( print_r( array(
-						'method' => __METHOD__,
-						'message' => __( 'Expected at least one membership.', 'civicrm-wp-member-sync' ),
-						'api-return' => $all,
-						'backtrace' => $trace,
-					), true ) );
-					return;
-
-				}
-
-			}
-
-			// reformat $objectRef as if it was an API return
-			$membership = array(
-				'is_error' => 0,
-				'values' => array( (array) $objectRef ),
-			);
-
-			// update WordPress user by membership
-			$this->plugin->admin->rule_apply( $user, $membership );
+			// update WordPress user
+			$this->plugin->admin->rule_apply( $user, $memberships );
 
 		}
 
