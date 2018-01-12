@@ -141,10 +141,26 @@ class Civi_WP_Member_Sync_Members {
 		$memberships = civicrm_api( 'Membership', 'get', array(
 			'version' => '3',
 			'sequential' => '1',
+			'status_id.is_current_member' => array(
+				'IS NOT NULL' => 1
+			),
 			'options' => array(
 				'limit' => '5',
 				'offset' => $memberships_offset,
-				'sort' => 'contact_id, end_date',
+				'sort' => 'contact_id, end_date, status_id.is_current_member ASC',
+			),
+			'return' => array(
+				'id',
+				'contact_id',
+				'membership_type_id',
+				'join_date',
+				'start_date',
+				'end_date',
+				'source',
+				'status_id',
+				'is_test',
+				'is_pay_later',
+				'status_id.is_current_member'
 			),
 		));
 
@@ -518,7 +534,8 @@ class Civi_WP_Member_Sync_Members {
 	 * The reason for this is that Civi_WP_Member_Sync_Admin::rule_apply() has
 	 * an implicit expectation of membership sequence because subsequent checks
 	 * override those that come before. For further info, refer to the docblock
-	 * for rule_apply(). Props @axaak.
+	 * for rule_apply(). This has been further refined to sort the returned data
+	 * such that current memberships come at the end of the array. Props @axaak.
 	 *
 	 * @since 0.1
 	 *
@@ -530,25 +547,42 @@ class Civi_WP_Member_Sync_Members {
 		// kick out if no CiviCRM
 		if ( ! civi_wp()->initialize() ) return false;
 
-		// get CiviCRM membership details
-		$membership = civicrm_api( 'Membership', 'get', array(
+		// get details of CiviCRM memberships
+		$memberships = civicrm_api( 'Membership', 'get', array(
 			'version' => '3',
-			'sequential' => '1',
+			'sequential' => 1,
 			'contact_id' => $civi_contact_id,
+			'status_id.is_current_member' => array(
+				'IS NOT NULL' => 1
+			),
 			'options' => array(
-				'sort' => 'end_date',
+				'limit' => 0,
+				'sort' => 'contact_id, end_date, status_id.is_current_member ASC',
+			),
+			'return' => array(
+				'id',
+				'contact_id',
+				'membership_type_id',
+				'join_date',
+				'start_date',
+				'end_date',
+				'source',
+				'status_id',
+				'is_test',
+				'is_pay_later',
+				'status_id.is_current_member'
 			),
 		));
 
 		// if we have membership details
 		if (
-			$membership['is_error'] == 0 AND
-			isset( $membership['values'] ) AND
-			count( $membership['values'] ) > 0
+			$memberships['is_error'] == 0 AND
+			isset( $memberships['values'] ) AND
+			count( $memberships['values'] ) > 0
 		) {
 
-			// CiviCRM should return a 'values' array
-			return $membership;
+			// CiviCRM API data contains a 'values' array
+			return $memberships;
 
 		}
 
