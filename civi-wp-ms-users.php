@@ -184,8 +184,8 @@ class Civi_WP_Member_Sync_Users {
 		/**
 		 * Let other plugins know that a role has been added to a user.
 		 *
-		 * @param WP_User $user The WordPress user object
-		 * @param string $role The new role added to the user
+		 * @param WP_User $user The WordPress user object.
+		 * @param string $role The new role added to the user.
 		 */
 		do_action( 'civi_wp_member_sync_add_role', $user, $role );
 
