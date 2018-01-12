@@ -196,22 +196,12 @@ class Civi_WP_Member_Sync_Members {
 					// create a WordPress user if asked to
 					if ( $create_users ) {
 
-						// maybe create WordPress user
-						$user = $this->plugin->users->wp_user_create_from_contact_id( $civi_contact_id );
+						// create WordPress user and preapre for sync
+						$user = $this->user_prepare_for_sync( $civi_contact_id );
 
-						// skip to next if something goes wrong
+						// skip to next if something went wrong
 						if ( $user === false ) continue;
 						if ( ! ( $user instanceof WP_User ) OR ! $user->exists() ) continue;
-
-						// get sync method and sanitize
-						$method = $this->plugin->admin->setting_get( 'method' );
-						$method = ( $method == 'roles' ) ? 'roles' : 'capabilities';
-
-						// when syncing roles, remove the default role from the
-						// new user - rule_apply() will set a role when it runs
-						if ( $method == 'roles' ) {
-							$user->remove_role( get_option( 'default_role' ) );
-						}
 
 					}
 
@@ -322,6 +312,40 @@ class Civi_WP_Member_Sync_Members {
 
 
 	/**
+	 * Maybe create a WordPress user.
+	 *
+	 * @since 0.3.4
+	 *
+	 * @param int $civi_contact_id The numeric ID of the CiviCRM contact.
+	 * @return WP_User|bool $user The WordPress user object - or false on failure.
+	 */
+	public function user_prepare_for_sync( $civi_contact_id ) {
+
+		// maybe create WordPress user
+		$user = $this->plugin->users->wp_user_create_from_contact_id( $civi_contact_id );
+
+		// bail if something goes wrong
+		if ( $user === false ) return false;
+		if ( ! ( $user instanceof WP_User ) OR ! $user->exists() ) return false;
+
+		// get sync method and sanitize
+		$method = $this->plugin->admin->setting_get( 'method' );
+		$method = ( $method == 'roles' ) ? 'roles' : 'capabilities';
+
+		// when syncing roles, remove the default role from the
+		// new user - rule_apply() will set a role when it runs
+		if ( $method == 'roles' ) {
+			$user->remove_role( get_option( 'default_role' ) );
+		}
+
+		// --<
+		return $user;
+
+	}
+
+
+
+	/**
 	 * Check if a user's membership should by synced.
 	 *
 	 * @since 0.2.6
@@ -388,7 +412,15 @@ class Civi_WP_Member_Sync_Members {
 
 
 	/**
-	 * Update a WordPress user role when a CiviCRM membership is updated.
+	 * Inspect a CiviCRM membership prior to it being updated.
+	 *
+	 * Membership renewals may change the type of membership with no hint of the
+	 * change in the data that is passed to "hook_civicrm_post". In order to see
+	 * if a change of membership type has occurred, we need to retrieve the
+	 * membership here before the operation and compare afterwards in the
+	 * membership_updated() method below.
+	 *
+	 * @see https://github.com/christianwach/civicrm-wp-member-sync/issues/24
 	 *
 	 * @since 0.1
 	 *
@@ -399,11 +431,30 @@ class Civi_WP_Member_Sync_Members {
 	 */
 	public function membership_pre_update( $op, $objectName, $objectId, $objectRef ) {
 
-		// disable
-		return;
-
 		// target our object type
 		if ( $objectName != 'Membership' ) return;
+
+		// only process edit operations
+		if ( $op != 'edit' ) return;
+
+		// get details of CiviCRM membership
+		$membership = civicrm_api( 'Membership', 'get', array(
+			'version' => '3',
+			'sequential' => 1,
+			'id' => $objectId,
+		));
+
+		// sanity check
+		if (
+			$membership['is_error'] == 0 AND
+			isset( $membership['values'] ) AND
+			count( $membership['values'] ) > 0
+		) {
+
+			// store in property for later inspection
+			$this->membership_pre = $membership;
+
+		}
 
 	}
 
@@ -432,42 +483,58 @@ class Civi_WP_Member_Sync_Members {
 		if ( ! isset( $objectRef->contact_id ) ) return;
 
 		// only process create and edit operations
-		if ( $op == 'edit' OR $op == 'create' ) {
+		if ( ! in_array( $op, array( 'create', 'edit' ) ) ) return;
 
-			// get WordPress user for this contact ID
-			$user = $this->plugin->users->wp_user_get_by_civi_id( $objectRef->contact_id );
+		// get WordPress user for this contact ID
+		$user = $this->plugin->users->wp_user_get_by_civi_id( $objectRef->contact_id );
 
-			// if we don't receive a valid user
-			if ( ! ( $user instanceof WP_User ) ) {
+		// if we don't receive a valid user
+		if ( ! ( $user instanceof WP_User ) ) {
 
-				// maybe create WordPress user
-				$user = $this->plugin->users->wp_user_create_from_contact_id( $objectRef->contact_id );
+			// create WordPress user and prepare for sync
+			$user = $this->user_prepare_for_sync( $civi_contact_id );
 
-				// bail if something goes wrong
-				if ( $user === false ) return;
+			// bail if something went wrong
+			if ( $user === false ) return;
+			if ( ! ( $user instanceof WP_User ) OR ! $user->exists() ) return;
 
-				// get sync method and sanitize
-				$method = $this->plugin->admin->setting_get( 'method' );
-				$method = ( $method == 'roles' ) ? 'roles' : 'capabilities';
+		}
 
-				// when syncing roles, remove the default role from the
-				// new user - rule_apply() will set a role when it runs
-				if ( $method == 'roles' ) {
-					$user->remove_role( get_option( 'default_role' ) );
-				}
+		// bail if this user should not be synced
+		if ( ! $this->user_should_be_synced( $user ) ) return;
+
+		// for edit operations, we first need to check for renewals
+		if ( $op == 'edit' AND isset( $this->membership_pre ) AND isset( $objectRef->membership_type_id ) ) {
+
+			// make sure we're comparing like with like
+			$previous_type_id = absint( $this->membership_pre['values'][0]['membership_type_id'] );
+			$current_type_id = absint( $objectRef->membership_type_id );
+
+			// do we have different CiviCRM membership types?
+			if ( $previous_type_id !== $current_type_id ) {
+
+				/*
+				 * We need to remove the assigned capability or role because
+				 * there is no remaining record of the previous membership that
+				 * will be acted on when rule_apply() is called with the true
+				 * list of memberships following this renewal check.
+				 */
+
+				// let's fake an expired membership
+				$this->membership_pre['values'][0]['status_id'] = 0;
+
+				// update WordPress user
+				$this->plugin->admin->rule_apply( $user, $this->membership_pre );
 
 			}
 
-			// should this user be synced?
-			if ( ! $this->user_should_be_synced( $user ) ) return;
-
-			// get all the memberships for this contact
-			$memberships = $this->membership_get_by_contact_id( $objectRef->contact_id );
-
-			// update WordPress user
-			$this->plugin->admin->rule_apply( $user, $memberships );
-
 		}
+
+		// get all the memberships for this contact
+		$memberships = $this->membership_get_by_contact_id( $objectRef->contact_id );
+
+		// update WordPress user
+		$this->plugin->admin->rule_apply( $user, $memberships );
 
 	}
 
