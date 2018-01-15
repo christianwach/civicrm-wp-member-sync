@@ -514,17 +514,20 @@ class Civi_WP_Member_Sync_Members {
 			if ( $previous_type_id !== $current_type_id ) {
 
 				/*
+				 * This occurs when there is a renewal and the membership type
+				 * is changed during the renewal process.
+				 *
 				 * We need to remove the assigned capability or role because
 				 * there is no remaining record of the previous membership that
 				 * will be acted on when rule_apply() is called with the true
 				 * list of memberships following this renewal check.
 				 */
 
-				// let's fake an expired membership
-				$this->membership_pre['values'][0]['status_id'] = 0;
+				// cast as object for processing
+				$previous_membership = (object) $this->membership_pre['values'][0];
 
-				// update WordPress user
-				$this->plugin->admin->rule_apply( $user, $this->membership_pre );
+				// update WordPress user as if the membership has been deleted
+				$this->plugin->admin->rule_undo( $user, $previous_membership );
 
 			}
 
