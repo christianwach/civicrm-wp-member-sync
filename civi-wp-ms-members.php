@@ -147,7 +147,7 @@ class Civi_WP_Member_Sync_Members {
 			'options' => array(
 				'limit' => '5',
 				'offset' => $memberships_offset,
-				'sort' => 'contact_id, end_date, status_id.is_current_member ASC',
+				'sort' => 'contact_id, status_id.is_current_member ASC, end_date',
 			),
 			'return' => array(
 				'id',
@@ -627,7 +627,7 @@ class Civi_WP_Member_Sync_Members {
 			),
 			'options' => array(
 				'limit' => 0,
-				'sort' => 'contact_id, end_date, status_id.is_current_member ASC',
+				'sort' => 'status_id.is_current_member ASC, end_date',
 			),
 			'return' => array(
 				'id',
