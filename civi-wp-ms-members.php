@@ -503,6 +503,9 @@ class Civi_WP_Member_Sync_Members {
 		// bail if this user should not be synced
 		if ( ! $this->user_should_be_synced( $user ) ) return;
 
+		// init previous membership
+		$previous_membership = null;
+
 		// for edit operations, we first need to check for renewals
 		if ( $op == 'edit' AND isset( $this->membership_pre ) AND isset( $objectRef->membership_type_id ) ) {
 
@@ -538,6 +541,18 @@ class Civi_WP_Member_Sync_Members {
 
 		// update WordPress user
 		$this->plugin->admin->rule_apply( $user, $memberships );
+
+		/**
+		 * Broadcast the membership update.
+		 *
+		 * @since 0.3.4
+		 *
+		 * @param str $op The type of operation.
+		 * @param WP_User $user The WordPress user object.
+		 * @param object $objectRef The CiviCRM membership being updated.
+		 * @param object $previous_membership The previous CiviCRM membership if this is a renewal.
+		 */
+		do_action( 'civi_wp_member_sync_membership_updated', $op, $user, $objectRef, $previous_membership );
 
 	}
 
