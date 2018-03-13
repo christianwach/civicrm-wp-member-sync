@@ -492,7 +492,7 @@ class Civi_WP_Member_Sync_Members {
 		if ( ! ( $user instanceof WP_User ) ) {
 
 			// create WordPress user and prepare for sync
-			$user = $this->user_prepare_for_sync( $civi_contact_id );
+			$user = $this->user_prepare_for_sync( $objectRef->contact_id );
 
 			// bail if something went wrong
 			if ( $user === false ) return;

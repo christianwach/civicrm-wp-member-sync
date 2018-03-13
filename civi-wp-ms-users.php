@@ -559,6 +559,9 @@ class Civi_WP_Member_Sync_Users {
 		// kick out if no CiviCRM
 		if ( ! civi_wp()->initialize() ) return false;
 
+		// bail if we don't get a valid contact ID
+		if ( empty( $contact_id ) OR ! is_numeric( $contact_id ) ) return false;
+
 		// get all contact data
 		$params = array(
 			'version' => 3,
