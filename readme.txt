@@ -72,6 +72,10 @@ It may sometimes be necessary to manually synchronize users. Click on the "Manua
 
 == Changelog ==
 
+= 0.3.5 =
+
+* Fix creation of WordPress user on new Membership
+
 = 0.3.4 =
 
 * Make order of processed memberships explicit
