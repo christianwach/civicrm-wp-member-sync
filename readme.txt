@@ -72,6 +72,10 @@ It may sometimes be necessary to manually synchronize users. Click on the "Manua
 
 == Changelog ==
 
+= 0.3.6 =
+
+* Allow sync to be restricted to CiviCRM Contacts of Contact Type "Individual"
+
 = 0.3.5 =
 
 * Fix creation of WordPress user on new Membership
