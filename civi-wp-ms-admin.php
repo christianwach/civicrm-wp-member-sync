@@ -720,6 +720,9 @@ class Civi_WP_Member_Sync_Admin {
 			// get our interval setting
 			$interval = $this->setting_get( 'interval' );
 
+			// get our types setting
+			$types = absint( $this->setting_get( 'types' ) );
+
 			// include template file
 			include( CIVI_WP_MEMBER_SYNC_PLUGIN_PATH . 'assets/templates/settings.php' );
 
@@ -1171,6 +1174,9 @@ class Civi_WP_Member_Sync_Admin {
 		// set default schedule interval
 		$settings['interval'] = 'daily';
 
+		// all contact types synced by default
+		$settings['types'] = 0;
+
 		/**
 		 * Allow settings to be filtered.
 		 *
@@ -1285,6 +1291,16 @@ class Civi_WP_Member_Sync_Admin {
 			$this->setting_set( 'interval', $settings_interval );
 
 		}
+
+
+
+		// sync restricted to Individuals?
+		if ( isset( $_POST['civi_wp_member_sync_settings_types'] ) ) {
+			$settings_types = absint( $_POST['civi_wp_member_sync_settings_types'] );
+		} else {
+			$settings_types = 0;
+		}
+		$this->setting_set( 'types', ( $settings_types ? 1 : 0 ) );
 
 
 

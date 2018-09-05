@@ -137,6 +137,30 @@
 
 		</table>
 
+		<h3><?php _e( 'Other Settings', 'civicrm-wp-member-sync' ); ?></h3>
+
+		<p><?php _e( 'In versions of CiviCRM WordPress Member Sync prior to 0.3.5, all CiviCRM Memberships were synchronized to WordPress Users. This meant that Organisations and Households also had corresponding WordPress Users. If you want to restrict syncing to Individuals only, then check the box below.', 'civicrm-wp-member-sync' ); ?></p>
+
+		<table class="form-table">
+
+			<tr>
+				<th scope="row"><?php _e( 'Synced Contact Types', 'civicrm-wp-member-sync' ); ?></th>
+				<td>
+					<?php
+
+					// unchecked by default
+					$checked = '';
+					if ( isset( $types ) AND $types === 1 ) {
+						$checked = ' checked="checked"';
+					}
+
+					?><input type="checkbox" class="settings-checkbox" name="civi_wp_member_sync_settings_types" id="civi_wp_member_sync_settings_types" value="1"<?php echo $checked; ?> />
+					<label class="civi_wp_member_sync_settings_label" for="civi_wp_member_sync_settings_types"><?php _e( 'Synchronize Individuals only.', 'civicrm-wp-member-sync' ); ?></label>
+				</td>
+			</tr>
+
+		</table>
+
 		<?php if ( defined( 'CIVI_WP_MEMBER_SYNC_DEBUG' ) AND CIVI_WP_MEMBER_SYNC_DEBUG ) { ?>
 
 			<h3><?php _e( 'Developer Testing', 'civicrm-wp-member-sync' ); ?></h3>

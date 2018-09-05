@@ -374,7 +374,7 @@ class Civi_WP_Member_Sync_Members {
 		 *
 		 * @param bool $should_be_synced True if the user should be synced, false otherwise.
 		 * @param object $user The WordPress user object.
-		 * @param bool $should_be_synced The modified value of the sync flag.
+		 * @return bool $should_be_synced The modified value of the sync flag.
 		 */
 		return apply_filters( 'civi_wp_member_sync_user_should_be_synced', $should_be_synced, $user );
 
