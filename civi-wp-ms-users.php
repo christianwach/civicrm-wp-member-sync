@@ -621,7 +621,7 @@ class Civi_WP_Member_Sync_Users {
 			$types = absint( $this->plugin->admin->setting_get( 'types' ) );
 
 			// if chosen, bail if this Contact is not an Individual
-			if ( $types AND $civi_contact['contact_type'] == 'Individual' ) return;
+			if ( $types AND $civi_contact['contact_type'] != 'Individual' ) return;
 
 			// create a WordPress user
 			$user = $this->wp_create_user( $civi_contact );
