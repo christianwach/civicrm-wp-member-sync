@@ -1808,6 +1808,10 @@ class Civi_WP_Member_Sync_Admin {
 		// kick out if we didn't get memberships passed
 		if ( $memberships === false ) return;
 
+		// get sync method and sanitize
+		$method = $this->setting_get( 'method' );
+		$method = ( $method == 'roles' ) ? 'roles' : 'capabilities';
+
 		// loop through the supplied memberships
 		foreach( $memberships['values'] AS $membership ) {
 
@@ -1818,10 +1822,6 @@ class Civi_WP_Member_Sync_Admin {
 			// get membership type and status rule
 			$membership_type_id = $membership['membership_type_id'];
 			$status_id = $membership['status_id'];
-
-			// get sync method and sanitize
-			$method = $this->setting_get( 'method' );
-			$method = ( $method == 'roles' ) ? 'roles' : 'capabilities';
 
 			// get association rule for this membership type
 			$association_rule = $this->rule_get_by_type( $membership_type_id, $method );
@@ -1974,6 +1974,17 @@ class Civi_WP_Member_Sync_Admin {
 			}
 
 		}
+
+		/**
+		 * Fires after the application of all rules to a user's memberships.
+		 *
+		 * @since 0.3.6
+		 *
+		 * @param WP_User $user The WordPress user object.
+		 * @param array $memberships The memberships of the WordPress user in question.
+		 * @param str $method The sync method - either 'caps' or 'roles'.
+		 */
+		do_action( 'civi_wp_member_sync_rules_applied', $user, $memberships, $method );
 
 	}
 
