@@ -548,7 +548,7 @@ class Civi_WP_Member_Sync_Admin {
 
 		// set defaults
 		$vars = array(
-			'method' => $this->setting_get( 'method' ),
+			'method' => $this->setting_get_method(),
 			'mode' => 'add',
 		);
 
@@ -707,7 +707,7 @@ class Civi_WP_Member_Sync_Admin {
 			}
 
 			// get our sync method
-			$method = $this->setting_get( 'method' );
+			$method = $this->setting_get_method();
 
 			// get all schedules
 			$schedules = $this->plugin->schedule->intervals_get();
@@ -768,7 +768,7 @@ class Civi_WP_Member_Sync_Admin {
 			$urls = $this->page_get_urls();
 
 			// get method
-			$method = $this->setting_get( 'method' );
+			$method = $this->setting_get_method();
 
 			// get data
 			$all_data = $this->setting_get( 'data' );
@@ -859,7 +859,7 @@ class Civi_WP_Member_Sync_Admin {
 		$status_rules = $this->plugin->members->status_rules_get_all();
 
 		// get method
-		$method = $this->setting_get( 'method' );
+		$method = $this->setting_get_method();
 
 		// get rules
 		$rules = $this->rules_get_by_method( $method );
@@ -916,7 +916,7 @@ class Civi_WP_Member_Sync_Admin {
 		$status_rules = $this->plugin->members->status_rules_get_all();
 
 		// get method
-		$method = $this->setting_get( 'method' );
+		$method = $this->setting_get_method();
 
 		// get requested membership type ID
 		$civi_member_type_id = absint( $_GET['type_id'] );
@@ -1374,6 +1374,28 @@ class Civi_WP_Member_Sync_Admin {
 
 
 
+	/**
+	 * Return the value for the 'method' setting.
+	 *
+	 * Added as a separate method to ensure that only one of two values is returned.
+	 *
+	 * @since 0.3.6
+	 *
+	 * @return str $method The value of the 'method' setting.
+	 */
+	public function setting_get_method() {
+
+		// get sync method and sanitize
+		$method = $this->setting_get( 'method' );
+		$method = ( $method == 'roles' ) ? 'roles' : 'capabilities';
+
+		// --<
+		return $method;
+
+	}
+
+
+
 	//##########################################################################
 
 
@@ -1546,8 +1568,7 @@ class Civi_WP_Member_Sync_Admin {
 		}
 
 		// get sync method and sanitize
-		$method = $this->setting_get( 'method' );
-		$method = ( $method == 'roles' ) ? 'roles' : 'capabilities';
+		$method = $this->setting_get_method();
 
 		// init errors
 		$this->errors = array();
@@ -1723,10 +1744,7 @@ class Civi_WP_Member_Sync_Admin {
 		if ( empty( $type_id ) ) return;
 
 		// get method
-		$method = $this->setting_get( 'method' );
-
-		// sanitize method
-		$method = ( $method == 'roles' ) ? 'roles' : 'capabilities';
+		$method = $this->setting_get_method();
 
 		// get data
 		$data = $this->setting_get( 'data' );
@@ -1808,9 +1826,8 @@ class Civi_WP_Member_Sync_Admin {
 		// kick out if we didn't get memberships passed
 		if ( $memberships === false ) return;
 
-		// get sync method and sanitize
-		$method = $this->setting_get( 'method' );
-		$method = ( $method == 'roles' ) ? 'roles' : 'capabilities';
+		// get sync method
+		$method = $this->setting_get_method();
 
 		// loop through the supplied memberships
 		foreach( $memberships['values'] AS $membership ) {
@@ -2004,9 +2021,8 @@ class Civi_WP_Member_Sync_Admin {
 	 */
 	public function rule_undo( $user, $membership = false ) {
 
-		// get sync method and sanitize
-		$method = $this->setting_get( 'method' );
-		$method = ( $method == 'roles' ) ? 'roles' : 'capabilities';
+		// get sync method
+		$method = $this->setting_get_method();
 
 		// which sync method are we using?
 		if ( $method == 'roles' ) {
@@ -2267,9 +2283,8 @@ class Civi_WP_Member_Sync_Admin {
 	 */
 	public function groups_pre_sync() {
 
-		// get sync method and sanitize
-		$method = $this->setting_get( 'method' );
-		$method = ( $method == 'roles' ) ? 'roles' : 'capabilities';
+		// get sync method
+		$method = $this->setting_get_method();
 
 		// bail if we're not syncing capabilities
 		if ( $method != 'capabilities' ) return;
