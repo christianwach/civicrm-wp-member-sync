@@ -247,6 +247,9 @@ class Civi_WP_Member_Sync_Admin {
 		// load settings array
 		$this->settings = $this->option_get( 'civi_wp_member_sync_settings', $this->settings );
 
+		// settings upgrade tasks
+		$this->upgrade_settings();
+
 		// is this the back end?
 		if ( is_admin() ) {
 
@@ -305,6 +308,27 @@ class Civi_WP_Member_Sync_Admin {
 				delete_option( 'civi_wp_member_sync_settings' );
 
 			}
+
+		}
+
+	}
+
+
+
+	/**
+	 * Utility to do stuff when a settings upgrade is required.
+	 *
+	 * @since 0.3.6
+	 */
+	public function upgrade_settings() {
+
+		// "types" setting may not exist
+		if ( ! $this->setting_exists( 'types' ) ) {
+
+			// add them from defaults
+			$settings = $this->settings_get_default();
+			$this->setting_set( 'types', $settings['types'] );
+			$this->settings_save();
 
 		}
 
@@ -1174,8 +1198,8 @@ class Civi_WP_Member_Sync_Admin {
 		// set default schedule interval
 		$settings['interval'] = 'daily';
 
-		// all contact types synced by default
-		$settings['types'] = 0;
+		// sync only the Individual contact type by default
+		$settings['types'] = 1;
 
 		/**
 		 * Allow settings to be filtered.
@@ -1329,6 +1353,28 @@ class Civi_WP_Member_Sync_Admin {
 
 		// update WordPress option and return result
 		return $this->option_save( 'civi_wp_member_sync_settings', $this->settings );
+
+	}
+
+
+
+	/**
+	 * Check whether a specified setting exists.
+	 *
+	 * @since 0.3.6
+	 *
+	 * @param string $setting_name The name of the setting.
+	 * @return bool Whether or not the setting exists.
+	 */
+	public function setting_exists( $setting_name = '' ) {
+
+		// test for null
+		if ( $setting_name == '' ) {
+			die( __( 'You must supply a setting to setting_exists()', 'civicrm-wp-member-sync' ) );
+		}
+
+		// get existence of setting in array
+		return array_key_exists( $setting_name, $this->settings );
 
 	}
 
