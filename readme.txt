@@ -2,7 +2,7 @@
 Contributors: needle, cuny-academic-commons
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=PZSKM8T5ZP3SC
 Tags: civicrm, member, membership, sync
-Requires at least: 3.9
+Requires at least: 4.4
 Tested up to: 4.9
 Stable tag: 0.3.6
 License: GPLv2 or later
