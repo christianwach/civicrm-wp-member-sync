@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: CiviCRM WordPress Member Sync 0.3.6\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/civicrm-wp-member-sync\n"
-"POT-Creation-Date: 2018-09-05 11:20:31+00:00\n"
+"POT-Creation-Date: 2018-10-03 13:56:32+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -16,7 +16,7 @@ msgstr ""
 #: assets/templates/manual-sync.php:5 assets/templates/migrate.php:5
 #: assets/templates/rule-cap-add.php:5 assets/templates/rule-cap-edit.php:5
 #: assets/templates/rule-role-add.php:5 assets/templates/rule-role-edit.php:5
-#: assets/templates/settings.php:5 civi-wp-ms-admin.php:380
+#: assets/templates/settings.php:5 civi-wp-ms-admin.php:404
 #: civicrm-wp-member-sync.php:298
 msgid "Settings"
 msgstr ""
@@ -339,67 +339,71 @@ msgstr ""
 msgid "You can not have the same Status Rule registered as both \"Current\" and \"Expired\""
 msgstr ""
 
-#: civi-wp-ms-admin.php:352 civi-wp-ms-admin.php:363 civi-wp-ms-admin.php:379
+#: civi-wp-ms-admin.php:376 civi-wp-ms-admin.php:387 civi-wp-ms-admin.php:403
 msgid "CiviCRM WordPress Member Sync: Settings"
 msgstr ""
 
-#: civi-wp-ms-admin.php:353 civi-wp-ms-admin.php:364 civi-wp-ms-admin.php:651
+#: civi-wp-ms-admin.php:377 civi-wp-ms-admin.php:388 civi-wp-ms-admin.php:675
 msgid "CiviCRM WordPress Member Sync"
 msgstr ""
 
-#: civi-wp-ms-admin.php:394
+#: civi-wp-ms-admin.php:418
 msgid "CiviCRM WordPress Member Sync: Manual Sync"
 msgstr ""
 
-#: civi-wp-ms-admin.php:395
+#: civi-wp-ms-admin.php:419
 msgid "Manual Sync"
 msgstr ""
 
-#: civi-wp-ms-admin.php:411
+#: civi-wp-ms-admin.php:435
 msgid "CiviCRM WordPress Member Sync: List Rules"
 msgstr ""
 
-#: civi-wp-ms-admin.php:412
+#: civi-wp-ms-admin.php:436
 msgid "List Rules"
 msgstr ""
 
-#: civi-wp-ms-admin.php:426
+#: civi-wp-ms-admin.php:450
 msgid "CiviCRM WordPress Member Sync: Association Rule"
 msgstr ""
 
-#: civi-wp-ms-admin.php:427
+#: civi-wp-ms-admin.php:451
 msgid "Association Rule"
 msgstr ""
 
-#: civi-wp-ms-admin.php:590
+#: civi-wp-ms-admin.php:614
 msgid "{{total}} memberships to sync..."
 msgstr ""
 
-#: civi-wp-ms-admin.php:591
+#: civi-wp-ms-admin.php:615
 msgid "Processing memberships {{from}} to {{to}}"
 msgstr ""
 
-#: civi-wp-ms-admin.php:592
+#: civi-wp-ms-admin.php:616
 msgid "Processing memberships {{from}} to {{to}} complete"
 msgstr ""
 
-#: civi-wp-ms-admin.php:593
+#: civi-wp-ms-admin.php:617
 msgid "All done!"
 msgstr ""
 
-#: civi-wp-ms-admin.php:672
+#: civi-wp-ms-admin.php:696
 msgid "For further information about using CiviCRM WordPress Member Sync, please refer to the README.md that comes with this plugin."
 msgstr ""
 
-#: civi-wp-ms-admin.php:1348
+#: civi-wp-ms-admin.php:1373
+msgid "You must supply a setting to setting_exists()"
+msgstr ""
+
+#: civi-wp-ms-admin.php:1394
 msgid "You must supply a setting to setting_get()"
 msgstr ""
 
-#: civi-wp-ms-admin.php:1367
+#: civi-wp-ms-admin.php:1413
 msgid "You must supply a setting to setting_set()"
 msgstr ""
 
-#: civi-wp-ms-admin.php:1714
+#: civi-wp-ms-admin.php:1781
 msgid "Cheating, eh?"
 msgstr ""
 #. Plugin Name of the plugin/theme
