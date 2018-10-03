@@ -141,3 +141,11 @@ First public release
 = 0.1 =
 
 Initial release
+
+
+
+== Upgrade Notice ==
+
+= 0.3.6 =
+
+This version introduces a setting to allow sync to be restricted to CiviCRM Contacts of Contact Type "Individual". Once you have upgraded, please review plugin settings to make sure yours are correct.
