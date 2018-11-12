@@ -1837,6 +1837,81 @@ class Civi_WP_Member_Sync_Admin {
 
 
 	/**
+	 * Check if there is at least one rule applied to a set of memberships.
+	 *
+	 * The reason for this method is, as @andymyersau points out, that users
+	 * should not be created unless there is an Association Rule that applies
+	 * to them. This method therefore checks for the existence of at least one
+	 * applicable rule for a given set of memberships.
+	 *
+	 * @since 0.3.7
+	 *
+	 * @param array $memberships The memberships to analyse.
+	 * @return bool $has_rule True if a rule applies, false otherwise.
+	 */
+	public function rule_exists( $memberships = false ) {
+
+		// assume no rule applies
+		$has_rule = false;
+
+		// kick out if no CiviCRM
+		if ( ! civi_wp()->initialize() ) return $has_rule;
+
+		// bail if we didn't get memberships passed
+		if ( $memberships === false ) return $has_rule;
+		if ( empty( $memberships ) ) return $has_rule;
+
+		// get sync method
+		$method = $this->setting_get_method();
+
+		// loop through the supplied memberships
+		foreach( $memberships['values'] AS $membership ) {
+
+			// continue with next membership if something went wrong
+			if ( empty( $membership['membership_type_id'] ) ) continue;
+
+			// get membership type
+			$membership_type_id = $membership['membership_type_id'];
+
+			// get association rule for this membership type
+			$association_rule = $this->rule_get_by_type( $membership_type_id, $method );
+
+			// continue with next membership if we have an error or no rule exists
+			if ( $association_rule === false ) continue;
+
+			// continue with next membership if something is wrong with rule
+			if ( empty( $association_rule['current_rule'] ) ) continue;
+			if ( empty( $association_rule['expiry_rule'] ) ) continue;
+
+			// which sync method are we using?
+			if ( $method == 'roles' ) {
+
+				// continue with next membership if something is wrong with rule
+				if ( empty( $association_rule['current_wp_role'] ) ) continue;
+				if ( empty( $association_rule['expired_wp_role'] ) ) continue;
+
+				// rule applies
+				$has_rule = true;
+				break;
+
+			} else {
+
+				// rule applies
+				$has_rule = true;
+				break;
+
+			}
+
+		}
+
+		// --<
+		return $has_rule;
+
+	}
+
+
+
+	/**
 	 * Manage WordPress roles or capabilities based on the status of a user's memberships.
 	 *
 	 * The following notes are to describe how this method should be enhanced:
@@ -1901,13 +1976,13 @@ class Civi_WP_Member_Sync_Admin {
 
 				// SYNC ROLES
 
-				// get roles for this association rule
-				$current_wp_role = $association_rule['current_wp_role'];
-				$expired_wp_role = $association_rule['expired_wp_role'];
-
 				// continue if something went wrong
 				if ( empty( $association_rule['current_wp_role'] ) ) continue;
 				if ( empty( $association_rule['expired_wp_role'] ) ) continue;
+
+				// get roles for this association rule
+				$current_wp_role = $association_rule['current_wp_role'];
+				$expired_wp_role = $association_rule['expired_wp_role'];
 
 				// does the user's membership status match a current status rule?
 				if ( isset( $status_id ) && array_search( $status_id, $current_rule ) ) {

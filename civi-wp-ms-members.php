@@ -187,6 +187,20 @@ class Civi_WP_Member_Sync_Members {
 				// sanity check
 				if ( $civi_contact_id === false ) continue;
 
+				/*
+				 * The use of existing code here is not the most efficient way to
+				 * sync each membership. However, given that in most cases there
+				 * will only be one membership per contact, I think the overhead
+				 * will be minimal. Moreover, this new chunked sync method limits
+				 * the impact of a manual sync per request.
+				 */
+
+				// get *all* memberships for this contact
+				$all_memberships = $this->membership_get_by_contact_id( $civi_contact_id );
+
+				// continue if there are no applicable rules for these memberships
+				if ( ! $this->plugin->admin->rule_exists( $all_memberships ) ) continue;
+
 				// get WordPress user
 				$user = $this->plugin->users->wp_user_get_by_civi_id( $civi_contact_id );
 
@@ -196,7 +210,7 @@ class Civi_WP_Member_Sync_Members {
 					// create a WordPress user if asked to
 					if ( $create_users ) {
 
-						// create WordPress user and preapre for sync
+						// create WordPress user and prepare for sync
 						$user = $this->user_prepare_for_sync( $civi_contact_id );
 
 						// skip to next if something went wrong
@@ -210,19 +224,8 @@ class Civi_WP_Member_Sync_Members {
 				// should this user be synced?
 				if ( ! $this->user_should_be_synced( $user ) ) continue;
 
-				/*
-				 * The use of existing code here is not the most efficient way to
-				 * sync each membership. However, given that in most cases there
-				 * will only be one membership per contact, I think the overhead
-				 * will be minimal. Moreover, this new chunked sync method limits
-				 * the impact of a manual sync per request.
-				 */
-
-				// get *all* memberships for this contact
-				$memberships = $this->membership_get_by_contact_id( $civi_contact_id );
-
 				// apply rules for this WordPress user
-				$this->plugin->admin->rule_apply( $user, $memberships );
+				$this->plugin->admin->rule_apply( $user, $all_memberships );
 
 			}
 
@@ -400,11 +403,14 @@ class Civi_WP_Member_Sync_Members {
 		// bail if we don't have one
 		if ( $civi_contact_id === false ) return;
 
-		// get membership
-		$membership = $this->membership_get_by_contact_id( $civi_contact_id );
+		// get memberships
+		$memberships = $this->membership_get_by_contact_id( $civi_contact_id );
+
+		// bail if there are no applicable rules for these memberships
+		if ( ! $this->plugin->admin->rule_exists( $memberships ) ) return;
 
 		// update WordPress user
-		$this->plugin->admin->rule_apply( $user, $membership );
+		$this->plugin->admin->rule_apply( $user, $memberships );
 
 	}
 
@@ -468,10 +474,10 @@ class Civi_WP_Member_Sync_Members {
 	 *
 	 * @since 0.1
 	 *
-	 * @param string $op the type of database operation.
-	 * @param string $objectName the type of object.
-	 * @param integer $objectId the ID of the object.
-	 * @param object $objectRef the object.
+	 * @param string $op The type of database operation.
+	 * @param string $objectName The type of object.
+	 * @param integer $objectId The ID of the object.
+	 * @param object $objectRef The object.
 	 */
 	public function membership_updated( $op, $objectName, $objectId, $objectRef ) {
 
@@ -483,24 +489,6 @@ class Civi_WP_Member_Sync_Members {
 
 		// only process create and edit operations
 		if ( ! in_array( $op, array( 'create', 'edit' ) ) ) return;
-
-		// get WordPress user for this contact ID
-		$user = $this->plugin->users->wp_user_get_by_civi_id( $objectRef->contact_id );
-
-		// if we don't receive a valid user
-		if ( ! ( $user instanceof WP_User ) ) {
-
-			// create WordPress user and prepare for sync
-			$user = $this->user_prepare_for_sync( $objectRef->contact_id );
-
-			// bail if something went wrong
-			if ( $user === false ) return;
-			if ( ! ( $user instanceof WP_User ) OR ! $user->exists() ) return;
-
-		}
-
-		// bail if this user should not be synced
-		if ( ! $this->user_should_be_synced( $user ) ) return;
 
 		// init previous membership
 		$previous_membership = null;
@@ -525,18 +513,67 @@ class Civi_WP_Member_Sync_Members {
 				 * list of memberships following this renewal check.
 				 */
 
-				// cast as object for processing
+				// cast as object for processing below
 				$previous_membership = (object) $this->membership_pre['values'][0];
-
-				// update WordPress user as if the membership has been deleted
-				$this->plugin->admin->rule_undo( $user, $previous_membership );
 
 			}
 
 		}
 
+		// if there is an applicable rule for the previous membership
+		if ( $this->plugin->admin->rule_exists( $previous_membership ) ) {
+
+			// get WordPress user for this contact ID
+			$user = $this->plugin->users->wp_user_get_by_civi_id( $objectRef->contact_id );
+
+			// if we don't receive a valid user
+			if ( ! ( $user instanceof WP_User ) ) {
+
+				// create WordPress user and prepare for sync
+				$user = $this->user_prepare_for_sync( $objectRef->contact_id );
+
+				// bail if something went wrong
+				if ( $user === false ) return;
+				if ( ! ( $user instanceof WP_User ) OR ! $user->exists() ) return;
+
+			}
+
+			// bail if this user should not be synced
+			if ( ! $this->user_should_be_synced( $user ) ) return;
+
+			// update WordPress user as if the membership has been deleted
+			$this->plugin->admin->rule_undo( $user, $previous_membership );
+
+		}
+
 		// get all the memberships for this contact
 		$memberships = $this->membership_get_by_contact_id( $objectRef->contact_id );
+
+		// bail if there are no applicable rules for these memberships
+		if ( ! $this->plugin->admin->rule_exists( $memberships ) ) return;
+
+		// if we didn't get a WordPress user previously
+		if ( ! isset( $user ) ) {
+
+			// get WordPress user for this contact ID
+			$user = $this->plugin->users->wp_user_get_by_civi_id( $objectRef->contact_id );
+
+			// if we don't receive a valid user
+			if ( ! ( $user instanceof WP_User ) ) {
+
+				// create WordPress user and prepare for sync
+				$user = $this->user_prepare_for_sync( $objectRef->contact_id );
+
+				// bail if something went wrong
+				if ( $user === false ) return;
+				if ( ! ( $user instanceof WP_User ) OR ! $user->exists() ) return;
+
+			}
+
+			// bail if this user should not be synced
+			if ( ! $this->user_should_be_synced( $user ) ) return;
+
+		}
 
 		// update WordPress user
 		$this->plugin->admin->rule_apply( $user, $memberships );
