@@ -249,7 +249,7 @@ var CiviCRM_WP_Member_Sync_Manual_Sync = CiviCRM_WP_Member_Sync_Manual_Sync || {
 		this.update = function( data ) {
 
 			// declare vars
-			var val;
+			var val, batch_count;
 
 			// are we still in progress?
 			if ( data.finished == 'false' ) {
@@ -262,8 +262,11 @@ var CiviCRM_WP_Member_Sync_Manual_Sync = CiviCRM_WP_Member_Sync_Manual_Sync || {
 					me.label_complete.replace( '{{from}}', data.from ).replace( '{{to}}', data.to )
 				);
 
+				// get number per batch
+				batch_count = parseInt( CiviCRM_WP_Member_Sync_Manual_Sync.settings.get_setting( 'batch_count' ) );
+
 				// update progress bar
-				me.bar.progressbar( 'value', val + 5 );
+				me.bar.progressbar( 'value', val + batch_count );
 
 				// trigger next batch
 				me.send();

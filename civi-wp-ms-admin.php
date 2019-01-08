@@ -110,6 +110,15 @@ class Civi_WP_Member_Sync_Admin {
 	 */
 	public $errors;
 
+	/**
+	 * When Manual Sync runs, limit processing to this number per batch.
+	 *
+	 * @since 0.3.7
+	 * @access public
+	 * @var int $batch_count The number of memberships to process per batch.
+	 */
+	public $batch_count = 10;
+
 
 
 	/**
@@ -621,6 +630,7 @@ class Civi_WP_Member_Sync_Admin {
 		$settings = array(
 			'ajax_url' => admin_url( 'admin-ajax.php' ),
 			'total_memberships' => $this->plugin->members->memberships_get_count(),
+			'batch_count' => $this->setting_get_batch_count(),
 		);
 
 		// localisation array
@@ -1437,6 +1447,41 @@ class Civi_WP_Member_Sync_Admin {
 
 		// --<
 		return $method;
+
+	}
+
+
+
+	/**
+	 * Return the value for the batch count.
+	 *
+	 * Added as a separate method to allow filtering.
+	 *
+	 * @since 0.3.7
+	 *
+	 * @return int $count The value of the batch count.
+	 */
+	public function setting_get_batch_count() {
+
+		// get property
+		$count = $this->batch_count;
+
+		/**
+		 * Filter the batch count.
+		 *
+		 * Overriding this value allows the batch process to be controlled such
+		 * that installs with large numbers of memberships running on faster
+		 * machines can reduce the time taken to perform the sync process.
+		 *
+		 * @since 0.3.7
+		 *
+		 * @param int $count The default number of memberships to process per batch.
+		 * @param int $count The modified number of memberships to process per batch.
+		 */
+		$count = apply_filters( 'civi_wp_member_sync_get_batch_count', $count );
+
+		// --<
+		return $count;
 
 	}
 

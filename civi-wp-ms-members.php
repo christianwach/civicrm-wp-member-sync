@@ -112,6 +112,9 @@ class Civi_WP_Member_Sync_Members {
 		// init AJAX return
 		$data = array();
 
+		// get batch count
+		$batch_count = $this->plugin->admin->setting_get_batch_count();
+
 		// assume not creating users
 		$create_users = false;
 
@@ -145,7 +148,7 @@ class Civi_WP_Member_Sync_Members {
 				'IS NOT NULL' => 1
 			),
 			'options' => array(
-				'limit' => '5',
+				'limit' => $batch_count,
 				'offset' => $memberships_offset,
 				'sort' => 'contact_id, status_id.is_current_member ASC, end_date',
 			),
@@ -176,7 +179,7 @@ class Civi_WP_Member_Sync_Members {
 
 			// set from and to flags
 			$data['from'] = intval( $memberships_offset );
-			$data['to'] = $data['from'] + 5;
+			$data['to'] = $data['from'] + $batch_count;
 
 			// loop through memberships
 			foreach( $memberships['values'] AS $membership ) {
