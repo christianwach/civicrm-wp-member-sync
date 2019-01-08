@@ -34,7 +34,7 @@ var CiviCRM_WP_Member_Sync_Manual_Sync = CiviCRM_WP_Member_Sync_Manual_Sync || {
 	 */
 	CiviCRM_WP_Member_Sync_Manual_Sync.settings = new function() {
 
-		// prevent reference collisions
+		// Prevent reference collisions.
 		var me = this;
 
 		/**
@@ -46,10 +46,10 @@ var CiviCRM_WP_Member_Sync_Manual_Sync = CiviCRM_WP_Member_Sync_Manual_Sync || {
 		 */
 		this.init = function() {
 
-			// init localisation
+			// Init localisation.
 			me.init_localisation();
 
-			// init settings
+			// Init settings.
 			me.init_settings();
 
 		};
@@ -65,7 +65,7 @@ var CiviCRM_WP_Member_Sync_Manual_Sync = CiviCRM_WP_Member_Sync_Manual_Sync || {
 
 		};
 
-		// init localisation array
+		// Init localisation array
 		me.localisation = [];
 
 		/**
@@ -91,7 +91,7 @@ var CiviCRM_WP_Member_Sync_Manual_Sync = CiviCRM_WP_Member_Sync_Manual_Sync || {
 			return me.localisation[identifier];
 		};
 
-		// init settings array
+		// Init settings array.
 		me.settings = [];
 
 		/**
@@ -126,10 +126,10 @@ var CiviCRM_WP_Member_Sync_Manual_Sync = CiviCRM_WP_Member_Sync_Manual_Sync || {
 		 */
 		this.get_create_users = function( identifier ) {
 
-			// get checked value
+			// Get checked value.
 			var checked = $('#civi_wp_member_sync_manual_sync_create').prop( 'checked' );
 
-			// well?
+			// Well?
 			if ( checked ) {
 				return 'y';
 			} else {
@@ -147,7 +147,7 @@ var CiviCRM_WP_Member_Sync_Manual_Sync = CiviCRM_WP_Member_Sync_Manual_Sync || {
 	 */
 	CiviCRM_WP_Member_Sync_Manual_Sync.progress_bar = new function() {
 
-		// prevent reference collisions
+		// Prevent reference collisions.
 		var me = this;
 
 		/**
@@ -185,7 +185,7 @@ var CiviCRM_WP_Member_Sync_Manual_Sync = CiviCRM_WP_Member_Sync_Manual_Sync || {
 		 */
 		this.setup = function() {
 
-			// assign properties
+			// Assign properties.
 			me.bar = $('#progress-bar');
 			me.label = $('#progress-bar .progress-label');
 			me.total = CiviCRM_WP_Member_Sync_Manual_Sync.settings.get_setting( 'total_memberships' );
@@ -205,7 +205,7 @@ var CiviCRM_WP_Member_Sync_Manual_Sync = CiviCRM_WP_Member_Sync_Manual_Sync || {
 		 */
 		this.listeners = function() {
 
-			// declare vars
+			// Declare vars.
 			var button = $('#civi_wp_member_sync_manual_sync_submit');
 
 			/**
@@ -215,24 +215,24 @@ var CiviCRM_WP_Member_Sync_Manual_Sync = CiviCRM_WP_Member_Sync_Manual_Sync || {
 			 */
 			button.on( 'click', function( event ) {
 
-				// prevent form submission
+				// Prevent form submission.
 				if ( event.preventDefault ) {
 					event.preventDefault();
 				}
 
-				// initialise progress bar
+				// Initialise progress bar
 				me.bar.progressbar({
 					value: false,
 					max: me.total
 				});
 
-				// show progress bar if not already shown
+				// Show progress bar if not already shown.
 				me.bar.show();
 
-				// initialise progress bar label
+				// Initialise progress bar label
 				me.label.html( me.label_init.replace( '{{total}}', me.total ) );
 
-				// send
+				// Send.
 				me.send();
 
 			});
@@ -248,35 +248,35 @@ var CiviCRM_WP_Member_Sync_Manual_Sync = CiviCRM_WP_Member_Sync_Manual_Sync || {
 		 */
 		this.update = function( data ) {
 
-			// declare vars
+			// Declare vars.
 			var val, batch_count;
 
-			// are we still in progress?
+			// Are we still in progress?
 			if ( data.finished == 'false' ) {
 
-				// get current value of progress bar
+				// Get current value of progress bar
 				val = me.bar.progressbar( 'value' ) || 0;
 
-				// update progress bar label
+				// Update progress bar label.
 				me.label.html(
 					me.label_complete.replace( '{{from}}', data.from ).replace( '{{to}}', data.to )
 				);
 
-				// get number per batch
+				// Get number per batch
 				batch_count = parseInt( CiviCRM_WP_Member_Sync_Manual_Sync.settings.get_setting( 'batch_count' ) );
 
-				// update progress bar
+				// Update progress bar.
 				me.bar.progressbar( 'value', val + batch_count );
 
-				// trigger next batch
+				// Trigger next batch.
 				me.send();
 
 			} else {
 
-				// update progress bar label
+				// Update progress bar label.
 				me.label.html( me.label_done );
 
-				// hide the progress bar
+				// Hide the progress bar.
 				setTimeout(function () {
 					me.bar.hide();
 				}, 2000 );
@@ -292,7 +292,7 @@ var CiviCRM_WP_Member_Sync_Manual_Sync = CiviCRM_WP_Member_Sync_Manual_Sync || {
 		 */
 		this.send = function() {
 
-			// use jQuery post
+			// Use jQuery post.
 			$.post(
 
 				// URL to post to
@@ -300,26 +300,26 @@ var CiviCRM_WP_Member_Sync_Manual_Sync = CiviCRM_WP_Member_Sync_Manual_Sync || {
 
 				{
 
-					// token received by WordPress
+					// Token received by WordPress.
 					action: 'sync_memberships',
 
-					// send "create users" flag
+					// Send "create users" flag.
 					civi_wp_member_sync_manual_sync_create: CiviCRM_WP_Member_Sync_Manual_Sync.settings.get_create_users()
 
 				},
 
-				// callback
+				// Callback.
 				function( data, textStatus ) {
 
-					// if success
+					// If success.
 					if ( textStatus == 'success' ) {
 
-						// update progress bar
+						// Update progress bar.
 						me.update( data );
 
 					} else {
 
-						// show error
+						// Show error.
 						if ( console.log ) {
 							console.log( textStatus );
 						}
@@ -328,7 +328,7 @@ var CiviCRM_WP_Member_Sync_Manual_Sync = CiviCRM_WP_Member_Sync_Manual_Sync || {
 
 				},
 
-				// expected format
+				// Expected format.
 				'json'
 
 			);
@@ -337,10 +337,10 @@ var CiviCRM_WP_Member_Sync_Manual_Sync = CiviCRM_WP_Member_Sync_Manual_Sync || {
 
 	};
 
-	// init settings
+	// Init settings.
 	CiviCRM_WP_Member_Sync_Manual_Sync.settings.init();
 
-	// init Progress Bar
+	// Init Progress Bar.
 	CiviCRM_WP_Member_Sync_Manual_Sync.progress_bar.init();
 
 } )( jQuery );
@@ -354,10 +354,10 @@ var CiviCRM_WP_Member_Sync_Manual_Sync = CiviCRM_WP_Member_Sync_Manual_Sync || {
  */
 jQuery(document).ready(function($) {
 
-	// The DOM is loaded now
+	// The DOM is loaded now.
 	CiviCRM_WP_Member_Sync_Manual_Sync.settings.dom_ready();
 
-	// The DOM is loaded now
+	// The DOM is loaded now.
 	CiviCRM_WP_Member_Sync_Manual_Sync.progress_bar.dom_ready();
 
 }); // end document.ready()

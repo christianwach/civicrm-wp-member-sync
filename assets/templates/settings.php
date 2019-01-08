@@ -9,7 +9,7 @@
 
 	<?php
 
-	// if we've updated, show message...
+	// If we've updated, show message.
 	if ( $this->is_network_activated() AND isset( $_GET['updated'] ) AND $_GET['updated'] == 'true' ) {
 		echo '<div id="setting-error-settings_updated" class="updated settings-error notice is-dismissible">' .
 				'<p><strong>' . __( 'Settings saved.', 'civicrm-wp-member-sync' ) . '</strong></p>' .
@@ -70,7 +70,7 @@
 				<td>
 					<?php
 
-					// checked by default
+					// Checked by default.
 					$checked = ' checked="checked"';
 					if ( isset( $login ) AND $login === 0 ) {
 						$checked = '';
@@ -86,7 +86,7 @@
 				<td>
 					<?php
 
-					// checked by default
+					// Checked by default.
 					$checked = ' checked="checked"';
 					if ( isset( $civicrm ) AND $civicrm === 0 ) {
 						$checked = '';
@@ -102,7 +102,7 @@
 				<td>
 					<?php
 
-					// checked by default
+					// Checked by default.
 					$checked = ' checked="checked"';
 					if ( isset( $schedule ) AND $schedule === 0 ) {
 						$checked = '';
@@ -148,7 +148,7 @@
 				<td>
 					<?php
 
-					// unchecked by default
+					// Unchecked by default.
 					$checked = '';
 					if ( isset( $types ) AND $types === 1 ) {
 						$checked = ' checked="checked"';

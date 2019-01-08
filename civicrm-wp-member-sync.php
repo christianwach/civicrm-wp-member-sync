@@ -23,31 +23,31 @@ Tadpole Collective <https://tadpole.cc> for their fork:
 
 
 
-// define capability prefix
+// Define capability prefix.
 if ( ! defined( 'CIVI_WP_MEMBER_SYNC_CAP_PREFIX' ) ) {
 	define( 'CIVI_WP_MEMBER_SYNC_CAP_PREFIX', 'civimember_' );
 }
 
-// define plugin version (bumping this will also refresh CSS and JS)
+// Define plugin version - bumping this will also refresh CSS and JS.
 define( 'CIVI_WP_MEMBER_SYNC_VERSION', '0.3.7' );
 
-// store reference to this file
+// Store reference to this file.
 define( 'CIVI_WP_MEMBER_SYNC_PLUGIN_FILE', __FILE__ );
 
-// store URL to this plugin's directory
+// Store URL to this plugin's directory.
 if ( ! defined( 'CIVI_WP_MEMBER_SYNC_PLUGIN_URL' ) ) {
 	define( 'CIVI_WP_MEMBER_SYNC_PLUGIN_URL', plugin_dir_url( CIVI_WP_MEMBER_SYNC_PLUGIN_FILE ) );
 }
 
-// store PATH to this plugin's directory
+// Store PATH to this plugin's directory.
 if ( ! defined( 'CIVI_WP_MEMBER_SYNC_PLUGIN_PATH' ) ) {
 	define( 'CIVI_WP_MEMBER_SYNC_PLUGIN_PATH', plugin_dir_path( CIVI_WP_MEMBER_SYNC_PLUGIN_FILE ) );
 }
 
-// debug flag for developers
+// Debug flag for developers.
 //define( 'CIVI_WP_MEMBER_SYNC_DEBUG', true );
 
-// migrate flag for developers (see civi-wp-ms-migrate.php)
+// Migrate flag for developers (see civi-wp-ms-migrate.php)
 //define( 'CIVI_WP_MEMBER_SYNC_MIGRATE', true );
 
 
@@ -106,34 +106,34 @@ class Civi_WP_Member_Sync {
 	 */
 	public function __construct() {
 
-		// use translation
+		// Use translation.
 		add_action( 'plugins_loaded', array( $this, 'translation' ) );
 
-		// initialise plugin when CiviCRM initialises
+		// Initialise plugin when CiviCRM initialises.
 		add_action( 'civicrm_instance_loaded', array( $this, 'initialise' ) );
 
-		// load our Users utility class
+		// Load our Users utility class.
 		require( CIVI_WP_MEMBER_SYNC_PLUGIN_PATH . 'civi-wp-ms-users.php' );
 
-		// instantiate
+		// Instantiate.
 		$this->users = new Civi_WP_Member_Sync_Users( $this );
 
-		// load our Schedule utility class
+		// Load our Schedule utility class.
 		require( CIVI_WP_MEMBER_SYNC_PLUGIN_PATH . 'civi-wp-ms-schedule.php' );
 
-		// instantiate
+		// Instantiate.
 		$this->schedule = new Civi_WP_Member_Sync_Schedule( $this );
 
-		// load our Admin utility class
+		// Load our Admin utility class.
 		require( CIVI_WP_MEMBER_SYNC_PLUGIN_PATH . 'civi-wp-ms-admin.php' );
 
-		// instantiate
+		// Instantiate.
 		$this->admin = new Civi_WP_Member_Sync_Admin( $this );
 
-		// load our CiviCRM utility class
+		// Load our CiviCRM utility class.
 		require( CIVI_WP_MEMBER_SYNC_PLUGIN_PATH . 'civi-wp-ms-members.php' );
 
-		// instantiate
+		// Instantiate.
 		$this->members = new Civi_WP_Member_Sync_Members( $this );
 
 	}
@@ -151,7 +151,7 @@ class Civi_WP_Member_Sync {
 	 */
 	public function activate() {
 
-		// setup plugin admin
+		// Setup plugin admin.
 		$this->admin->activate();
 
 	}
@@ -165,7 +165,7 @@ class Civi_WP_Member_Sync {
 	 */
 	public function deactivate() {
 
-		// remove scheduled hook
+		// Remove scheduled hook.
 		$this->schedule->unschedule();
 
 	}
@@ -179,19 +179,23 @@ class Civi_WP_Member_Sync {
 	 */
 	public function initialise() {
 
-		// initialise Admin object
+		// Initialise Admin object.
 		$this->admin->initialise();
 
-		// initialise users object
+		// Initialise users object.
 		$this->users->initialise();
 
-		// initialise schedule object
+		// Initialise schedule object.
 		$this->schedule->initialise();
 
-		// initialise CiviCRM object
+		// Initialise CiviCRM object.
 		$this->members->initialise();
 
-		// broadcast that we're up and running
+		/**
+		 * Broadcast that we're up and running.
+		 *
+		 * @since 0.1
+		 */
 		do_action( 'civi_wp_member_sync_initialised' );
 
 	}
@@ -203,53 +207,48 @@ class Civi_WP_Member_Sync {
 
 
 	/**
-	 * Load translation if present.
+	 * Load translations.
 	 *
 	 * @since 0.1
 	 */
 	public function translation() {
 
-		// only use, if we have it...
-		if( function_exists( 'load_plugin_textdomain' ) ) {
+		// Load translations.
+		load_plugin_textdomain(
 
-			// there are no translations as yet, but they can now be added
-			load_plugin_textdomain(
+			// Unique name.
+			'civicrm-wp-member-sync',
 
-				// unique name
-				'civicrm-wp-member-sync',
+			// Deprecated argument.
+			false,
 
-				// deprecated argument
-				false,
+			// Relative path to directory containing translation files.
+			dirname( plugin_basename( CIVI_WP_MEMBER_SYNC_PLUGIN_FILE ) ) . '/languages/'
 
-				// relative path to directory containing translation files
-				dirname( plugin_basename( CIVI_WP_MEMBER_SYNC_PLUGIN_FILE ) ) . '/languages/'
-
-			);
-
-		}
+		);
 
 	}
 
 
 
-} // class ends
+} // Class ends.
 
 
 
-// declare as global for external reference
+// Declare as global for external reference.
 global $civi_wp_member_sync;
 
-// init plugin
+// Init plugin.
 $civi_wp_member_sync = new Civi_WP_Member_Sync;
 
-// plugin activation
+// Plugin activation.
 register_activation_hook( __FILE__, array( $civi_wp_member_sync, 'activate' ) );
 
-// plugin deactivation
+// Plugin deactivation.
 register_deactivation_hook( __FILE__, array( $civi_wp_member_sync, 'deactivate' ) );
 
-// uninstall uses the 'uninstall.php' method
-// see: http://codex.wordpress.org/Function_Reference/register_uninstall_hook
+// Uninstall uses the 'uninstall.php' method.
+// See: http://codex.wordpress.org/Function_Reference/register_uninstall_hook
 
 
 
@@ -262,7 +261,7 @@ register_deactivation_hook( __FILE__, array( $civi_wp_member_sync, 'deactivate' 
  */
 function civicrm_wpms() {
 
-	// return reference
+	// Return reference.
 	global $civi_wp_member_sync;
 	return $civi_wp_member_sync;
 
@@ -281,10 +280,10 @@ function civicrm_wpms() {
  */
 function civi_wp_member_sync_plugin_add_settings_link( $links, $file ) {
 
-	// maybe add settings link
+	// Maybe add settings link.
 	if ( $file == plugin_basename( dirname( __FILE__ ) . '/civicrm-wp-member-sync.php' ) ) {
 
-		// is this Network Admin? Also check sub-site listings (since WordPress 4.4) and show for network admins
+		// Is this Network Admin? Also check sub-site listings (since WordPress 4.4) and show for network admins.
 		if (
 			is_network_admin() OR
 			( is_super_admin() AND civicrm_wpms()->admin->is_network_activated() )
@@ -294,7 +293,7 @@ function civi_wp_member_sync_plugin_add_settings_link( $links, $file ) {
 			$link = add_query_arg( array( 'page' => 'civi_wp_member_sync_parent' ), admin_url( 'options-general.php' ) );
 		}
 
-		// add settings link
+		// Add settings link.
 		$links[] = '<a href="' . esc_url( $link ) . '">' . esc_html__( 'Settings', 'civicrm-wp-member-sync' ) . '</a>';
 
 	}

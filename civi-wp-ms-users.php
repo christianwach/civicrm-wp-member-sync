@@ -31,7 +31,7 @@ class Civi_WP_Member_Sync_Users {
 	 */
 	public function __construct( $plugin ) {
 
-		// store reference to plugin
+		// Store reference to plugin.
 		$this->plugin = $plugin;
 
 	}
@@ -64,10 +64,10 @@ class Civi_WP_Member_Sync_Users {
 	 */
 	public function wp_has_role( $user, $role ) {
 
-		// kick out if we don't receive a valid user
+		// Kick out if we don't receive a valid user.
 		if ( ! ( $user instanceof WP_User ) ) return false;
 
-		// check via WordPress function
+		// Check via WordPress function.
 		$has_role = user_can( $user, $role );
 
 		// --<
@@ -87,29 +87,29 @@ class Civi_WP_Member_Sync_Users {
 	 */
 	public function wp_role_get( $user ) {
 
-		// kick out if we don't receive a valid user
+		// Kick out if we don't receive a valid user.
 		if ( ! ( $user instanceof WP_User ) ) return false;
 
-		// only build role names array once, since this is called by the sync routine
+		// Only build role names array once, since this is called by the sync routine.
 		if ( ! isset( $this->role_names ) ) {
 
-			// get role names array
+			// Get role names array.
 			$this->role_names = $this->wp_role_names_get_all();
 
 		}
 
-		// init filtered as empty
+		// Init filtered as empty.
 		$filtered_roles = array_keys( $this->role_names );
 
-		// roles is still an array
+		// Roles is still an array.
 		foreach ( $user->roles AS $role ) {
 
-			// return the first valid one
+			// Return the first valid one.
 			if ( $role AND in_array( $role, $filtered_roles ) ) { return $role; }
 
 		}
 
-		// fallback
+		// Fallback.
 		return false;
 
 	}
@@ -128,27 +128,27 @@ class Civi_WP_Member_Sync_Users {
 	 */
 	public function wp_roles_get_all( $user ) {
 
-		// kick out if we don't receive a valid user
+		// Kick out if we don't receive a valid user.
 		if ( ! ( $user instanceof WP_User ) ) return false;
 
-		// init return
+		// Init return.
 		$user_roles = array();
 
-		// only build role names array once
+		// Only build role names array once.
 		if ( ! isset( $this->role_names ) ) {
 
-			// get role names array
+			// Get role names array.
 			$this->role_names = $this->wp_role_names_get_all();
 
 		}
 
-		// init filtered array in same format as $user->roles
+		// Init filtered array in same format as $user->roles.
 		$filtered_roles = array_keys( $this->role_names );
 
-		// check all user roles
+		// Check all user roles.
 		foreach ( $user->roles AS $role ) {
 
-			// add role to return array if it's a "blog" role
+			// Add role to return array if it's a "blog" role.
 			if ( $role AND in_array( $role, $filtered_roles ) ) {
 				$user_roles[] = $role;
 			}
@@ -172,13 +172,13 @@ class Civi_WP_Member_Sync_Users {
 	 */
 	public function wp_role_add( $user, $role ) {
 
-		// kick out if we don't receive a valid user
+		// Kick out if we don't receive a valid user.
 		if ( ! ( $user instanceof WP_User ) ) return;
 
-		// sanity check param
+		// Sanity check param.
 		if ( empty( $role ) ) return;
 
-		// add role to user
+		// Add role to user.
 		$user->add_role( $role );
 
 		/**
@@ -203,13 +203,13 @@ class Civi_WP_Member_Sync_Users {
 	 */
 	public function wp_role_remove( $user, $role ) {
 
-		// kick out if we don't receive a valid user
+		// Kick out if we don't receive a valid user.
 		if ( ! ( $user instanceof WP_User ) ) return;
 
-		// sanity check param
+		// Sanity check param.
 		if ( empty( $role ) ) return;
 
-		// remove role from user
+		// Remove role from user.
 		$user->remove_role( $role );
 
 		/**
@@ -235,20 +235,20 @@ class Civi_WP_Member_Sync_Users {
 	 */
 	public function wp_role_replace( $user, $old_role, $new_role ) {
 
-		// kick out if we don't receive a valid user
+		// Kick out if we don't receive a valid user.
 		if ( ! ( $user instanceof WP_User ) ) return;
 
-		// sanity check params
+		// Sanity check params.
 		if ( empty( $old_role ) ) return;
 		if ( empty( $new_role ) ) return;
 
 		// Remove old role then add new role, so that we don't inadvertently
-		// overwrite multiple roles, for example when bbPress is active
+		// overwrite multiple roles, for example when bbPress is active.
 
-		// remove user's existing role
+		// Remove user's existing role.
 		$user->remove_role( $old_role );
 
-		// add new role
+		// Add new role.
 		$user->add_role( $new_role );
 
 		/**
@@ -278,15 +278,15 @@ class Civi_WP_Member_Sync_Users {
 	 */
 	public function wp_role_name_get( $key ) {
 
-		// only build role names array once, since this is called by the list page
+		// Only build role names array once, since this is called by the list page.
 		if ( ! isset( $this->role_names ) ) {
 
-			// get role names array
+			// Get role names array.
 			$this->role_names = $this->wp_role_names_get_all();
 
 		}
 
-		// get value by key
+		// Get value by key.
 		$role_name = isset( $this->role_names[$key] ) ? $this->role_names[$key] : false;
 
 		// --<
@@ -305,31 +305,31 @@ class Civi_WP_Member_Sync_Users {
 	 */
 	public function wp_role_names_get_all() {
 
-		// access roles global
+		// Access roles global.
 		global $wp_roles;
 
-		// load roles if not set
+		// Load roles if not set.
 		if ( ! isset( $wp_roles ) ) {
 			$wp_roles = new WP_Roles();
 		}
 
-		// get names
+		// Get names.
 		$role_names = $wp_roles->get_names();
 
-		// if we have bbPress active, filter out its custom roles
+		// If we have bbPress active, filter out its custom roles.
 		if ( function_exists( 'bbp_get_blog_roles' ) ) {
 
-			// get bbPress-filtered roles
+			// Get bbPress-filtered roles.
 			$bbp_roles = bbp_get_blog_roles();
 
-			// init roles
+			// Init roles.
 			$role_names = array();
 
-			// sanity check
+			// Sanity check.
 			if ( ! empty( $bbp_roles ) ) {
 				foreach( $bbp_roles AS $bbp_role => $bbp_role_data ) {
 
-					// add to roles array
+					// Add to roles array.
 					$role_names[$bbp_role] = $bbp_role_data['name'];
 
 				}
@@ -358,16 +358,16 @@ class Civi_WP_Member_Sync_Users {
 	 */
 	public function wp_cap_add( $user, $capability ) {
 
-		// kick out if we don't receive a valid user
+		// Kick out if we don't receive a valid user.
 		if ( ! ( $user instanceof WP_User ) ) return;
 
-		// sanity check params
+		// Sanity check params.
 		if ( empty( $capability ) ) return;
 
-		// does this user have that capability?
+		// Does this user have that capability?
 		if ( ! $user->has_cap( $capability ) ) {
 
-			// no, add it
+			// No, add it.
 			$user->add_cap( $capability );
 
 			/**
@@ -394,16 +394,16 @@ class Civi_WP_Member_Sync_Users {
 	 */
 	public function wp_cap_remove( $user, $capability ) {
 
-		// kick out if we don't receive a valid user
+		// Kick out if we don't receive a valid user.
 		if ( ! ( $user instanceof WP_User ) ) return;
 
-		// sanity check params
+		// Sanity check params.
 		if ( empty( $capability ) ) return;
 
-		// does this user have that capability?
+		// Does this user have that capability?
 		if ( $user->has_cap( $capability ) ) {
 
-			// yes, remove it
+			// Yes, remove it.
 			$user->remove_cap( $capability );
 
 			/**
@@ -431,29 +431,29 @@ class Civi_WP_Member_Sync_Users {
 	 */
 	public function wp_cap_remove_status( $user, $capability ) {
 
-		// kick out if we don't receive a valid user
+		// Kick out if we don't receive a valid user.
 		if ( ! ( $user instanceof WP_User ) ) return;
 
-		// sanity check params
+		// Sanity check params.
 		if ( empty( $capability ) ) return;
 
-		// get membership status rules
+		// Get membership status rules.
 		$status_rules = $this->plugin->members->status_rules_get_all();
 
-		// sanity checks
+		// Sanity checks.
 		if ( ! is_array( $status_rules ) ) return;
 		if ( count( $status_rules ) == 0 ) return;
 
-		// get keys
+		// Get keys.
 		$status_rule_ids = array_keys( $status_rules );
 
-		// loop through them
+		// Loop through them.
 		foreach( $status_rule_ids AS $status_id ) {
 
-			// construct membership status capability name
+			// Construct membership status capability name.
 			$capability_status = $capability . '_' . $status_id;
 
-			// use local remove method
+			// Use local remove method.
 			$this->wp_cap_remove( $user, $capability_status );
 
 		}
@@ -476,19 +476,19 @@ class Civi_WP_Member_Sync_Users {
 	 */
 	public function wp_user_get_by_civi_id( $contact_id ) {
 
-		// kick out if no CiviCRM
+		// Kick out if no CiviCRM.
 		if ( ! civi_wp()->initialize() ) return false;
 
-		// make sure CiviCRM file is included
+		// Make sure CiviCRM file is included.
 		require_once 'CRM/Core/BAO/UFMatch.php';
 
-		// search using CiviCRM's logic
+		// Search using CiviCRM's logic.
 		$user_id = CRM_Core_BAO_UFMatch::getUFId( $contact_id );
 
-		// kick out if we didn't get one
+		// Kick out if we didn't get one.
 		if ( empty( $user_id ) ) return false;
 
-		// get user object
+		// Get user object.
 		$user = new WP_User( $user_id );
 
 		// --<
@@ -508,31 +508,31 @@ class Civi_WP_Member_Sync_Users {
 	 */
 	public function civi_contact_id_get( $user ) {
 
-		// kick out if no CiviCRM
+		// Kick out if no CiviCRM.
 		if ( ! civi_wp()->initialize() ) return false;
 
-		// make sure CiviCRM file is included
+		// Make sure CiviCRM file is included.
 		require_once 'CRM/Core/BAO/UFMatch.php';
 
-		// do initial search
+		// Do initial search.
 		$civi_contact_id = CRM_Core_BAO_UFMatch::getContactId( $user->ID );
 		if ( ! $civi_contact_id ) {
 
-			// sync this user
+			// Sync this user.
 			CRM_Core_BAO_UFMatch::synchronizeUFMatch(
-				$user, // user object
-				$user->ID, // ID
-				$user->user_email, // unique identifier
-				'WordPress', // CMS
-				null, // status
-				'Individual', // contact type
-				null // is_login
+				$user, // User object.
+				$user->ID, // ID.
+				$user->user_email, // Unique identifier.
+				'WordPress', // CMS.
+				null, // Status.
+				'Individual', // Contact type.
+				null // Is_login.
 			);
 
-			// get the CiviCRM contact ID
+			// Get the CiviCRM contact ID.
 			$civi_contact_id = CRM_Core_BAO_UFMatch::getContactId( $user->ID );
 
-			// sanity check
+			// Sanity check.
 			if ( ! $civi_contact_id ) {
 				return false;
 			}
@@ -556,27 +556,27 @@ class Civi_WP_Member_Sync_Users {
 	 */
 	public function civi_get_contact_by_contact_id( $contact_id ) {
 
-		// kick out if no CiviCRM
+		// Kick out if no CiviCRM.
 		if ( ! civi_wp()->initialize() ) return false;
 
-		// bail if we don't get a valid contact ID
+		// Bail if we don't get a valid contact ID.
 		if ( empty( $contact_id ) OR ! is_numeric( $contact_id ) ) return false;
 
-		// get all contact data
+		// Get all contact data.
 		$params = array(
 			'version' => 3,
 			'contact_id' => $contact_id,
 		);
 
-		// use API
+		// Use API.
 		$contact_data = civicrm_api( 'contact', 'get', $params );
 
-		// bail if we get any errors
+		// Bail if we get any errors.
 		if ( $contact_data['is_error'] == 1 ) return false;
 		if ( ! isset( $contact_data['values'] ) ) return false;
 		if ( count( $contact_data['values'] ) === 0 ) return false;
 
-		// get contact
+		// Get contact.
 		$contact = array_shift( $contact_data['values'] );
 
 		// --<
@@ -611,25 +611,25 @@ class Civi_WP_Member_Sync_Users {
 		 */
 		if ( true === apply_filters( 'civi_wp_member_sync_auto_create_wp_user', true, $civi_contact_id ) ) {
 
-			// get CiviCRM contact
+			// Get CiviCRM contact.
 			$civi_contact = $this->civi_get_contact_by_contact_id( $civi_contact_id );
 
-			// bail if something goes wrong
+			// Bail if something goes wrong.
 			if ( $civi_contact === false ) return false;
 
-			// get types setting
+			// Get types setting.
 			$types = absint( $this->plugin->admin->setting_get( 'types' ) );
 
-			// if chosen, bail if this Contact is not an Individual
+			// If chosen, bail if this Contact is not an Individual.
 			if ( $types AND $civi_contact['contact_type'] != 'Individual' ) return;
 
-			// create a WordPress user
+			// Create a WordPress user.
 			$user = $this->wp_create_user( $civi_contact );
 
-			// bail if something goes wrong
+			// Bail if something goes wrong.
 			if ( ! ( $user instanceof WP_User ) ) return false;
 
-			// return user
+			// Return user.
 			return $user;
 
 		} else {
@@ -653,12 +653,12 @@ class Civi_WP_Member_Sync_Users {
 	 */
 	public function wp_create_user( $civi_contact ) {
 
-		// bail if no email address
+		// Bail if no email address.
 		if ( ! isset( $civi_contact['email'] ) OR empty( $civi_contact['email'] ) ) {
 			return false;
 		}
 
-		// create username from display name
+		// Create username from display name.
 		$user_name = sanitize_title( sanitize_user( $civi_contact['display_name'] ) );
 
 		/**
@@ -672,19 +672,19 @@ class Civi_WP_Member_Sync_Users {
 		 */
 		$user_name = apply_filters( 'civi_wp_member_sync_new_username', $user_name, $civi_contact );
 
-		// check if we have a user with that username
+		// Check if we have a user with that username.
 		$user_id = username_exists( $user_name );
 
-		// if not, check against email address
+		// If not, check against email address.
 		if ( ! $user_id AND email_exists( $civi_contact['email'] ) == false ) {
 
-			// generate a random password
+			// Generate a random password.
 			$random_password = wp_generate_password(
 				$length = 12,
 				$include_standard_special_chars = false
 			);
 
-			// remove filters
+			// Remove filters.
 			$this->remove_filters();
 
 			/**
@@ -696,7 +696,7 @@ class Civi_WP_Member_Sync_Users {
 			 */
 			do_action( 'civi_wp_member_sync_before_insert_user', $civi_contact );
 
-			// create the user
+			// Create the user.
 			$user_id = wp_insert_user( array(
 				'user_login' => $user_name,
 				'user_pass' => $random_password,
@@ -705,12 +705,12 @@ class Civi_WP_Member_Sync_Users {
 				'last_name' => $civi_contact['last_name'],
 			) );
 
-			// create UF Match
+			// Create UF Match.
 			if ( ! is_wp_error( $user_id ) AND isset( $civi_contact['contact_id'] ) ) {
 
 				$transaction = new CRM_Core_Transaction();
 
-				// create the UF Match record
+				// Create the UF Match record.
 				$ufmatch             = new CRM_Core_DAO_UFMatch();
 				$ufmatch->domain_id  = CRM_Core_Config::domainID();
 				$ufmatch->uf_id      = $user_id;
@@ -725,7 +725,7 @@ class Civi_WP_Member_Sync_Users {
 
 			}
 
-			// re-add filters
+			// Re-add filters.
 			$this->add_filters();
 
 			/**
@@ -740,15 +740,15 @@ class Civi_WP_Member_Sync_Users {
 
 		}
 
-		// sanity check
+		// Sanity check.
 		if ( is_numeric( $user_id ) AND $user_id ) {
 
-			// return WordPress user
+			// Return WordPress user.
 			return get_user_by( 'id', $user_id );
 
 		}
 
-		// return error
+		// Return error
 		return false;
 
 	}
@@ -762,25 +762,25 @@ class Civi_WP_Member_Sync_Users {
 	 */
 	private function remove_filters() {
 
-		// get CiviCRM instance
+		// Get CiviCRM instance.
 		$civi = civi_wp();
 
-		// do we have the old-style plugin structure?
+		// Do we have the old-style plugin structure?
 		if ( method_exists( $civi, 'update_user' ) ) {
 
-			// remove previous CiviCRM plugin filters
+			// Remove previous CiviCRM plugin filters.
 			remove_action( 'user_register', array( civi_wp(), 'update_user' ) );
 			remove_action( 'profile_update', array( civi_wp(), 'update_user' ) );
 
 		} else {
 
-			// remove current CiviCRM plugin filters
+			// Remove current CiviCRM plugin filters.
 			remove_action( 'user_register', array( civi_wp()->users, 'update_user' ) );
 			remove_action( 'profile_update', array( civi_wp()->users, 'update_user' ) );
 
 		}
 
-		// remove CiviCRM WordPress Profile Sync filters
+		// Remove CiviCRM WordPress Profile Sync filters.
 		global $civicrm_wp_profile_sync;
 		if ( is_object( $civicrm_wp_profile_sync ) ) {
 			remove_action( 'user_register', array( $civicrm_wp_profile_sync, 'wordpress_contact_updated' ), 100 );
@@ -805,25 +805,25 @@ class Civi_WP_Member_Sync_Users {
 	 */
 	private function add_filters() {
 
-		// get CiviCRM instance
+		// Get CiviCRM instance.
 		$civi = civi_wp();
 
-		// do we have the old-style plugin structure?
+		// Do we have the old-style plugin structure?
 		if ( method_exists( $civi, 'update_user' ) ) {
 
-			// re-add previous CiviCRM plugin filters
+			// Re-add previous CiviCRM plugin filters.
 			add_action( 'user_register', array( civi_wp(), 'update_user' ) );
 			add_action( 'profile_update', array( civi_wp(), 'update_user' ) );
 
 		} else {
 
-			// re-add current CiviCRM plugin filters
+			// Re-add current CiviCRM plugin filters.
 			add_action( 'user_register', array( civi_wp()->users, 'update_user' ) );
 			add_action( 'profile_update', array( civi_wp()->users, 'update_user' ) );
 
 		}
 
-		// re-add CiviCRM WordPress Profile Sync filters
+		// Re-add CiviCRM WordPress Profile Sync filters.
 		global $civicrm_wp_profile_sync;
 		if ( is_object( $civicrm_wp_profile_sync ) ) {
 			add_action( 'user_register', array( $civicrm_wp_profile_sync, 'wordpress_contact_updated' ), 100, 1 );
@@ -841,7 +841,7 @@ class Civi_WP_Member_Sync_Users {
 
 
 
-} // class ends
+} // Class ends.
 
 
 

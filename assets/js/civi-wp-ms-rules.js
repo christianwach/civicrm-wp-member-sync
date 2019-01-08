@@ -6,14 +6,14 @@
  * @package Civi_WP_Member_Sync
  */
 
-// defaults
+// Defaults.
 var cwms_method = 'roles',
 	cwms_mode = 'add';
 
-// test for our localisation object
+// Test for our localisation object.
 if ( 'undefined' !== typeof CiviCRM_WP_Member_Sync_Rules ) {
 
-	// override var
+	// Override var.
 	cwms_method = CiviCRM_WP_Member_Sync_Rules.method;
 	cwms_mode = CiviCRM_WP_Member_Sync_Rules.mode;
 
@@ -33,7 +33,7 @@ jQuery(document).ready( function($) {
 	 *
 	 * @since 0.1
 	 *
-	 * @param {Object} e The click event object
+	 * @param {Object} e The click event object.
 	 */
 	$('.required-current').click( function(e) {
 
@@ -41,18 +41,18 @@ jQuery(document).ready( function($) {
 			current_id,
 			expire_id;
 
-		// get checked
+		// Get checked.
 		current_on = $(this).prop( 'checked' );
 
-		// get class
+		// Get class.
 		current_class = $(this).prop( 'class' );
 
-		// expire ID
+		// Expire ID.
 		expire_last_class = current_class.split(' ')[1];
 		expire_class = expire_last_class.split('-')[1];
 		expire_target = '.expire-' + expire_class;
 
-		// check required elements
+		// Check required elements.
 		$(expire_target).prop( 'checked', !current_on );
 
 	});
@@ -62,7 +62,7 @@ jQuery(document).ready( function($) {
 	 *
 	 * @since 0.1
 	 *
-	 * @param {Object} e The click event object
+	 * @param {Object} e The click event object.
 	 */
 	$('.required-expire').click( function(e) {
 
@@ -70,10 +70,10 @@ jQuery(document).ready( function($) {
 			expire_id,
 			current_id;
 
-		// get checked
+		// Get checked.
 		expire_on = $(this).prop( 'checked' );
 
-		// get class
+		// Get class.
 		expire_class = $(this).prop( 'class' );
 
 		// current ID
@@ -81,7 +81,7 @@ jQuery(document).ready( function($) {
 		current_class = current_last_class.split('-')[1];
 		current_target = '.current-' + current_class;
 
-		// check required elements
+		// Check required elements.
 		$(current_target).prop( 'checked', !expire_on );
 
 	});
@@ -91,33 +91,33 @@ jQuery(document).ready( function($) {
 	 *
 	 * @since 0.1
 	 *
-	 * @param {Object} e The click event object
+	 * @param {Object} e The click event object.
 	 */
 	$(':submit').click( function(e) {
 
-		// init vars
+		// Init vars.
 		var passed = true,
 			current_checked = false,
 			expire_checked = false;
 
-		// only check membership type if in add mode
+		// Only check membership type if in add mode.
 		if ( cwms_mode == 'add' ) {
 
-			// check required role elements
+			// Check required role elements.
 			$('.required-type').each( function() {
 
-				// if it's empty
+				// If it's empty.
 				if ( !$(this).attr( 'value' ) ) {
 
-					// colour label red
+					// Colour label red.
 					$(this).parent().prev().children().addClass( 'req' );
 
-					// set flag
+					// Set flag.
 					passed = false;
 
 				} else {
 
-					// colour label black
+					// Colour label black.
 					$(this).parent().prev().children().removeClass( 'req' );
 
 				}
@@ -126,24 +126,24 @@ jQuery(document).ready( function($) {
 
 		}
 
-		// only check roles if that's our sync method
+		// Only check roles if that's our sync method.
 		if ( cwms_method == 'roles' ) {
 
-			// check required role elements
+			// Check required role elements.
 			$('.required-role').each( function() {
 
-				// if it's empty
+				// If it's empty.
 				if ( !$(this).attr( 'value' ) ) {
 
-					// colour label red
+					// Colour label red.
 					$(this).parent().prev().children().addClass( 'req' );
 
-					// set flag
+					// Set flag.
 					passed = false;
 
 				} else {
 
-					// colour label black
+					// Colour label black.
 					$(this).parent().prev().children().removeClass( 'req' );
 
 				}
@@ -152,41 +152,41 @@ jQuery(document).ready( function($) {
 
 		}
 
-		// check current checkboxes
+		// Check current checkboxes.
 		$('.required-current').each( function() {
 
-			// if checked
+			// If checked.
 			if ( $(this).prop( 'checked' ) ) {
 				current_checked = true;
 			}
 
 		});
 
-		// do we have a checked box for current?
+		// Do we have a checked box for current?
 		if ( !current_checked ) {
 			$('label.current_label').addClass( 'req' );
 		} else {
 			$('label.current_label').removeClass( 'req' );
 		}
 
-		// check expire checkboxes
+		// Check expire checkboxes.
 		$('.required-expire').each( function() {
 
-			// if checked
+			// If checked.
 			if ( $(this).prop( 'checked' ) ) {
 				expire_checked = true;
 			}
 
 		});
 
-		// do we have a checked box for expire?
+		// Do we have a checked box for expire?
 		if ( !expire_checked ) {
 			$('label.expire_label').addClass( 'req' );
 		} else {
 			$('label.expire_label').removeClass( 'req' );
 		}
 
-		// prevent form submission if any single check failed
+		// Prevent form submission if any single check failed.
 		if ( !passed || !current_checked || !expire_checked ) {
 			e.preventDefault();
 		}

@@ -31,7 +31,7 @@ class Civi_WP_Member_Sync_Schedule {
 	 */
 	public function __construct( $plugin ) {
 
-		// store reference to plugin
+		// Store reference to plugin.
 		$this->plugin = $plugin;
 
 	}
@@ -45,24 +45,24 @@ class Civi_WP_Member_Sync_Schedule {
 	 */
 	public function initialise() {
 
-		// get our schedule sync setting
+		// Get our schedule sync setting.
 		$schedule = absint( $this->plugin->admin->setting_get( 'schedule' ) );
 
-		// add schedule if set
+		// Add schedule if set.
 		if ( $schedule === 1 ) {
 
-			// get our interval setting
+			// Get our interval setting.
 			$interval = $this->plugin->admin->setting_get( 'interval' );
 
-			// sanity check
+			// Sanity check.
 			if ( ! empty( $interval ) ) {
 
-				// set schedule
+				// Set schedule.
 				$this->schedule( $interval );
 
 			}
 
-			// add schedule callback action
+			// Add schedule callback action.
 			add_action( 'civi_wp_member_sync_refresh', array( $this, 'schedule_callback' ) );
 
 		}
@@ -84,14 +84,14 @@ class Civi_WP_Member_Sync_Schedule {
 	 */
 	public function schedule( $interval ) {
 
-		// if not already present...
+		// If not already present.
 		if ( ! wp_next_scheduled( 'civi_wp_member_sync_refresh' ) ) {
 
-			// add schedule
+			// Add schedule.
 			wp_schedule_event(
-				time(), // time when event fires
-				$interval, // event interval
-				'civi_wp_member_sync_refresh' // hook to fire
+				time(), // Time when event fires.
+				$interval, // Event interval.
+				'civi_wp_member_sync_refresh' // Hook to fire.
 			);
 
 		}
@@ -107,16 +107,16 @@ class Civi_WP_Member_Sync_Schedule {
 	 */
 	public function unschedule() {
 
-		// get next scheduled event
+		// Get next scheduled event.
 		$timestamp = wp_next_scheduled( 'civi_wp_member_sync_refresh' );
 
-		// unschedule it if we get one
+		// Unschedule it if we get one.
 		if ( $timestamp !== false ) {
 			wp_unschedule_event( $timestamp, 'civi_wp_member_sync_refresh' );
 		}
 
-		// it's not clear whether wp_unschedule_event() clears everything,
-		// so let's remove existing scheduled hook as well
+		// It's not clear whether wp_unschedule_event() clears everything,
+		// so let's remove existing scheduled hook as well.
 		wp_clear_scheduled_hook( 'civi_wp_member_sync_refresh' );
 
 	}
@@ -130,7 +130,7 @@ class Civi_WP_Member_Sync_Schedule {
 	 */
 	public function schedule_callback() {
 
-		// call sync all method
+		// Call sync all method.
 		$this->plugin->members->sync_all_wp_user_memberships();
 
 	}
@@ -150,7 +150,7 @@ class Civi_WP_Member_Sync_Schedule {
 	 */
 	public function intervals_get() {
 
-		// just a wrapper...
+		// Just a wrapper.
 		return wp_get_schedules();
 
 	}
@@ -168,22 +168,22 @@ class Civi_WP_Member_Sync_Schedule {
 	 */
 	public function legacy_unschedule() {
 
-		// get next scheduled event
+		// Get next scheduled event.
 		$timestamp = wp_next_scheduled( 'civi_member_sync_refresh' );
 
-		// unschedule it if we get one
+		// Unschedule it if we get one.
 		if ( $timestamp !== false ) {
 			wp_unschedule_event( $timestamp, 'civi_member_sync_refresh' );
 		}
 
-		// remove existing scheduled hook as well
+		// Remove existing scheduled hook as well.
 		wp_clear_scheduled_hook( 'civi_member_sync_refresh' );
 
 	}
 
 
 
-} // class ends
+} // Class ends.
 
 
 

@@ -38,7 +38,7 @@ class Civi_WP_Member_Sync_Migrate {
 	 */
 	public function __construct( $plugin ) {
 
-		// store reference to plugin
+		// Store reference to plugin.
 		$this->plugin = $plugin;
 
 	}
@@ -58,20 +58,20 @@ class Civi_WP_Member_Sync_Migrate {
 	 */
 	public function legacy_plugin_exists() {
 
-		// disable
+		// Disable.
 		return false;
 
-		// grab default data to test for the default array
+		// Grab default data to test for the default array.
 		$data = $this->plugin->setting_get( 'data' );
 
-		// don't show migration if we have data
+		// Don't show migration if we have data.
 		if ( count( $data['roles'] ) > 0 ) return false;
 
-		// can we detect the legacy plugin?
+		// Can we detect the legacy plugin?
 		if ( function_exists( 'tadms_install' ) ) return true;
 		if ( defined( 'CIVI_MEMBER_SYNC_VERSION' ) ) return true;
 
-		// not present
+		// Not present.
 		return false;
 
 	}
@@ -85,16 +85,16 @@ class Civi_WP_Member_Sync_Migrate {
 	 */
 	public function legacy_migrate() {
 
-		// first, migrate data
+		// First, migrate data.
 		$this->legacy_data_migrate();
 
-		// remove plugin options
+		// Remove plugin options.
 		delete_option( 'jal_db_version' );
 		delete_option( 'tadms_db_version' );
 		delete_option( 'civi_member_sync_db_version' );
 		delete_option( 'civi_member_sync_settings' );
 
-		// now delete the database tables
+		// Now delete the database tables.
 		$this->legacy_table_delete( 'mtl_civi_member_sync' );
 		$this->legacy_table_delete( 'civi_member_sync' );
 
@@ -109,27 +109,27 @@ class Civi_WP_Member_Sync_Migrate {
 	 */
 	public function legacy_data_migrate() {
 
-		// grab default data (there will only be the skeleton array)
+		// Grab default data (there will only be the skeleton array).
 		$data = $this->plugin->setting_get( 'data' );
 
-		// access database object
+		// Access database object.
 		global $wpdb;
 
-		// get tabular data
+		// Get tabular data.
 		$table_name = $wpdb->prefix . 'civi_member_sync';
 		$select = $wpdb->get_results( "SELECT * FROM $table_name" );
 
-		// did we get any?
+		// Did we get any?
 		if ( ! empty( $select ) ) {
 
-			// looooooop...
+			// Looooooop.
 			foreach( $select AS $item ) {
 
-				// unpack arrays
+				// Unpack arrays.
 				$current_rule = maybe_unserialize( $item->current_rule );
 				$expiry_rule = maybe_unserialize( $item->expiry_rule );
 
-				// add to roles data array, keyed by civi_member_type_id
+				// Add to roles data array, keyed by civi_member_type_id.
 				$data['roles'][$item->civi_mem_type] = array(
 					'current_rule' => $current_rule,
 					'current_wp_role' => $item->wp_role,
@@ -139,10 +139,10 @@ class Civi_WP_Member_Sync_Migrate {
 
 			}
 
-			// overwrite existing data
+			// Overwrite existing data.
 			$this->plugin->setting_set( 'data', $data );
 
-			// save
+			// Save.
 			$this->plugin->settings_save();
 
 		}
@@ -160,16 +160,16 @@ class Civi_WP_Member_Sync_Migrate {
 	 */
 	public function legacy_table_delete( $table_name = 'civi_member_sync' ) {
 
-		// access database object
+		// Access database object.
 		global $wpdb;
 
-		// our custom table name
+		// Our custom table name.
 		$table_name = $wpdb->prefix . $table_name;
 
-		// drop our custom table
+		// Drop our custom table.
 		$wpdb->query( "DROP TABLE IF EXISTS $table_name" );
 
-		// check if we were successful
+		// Check if we were successful.
 		if ( $wpdb->get_var( "SHOW TABLES LIKE '$table_name'" ) == $table_name ) {
 			return false;
 		}
@@ -181,7 +181,7 @@ class Civi_WP_Member_Sync_Migrate {
 
 
 
-} // class ends
+} // Class ends.
 
 
 

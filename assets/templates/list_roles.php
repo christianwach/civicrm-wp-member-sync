@@ -9,10 +9,10 @@
 
 	<h3><?php _e( 'All Association Rules', 'civicrm-wp-member-sync' ); ?><?php
 
-		// if we don't have all our Membership Types populated...
+		// If we don't have all our Membership Types populated.
 		if ( !$have_all_types ) {
 
-			// show the 'Add New' button
+			// Show the 'Add New' button.
 			?> <a class="add-new-h2" href="<?php echo $urls['rules']; ?>"><?php _e( 'Add New', 'civicrm-wp-member-sync' ); ?></a><?php
 
 		}
@@ -21,11 +21,11 @@
 
 	<?php
 
-	// if we've updated, show message...
+	// If we've updated, show message.
 	if ( isset( $_GET['syncrule'] ) ) {
 		echo '<div id="message" class="updated"><p>';
 
-		// switch message based on result
+		// Switch message based on result.
 		switch( $_GET['syncrule'] ) {
 			case 'edit':
 				_e( 'Association Rule updated.', 'civicrm-wp-member-sync' );
@@ -41,18 +41,18 @@
 		echo '</p></div>';
 	}
 
-	// if we've updated, show message (note that this will only display if we have JS turned off)
+	// If we've updated, show message (note that this will only display if we have JS turned off).
 	if ( isset( $this->errors ) AND is_array( $this->errors ) ) {
 
-		// init messages
+		// Init messages.
 		$error_messages = array();
 
-		// construct array of messages based on error code
+		// Construct array of messages based on error code.
 		foreach( $this->errors AS $error_code ) {
 			$error_messages[] = $this->error_strings[$error_code];
 		}
 
-		// show them
+		// Show them.
 		echo '<div id="message" class="error"><p>' . implode( '<br>', $error_messages ) . '</p></div>';
 
 	}
@@ -74,10 +74,10 @@
 		<tbody class="civi_wp_member_sync_table" id="civi_wp_member_sync_list">
 			<?php
 
-			// loop through our data array, keyed by type ID
+			// Loop through our data array, keyed by type ID.
 			foreach( $data AS $key => $item ) {
 
-				// construct URLs for this item
+				// Construct URLs for this item.
 				$edit_url = $urls['rules'] . '&mode=edit&type_id='.$key;
 				$delete_url = wp_nonce_url(
 					$urls['list'] . '&syncrule=delete&type_id='.$key,

@@ -11,18 +11,18 @@
 
 	<?php
 
-	// if we've updated, show message (note that this will only display if we have JS turned off)
+	// If we've updated, show message (note that this will only display if we have JS turned off).
 	if ( isset( $this->errors ) AND is_array( $this->errors ) ) {
 
-		// init messages
+		// Init messages.
 		$error_messages = array();
 
-		// construct array of messages based on error code
+		// Construct array of messages based on error code.
 		foreach( $this->errors AS $error_code ) {
 			$error_messages[] = $this->error_strings[$error_code];
 		}
 
-		// show them
+		// Show them.
 		echo '<div id="message" class="error"><p>' . implode( '<br>', $error_messages ) . '</p></div>';
 
 	}
@@ -43,7 +43,7 @@
 					<?php
 
 					/*
-					// round we go...
+					// Round we go...
 					foreach( $membership_types AS $key => $value ) {
 
 						if( isset( $civi_member_type_id ) AND $key == $civi_member_type_id ) {
@@ -59,7 +59,7 @@
 						<select name="civi_member_type_id" id="civi_member_type_id" class ="required required-type">
 							<?php
 
-							// round we go...
+							// Round we go...
 							foreach( $membership_types AS $key => $value ) {
 
 								$selected = '';
