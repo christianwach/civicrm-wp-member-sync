@@ -44,9 +44,6 @@ if ( ! defined( 'CIVI_WP_MEMBER_SYNC_PLUGIN_PATH' ) ) {
 	define( 'CIVI_WP_MEMBER_SYNC_PLUGIN_PATH', plugin_dir_path( CIVI_WP_MEMBER_SYNC_PLUGIN_FILE ) );
 }
 
-// Debug flag for developers.
-//define( 'CIVI_WP_MEMBER_SYNC_DEBUG', true );
-
 // Migrate flag for developers (see civi-wp-ms-migrate.php)
 //define( 'CIVI_WP_MEMBER_SYNC_MIGRATE', true );
 

@@ -1235,30 +1235,12 @@ class Civi_WP_Member_Sync_Admin {
 		// Check that we trust the source of the request.
 		check_admin_referer( 'civi_wp_member_sync_settings_action', 'civi_wp_member_sync_nonce' );
 
-
-
-		// Debugging switch for developers - if set, triggers do_debug() below.
-		if (
-			defined( 'CIVI_WP_MEMBER_SYNC_DEBUG' ) AND
-			CIVI_WP_MEMBER_SYNC_DEBUG AND
-			isset( $_POST['civi_wp_member_sync_settings_debug'] )
-		) {
-			$settings_debug = absint( $_POST['civi_wp_member_sync_settings_debug'] );
-			$debug = $settings_debug ? 1 : 0;
-			if ( $debug ) { $this->do_debug(); }
-			return;
-		}
-
-
-
 		// Synchronization method.
 		$settings_method = 'capabilities';
 		if ( isset( $_POST['civi_wp_member_sync_settings_method'] ) ) {
 			$settings_method = trim( $_POST['civi_wp_member_sync_settings_method'] );
 		}
 		$this->setting_set( 'method', $settings_method );
-
-
 
 		// Login/logout sync enabled.
 		if ( isset( $_POST['civi_wp_member_sync_settings_login'] ) ) {
@@ -1268,8 +1250,6 @@ class Civi_WP_Member_Sync_Admin {
 		}
 		$this->setting_set( 'login', ( $settings_login ? 1 : 0 ) );
 
-
-
 		// CiviCRM sync enabled.
 		if ( isset( $_POST['civi_wp_member_sync_settings_civicrm'] ) ) {
 			$settings_civicrm = absint( $_POST['civi_wp_member_sync_settings_civicrm'] );
@@ -1277,8 +1257,6 @@ class Civi_WP_Member_Sync_Admin {
 			$settings_civicrm = 0;
 		}
 		$this->setting_set( 'civicrm', ( $settings_civicrm ? 1 : 0 ) );
-
-
 
 		// Get existing schedule.
 		$existing_schedule = $this->setting_get( 'schedule' );
@@ -1298,8 +1276,6 @@ class Civi_WP_Member_Sync_Admin {
 			$this->plugin->schedule->unschedule();
 
 		}
-
-
 
 		// Schedule interval.
 		if ( isset( $_POST['civi_wp_member_sync_settings_interval'] ) ) {
@@ -1326,8 +1302,6 @@ class Civi_WP_Member_Sync_Admin {
 
 		}
 
-
-
 		// Sync restricted to Individuals?
 		if ( isset( $_POST['civi_wp_member_sync_settings_types'] ) ) {
 			$settings_types = absint( $_POST['civi_wp_member_sync_settings_types'] );
@@ -1335,8 +1309,6 @@ class Civi_WP_Member_Sync_Admin {
 			$settings_types = 0;
 		}
 		$this->setting_set( 'types', ( $settings_types ? 1 : 0 ) );
-
-
 
 		// Save settings.
 		$this->settings_save();
@@ -2500,41 +2472,6 @@ class Civi_WP_Member_Sync_Admin {
 				// Do other stuff.
 
 		}
-
-	}
-
-
-
-	//##########################################################################
-
-
-
-	/**
-	 * General debugging utility.
-	 *
-	 * @since 0.1
-	 */
-	public function do_debug() {
-
-		// Kick out if no CiviCRM.
-		if ( ! civi_wp()->initialize() ) return;
-
-		// Get CiviCRM memberships.
-		$memberships = civicrm_api( 'Membership', 'getcount', array(
-			'version' => '3',
-			'options' => array(
-				'limit' => '0',
-			),
-		));
-
-		print_r( $memberships ); die();
-
-		/*
-		$date = CRM_Utils_Date::getToday();
-		$current = CRM_Utils_Date::customFormat($date, '%Y-%m-%d');
-
-		CRM_Member_BAO_Membership::getMembershipCount($key, $current);
-		*/
 
 	}
 
