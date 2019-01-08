@@ -106,29 +106,57 @@ class Civi_WP_Member_Sync {
 		// Use translation.
 		add_action( 'plugins_loaded', array( $this, 'translation' ) );
 
+		// Include files.
+		$this->include_files();
+
+		// Set up objects and references.
+		$this->setup_objects();
+
 		// Initialise plugin when CiviCRM initialises.
 		add_action( 'civicrm_instance_loaded', array( $this, 'initialise' ) );
+
+	}
+
+
+
+	/**
+	 * Include files.
+	 *
+	 * @since 0.3.7
+	 */
+	public function include_files() {
 
 		// Load our Users utility class.
 		require( CIVI_WP_MEMBER_SYNC_PLUGIN_PATH . 'civi-wp-ms-users.php' );
 
-		// Instantiate.
-		$this->users = new Civi_WP_Member_Sync_Users( $this );
-
 		// Load our Schedule utility class.
 		require( CIVI_WP_MEMBER_SYNC_PLUGIN_PATH . 'civi-wp-ms-schedule.php' );
-
-		// Instantiate.
-		$this->schedule = new Civi_WP_Member_Sync_Schedule( $this );
 
 		// Load our Admin utility class.
 		require( CIVI_WP_MEMBER_SYNC_PLUGIN_PATH . 'civi-wp-ms-admin.php' );
 
-		// Instantiate.
-		$this->admin = new Civi_WP_Member_Sync_Admin( $this );
-
 		// Load our CiviCRM utility class.
 		require( CIVI_WP_MEMBER_SYNC_PLUGIN_PATH . 'civi-wp-ms-members.php' );
+
+	}
+
+
+
+	/**
+	 * Set up this plugin's objects.
+	 *
+	 * @since 0.3.7
+	 */
+	public function setup_objects() {
+
+		// Instantiate.
+		$this->users = new Civi_WP_Member_Sync_Users( $this );
+
+		// Instantiate.
+		$this->schedule = new Civi_WP_Member_Sync_Schedule( $this );
+
+		// Instantiate.
+		$this->admin = new Civi_WP_Member_Sync_Admin( $this );
 
 		// Instantiate.
 		$this->members = new Civi_WP_Member_Sync_Members( $this );
