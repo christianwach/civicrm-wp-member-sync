@@ -755,6 +755,108 @@ class Civi_WP_Member_Sync_Members {
 
 
 	/**
+	 * Filter the Memberships to return only those for which a rule exists.
+	 *
+	 * @since 0.3.7
+	 *
+	 * @param array $memberships The memberships to inspect.
+	 * @return array $filtered The memberships with a rule.
+	 */
+	public function memberships_filter( $memberships ) {
+
+		// init filtered array
+		$filtered = array(
+			'is_error' => 0,
+			'count' => 0,
+			'version' => 3,
+			'values' => array(),
+		);
+
+		// kick out if no CiviCRM
+		if ( ! civi_wp()->initialize() ) return $filtered;
+
+		// bail if we didn't get memberships passed
+		if ( $memberships === false ) return $filtered;
+		if ( empty( $memberships ) ) return $filtered;
+
+		// get sync method
+		$method = $this->plugin->admin->setting_get_method();
+
+		// loop through the supplied memberships
+		foreach( $memberships['values'] AS $membership ) {
+
+			// continue with next membership if something went wrong
+			if ( empty( $membership['membership_type_id'] ) ) continue;
+			if ( ! isset( $membership['status_id'] ) ) continue;
+
+			// get membership type and status rule
+			$membership_type_id = $membership['membership_type_id'];
+			$status_id = $membership['status_id'];
+
+			// get association rule for this membership type
+			$association_rule = $this->plugin->admin->rule_get_by_type( $membership_type_id, $method );
+
+			// continue with next membership if we have an error or no rule exists
+			if ( $association_rule === false ) continue;
+
+			// continue with next membership if something is wrong with rule
+			if ( empty( $association_rule['current_rule'] ) ) continue;
+			if ( empty( $association_rule['expiry_rule'] ) ) continue;
+
+			// get status rules
+			$current_rule = $association_rule['current_rule'];
+			$expiry_rule = $association_rule['expiry_rule'];
+
+			// which sync method are we using?
+			if ( $method == 'roles' ) {
+
+				// continue with next membership if something is wrong with rule
+				if ( empty( $association_rule['current_wp_role'] ) ) continue;
+				if ( empty( $association_rule['expired_wp_role'] ) ) continue;
+
+				// make a copy, just to be safe
+				$filter = $membership;
+
+				// does the user's membership status match a current status rule?
+				if ( isset( $status_id ) AND array_search( $status_id, $current_rule ) ) {
+					$filter['member_sync'] = 'current';
+				} else {
+					$filter['member_sync'] = 'expired';
+				}
+
+				// rule applies
+				$filtered['values'][] = $filter;
+
+			} else {
+
+				// make a copy, just to be safe
+				$filter = $membership;
+
+				// does the user's membership status match a current status rule?
+				if ( isset( $status_id ) AND array_search( $status_id, $current_rule ) ) {
+					$filter['member_sync'] = 'current';
+				} else {
+					$filter['member_sync'] = 'expired';
+				}
+
+				// rule applies
+				$filtered['values'][] = $filter;
+
+			}
+
+		}
+
+		// update count
+		$filtered['count'] = count( $filtered['values'] );
+
+		// --<
+		return $filtered;
+
+	}
+
+
+
+	/**
 	 * Retrieve the number of Memberships.
 	 *
 	 * @since 0.2.8
