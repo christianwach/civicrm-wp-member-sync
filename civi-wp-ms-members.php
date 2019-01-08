@@ -141,38 +141,10 @@ class Civi_WP_Member_Sync_Members {
 		}
 
 		// Get CiviCRM memberships.
-		$memberships = civicrm_api( 'Membership', 'get', array(
-			'version' => '3',
-			'sequential' => '1',
-			'status_id.is_current_member' => array(
-				'IS NOT NULL' => 1
-			),
-			'options' => array(
-				'limit' => $batch_count,
-				'offset' => $memberships_offset,
-				'sort' => 'contact_id, status_id.is_current_member ASC, end_date',
-			),
-			'return' => array(
-				'id',
-				'contact_id',
-				'membership_type_id',
-				'join_date',
-				'start_date',
-				'end_date',
-				'source',
-				'status_id',
-				'is_test',
-				'is_pay_later',
-				'status_id.is_current_member'
-			),
-		));
+		$memberships = $this->memberships_get( $memberships_offset, $batch_count );
 
 		// If we have membership details.
-		if (
-			$memberships['is_error'] == 0 AND
-			isset( $memberships['values'] ) AND
-			count( $memberships['values'] ) > 0
-		) {
+		if ( $memberships !== false ) {
 
 			// Set finished flag.
 			$data['finished'] = 'false';
@@ -180,6 +152,9 @@ class Civi_WP_Member_Sync_Members {
 			// Set from and to flags.
 			$data['from'] = intval( $memberships_offset );
 			$data['to'] = $data['from'] + $batch_count;
+
+			// Init processed array.
+			$processed = array();
 
 			// Loop through memberships.
 			foreach( $memberships['values'] AS $membership ) {
@@ -189,6 +164,25 @@ class Civi_WP_Member_Sync_Members {
 
 				// Sanity check.
 				if ( $civi_contact_id === false ) continue;
+
+				/*
+				 * The processed array is a bit of a hack:
+				 *
+				 * - the array is lost each time a batch finishes
+				 * - there may be duplicate contact IDs across batches
+				 * - it means that the sync progress isn't entirely truthful
+				 *
+				 * However, when there are lots of memberships per contact (as
+				 * some folks like to keep historical records of memberships
+				 * by creating new ones instead of renewing existing ones) then
+				 * this should save a fair but of processing.
+				 */
+
+				// Continue if we've already processed this contact.
+				if ( in_array( $civi_contact_id, $processed ) ) continue;
+
+				// Add contact ID to processed so we don't re-process.
+				$processed[] = $civi_contact_id;
 
 				/*
 				 * The use of existing code here is not the most efficient way to
@@ -652,9 +646,12 @@ class Civi_WP_Member_Sync_Members {
 
 
 	/**
-	 * Get membership records by CiviCRM contact ID.
+	 * Get membership records.
 	 *
-	 * This method has been refined to get the Memberships ordered by end date.
+	 * This method is called with a few key params. It's main purpose is to
+	 * collect API calls to one place for easier debugging.
+	 *
+	 * The API call has been refined to get the Memberships ordered by end date.
 	 * The reason for this is that Civi_WP_Member_Sync_Admin::rule_apply() has
 	 * an implicit expectation of membership sequence because subsequent checks
 	 * override those that come before. For further info, refer to the docblock
@@ -663,25 +660,25 @@ class Civi_WP_Member_Sync_Members {
 	 *
 	 * @since 0.1
 	 *
-	 * @param int $civi_contact_id The numerical CiviCRM contact ID.
+	 * @param int $offset The numerical offset to apply.
+	 * @param int $limit The numerical limit to apply.
+	 * @param int $contact_id The numerical CiviCRM contact ID.
 	 * @return array $membership CiviCRM formatted membership data.
 	 */
-	public function membership_get_by_contact_id( $civi_contact_id ) {
+	public function memberships_get( $offset = 0, $limit = 0, $contact_id = 0 ) {
 
 		// Kick out if no CiviCRM.
 		if ( ! civi_wp()->initialize() ) return false;
 
-		// Get details of CiviCRM memberships.
-		$memberships = civicrm_api( 'Membership', 'get', array(
+		// Configure API query params.
+		$params = array(
 			'version' => '3',
 			'sequential' => 1,
-			'contact_id' => $civi_contact_id,
 			'status_id.is_current_member' => array(
 				'IS NOT NULL' => 1
 			),
 			'options' => array(
-				'limit' => 0,
-				'sort' => 'status_id.is_current_member ASC, end_date',
+				'sort' => 'contact_id ASC, status_id.is_current_member ASC, end_date ASC',
 			),
 			'return' => array(
 				'id',
@@ -696,7 +693,24 @@ class Civi_WP_Member_Sync_Members {
 				'is_pay_later',
 				'status_id.is_current_member'
 			),
-		));
+		);
+
+		// Add offset if supplied.
+		if ( $offset !== 0 ) {
+			$params['options']['offset'] = $offset;
+		}
+
+		// Always add limit.
+		$params['options']['limit'] = $limit;
+
+		// Amend params using contact ID if supplied.
+		if ( $contact_id !== 0 ) {
+			$params['contact_id'] = $contact_id;
+			$params['options']['sort'] = 'status_id.is_current_member ASC, end_date ASC';
+		}
+
+		// Get details of CiviCRM memberships.
+		$memberships = civicrm_api( 'Membership', 'get', $params );
 
 		// If we have membership details.
 		if (
@@ -712,6 +726,26 @@ class Civi_WP_Member_Sync_Members {
 
 		// Fallback
 		return false;
+
+	}
+
+
+
+	/**
+	 * Get membership records by CiviCRM contact ID.
+	 *
+	 * @since 0.1
+	 *
+	 * @param int $civi_contact_id The numerical CiviCRM contact ID.
+	 * @return array $membership CiviCRM formatted membership data.
+	 */
+	public function membership_get_by_contact_id( $civi_contact_id ) {
+
+		// Kick out if no CiviCRM.
+		if ( ! civi_wp()->initialize() ) return false;
+
+		// Pass to centralised method.
+		return $this->memberships_get( $offset = 0, $limit = 0, $civi_contact_id );
 
 	}
 
