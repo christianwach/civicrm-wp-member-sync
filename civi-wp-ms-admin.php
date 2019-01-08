@@ -1350,7 +1350,7 @@ class Civi_WP_Member_Sync_Admin {
 	 */
 	public function setting_exists( $setting_name = '' ) {
 
-		// Test for null.
+		// Sanity check.
 		if ( $setting_name == '' ) {
 			die( __( 'You must supply a setting to setting_exists()', 'civicrm-wp-member-sync' ) );
 		}
@@ -1373,11 +1373,11 @@ class Civi_WP_Member_Sync_Admin {
 
 		// Sanity check.
 		if ( $setting_name == '' ) {
-			wp_die( __( 'You must supply a setting to setting_get()', 'civicrm-wp-member-sync' ) );
+			die( __( 'You must supply a setting to setting_get()', 'civicrm-wp-member-sync' ) );
 		}
 
 		// Get setting.
-		return ( array_key_exists( $setting_name, $this->settings ) ) ? $this->settings[ $setting_name ] : $default;
+		return ( array_key_exists( $setting_name, $this->settings ) ) ? $this->settings[$setting_name] : $default;
 
 	}
 
@@ -1392,11 +1392,11 @@ class Civi_WP_Member_Sync_Admin {
 
 		// Sanity check.
 		if ( $setting_name == '' ) {
-			wp_die( __( 'You must supply a setting to setting_set()', 'civicrm-wp-member-sync' ) );
+			die( __( 'You must supply a setting to setting_set()', 'civicrm-wp-member-sync' ) );
 		}
 
 		// Set setting.
-		$this->settings[ $setting_name ] = $value;
+		$this->settings[$setting_name] = $value;
 
 	}
 
