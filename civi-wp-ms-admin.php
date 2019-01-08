@@ -117,7 +117,7 @@ class Civi_WP_Member_Sync_Admin {
 	 * @access public
 	 * @var int $batch_count The number of memberships to process per batch.
 	 */
-	public $batch_count = 10;
+	public $batch_count = 25;
 
 
 
