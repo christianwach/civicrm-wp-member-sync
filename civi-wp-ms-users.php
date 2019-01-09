@@ -661,6 +661,9 @@ class Civi_WP_Member_Sync_Users {
 		// Create username from display name.
 		$user_name = sanitize_title( sanitize_user( $civi_contact['display_name'] ) );
 
+		// Ensure username is unique.
+		$user_name = $this->unique_username( $user_name, $civi_contact );
+
 		/**
 		 * Let plugins override the username.
 		 *
@@ -750,6 +753,44 @@ class Civi_WP_Member_Sync_Users {
 
 		// Return error
 		return false;
+
+	}
+
+
+
+	/**
+	 * Generate a unique username for a WordPress user.
+	 *
+	 * @since 0.3.7
+	 *
+	 * @param str $username The previously-generated WordPress username.
+	 * @param array $civi_contact The CiviCRM contact data.
+	 * @return str $new_username The modified WordPress username.
+	 */
+	public function unique_username( $username, $civi_contact ) {
+
+		// Bail if this is already unique.
+		if ( ! username_exists( $username ) ) return $username;
+
+		// Init flags.
+		$count = 1;
+		$user_exists = 1;
+
+		do {
+
+			// Construct new username with numeric suffix.
+			$new_username = sanitize_title( sanitize_user( $civi_contact['display_name'] . ' ' . $count ) );
+
+			// How did we do?
+			$user_exists = username_exists( $new_username );
+
+			// Try the next integer.
+			$count++;
+
+		} while ( $user_exists > 0 );
+
+		// --<
+		return $new_username;
 
 	}
 
