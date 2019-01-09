@@ -2219,8 +2219,10 @@ class Civi_WP_Member_Sync_Admin {
 					$this->plugin->users->wp_role_remove( $user, $expired_wp_role );
 				}
 
-				// Perform sync for this user.
-				$this->rule_apply( $user, $memberships );
+				// Perform sync for this user if there are applicable rules.
+				if ( $this->rule_exists( $memberships ) ) {
+					$this->rule_apply( $user, $memberships );
+				}
 
 			} else {
 
