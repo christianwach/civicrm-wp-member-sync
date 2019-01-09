@@ -75,6 +75,7 @@ It may sometimes be necessary to manually synchronize users. Click on the "Manua
 = 0.3.7 =
 
 * Allow Manual Sync batch count to be filtered
+* Ensure usernames are unique during WordPress user creation
 
 = 0.3.6 =
 
