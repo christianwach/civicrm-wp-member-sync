@@ -510,14 +510,14 @@ class Civi_WP_Member_Sync_Members {
 				 * list of memberships following this renewal check.
 				 */
 
-				// Cast as object for processing below.
-				$previous_membership = (object) $this->membership_pre['values'][0];
+				// Assign membership for processing below.
+				$previous_membership = $this->membership_pre;
 
 			}
 
 		}
 
-		// If there is an applicable rule for the previous membership.
+		// If there is an applicable rule for the previous membership?
 		if ( $this->plugin->admin->rule_exists( $previous_membership ) ) {
 
 			// Get WordPress user for this contact ID.
@@ -538,8 +538,11 @@ class Civi_WP_Member_Sync_Members {
 			// Bail if this user should not be synced.
 			if ( ! $this->user_should_be_synced( $user ) ) return;
 
+			// Cast membership as object for processing by rule_undo().
+			$membership_data = (object) $previous_membership['values'][0];
+
 			// Update WordPress user as if the membership has been deleted.
-			$this->plugin->admin->rule_undo( $user, $previous_membership );
+			$this->plugin->admin->rule_undo( $user, $membership_data );
 
 		}
 
