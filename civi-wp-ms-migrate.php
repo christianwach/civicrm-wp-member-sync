@@ -30,7 +30,7 @@ class Civi_WP_Member_Sync_Migrate {
 
 
 	/**
-	 * Initialise this object.
+	 * Constructor.
 	 *
 	 * @since 0.1
 	 *

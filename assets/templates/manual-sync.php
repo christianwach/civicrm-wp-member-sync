@@ -1,4 +1,4 @@
-<!-- assets/templates/manual_sync.php -->
+<!-- assets/templates/manual-sync.php -->
 <div class="wrap">
 
 	<h1 class="nav-tab-wrapper">

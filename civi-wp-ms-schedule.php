@@ -23,7 +23,7 @@ class Civi_WP_Member_Sync_Schedule {
 
 
 	/**
-	 * Initialise this object.
+	 * Constructor.
 	 *
 	 * @since 0.1
 	 *
@@ -39,7 +39,7 @@ class Civi_WP_Member_Sync_Schedule {
 
 
 	/**
-	 * Initialise when CiviCRM initialises.
+	 * Initialise this object.
 	 *
 	 * @since 0.1
 	 */

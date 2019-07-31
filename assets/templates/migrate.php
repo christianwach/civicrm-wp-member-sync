@@ -26,9 +26,7 @@
 
 		<p><?php _e( 'Click the "Migrate Data Now" button below to import all association rules into CiviCRM WordPress Member Sync.', 'civicrm-wp-member-sync' ); ?></p>
 
-		<p class="submit">
-			<input class="button-primary" type="submit" id="civi_wp_member_sync_migrate_submit" name="civi_wp_member_sync_migrate_submit" value="<?php _e( 'Migrate Data Now', 'civicrm-wp-member-sync' ); ?>" />
-		</p>
+		<p class="submit"><input class="button-primary" type="submit" id="civi_wp_member_sync_migrate_submit" name="civi_wp_member_sync_migrate_submit" value="<?php _e( 'Migrate Data Now', 'civicrm-wp-member-sync' ); ?>" /></p>
 
 	</form>
 

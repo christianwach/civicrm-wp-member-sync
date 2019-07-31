@@ -179,9 +179,7 @@
 
 		<?php } ?>
 
-		<p class="submit">
-			<input class="button-primary" type="submit" id="civi_wp_member_sync_settings_submit" name="civi_wp_member_sync_settings_submit" value="<?php _e( 'Save Changes', 'civicrm-wp-member-sync' ); ?>" />
-		</p>
+		<p class="submit"><input class="button-primary" type="submit" id="civi_wp_member_sync_settings_submit" name="civi_wp_member_sync_settings_submit" value="<?php _e( 'Save Changes', 'civicrm-wp-member-sync' ); ?>" /></p>
 
 	</form>
 

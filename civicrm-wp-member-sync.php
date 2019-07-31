@@ -264,7 +264,7 @@ class Civi_WP_Member_Sync {
 global $civi_wp_member_sync;
 
 // Init plugin.
-$civi_wp_member_sync = new Civi_WP_Member_Sync;
+$civi_wp_member_sync = new Civi_WP_Member_Sync();
 
 // Plugin activation.
 register_activation_hook( __FILE__, array( $civi_wp_member_sync, 'activate' ) );
