@@ -1742,12 +1742,16 @@ class Civi_WP_Member_Sync_Admin {
 			}
 
 			/**
-			 * Broadcast our association rule. This creates four possible actions:
+			 * Broadcast our saved association rule.
+			 *
+			 * This creates four possible actions:
 			 *
 			 * civi_wp_member_sync_rule_add_roles
 			 * civi_wp_member_sync_rule_add_capabilities
 			 * civi_wp_member_sync_rule_edit_roles
 			 * civi_wp_member_sync_rule_edit_capabilities
+			 *
+			 * @since 0.2.3
 			 *
 			 * @param array The new or updated association rule.
 			 */
