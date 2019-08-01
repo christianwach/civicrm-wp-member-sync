@@ -135,12 +135,12 @@ class Civi_WP_Member_Sync_Admin {
 
 		// Define errors.
 		$this->error_strings = array(
-			1 => __( 'Please select a CiviCRM Membership Type', 'civicrm-wp-member-sync' ),
-			2 => __( 'Please select a WordPress Role', 'civicrm-wp-member-sync' ),
-			3 => __( 'Please select a Current Status', 'civicrm-wp-member-sync' ),
-			4 => __( 'Please select an Expire Status', 'civicrm-wp-member-sync' ),
-			5 => __( 'Please select a WordPress Expiry Role', 'civicrm-wp-member-sync' ),
-			6 => __( 'You can not have the same Status Rule registered as both "Current" and "Expired"', 'civicrm-wp-member-sync' ),
+			'type' => __( 'Please select a CiviCRM Membership Type', 'civicrm-wp-member-sync' ),
+			'current-role' => __( 'Please select a WordPress Current Role', 'civicrm-wp-member-sync' ),
+			'current-status' => __( 'Please select a Current Status', 'civicrm-wp-member-sync' ),
+			'expire-status' => __( 'Please select an Expire Status', 'civicrm-wp-member-sync' ),
+			'expire-role' => __( 'Please select a WordPress Expiry Role', 'civicrm-wp-member-sync' ),
+			'clash-status' => __( 'You can not have the same Status Rule registered as both "Current" and "Expired"', 'civicrm-wp-member-sync' ),
 		);
 
 		// Test for constant.
@@ -1646,7 +1646,7 @@ class Civi_WP_Member_Sync_Admin {
 		) {
 			$civi_member_type_id = absint( $_POST['civi_member_type_id'] );
 		} else {
-			$this->errors[] = 1;
+			$this->errors[] = 'type';
 		}
 
 		// Check and sanitise Current Status.
@@ -1658,7 +1658,7 @@ class Civi_WP_Member_Sync_Admin {
 			$current_rule = $_POST['current'];
 
 		} else {
-			$this->errors[] = 3;
+			$this->errors[] = 'current-status';
 		}
 
 		// Check and sanitise Expire Status.
@@ -1669,7 +1669,7 @@ class Civi_WP_Member_Sync_Admin {
 		) {
 			$expiry_rule = $_POST['expire'];
 		} else {
-			$this->errors[] = 4;
+			$this->errors[] = 'expire-status';
 		}
 
 		// Init current-expire check (will end up true if there's a clash).
@@ -1696,7 +1696,7 @@ class Civi_WP_Member_Sync_Admin {
 			) {
 				$current_wp_role = esc_sql( trim( $_POST['current_wp_role'] ) );
 			} else {
-				$this->errors[] = 2;
+				$this->errors[] = 'current-role';
 			}
 
 			// Check and sanitise Expiry Role.
@@ -1706,7 +1706,7 @@ class Civi_WP_Member_Sync_Admin {
 			) {
 				$expired_wp_role = esc_sql( trim( $_POST['expire_assign_wp_role'] ) );
 			} else {
-				$this->errors[] = 5;
+				$this->errors[] = 'expire-role';
 			}
 
 		}
@@ -1796,9 +1796,9 @@ class Civi_WP_Member_Sync_Admin {
 
 		} else {
 
-			// In addition, are there status clashes?
+			// Are there status clashes?
 			if ( $current_expire_clash === false ) {
-				$this->errors[] = 6;
+				$this->errors[] = 'clash-status';
 			}
 
 			// Sad face.
