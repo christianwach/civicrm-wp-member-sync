@@ -824,6 +824,16 @@ class Civi_WP_Member_Sync_Admin {
 
 			}
 
+			/**
+			 * Allow error strings to be filtered.
+			 *
+			 * @since 0.3.9
+			 *
+			 * @param array $error_strings The existing array of error strings.
+			 * @return array $error_strings The modified array of error strings.
+			 */
+			$this->error_strings = apply_filters( 'civi_wp_member_sync_error_strings', $this->error_strings );
+
 			// Include per method.
 			if ( $method == 'roles' ) {
 
@@ -862,6 +872,16 @@ class Civi_WP_Member_Sync_Admin {
 					$mode = 'edit';
 				}
 			}
+
+			/**
+			 * Allow error strings to be filtered.
+			 *
+			 * @since 0.3.9
+			 *
+			 * @param array $error_strings The existing array of error strings.
+			 * @return array $error_strings The modified array of error strings.
+			 */
+			$this->error_strings = apply_filters( 'civi_wp_member_sync_error_strings', $this->error_strings );
 
 			// Route by mode.
 			if ( $mode == 'add' ) {
