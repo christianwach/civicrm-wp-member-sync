@@ -724,43 +724,43 @@ class Civi_WP_Member_Sync_Admin {
 	public function page_settings() {
 
 		// Check user permissions.
-		if ( current_user_can( 'manage_options' ) ) {
+		if ( ! current_user_can( 'manage_options' ) ) {
+			return;
+		}
 
-			// Get admin page URLs.
-			$urls = $this->page_get_urls();
+		// Get admin page URLs.
+		$urls = $this->page_get_urls();
 
-			// Do we have the legacy plugin?
-			if ( isset( $this->migrate ) AND $this->migrate->legacy_plugin_exists() ) {
-
-				// Include template file.
-				include( CIVI_WP_MEMBER_SYNC_PLUGIN_PATH . 'assets/templates/migrate.php' );
-
-				// --<
-				return;
-
-			}
-
-			// Get our sync method.
-			$method = $this->setting_get_method();
-
-			// Get all schedules.
-			$schedules = $this->plugin->schedule->intervals_get();
-
-			// Get our sync settings.
-			$login = absint( $this->setting_get( 'login' ) );
-			$civicrm = absint( $this->setting_get( 'civicrm' ) );
-			$schedule = absint( $this->setting_get( 'schedule' ) );
-
-			// Get our interval setting.
-			$interval = $this->setting_get( 'interval' );
-
-			// Get our types setting.
-			$types = absint( $this->setting_get( 'types' ) );
+		// Do we have the legacy plugin?
+		if ( isset( $this->migrate ) AND $this->migrate->legacy_plugin_exists() ) {
 
 			// Include template file.
-			include( CIVI_WP_MEMBER_SYNC_PLUGIN_PATH . 'assets/templates/settings.php' );
+			include( CIVI_WP_MEMBER_SYNC_PLUGIN_PATH . 'assets/templates/migrate.php' );
+
+			// --<
+			return;
 
 		}
+
+		// Get our sync method.
+		$method = $this->setting_get_method();
+
+		// Get all schedules.
+		$schedules = $this->plugin->schedule->intervals_get();
+
+		// Get our sync settings.
+		$login = absint( $this->setting_get( 'login' ) );
+		$civicrm = absint( $this->setting_get( 'civicrm' ) );
+		$schedule = absint( $this->setting_get( 'schedule' ) );
+
+		// Get our interval setting.
+		$interval = $this->setting_get( 'interval' );
+
+		// Get our types setting.
+		$types = absint( $this->setting_get( 'types' ) );
+
+		// Include template file.
+		include( CIVI_WP_MEMBER_SYNC_PLUGIN_PATH . 'assets/templates/settings.php' );
 
 	}
 
@@ -774,15 +774,15 @@ class Civi_WP_Member_Sync_Admin {
 	public function page_manual_sync() {
 
 		// Check user permissions.
-		if ( current_user_can( 'manage_options' ) ) {
-
-			// Get admin page URLs.
-			$urls = $this->page_get_urls();
-
-			// Include template file.
-			include( CIVI_WP_MEMBER_SYNC_PLUGIN_PATH . 'assets/templates/manual-sync.php' );
-
+		if ( ! current_user_can( 'manage_options' ) ) {
+			return;
 		}
+
+		// Get admin page URLs.
+		$urls = $this->page_get_urls();
+
+		// Include template file.
+		include( CIVI_WP_MEMBER_SYNC_PLUGIN_PATH . 'assets/templates/manual-sync.php' );
 
 	}
 
@@ -796,56 +796,56 @@ class Civi_WP_Member_Sync_Admin {
 	public function page_rules_list() {
 
 		// Check user permissions.
-		if ( current_user_can( 'manage_options' ) ) {
+		if ( ! current_user_can( 'manage_options' ) ) {
+			return;
+		}
 
-			// Get admin page URLs.
-			$urls = $this->page_get_urls();
+		// Get admin page URLs.
+		$urls = $this->page_get_urls();
 
-			// Get method.
-			$method = $this->setting_get_method();
+		// Get method.
+		$method = $this->setting_get_method();
 
-			// Get data.
-			$all_data = $this->setting_get( 'data' );
+		// Get data.
+		$all_data = $this->setting_get( 'data' );
 
-			// Get data for this sync method.
-			$data = ( isset( $all_data[$method] ) ) ? $all_data[$method] : array();
+		// Get data for this sync method.
+		$data = ( isset( $all_data[$method] ) ) ? $all_data[$method] : array();
 
-			// Get all membership types.
-			$membership_types = $this->plugin->members->types_get_all();
+		// Get all membership types.
+		$membership_types = $this->plugin->members->types_get_all();
 
-			// Assume we don't have all types.
-			$have_all_types = false;
+		// Assume we don't have all types.
+		$have_all_types = false;
 
-			// Well, do we have all types populated?
-			if ( count( $data ) === count( $membership_types ) ) {
+		// Well, do we have all types populated?
+		if ( count( $data ) === count( $membership_types ) ) {
 
-				// We do.
-				$have_all_types = true;
+			// We do.
+			$have_all_types = true;
 
-			}
+		}
 
-			/**
-			 * Allow error strings to be filtered.
-			 *
-			 * @since 0.3.9
-			 *
-			 * @param array $error_strings The existing array of error strings.
-			 * @return array $error_strings The modified array of error strings.
-			 */
-			$this->error_strings = apply_filters( 'civi_wp_member_sync_error_strings', $this->error_strings );
+		/**
+		 * Allow error strings to be filtered.
+		 *
+		 * @since 0.3.9
+		 *
+		 * @param array $error_strings The existing array of error strings.
+		 * @return array $error_strings The modified array of error strings.
+		 */
+		$this->error_strings = apply_filters( 'civi_wp_member_sync_error_strings', $this->error_strings );
 
-			// Include per method.
-			if ( $method == 'roles' ) {
+		// Include per method.
+		if ( $method == 'roles' ) {
 
-				// Include template file.
-				include( CIVI_WP_MEMBER_SYNC_PLUGIN_PATH . 'assets/templates/list_roles.php' );
+			// Include template file.
+			include( CIVI_WP_MEMBER_SYNC_PLUGIN_PATH . 'assets/templates/list_roles.php' );
 
-			} else {
+		} else {
 
-				// Include template file.
-				include( CIVI_WP_MEMBER_SYNC_PLUGIN_PATH . 'assets/templates/list_caps.php' );
-
-			}
+			// Include template file.
+			include( CIVI_WP_MEMBER_SYNC_PLUGIN_PATH . 'assets/templates/list_caps.php' );
 
 		}
 
@@ -861,35 +861,35 @@ class Civi_WP_Member_Sync_Admin {
 	public function page_rule_add_edit() {
 
 		// Check user permissions.
-		if ( current_user_can( 'manage_options' ) ) {
+		if ( ! current_user_can( 'manage_options' ) ) {
+			return;
+		}
 
-			// Default mode.
-			$mode = 'add';
+		// Default mode.
+		$mode = 'add';
 
-			// Do we want to populate the form?
-			if ( isset( $_GET['mode'] ) AND $_GET['mode'] == 'edit' ) {
-				if ( isset( $_GET['type_id'] ) AND is_numeric( $_GET['type_id'] ) ) {
-					$mode = 'edit';
-				}
+		// Do we want to populate the form?
+		if ( isset( $_GET['mode'] ) AND $_GET['mode'] == 'edit' ) {
+			if ( isset( $_GET['type_id'] ) AND is_numeric( $_GET['type_id'] ) ) {
+				$mode = 'edit';
 			}
+		}
 
-			/**
-			 * Allow error strings to be filtered.
-			 *
-			 * @since 0.3.9
-			 *
-			 * @param array $error_strings The existing array of error strings.
-			 * @return array $error_strings The modified array of error strings.
-			 */
-			$this->error_strings = apply_filters( 'civi_wp_member_sync_error_strings', $this->error_strings );
+		/**
+		 * Allow error strings to be filtered.
+		 *
+		 * @since 0.3.9
+		 *
+		 * @param array $error_strings The existing array of error strings.
+		 * @return array $error_strings The modified array of error strings.
+		 */
+		$this->error_strings = apply_filters( 'civi_wp_member_sync_error_strings', $this->error_strings );
 
-			// Route by mode.
-			if ( $mode == 'add' ) {
-				$this->page_rule_add();
-			} elseif ( $mode == 'edit' ) {
-				$this->page_rule_edit();
-			}
-
+		// Route by mode.
+		if ( $mode == 'add' ) {
+			$this->page_rule_add();
+		} elseif ( $mode == 'edit' ) {
+			$this->page_rule_edit();
 		}
 
 	}
