@@ -81,29 +81,6 @@
 				</td>
 			</tr>
 
-			<tr class="form-field form-required">
-				<th scope="row"><label class="current_wp_role_label" for="current_wp_role"><?php _e( 'Select a WordPress Role', 'civicrm-wp-member-sync' ); ?> *</label></th>
-				<td>
-					<select name="current_wp_role" id="current_wp_role" class="required required-role">
-						<option value=""></option>
-						<?php
-
-						foreach( $roles as $key => $value ) {
-
-							$selected = '';
-							if ( isset( $current_wp_role ) AND $key == $current_wp_role ) {
-								$selected = ' selected="selected"';
-							}
-
-							?><option value="<?php echo $key; ?>"<?php echo $selected; ?>><?php echo $value; ?></option><?php
-
-						}
-
-						?>
-					</select>
-				</td>
-			</tr>
-
 			<tr>
 				<th scope="row"><label class="current_label" for="current"><?php _e( 'Current Status', 'civicrm-wp-member-sync' ); ?> *</label></th>
 				<td>
@@ -128,6 +105,42 @@
 
 				</td>
 			</tr>
+
+			<tr class="form-field form-required">
+				<th scope="row"><label class="current_wp_role_label" for="current_wp_role"><?php _e( 'Select a WordPress Current Role', 'civicrm-wp-member-sync' ); ?> *</label></th>
+				<td>
+					<select name="current_wp_role" id="current_wp_role" class="required required-role">
+						<option value=""></option>
+						<?php
+
+						foreach( $roles as $key => $value ) {
+
+							$selected = '';
+							if ( isset( $current_wp_role ) AND $key == $current_wp_role ) {
+								$selected = ' selected="selected"';
+							}
+
+							?><option value="<?php echo $key; ?>"<?php echo $selected; ?>><?php echo $value; ?></option><?php
+
+						}
+
+						?>
+					</select>
+				</td>
+			</tr>
+
+			<?php
+
+			/**
+			 * Allow extra rows to be added.
+			 *
+			 * @since 0.3.9
+			 *
+			 * @param array $status_rules The status rules.
+			 */
+			do_action( 'civi_wp_member_sync_role_edit_after_current', $status_rules );
+
+			?>
 
 			<tr>
 				<th scope="row"><label class="expire_label" for="expire"><?php _e( 'Expire Status', 'civicrm-wp-member-sync' ); ?> *</label></th>
@@ -175,6 +188,19 @@
 					</select>
 				</td>
 			</tr>
+
+			<?php
+
+			/**
+			 * Allow extra rows to be added.
+			 *
+			 * @since 0.3.9
+			 *
+			 * @param array $status_rules The status rules.
+			 */
+			do_action( 'civi_wp_member_sync_role_edit_after_expire', $status_rules );
+
+			?>
 
 		</table>
 

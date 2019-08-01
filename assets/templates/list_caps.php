@@ -71,6 +71,16 @@
 				<th class="manage-column column-role" id="current_rule" scope="col"><?php _e( 'Current Codes', 'civicrm-wp-member-sync' ); ?></th>
 				<th class="manage-column column-role" id="expiry_rule" scope="col"><?php _e( 'Expired Codes', 'civicrm-wp-member-sync' ); ?></th>
 				<th class="manage-column column-role" id="wp_mem_cap" scope="col"><?php _e( 'Membership Capability', 'civicrm-wp-member-sync' ); ?></th>
+				<?php
+
+				/**
+				 * Allow extra columns to be added.
+				 *
+				 * @since 0.3.9
+				 */
+				do_action( 'civi_wp_member_sync_list_caps_th' );
+
+				?>
 			</tr>
 		</thead>
 
@@ -113,6 +123,19 @@
 						}
 
 					?></td>
+					<?php
+
+					/**
+					 * Allow extra columns to be added.
+					 *
+					 * @since 0.3.9
+					 *
+					 * @param int $key The current key (type ID).
+					 * @param array $item The current item.
+					 */
+					do_action( 'civi_wp_member_sync_list_caps_td', $key, $item );
+
+					?>
 				</tr>
 				<?php
 

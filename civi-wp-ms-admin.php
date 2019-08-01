@@ -1722,27 +1722,33 @@ class Civi_WP_Member_Sync_Admin {
 			// Which sync method are we using?
 			if ( $method == 'roles' ) {
 
-				// Insert/overwrite role item in data.
-				$data['roles'][$civi_member_type_id] = array(
+				// Construct rule.
+				$rule = array(
 					'current_rule' => $current_rule,
 					'current_wp_role' => $current_wp_role,
 					'expiry_rule' => $expiry_rule,
 					'expired_wp_role' => $expired_wp_role,
 				);
 
+				// Insert/overwrite role item in data.
+				$data['roles'][$civi_member_type_id] = $rule;
+
 			} else {
 
-				// Insert/overwrite capability item in data.
-				$data['capabilities'][$civi_member_type_id] = array(
+				// Construct rule.
+				$rule = array(
 					'current_rule' => $current_rule,
 					'expiry_rule' => $expiry_rule,
 					'capability' => CIVI_WP_MEMBER_SYNC_CAP_PREFIX . $civi_member_type_id,
 				);
 
+				// Insert/overwrite capability item in data.
+				$data['capabilities'][$civi_member_type_id] = $rule;
+
 			}
 
 			/**
-			 * Broadcast our saved association rule.
+			 * Broadcast our association rule before it is saved.
 			 *
 			 * This creates four possible actions:
 			 *
@@ -1753,15 +1759,33 @@ class Civi_WP_Member_Sync_Admin {
 			 *
 			 * @since 0.2.3
 			 *
-			 * @param array The new or updated association rule.
+			 * @param array $rule The new or updated association rule.
 			 */
-			do_action( 'civi_wp_member_sync_rule_' . $mode . '_' . $method, $data[$method][$civi_member_type_id] );
+			do_action( 'civi_wp_member_sync_rule_' . $mode . '_' . $method, $rule );
 
 			// Overwrite data.
 			$this->setting_set( 'data', $data );
 
 			// Save.
 			$this->settings_save();
+
+			/**
+			 * Broadcast that we have saved our association rule.
+			 *
+			 * This creates four possible actions:
+			 *
+			 * civi_wp_member_sync_rule_add_roles_saved
+			 * civi_wp_member_sync_rule_add_capabilities_saved
+			 * civi_wp_member_sync_rule_edit_roles_saved
+			 * civi_wp_member_sync_rule_edit_capabilities_saved
+			 *
+			 * @since 0.3.9
+			 *
+			 * @param array $rule The new or updated association rule.
+			 * @param str $method The sync method.
+			 * @param int $civi_member_type_id The numeric ID of the CiviCRM Membership Type.
+			 */
+			do_action( 'civi_wp_member_sync_rule_' . $mode . '_' . $method . '_saved', $rule, $method, $civi_member_type_id );
 
 			// Get admin URLs.
 			$urls = $this->page_get_urls();

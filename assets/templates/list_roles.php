@@ -68,6 +68,16 @@
 				<th class="manage-column column-role" id="wp_mem_role" scope="col"><?php _e( 'Current WP Role', 'civicrm-wp-member-sync' ); ?></th>
 				<th class="manage-column column-role" id="expiry_rule" scope="col"><?php _e( 'Expired Member Codes', 'civicrm-wp-member-sync' ); ?></th>
 				<th class="manage-column column-role" id="expired_wp_role" scope="col"><?php _e( 'Expiry WP Role', 'civicrm-wp-member-sync' ); ?></th>
+				<?php
+
+				/**
+				 * Allow extra columns to be added.
+				 *
+				 * @since 0.3.9
+				 */
+				do_action( 'civi_wp_member_sync_list_roles_th' );
+
+				?>
 			</tr>
 		</thead>
 
@@ -98,6 +108,19 @@
 					<td><?php echo $this->plugin->users->wp_role_name_get( $item['current_wp_role'] ); ?></td>
 					<td><?php echo $this->plugin->members->status_rules_get_current( $item['expiry_rule'] );?></td>
 					<td><?php echo $this->plugin->users->wp_role_name_get( $item['expired_wp_role'] ); ?></td>
+					<?php
+
+					/**
+					 * Allow extra columns to be added.
+					 *
+					 * @since 0.3.9
+					 *
+					 * @param int $key The current key (type ID).
+					 * @param array $item The current item.
+					 */
+					do_action( 'civi_wp_member_sync_list_roles_td', $key, $item );
+
+					?>
 				</tr>
 				<?php
 

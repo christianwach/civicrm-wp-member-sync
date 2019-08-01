@@ -110,6 +110,19 @@
 				</td>
 			</tr>
 
+			<?php
+
+			/**
+			 * Allow extra rows to be added.
+			 *
+			 * @since 0.3.9
+			 *
+			 * @param array $status_rules The status rules.
+			 */
+			do_action( 'civi_wp_member_sync_cap_edit_after_current', $status_rules );
+
+			?>
+
 			<tr>
 				<th scope="row"><label class="expire_label" for="expire"><?php _e( 'Expire Status', 'civicrm-wp-member-sync' ); ?> *</label></th>
 				<td>
@@ -133,6 +146,19 @@
 				?>
 				</td>
 			</tr>
+
+			<?php
+
+			/**
+			 * Allow extra rows to be added.
+			 *
+			 * @since 0.3.9
+			 *
+			 * @param array $status_rules The status rules.
+			 */
+			do_action( 'civi_wp_member_sync_cap_edit_after_expire', $status_rules );
+
+			?>
 
 		</table>
 
