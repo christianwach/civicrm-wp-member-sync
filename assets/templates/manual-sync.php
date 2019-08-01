@@ -11,7 +11,7 @@
 
 	// If we've updated, show message.
 	if ( isset( $_GET['updated'] ) ) {
-		echo '<div id="message" class="updated"><p>'.__( 'Sync completed.', 'civicrm-wp-member-sync' ).'</p></div>';
+		echo '<div id="message" class="updated"><p>' . __( 'Sync completed.', 'civicrm-wp-member-sync' ) . '</p></div>';
 	}
 
 	?>

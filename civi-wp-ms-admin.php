@@ -403,8 +403,8 @@ class Civi_WP_Member_Sync_Admin {
 		}
 
 		// Add scripts and styles.
-		add_action( 'admin_print_styles-'.$this->parent_page, array( $this, 'admin_css' ) );
-		add_action( 'admin_head-'.$this->parent_page, array( $this, 'admin_head' ), 50 );
+		add_action( 'admin_print_styles-' . $this->parent_page, array( $this, 'admin_css' ) );
+		add_action( 'admin_head-' . $this->parent_page, array( $this, 'admin_head' ), 50 );
 
 		// Add settings page.
 		$this->settings_page = add_submenu_page(
@@ -417,9 +417,9 @@ class Civi_WP_Member_Sync_Admin {
 		);
 
 		// Add scripts and styles.
-		add_action( 'admin_print_styles-'.$this->settings_page, array( $this, 'admin_css' ) );
-		add_action( 'admin_head-'.$this->settings_page, array( $this, 'admin_head' ), 50 );
-		add_action( 'admin_head-'.$this->settings_page, array( $this, 'admin_menu_highlight' ), 50 );
+		add_action( 'admin_print_styles-' . $this->settings_page, array( $this, 'admin_css' ) );
+		add_action( 'admin_head-' . $this->settings_page, array( $this, 'admin_head' ), 50 );
+		add_action( 'admin_head-' . $this->settings_page, array( $this, 'admin_menu_highlight' ), 50 );
 
 		// Add manual sync page.
 		$this->sync_page = add_submenu_page(
@@ -432,11 +432,11 @@ class Civi_WP_Member_Sync_Admin {
 		);
 
 		// Add scripts and styles.
-		add_action( 'admin_print_scripts-'.$this->sync_page, array( $this, 'admin_js_sync_page' ) );
-		add_action( 'admin_print_styles-'.$this->sync_page, array( $this, 'admin_css' ) );
-		add_action( 'admin_print_styles-'.$this->sync_page, array( $this, 'admin_css_sync_page' ) );
-		add_action( 'admin_head-'.$this->sync_page, array( $this, 'admin_head' ), 50 );
-		add_action( 'admin_head-'.$this->sync_page, array( $this, 'admin_menu_highlight' ), 50 );
+		add_action( 'admin_print_scripts-' . $this->sync_page, array( $this, 'admin_js_sync_page' ) );
+		add_action( 'admin_print_styles-' . $this->sync_page, array( $this, 'admin_css' ) );
+		add_action( 'admin_print_styles-' . $this->sync_page, array( $this, 'admin_css_sync_page' ) );
+		add_action( 'admin_head-' . $this->sync_page, array( $this, 'admin_head' ), 50 );
+		add_action( 'admin_head-' . $this->sync_page, array( $this, 'admin_menu_highlight' ), 50 );
 
 		// Add rules listing page.
 		$this->rules_list_page = add_submenu_page(
@@ -449,9 +449,9 @@ class Civi_WP_Member_Sync_Admin {
 		);
 
 		// Add scripts and styles.
-		add_action( 'admin_print_styles-'.$this->rules_list_page, array( $this, 'admin_css' ) );
-		add_action( 'admin_head-'.$this->rules_list_page, array( $this, 'admin_head' ), 50 );
-		add_action( 'admin_head-'.$this->rules_list_page, array( $this, 'admin_menu_highlight' ), 50 );
+		add_action( 'admin_print_styles-' . $this->rules_list_page, array( $this, 'admin_css' ) );
+		add_action( 'admin_head-' . $this->rules_list_page, array( $this, 'admin_head' ), 50 );
+		add_action( 'admin_head-' . $this->rules_list_page, array( $this, 'admin_menu_highlight' ), 50 );
 
 		// Add rules page.
 		$this->rule_add_edit_page = add_submenu_page(
@@ -464,10 +464,10 @@ class Civi_WP_Member_Sync_Admin {
 		);
 
 		// Add scripts and styles.
-		add_action( 'admin_print_scripts-'.$this->rule_add_edit_page, array( $this, 'admin_js_rules_page' ) );
-		add_action( 'admin_print_styles-'.$this->rule_add_edit_page, array( $this, 'admin_css' ) );
-		add_action( 'admin_head-'.$this->rule_add_edit_page, array( $this, 'admin_head' ), 50 );
-		add_action( 'admin_head-'.$this->rule_add_edit_page, array( $this, 'admin_menu_highlight' ), 50 );
+		add_action( 'admin_print_scripts-' . $this->rule_add_edit_page, array( $this, 'admin_js_rules_page' ) );
+		add_action( 'admin_print_styles-' . $this->rule_add_edit_page, array( $this, 'admin_css' ) );
+		add_action( 'admin_head-' . $this->rule_add_edit_page, array( $this, 'admin_head' ), 50 );
+		add_action( 'admin_head-' . $this->rule_add_edit_page, array( $this, 'admin_menu_highlight' ), 50 );
 
 		// Try and update options.
 		$saved = $this->settings_update_router();
@@ -586,7 +586,7 @@ class Civi_WP_Member_Sync_Admin {
 		);
 
 		// Maybe override mode.
-		if( isset( $_GET['mode'] ) AND $_GET['mode'] == 'edit' ) {
+		if ( isset( $_GET['mode'] ) AND $_GET['mode'] == 'edit' ) {
 			if ( isset( $_GET['type_id'] ) AND is_numeric( $_GET['type_id'] ) ) {
 				$vars['mode'] = 'edit';
 			}
@@ -1096,7 +1096,9 @@ class Civi_WP_Member_Sync_Admin {
 		// Sanitise admin page url.
 		$target_url = $_SERVER['REQUEST_URI'];
 		$url_array = explode( '&', $target_url );
-		if ( $url_array ) { $target_url = htmlentities( $url_array[0].'&updated=true' ); }
+		if ( $url_array ) {
+			$target_url = htmlentities( $url_array[0] . '&updated=true' );
+		}
 
 		// --<
 		return $target_url;
@@ -1122,23 +1124,23 @@ class Civi_WP_Member_Sync_Admin {
 		$result = false;
 
 		// Was the "Migrate" form submitted?
-		if( isset( $_POST['civi_wp_member_sync_migrate_submit'] ) ) {
+		if ( isset( $_POST['civi_wp_member_sync_migrate_submit'] ) ) {
 			$result = $this->migrate->legacy_migrate();
 		}
 
 		// Was the "Settings" form submitted?
-		if( isset( $_POST['civi_wp_member_sync_settings_submit'] ) ) {
+		if ( isset( $_POST['civi_wp_member_sync_settings_submit'] ) ) {
 			$result = $this->settings_update();
 		}
 
 	 	// Was the "Stop Sync" button pressed?
-		if( isset( $_POST['civi_wp_member_sync_manual_sync_stop'] ) ) {
+		if ( isset( $_POST['civi_wp_member_sync_manual_sync_stop'] ) ) {
 			delete_option( '_civi_wpms_memberships_offset' );
 			return;
 		}
 
 		// Was the "Manual Sync" form submitted?
-		if( isset( $_POST['civi_wp_member_sync_manual_sync_submit'] ) ) {
+		if ( isset( $_POST['civi_wp_member_sync_manual_sync_submit'] ) ) {
 
 			// Check that we trust the source of the request.
 			check_admin_referer( 'civi_wp_member_sync_manual_sync_action', 'civi_wp_member_sync_nonce' );
@@ -1163,7 +1165,7 @@ class Civi_WP_Member_Sync_Admin {
 		}
 
 		// Was the "Rule" form submitted?
-		if( isset( $_POST['civi_wp_member_sync_rules_submit'] ) ) {
+		if ( isset( $_POST['civi_wp_member_sync_rules_submit'] ) ) {
 			$result = $this->rule_update();
 		}
 
@@ -1749,7 +1751,7 @@ class Civi_WP_Member_Sync_Admin {
 			 *
 			 * @param array The new or updated association rule.
 			 */
-			do_action( 'civi_wp_member_sync_rule_'. $mode . '_' . $method, $data[$method][$civi_member_type_id] );
+			do_action( 'civi_wp_member_sync_rule_' . $mode . '_' . $method, $data[$method][$civi_member_type_id] );
 
 			// Overwrite data.
 			$this->setting_set( 'data', $data );
@@ -1767,7 +1769,7 @@ class Civi_WP_Member_Sync_Admin {
 		} else {
 
 			// In addition, are there status clashes?
-			if ($current_expire_clash === false ) {
+			if ( $current_expire_clash === false ) {
 				$this->errors[] = 6;
 			}
 
@@ -2460,14 +2462,14 @@ class Civi_WP_Member_Sync_Admin {
 	public function groups_intercept_save_post( $post_id, $post ) {
 
 		// Bail if something went wrong.
-		if( ! is_object( $post ) OR ! isset( $post->post_type ) ) return;
+		if ( ! is_object( $post ) OR ! isset( $post->post_type ) ) return;
 
 		// Do different things based on the post type.
-		switch($post->post_type) {
+		switch( $post->post_type ) {
 
 			case 'post':
 				// Add your default capabilities.
-				Groups_Post_Access::create( array( 'post_id'=>$post_id, 'capability'=>'Premium' ) );
+				Groups_Post_Access::create( array( 'post_id' => $post_id, 'capability' => 'Premium' ) );
 				break;
 
 			default:

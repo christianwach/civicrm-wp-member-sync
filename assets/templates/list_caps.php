@@ -81,9 +81,9 @@
 			foreach( $data AS $key => $item ) {
 
 				// Construct URLs for this item.
-				$edit_url = $urls['rules'] . '&mode=edit&type_id='.$key;
+				$edit_url = $urls['rules'] . '&mode=edit&type_id=' . $key;
 				$delete_url = wp_nonce_url(
-					$urls['list'] . '&syncrule=delete&type_id='.$key,
+					$urls['list'] . '&syncrule=delete&type_id=' . $key,
 					'civi_wp_member_sync_delete_link',
 					'civi_wp_member_sync_delete_nonce'
 				);

@@ -146,7 +146,7 @@ class Civi_WP_Member_Sync_Users {
 		$filtered_roles = array_keys( $this->role_names );
 
 		// Check all user roles.
-		foreach ( $user->roles AS $role ) {
+		foreach( $user->roles AS $role ) {
 
 			// Add role to return array if it's a "blog" role.
 			if ( $role AND in_array( $role, $filtered_roles ) ) {

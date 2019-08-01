@@ -38,7 +38,7 @@
 						<?php
 
 						$selected = '';
-						if( ! isset( $method ) OR $method == 'capabilities' ) {
+						if ( ! isset( $method ) OR $method == 'capabilities' ) {
 							$selected = ' selected="selected"';
 						}
 
@@ -47,7 +47,7 @@
 						<?php
 
 						$selected = '';
-						if( isset( $method ) AND $method == 'roles' ) {
+						if ( isset( $method ) AND $method == 'roles' ) {
 							$selected = ' selected="selected"';
 						}
 
@@ -122,7 +122,7 @@
 						foreach( $schedules AS $key => $value ) {
 
 							$selected = '';
-							if( isset( $interval ) AND $key == $interval ) {
+							if ( isset( $interval ) AND $key == $interval ) {
 								$selected = ' selected="selected"';
 							}
 

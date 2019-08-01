@@ -10,7 +10,7 @@
 	<h3><?php _e( 'All Association Rules', 'civicrm-wp-member-sync' ); ?><?php
 
 		// If we don't have all our Membership Types populated.
-		if ( !$have_all_types ) {
+		if ( ! $have_all_types ) {
 
 			// Show the 'Add New' button.
 			?> <a class="add-new-h2" href="<?php echo $urls['rules']; ?>"><?php _e( 'Add New', 'civicrm-wp-member-sync' ); ?></a><?php
@@ -78,9 +78,9 @@
 			foreach( $data AS $key => $item ) {
 
 				// Construct URLs for this item.
-				$edit_url = $urls['rules'] . '&mode=edit&type_id='.$key;
+				$edit_url = $urls['rules'] . '&mode=edit&type_id=' . $key;
 				$delete_url = wp_nonce_url(
-					$urls['list'] . '&syncrule=delete&type_id='.$key,
+					$urls['list'] . '&syncrule=delete&type_id=' . $key,
 					'civi_wp_member_sync_delete_link',
 					'civi_wp_member_sync_delete_nonce'
 				);

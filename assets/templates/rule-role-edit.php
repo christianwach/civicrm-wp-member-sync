@@ -46,7 +46,7 @@
 					// Round we go...
 					foreach( $membership_types AS $key => $value ) {
 
-						if( isset( $civi_member_type_id ) AND $key == $civi_member_type_id ) {
+						if ( isset( $civi_member_type_id ) AND $key == $civi_member_type_id ) {
 							echo '<p>' . $value . '</p>';
 							break;
 						}
@@ -63,7 +63,7 @@
 							foreach( $membership_types AS $key => $value ) {
 
 								$selected = '';
-								if( isset( $civi_member_type_id ) AND $key == $civi_member_type_id ) {
+								if ( isset( $civi_member_type_id ) AND $key == $civi_member_type_id ) {
 									$selected = ' selected="selected"';
 								}
 
@@ -91,7 +91,7 @@
 						foreach( $roles as $key => $value ) {
 
 							$selected = '';
-							if( isset( $current_wp_role ) AND $key == $current_wp_role ) {
+							if ( isset( $current_wp_role ) AND $key == $current_wp_role ) {
 								$selected = ' selected="selected"';
 							}
 
@@ -118,8 +118,8 @@
 						}
 					}
 
-					?><input type="checkbox" class="required-current current-<?php echo $key; ?>" name="<?php echo 'current['.$key.']'; ?>" id="<?php echo 'current['.$key.']'; ?>" value="<?php echo $key; ?>"<?php echo $checked; ?> />
-					<label for="<?php echo 'current['.$key.']'; ?>"><?php echo $value; ?></label><br />
+					?><input type="checkbox" class="required-current current-<?php echo $key; ?>" name="<?php echo 'current[' . $key . ']'; ?>" id="<?php echo 'current[' . $key . ']'; ?>" value="<?php echo $key; ?>"<?php echo $checked; ?> />
+					<label for="<?php echo 'current[' . $key . ']'; ?>"><?php echo $value; ?></label><br />
 					<?php
 
 				}
@@ -143,8 +143,8 @@
 						}
 					}
 
-					?><input type="checkbox" class="required-expire expire-<?php echo $key; ?>" name="<?php echo 'expire['.$key.']'; ?>" id="<?php echo 'expire['.$key.']'; ?>" value="<?php echo $key; ?>"<?php echo $checked; ?> />
-					<label for="<?php echo 'expire['.$key.']';?>"><?php echo $value; ?></label><br />
+					?><input type="checkbox" class="required-expire expire-<?php echo $key; ?>" name="<?php echo 'expire[' . $key . ']'; ?>" id="<?php echo 'expire[' . $key . ']'; ?>" value="<?php echo $key; ?>"<?php echo $checked; ?> />
+					<label for="<?php echo 'expire[' . $key . ']';?>"><?php echo $value; ?></label><br />
 					<?php
 
 				}
@@ -163,7 +163,7 @@
 						foreach( $roles AS $key => $value ) {
 
 							$selected = '';
-							if( isset( $expired_wp_role ) AND $key == $expired_wp_role ) {
+							if ( isset( $expired_wp_role ) AND $key == $expired_wp_role ) {
 								$selected = ' selected="selected"';
 							}
 

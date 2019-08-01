@@ -243,9 +243,9 @@ class Civi_WP_Member_Sync_Members {
 		if ( defined( 'DOING_AJAX' ) AND DOING_AJAX ) {
 
 			// Set reasonable headers.
-			header('Content-type: text/plain');
-			header("Cache-Control: no-cache");
-			header("Expires: -1");
+			header( 'Content-type: text/plain' );
+			header( "Cache-Control: no-cache" );
+			header( "Expires: -1" );
 
 			// Echo.
 			echo json_encode( $data );

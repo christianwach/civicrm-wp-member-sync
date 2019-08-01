@@ -54,7 +54,7 @@
 				<td>
 					<select name="current_wp_role" id="current_wp_role" class="required required-role">
 						<option value=""></option>
-						<?php foreach( $roles as $key => $value ) { ?>
+						<?php foreach( $roles AS $key => $value ) { ?>
 							<option value="<?php echo $key; ?>"><?php echo $value; ?></option>
 						<?php } ?>
 					</select>
@@ -65,8 +65,8 @@
 				<th scope="row"><label class="current_label" for="current"><?php _e( 'Current Status', 'civicrm-wp-member-sync' ); ?> *</label></th>
 				<td>
 				<?php foreach( $status_rules AS $key => $value ) { ?>
-					<input type="checkbox" class="required-current current-<?php echo $key; ?>" name="<?php echo 'current['.$key.']'; ?>" id="<?php echo 'current['.$key.']'; ?>" value="<?php echo $key; ?>" />
-					<label for="<?php echo 'current['.$key.']'; ?>"><?php echo $value; ?></label><br />
+					<input type="checkbox" class="required-current current-<?php echo $key; ?>" name="<?php echo 'current[' . $key . ']'; ?>" id="<?php echo 'current[' . $key . ']'; ?>" value="<?php echo $key; ?>" />
+					<label for="<?php echo 'current[' . $key . ']'; ?>"><?php echo $value; ?></label><br />
 				<?php } ?>
 				</td>
 			</tr>
@@ -75,8 +75,8 @@
 				<th scope="row"><label class="expire_label" for="expire"><?php _e( 'Expire Status', 'civicrm-wp-member-sync' ); ?> *</label></th>
 				<td>
 				<?php foreach( $status_rules AS $key => $value ) { ?>
-					<input type="checkbox" class="required-expire expire-<?php echo $key; ?>" name="<?php echo 'expire['.$key.']'; ?>" id="<?php echo 'expire['.$key.']'; ?>" value="<?php echo $key; ?>" />
-					<label for="<?php echo 'expire['.$key.']';?>"><?php echo $value; ?></label><br />
+					<input type="checkbox" class="required-expire expire-<?php echo $key; ?>" name="<?php echo 'expire[' . $key . ']'; ?>" id="<?php echo 'expire[' . $key . ']'; ?>" value="<?php echo $key; ?>" />
+					<label for="<?php echo 'expire[' . $key . ']';?>"><?php echo $value; ?></label><br />
 				<?php } ?>
 				</td>
 			</tr>

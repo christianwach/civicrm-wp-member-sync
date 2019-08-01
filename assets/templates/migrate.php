@@ -11,7 +11,7 @@
 
 	// If we've updated, show message.
 	if ( isset( $_GET['updated'] ) AND $_GET['updated'] == 'true' ) {
-		echo '<div id="message" class="updated"><p>'.__( 'Migration complete. You can now deactivate the old plugin.', 'civicrm-wp-member-sync' ).'</p></div>';
+		echo '<div id="message" class="updated"><p>' . __( 'Migration complete. You can now deactivate the old plugin.', 'civicrm-wp-member-sync' ) . '</p></div>';
 	}
 
 	?>
