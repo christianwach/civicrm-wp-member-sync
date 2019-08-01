@@ -154,6 +154,9 @@ class Civi_WP_Member_Sync_Admin {
 
 		}
 
+		// Initialise first.
+		add_action( 'civi_wp_member_sync_initialised', array( $this, 'initialise' ), 1 );
+
 	}
 
 

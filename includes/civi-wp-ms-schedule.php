@@ -34,6 +34,9 @@ class Civi_WP_Member_Sync_Schedule {
 		// Store reference to plugin.
 		$this->plugin = $plugin;
 
+		// Initialise early.
+		add_action( 'civi_wp_member_sync_initialised', array( $this, 'initialise' ), 5 );
+
 	}
 
 

@@ -219,25 +219,20 @@ class Civi_WP_Member_Sync {
 	 */
 	public function initialise() {
 
-		// Initialise Admin object.
-		$this->admin->initialise();
-
-		// Initialise users object.
-		$this->users->initialise();
-
-		// Initialise schedule object.
-		$this->schedule->initialise();
-
-		// Initialise CiviCRM object.
-		$this->members->initialise();
-
-		// Initialise "Groups" object.
-		$this->groups->initialise();
-
 		/**
 		 * Broadcast that we're up and running.
 		 *
+		 * This action is used internally in order to trigger initialisation.
+		 * There is a specific order to the callbacks:
+		 *
+		 * Civi_WP_Member_Sync_Admin - Priority 1
+		 * Civi_WP_Member_Sync_Users - Priority 3
+		 * Civi_WP_Member_Sync_Schedule - Priority 5
+		 * Civi_WP_Member_Sync_Members - Priority 7
+		 * Civi_WP_Member_Sync_Groups - Priority 10
+		 *
 		 * @since 0.1
+		 * @since 0.3.9 All CWMS classes hook into this to trigger initialisation.
 		 */
 		do_action( 'civi_wp_member_sync_initialised' );
 
