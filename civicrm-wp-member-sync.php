@@ -94,6 +94,15 @@ class Civi_WP_Member_Sync {
 	 */
 	public $members;
 
+	/**
+	 * CiviCRM "Groups" compatibility object.
+	 *
+	 * @since 0.3.9
+	 * @access public
+	 * @var object $members The "Groups" compatibility object.
+	 */
+	public $groups;
+
 
 
 	/**
@@ -112,7 +121,7 @@ class Civi_WP_Member_Sync {
 		// Set up objects and references.
 		$this->setup_objects();
 
-		// Initialise plugin when CiviCRM initialises.
+		// Initialise plugin when CiviCRM initialises during "plugins_loaded".
 		add_action( 'civicrm_instance_loaded', array( $this, 'initialise' ) );
 
 	}
@@ -138,6 +147,9 @@ class Civi_WP_Member_Sync {
 		// Load our CiviCRM utility class.
 		require( CIVI_WP_MEMBER_SYNC_PLUGIN_PATH . 'includes/civi-wp-ms-members.php' );
 
+		// Load our "Groups" compatibility class.
+		require( CIVI_WP_MEMBER_SYNC_PLUGIN_PATH . 'includes/civi-wp-ms-groups.php' );
+
 	}
 
 
@@ -149,17 +161,20 @@ class Civi_WP_Member_Sync {
 	 */
 	public function setup_objects() {
 
-		// Instantiate.
+		// Instantiate Users object.
 		$this->users = new Civi_WP_Member_Sync_Users( $this );
 
-		// Instantiate.
+		// Instantiate Schedule object.
 		$this->schedule = new Civi_WP_Member_Sync_Schedule( $this );
 
-		// Instantiate.
+		// Instantiate Admin object.
 		$this->admin = new Civi_WP_Member_Sync_Admin( $this );
 
-		// Instantiate.
+		// Instantiate CiviCRM Members object.
 		$this->members = new Civi_WP_Member_Sync_Members( $this );
+
+		// Instantiate "Groups" compatibility object.
+		$this->groups = new Civi_WP_Member_Sync_Groups( $this );
 
 	}
 
@@ -215,6 +230,9 @@ class Civi_WP_Member_Sync {
 
 		// Initialise CiviCRM object.
 		$this->members->initialise();
+
+		// Initialise "Groups" object.
+		$this->groups->initialise();
 
 		/**
 		 * Broadcast that we're up and running.
