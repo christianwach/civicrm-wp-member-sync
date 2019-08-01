@@ -5,6 +5,14 @@
  *
  * Class for encapsulating compatibility with the "Groups" plugin.
  *
+ * Groups version 2.8.0 changed the way that access restrictions are implemented
+ * and switched from "access control based on capabilities" to "access control
+ * based on group membership". Furthermore, the legacy functionality does not
+ * work as expected any more.
+ *
+ * As a result, the "groups_read_cap_add" and "groups_read_cap_delete" methods
+ * used by this class cannot be relied upon any more.
+ *
  * @since 0.3.9
  *
  * @package Civi_WP_Member_Sync
