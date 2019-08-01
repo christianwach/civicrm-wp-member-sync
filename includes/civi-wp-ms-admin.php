@@ -147,7 +147,7 @@ class Civi_WP_Member_Sync_Admin {
 		if ( defined( 'CIVI_WP_MEMBER_SYNC_MIGRATE' ) AND CIVI_WP_MEMBER_SYNC_MIGRATE ) {
 
 			// Load our Migration utility class.
-			require( CIVI_WP_MEMBER_SYNC_PLUGIN_PATH . 'civi-wp-ms-migrate.php' );
+			require( CIVI_WP_MEMBER_SYNC_PLUGIN_PATH . 'includes/civi-wp-ms-migrate.php' );
 
 			// Instantiate.
 			$this->migrate = new Civi_WP_Member_Sync_Migrate( $this );
