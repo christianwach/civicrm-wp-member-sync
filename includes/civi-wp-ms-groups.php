@@ -103,8 +103,14 @@ class Civi_WP_Member_Sync_Groups {
 		// Declare AJAX handlers.
 		add_action( 'wp_ajax_civi_wp_member_sync_get_groups', array( $this, 'search_groups' ), 10 );
 
-		// Hook into rule save process.
+		// Hook into Rule Save process.
 		add_action( 'civi_wp_member_sync_rule_pre_save', array( $this, 'rule_pre_save' ), 10, 4 );
+
+		// Hook into Rule Apply process.
+		add_action( 'civi_wp_member_sync_rule_apply_caps_current', array( $this, 'rule_apply_caps_current' ), 10, 5 );
+		add_action( 'civi_wp_member_sync_rule_apply_caps_expired', array( $this, 'rule_apply_caps_expired' ), 10, 5 );
+		add_action( 'civi_wp_member_sync_rule_apply_roles_current', array( $this, 'rule_apply_current' ), 10, 4 );
+		add_action( 'civi_wp_member_sync_rule_apply_roles_expired', array( $this, 'rule_apply_expired' ), 10, 4 );
 
 		// Hook into Capabilities and Roles lists.
 		add_action( 'civi_wp_member_sync_list_caps_th_after_current', array( $this, 'list_current_header' ) );
@@ -138,6 +144,9 @@ class Civi_WP_Member_Sync_Groups {
 
 	/**
 	 * Search for groups on the "Add Rule" and "Edit Rule" pages.
+	 *
+	 * We still need to exclude groups which are present in the "opposite"
+	 * select - i.e. exclude current groups from expiry and vice versa.
 	 *
 	 * @since 0.4
 	 */
@@ -188,6 +197,202 @@ class Civi_WP_Member_Sync_Groups {
 		// Send data.
 		echo json_encode( $json );
 		exit();
+
+	}
+
+
+
+	//##########################################################################
+
+
+
+	/**
+	 * Intercept Rule Apply when method is "capabilities" and membership is "current".
+	 *
+	 * We need this method because the two related actions have different
+	 * signatures - `civi_wp_member_sync_rule_apply_caps_current` also passes
+	 * the capability, which we don't need.
+	 *
+	 * @since 0.4
+	 *
+	 * @param WP_User $user The WordPress user object.
+	 * @param int $membership_type_id The ID of the CiviCRM membership type.
+	 * @param int $status_id The ID of the CiviCRM membership status.
+	 * @param array $capability The membership type capability added or removed.
+	 * @param array $association_rule The rule used to apply the changes.
+	 */
+	public function rule_apply_caps_current( $user, $membership_type_id, $status_id, $capability, $association_rule ) {
+
+		// Pass through without capability param.
+		$this->rule_apply_current( $user, $membership_type_id, $status_id, $association_rule );
+
+	}
+
+
+
+	/**
+	 * Intercept Rule Apply when method is "capabilities" and membership is "expired".
+	 *
+	 * We need this method because the two related actions have different
+	 * signatures - `civi_wp_member_sync_rule_apply_caps_current` also passes
+	 * the capability, which we don't need.
+	 *
+	 * @since 0.4
+	 *
+	 * @param WP_User $user The WordPress user object.
+	 * @param int $membership_type_id The ID of the CiviCRM membership type.
+	 * @param int $status_id The ID of the CiviCRM membership status.
+	 * @param array $capability The membership type capability added or removed.
+	 */
+	public function rule_apply_caps_expired( $user, $membership_type_id, $status_id, $capability, $association_rule ) {
+
+		// Pass through without capability param.
+		$this->rule_apply_expired( $user, $membership_type_id, $status_id, $association_rule );
+
+	}
+
+
+
+	/**
+	 * Intercept Rule Apply when membership is "current".
+	 *
+	 * @since 0.4
+	 *
+	 * @param WP_User $user The WordPress user object.
+	 * @param int $membership_type_id The ID of the CiviCRM membership type.
+	 * @param int $status_id The ID of the CiviCRM membership status.
+	 * @param array $association_rule The rule used to apply the changes.
+	 */
+	public function rule_apply_current( $user, $membership_type_id, $status_id, $association_rule ) {
+
+		// Add the user to the current groups.
+		if ( ! empty( $association_rule['current_groups'] ) ) {
+			foreach( $association_rule['current_groups'] AS $group_id ) {
+				$this->group_member_add( $user->ID, $group_id );
+			}
+		}
+
+		// Remove the user from the expired groups.
+		if ( ! empty( $association_rule['expiry_groups'] ) ) {
+			foreach( $association_rule['expiry_groups'] AS $group_id ) {
+				$this->group_member_delete( $user->ID, $group_id );
+			}
+		}
+
+	}
+
+
+
+	/**
+	 * Intercept Rule Apply when membership is "expired".
+	 *
+	 * @since 0.4
+	 *
+	 * @param WP_User $user The WordPress user object.
+	 * @param int $membership_type_id The ID of the CiviCRM membership type.
+	 * @param int $status_id The ID of the CiviCRM membership status.
+	 * @param array $association_rule The rule used to apply the changes.
+	 */
+	public function rule_apply_expired( $user, $membership_type_id, $status_id, $association_rule ) {
+
+		// Remove the user from the current groups.
+		if ( ! empty( $association_rule['current_groups'] ) ) {
+			foreach( $association_rule['current_groups'] AS $group_id ) {
+				$this->group_member_delete( $user->ID, $group_id );
+			}
+		}
+
+		// Add the user to the expired groups.
+		if ( ! empty( $association_rule['expiry_groups'] ) ) {
+			foreach( $association_rule['expiry_groups'] AS $group_id ) {
+				$this->group_member_add( $user->ID, $group_id );
+			}
+		}
+
+	}
+
+
+
+	//##########################################################################
+
+
+
+	/**
+	 * Add a WordPress user to a "Groups" group.
+	 *
+	 * @since 0.4
+	 *
+	 * @param int $user_id The ID of the WordPress user to add to the group.
+	 * @param int $group_id The ID of the "Groups" group.
+	 * @return bool $success True on success, false otherwise.
+	 */
+	public function group_member_add( $user_id, $group_id ) {
+
+		// Bail if they are already a group member.
+		if ( Groups_User_Group::read( $user_id, $group_id ) ) {
+			return true;
+		}
+
+		// Add user to group.
+		$success = Groups_User_Group::create( array(
+			'user_id'  => $user_id,
+			'group_id' => $group_id,
+		));
+
+		// Maybe log on failure?
+		if ( ! $success ) {
+			$e = new Exception;
+			$trace = $e->getTraceAsString();
+			error_log( print_r( array(
+				'method' => __METHOD__,
+				'message' => __( 'Could not add user to group.', 'civicrm-groups-sync' ),
+				'user_id' => $user_id,
+				'group_id' => $group_id,
+				'backtrace' => $trace,
+			), true ) );
+		}
+
+		// --<
+		return $success;
+
+	}
+
+
+
+	/**
+	 * Delete a WordPress user from a "Groups" group.
+	 *
+	 * @since 0.4
+	 *
+	 * @param int $user_id The ID of the WordPress user to delete from the group.
+	 * @param int $group_id The ID of the "Groups" group.
+	 * @return bool $success True on success, false otherwise.
+	 */
+	public function group_member_delete( $user_id, $group_id ) {
+
+		// Bail if they are not a group member.
+		if ( ! Groups_User_Group::read( $user_id, $group_id ) ) {
+			return true;
+		}
+
+		// Delete user from group.
+		$success = Groups_User_Group::delete( $user_id, $group_id );
+
+		// Maybe log on failure?
+		if ( ! $success ) {
+			$e = new Exception;
+			$trace = $e->getTraceAsString();
+			error_log( print_r( array(
+				'method' => __METHOD__,
+				'message' => __( 'Could not delete user from group.', 'civicrm-groups-sync' ),
+				'user_id' => $user_id,
+				'group_id' => $group_id,
+				'backtrace' => $trace,
+			), true ) );
+		}
+
+		// --<
+		return $success;
 
 	}
 

@@ -2220,13 +2220,15 @@ class Civi_WP_Member_Sync_Admin {
 				 * firing this action.
 				 *
 				 * @since 0.3.2
+				 * @since 0.4 Added association rule parameter.
 				 *
 				 * @param WP_User $user The WordPress user object.
 				 * @param int $membership_type_id The ID of the CiviCRM membership type.
 				 * @param int $status_id The ID of the CiviCRM membership status.
 				 * @param array $capability The membership type capability added or removed.
+				 * @param array $association_rule The rule used to apply the changes.
 				 */
-				do_action( 'civi_wp_member_sync_rule_apply_caps_' . $flag, $user, $membership_type_id, $status_id, $capability );
+				do_action( 'civi_wp_member_sync_rule_apply_caps_' . $flag, $user, $membership_type_id, $status_id, $capability, $association_rule );
 
 			}
 
