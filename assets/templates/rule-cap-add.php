@@ -95,7 +95,7 @@
 			 *
 			 * @param array $status_rules The status rules.
 			 */
-			do_action( 'civi_wp_member_sync_cap_add_after_expire', $status_rules );
+			do_action( 'civi_wp_member_sync_cap_add_after_expiry', $status_rules );
 
 			?>
 

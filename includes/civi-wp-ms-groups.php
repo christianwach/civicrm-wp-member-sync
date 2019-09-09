@@ -57,7 +57,7 @@ class Civi_WP_Member_Sync_Groups {
 	public function initialise() {
 
 		// Test for "Groups" plugin on init.
-		add_action( 'init', array( $this, 'groups_plugin_hooks' ) );
+		add_action( 'init', array( $this, 'register_hooks' ) );
 
 	}
 
@@ -73,7 +73,7 @@ class Civi_WP_Member_Sync_Groups {
 	 * @since 0.2.3
 	 * @since 0.3.9 Moved into this class.
 	 */
-	public function groups_plugin_hooks() {
+	public function register_hooks() {
 
 		// Bail if we don't have the "Groups" plugin.
 		if ( ! defined( 'GROUPS_CORE_VERSION' ) ) return;
@@ -93,7 +93,481 @@ class Civi_WP_Member_Sync_Groups {
 		// Hook into save post and auto-restrict. (DISABLED)
 		//add_action( 'save_post', array( $this, 'groups_intercept_save_post' ), 1, 2 );
 
+		// Bail if "Groups" is not version 2.8.0 or greater.
+		if ( version_compare( GROUPS_CORE_VERSION, '2.8.0', '<' ) ) return;
+
+		// Filter script dependencies on the "Add Rule" and "Edit Rule" pages.
+		add_filter( 'civi_wp_member_sync_rules_css_dependencies', array( $this, 'dependencies_css' ), 10, 1 );
+		add_filter( 'civi_wp_member_sync_rules_js_dependencies', array( $this, 'dependencies_js' ), 10, 1 );
+
+		// Declare AJAX handlers.
+		add_action( 'wp_ajax_civi_wp_member_sync_get_groups', array( $this, 'search_groups' ), 10 );
+
+		// Hook into rule save process.
+		add_action( 'civi_wp_member_sync_rule_pre_save', array( $this, 'rule_pre_save' ), 10, 4 );
+
+		// Hook into Capabilities and Roles lists.
+		add_action( 'civi_wp_member_sync_list_caps_th_after_current', array( $this, 'list_current_header' ) );
+		add_action( 'civi_wp_member_sync_list_caps_td_after_current', array( $this, 'list_current_row' ), 10, 2 );
+		add_action( 'civi_wp_member_sync_list_caps_th_after_expiry', array( $this, 'list_expiry_header' ) );
+		add_action( 'civi_wp_member_sync_list_caps_td_after_expiry', array( $this, 'list_expiry_row' ), 10, 2 );
+		add_action( 'civi_wp_member_sync_list_roles_th_after_current', array( $this, 'list_current_header' ) );
+		add_action( 'civi_wp_member_sync_list_roles_td_after_current', array( $this, 'list_current_row' ), 10, 2 );
+		add_action( 'civi_wp_member_sync_list_roles_th_after_expiry', array( $this, 'list_expiry_header' ) );
+		add_action( 'civi_wp_member_sync_list_roles_td_after_expiry', array( $this, 'list_expiry_row' ), 10, 2 );
+
+		// Hook into Capabilities and Roles add screens.
+		add_action( 'civi_wp_member_sync_cap_add_after_current', array( $this, 'rule_add_current' ), 10, 1 );
+		add_action( 'civi_wp_member_sync_cap_add_after_expiry', array( $this, 'rule_add_expiry' ), 10, 1 );
+		add_action( 'civi_wp_member_sync_role_add_after_current', array( $this, 'rule_add_current' ), 10, 1 );
+		add_action( 'civi_wp_member_sync_role_add_after_expiry', array( $this, 'rule_add_expiry' ), 10, 1 );
+
+		// Hook into Capabilities and Roles edit screens.
+		add_action( 'civi_wp_member_sync_cap_edit_after_current', array( $this, 'rule_edit_current' ), 10, 2 );
+		add_action( 'civi_wp_member_sync_cap_edit_after_expiry', array( $this, 'rule_edit_expiry' ), 10, 2 );
+		add_action( 'civi_wp_member_sync_role_edit_after_current', array( $this, 'rule_edit_current' ), 10, 2 );
+		add_action( 'civi_wp_member_sync_role_edit_after_expiry', array( $this, 'rule_edit_expiry' ), 10, 2 );
+
 	}
+
+
+
+	//##########################################################################
+
+
+
+	/**
+	 * Search for groups on the "Add Rule" and "Edit Rule" pages.
+	 *
+	 * @since 0.4
+	 */
+	public function search_groups() {
+
+		// Go direct.
+		global $wpdb;
+
+		/*
+		// Excludes.
+		$exclude = !empty( $exclude ) ? $exclude : null;
+		if ( !empty( $exclude ) && !is_array( $exclude ) && is_string( $exclude ) ) {
+			$exclude = explode( ',', $exclude );
+		}
+		if ( $exclude !== null && count( $exclude ) > 0 ) {
+			$exclude = implode( ',', array_map( 'intval', array_map( 'trim', $exclude ) ) );
+			if ( strlen( $exclude ) > 0 ) {
+				if ( empty( $where ) ) {
+					$where = " WHERE group_id NOT IN ($exclude) ";
+				} else {
+					$where .= " AND group_id NOT IN ($exclude) ";
+				}
+			}
+		}
+		*/
+
+		// Do query.
+		$group_table = _groups_get_tablename( 'group' );
+		$groups = $wpdb->get_results( $wpdb->prepare(
+			"SELECT * FROM $group_table WHERE name LIKE '%s'",
+			'%' . esc_sql( trim( $_POST['s'] ) ) . '%'
+		) );
+
+		// Init return.
+		$json = array();
+
+		// Loop through our groups.
+		foreach( $groups AS $group ) {
+
+			// Add item to output array.
+			$json[] = array(
+				'id' => $group->group_id,
+				'name' => esc_html( $group->name ),
+			);
+
+		}
+
+		// Send data.
+		echo json_encode( $json );
+		exit();
+
+	}
+
+
+
+	//##########################################################################
+
+
+
+	/**
+	 * Filter CSS dependencies on the "Add Rule" and "Edit Rule" pages.
+	 *
+	 * @since 0.4
+	 *
+	 * @param array $dependencies The existing dependencies.
+	 * @return array $dependencies The modified dependencies.
+	 */
+	public function dependencies_css( $dependencies ) {
+
+		// Define our handle.
+		$handle = 'civi_wp_member_sync_select2_css';
+
+		// Register Select2 styles.
+		wp_register_style(
+			$handle,
+			set_url_scheme( 'https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.10/css/select2.min.css' )
+		);
+
+		// Enqueue styles.
+		wp_enqueue_style( $handle );
+
+		// Add to dependencies.
+		$dependencies[] = $handle;
+
+		// --<
+		return $dependencies;
+
+	}
+
+
+
+	/**
+	 * Filter script dependencies on the "Add Rule" and "Edit Rule" pages.
+	 *
+	 * @since 0.4
+	 *
+	 * @param array $dependencies The existing dependencies.
+	 * @return array $dependencies The modified dependencies.
+	 */
+	public function dependencies_js( $dependencies ) {
+
+		// Define our handle.
+		$handle = 'civi_wp_member_sync_select2_js';
+
+		// Register Select2.
+		wp_register_script(
+			$handle,
+			set_url_scheme( 'https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.10/js/select2.min.js' ),
+			array( 'jquery' )
+		);
+
+		// Enqueue script.
+		wp_enqueue_script( $handle );
+
+		// Add to dependencies.
+		$dependencies[] = $handle;
+
+		// --<
+		return $dependencies;
+
+	}
+
+
+
+	//##########################################################################
+
+
+
+	/**
+	 * Amend the association rule that is about to be saved.
+	 *
+	 * @since 0.4
+	 *
+	 * @param array $rule The new or updated association rule.
+	 * @param array $data The complete set of association rule.
+	 * @param str $mode The mode ('add' or 'edit').
+	 * @param str $method The sync method.
+	 */
+	public function rule_pre_save( $rule, $data, $mode, $method ) {
+
+		// Init "current" groups.
+		$current = array();
+
+		// Get the "current" groups.
+		if (
+			isset( $_POST['cwms_groups_select_current'] ) AND
+			is_array( $_POST['cwms_groups_select_current'] ) AND
+			! empty( $_POST['cwms_groups_select_current'] )
+		) {
+
+			// Grab array of group IDs.
+			$current = $_POST['cwms_groups_select_current'];
+
+			// Sanitise array items.
+			array_walk( $current, function( &$item ) {
+				$item = absint( trim( $item ) );
+			});
+
+		}
+
+		// Init "expiry" groups.
+		$expiry = array();
+
+		// Get the "expiry" groups.
+		if (
+			isset( $_POST['cwms_groups_select_expiry'] ) AND
+			is_array( $_POST['cwms_groups_select_expiry'] ) AND
+			! empty( $_POST['cwms_groups_select_expiry'] )
+		) {
+
+			// Grab array of group IDs.
+			$expiry = $_POST['cwms_groups_select_expiry'];
+
+			// Sanitise array items.
+			array_walk( $expiry, function( &$item ) {
+				$item = absint( trim( $item ) );
+			});
+
+		}
+
+		// Add to the rule.
+		$rule['current_groups'] = $current;
+		$rule['expiry_groups'] = $expiry;
+
+		// --<
+		return $rule;
+
+	}
+
+
+
+	//##########################################################################
+
+
+
+	/**
+	 * Show the Current Group header.
+	 *
+	 * @since 0.4
+	 */
+	public function list_current_header() {
+
+		// Echo markup.
+		echo '<th>' . __( 'Current Group(s)', 'civicrm-wp-member-sync' ) . '</th>';
+
+	}
+
+
+
+	/**
+	 * Show the Expired Group header.
+	 *
+	 * @since 0.4
+	 */
+	public function list_expiry_header() {
+
+		// Echo markup.
+		echo '<th>' . __( 'Expiry Group(s)', 'civicrm-wp-member-sync' ) . '</th>';
+
+	}
+
+
+
+	/**
+	 * Show the Current Groups.
+	 *
+	 * @since 0.4
+	 *
+	 * @param int $key The current key (type ID).
+	 * @param array $item The current item.
+	 */
+	public function list_current_row( $key, $item ) {
+
+		// Build list.
+		$markup = '&mdash;';
+		if ( ! empty( $item['current_groups'] ) ) {
+			$markup = $this->markup_get_list_items( $item['current_groups'] );
+		}
+
+		// Echo markup.
+		echo '<td>' . $markup . '</td>';
+
+	}
+
+
+
+	/**
+	 * Show the Expired Groups.
+	 *
+	 * @since 0.4
+	 *
+	 * @param int $key The current key (type ID).
+	 * @param array $item The current item.
+	 */
+	public function list_expiry_row( $key, $item ) {
+
+		// Build list.
+		$markup = '&mdash;';
+		if ( ! empty( $item['expiry_groups'] ) ) {
+			$markup = $this->markup_get_list_items( $item['expiry_groups'] );
+		}
+
+		// Echo markup.
+		echo '<td>' . $markup . '</td>';
+
+	}
+
+
+
+	/**
+	 * Show the Current Group.
+	 *
+	 * @since 0.4
+	 *
+	 * @param array $status_rules The status rules.
+	 */
+	public function rule_add_current( $status_rules ) {
+
+		// Include template file.
+		include( CIVI_WP_MEMBER_SYNC_PLUGIN_PATH . 'assets/templates/groups-add-current.php' );
+
+	}
+
+
+
+	/**
+	 * Show the Expired Group.
+	 *
+	 * @since 0.4
+	 *
+	 * @param array $status_rules The status rules.
+	 */
+	public function rule_add_expiry( $status_rules ) {
+
+		// Include template file.
+		include( CIVI_WP_MEMBER_SYNC_PLUGIN_PATH . 'assets/templates/groups-add-expiry.php' );
+
+	}
+
+
+
+	/**
+	 * Show the Current Group.
+	 *
+	 * @since 0.4
+	 *
+	 * @param array $status_rules The status rules.
+	 * @param array $selected_rule The rule being edited.
+	 */
+	public function rule_edit_current( $status_rules, $selected_rule ) {
+
+		// Build options.
+		$options_html = '';
+		if ( ! empty( $selected_rule['current_groups'] ) ) {
+			$options_html = $this->markup_get_options( $selected_rule['current_groups'] );
+		}
+
+		// Include template file.
+		include( CIVI_WP_MEMBER_SYNC_PLUGIN_PATH . 'assets/templates/groups-edit-current.php' );
+
+	}
+
+
+
+	/**
+	 * Show the Expired Group.
+	 *
+	 * @since 0.4
+	 *
+	 * @param array $status_rules The status rules.
+	 * @param array $selected_rule The rule being edited.
+	 */
+	public function rule_edit_expiry( $status_rules, $selected_rule ) {
+
+		// Build options.
+		$options_html = '';
+		if ( ! empty( $selected_rule['expiry_groups'] ) ) {
+			$options_html = $this->markup_get_options( $selected_rule['expiry_groups'] );
+		}
+
+		// Include template file.
+		include( CIVI_WP_MEMBER_SYNC_PLUGIN_PATH . 'assets/templates/groups-edit-expiry.php' );
+
+	}
+
+
+
+	//##########################################################################
+
+
+
+	/**
+	 * Get the markup for a pseudo-list generated from a list of groups data.
+	 *
+	 * @since 0.4
+	 *
+	 * @param array $group_ids The array of group IDs.
+	 */
+	public function markup_get_list_items( $group_ids ) {
+
+		// Init options.
+		$options_html = '';
+		$options = array();
+
+		if ( ! empty( $group_ids ) ) {
+
+			// Get the groups.
+			$groups = Groups_Group::get_groups( array(
+				'order_by' => 'name',
+				'order' => 'ASC',
+				'include' => $group_ids,
+			));
+
+			// Add options to build array.
+			foreach( $groups AS $group ) {
+				$options[] = esc_html( $group->name );
+			}
+
+			// Construct markup.
+			$options_html = implode( "<br />\n", $options );
+
+		}
+
+		// --<
+		return $options_html;
+
+	}
+
+
+
+	/**
+	 * Get the markup for options generated from a list of groups data.
+	 *
+	 * @since 0.4
+	 *
+	 * @param array $group_ids The array of group IDs.
+	 */
+	public function markup_get_options( $group_ids ) {
+
+		// Init options.
+		$options_html = '';
+		$options = array();
+
+		if ( ! empty( $group_ids ) ) {
+
+			// Get the groups.
+			$groups = Groups_Group::get_groups( array(
+				'order_by' => 'name',
+				'order' => 'ASC',
+				'include' => $group_ids,
+			));
+
+			// Add options to build array.
+			foreach( $groups AS $group ) {
+				$options[] = '<option value="' . $group->group_id . '" selected="selected">' . esc_html( $group->name ) . '</option>';
+			}
+
+			// Construct markup.
+			$options_html = implode( "\n", $options );
+
+		}
+
+		// --<
+		return $options_html;
+
+	}
+
+
+
+	//##########################################################################
 
 
 

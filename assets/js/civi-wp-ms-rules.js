@@ -16,6 +16,7 @@ if ( 'undefined' !== typeof CiviCRM_WP_Member_Sync_Rules ) {
 	// Override var.
 	cwms_method = CiviCRM_WP_Member_Sync_Rules.method;
 	cwms_mode = CiviCRM_WP_Member_Sync_Rules.mode;
+	cwms_ajax_url = CiviCRM_WP_Member_Sync_Rules.ajax_url;
 
 }
 
@@ -192,5 +193,83 @@ jQuery(document).ready( function($) {
 		}
 
 	});
+
+	/**
+	 * Select2 init.
+	 *
+	 * @since 0.4
+	 */
+	$('#cwms_groups_select_current, #cwms_groups_select_expiry').select2({
+
+		// Action.
+		ajax: {
+			method: 'POST',
+			url: cwms_ajax_url,
+			dataType: 'json',
+			delay: 250,
+			data: function( params ) {
+				return {
+					s: params.term, // Search term.
+					action: 'civi_wp_member_sync_get_groups',
+					page: params.page,
+				};
+			},
+			processResults: function( data, page ) {
+				// Parse the results into the format expected by Select2.
+				// Since we are using custom formatting functions we do not need to
+				// alter the remote JSON data.
+				return {
+					results: data
+				};
+			},
+			cache: true
+		},
+
+		// Settings.
+		escapeMarkup: function( markup ) { return markup; }, // Let our custom formatter work.
+		minimumInputLength: 3,
+		templateResult: cwms_groups_format_result,
+		templateSelection: cwms_groups_format_response
+
+	});
+
+	/**
+	 * Select2 format results for display in dropdown.
+	 *
+	 * @since 0.4
+	 *
+	 * @param {Object} data The results data.
+	 * @return {String} markup The results markup.
+	 */
+	function cwms_groups_format_result( data ) {
+
+		// Bail if still loading.
+		if ( data.loading ) return data.name;
+
+		// Declare vars.
+		var markup;
+
+		// Construct basic group info.
+		markup = '<div style="clear:both;">' +
+		'<div class="select2_results_group_name"><span style="font-weight:600;">' + data.name + '</span></div>' +
+		'</div>';
+
+		// --<
+		return markup;
+
+	}
+
+	/**
+	 * Select2 format response.
+	 *
+	 * @since 0.4
+	 *
+	 * @param {Object} data The results data.
+	 * @return {String} The expected response.
+	 */
+	function cwms_groups_format_response( data ) {
+		return data.name || data.text;
+	}
+
 
 });

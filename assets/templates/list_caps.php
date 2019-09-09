@@ -69,7 +69,27 @@
 			<tr>
 				<th class="manage-column column-role" id="civi_member_type_id" scope="col"><?php _e( 'Civi Membership Type', 'civicrm-wp-member-sync' ); ?></th>
 				<th class="manage-column column-role" id="current_rule" scope="col"><?php _e( 'Current Codes', 'civicrm-wp-member-sync' ); ?></th>
+				<?php
+
+				/**
+				 * Allow extra columns to be added after "Current Codes".
+				 *
+				 * @since 0.4
+				 */
+				do_action( 'civi_wp_member_sync_list_caps_th_after_current' );
+
+				?>
 				<th class="manage-column column-role" id="expiry_rule" scope="col"><?php _e( 'Expired Codes', 'civicrm-wp-member-sync' ); ?></th>
+				<?php
+
+				/**
+				 * Allow extra columns to be added after "Expired Codes".
+				 *
+				 * @since 0.4
+				 */
+				do_action( 'civi_wp_member_sync_list_caps_th_after_expiry' );
+
+				?>
 				<th class="manage-column column-role" id="wp_mem_cap" scope="col"><?php _e( 'Membership Capability', 'civicrm-wp-member-sync' ); ?></th>
 				<?php
 
@@ -108,7 +128,33 @@
 						</div>
 					</td>
 					<td><?php echo $this->plugin->members->status_rules_get_current( $item['current_rule'] ); ?></td>
+					<?php
+
+					/**
+					 * Allow extra columns to be added after "Current Codes".
+					 *
+					 * @since 0.4
+					 *
+					 * @param int $key The current key (type ID).
+					 * @param array $item The current item.
+					 */
+					do_action( 'civi_wp_member_sync_list_caps_td_after_current', $key, $item );
+
+					?>
 					<td><?php echo $this->plugin->members->status_rules_get_current( $item['expiry_rule'] );?></td>
+					<?php
+
+					/**
+					 * Allow extra columns to be added after "Expired Codes".
+					 *
+					 * @since 0.4
+					 *
+					 * @param int $key The current key (type ID).
+					 * @param array $item The current item.
+					 */
+					do_action( 'civi_wp_member_sync_list_caps_td_after_expiry', $key, $item );
+
+					?>
 					<td><?php
 
 						// Show custom capability for this rule.

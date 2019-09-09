@@ -66,8 +66,28 @@
 				<th class="manage-column column-role" id="civi_member_type_id" scope="col"><?php _e( 'CiviCRM Membership Type', 'civicrm-wp-member-sync' ); ?></th>
 				<th class="manage-column column-role" id="current_rule" scope="col"><?php _e( 'Current Member Codes', 'civicrm-wp-member-sync' ); ?></th>
 				<th class="manage-column column-role" id="wp_mem_role" scope="col"><?php _e( 'Current WP Role', 'civicrm-wp-member-sync' ); ?></th>
+				<?php
+
+				/**
+				 * Allow extra columns to be added after "Current WP Role".
+				 *
+				 * @since 0.4
+				 */
+				do_action( 'civi_wp_member_sync_list_roles_th_after_current' );
+
+				?>
 				<th class="manage-column column-role" id="expiry_rule" scope="col"><?php _e( 'Expired Member Codes', 'civicrm-wp-member-sync' ); ?></th>
 				<th class="manage-column column-role" id="expired_wp_role" scope="col"><?php _e( 'Expiry WP Role', 'civicrm-wp-member-sync' ); ?></th>
+				<?php
+
+				/**
+				 * Allow extra columns to be added after "Expiry WP Role".
+				 *
+				 * @since 0.4
+				 */
+				do_action( 'civi_wp_member_sync_list_roles_th_after_expiry' );
+
+				?>
 				<?php
 
 				/**
@@ -106,8 +126,34 @@
 					</td>
 					<td><?php echo $this->plugin->members->status_rules_get_current( $item['current_rule'] ); ?></td>
 					<td><?php echo $this->plugin->users->wp_role_name_get( $item['current_wp_role'] ); ?></td>
+					<?php
+
+					/**
+					 * Allow extra columns to be added after "Current WP Role".
+					 *
+					 * @since 0.4
+					 *
+					 * @param int $key The current key (type ID).
+					 * @param array $item The current item.
+					 */
+					do_action( 'civi_wp_member_sync_list_roles_td_after_current', $key, $item );
+
+					?>
 					<td><?php echo $this->plugin->members->status_rules_get_current( $item['expiry_rule'] );?></td>
 					<td><?php echo $this->plugin->users->wp_role_name_get( $item['expired_wp_role'] ); ?></td>
+					<?php
+
+					/**
+					 * Allow extra columns to be added after "Expired WP Role".
+					 *
+					 * @since 0.4
+					 *
+					 * @param int $key The current key (type ID).
+					 * @param array $item The current item.
+					 */
+					do_action( 'civi_wp_member_sync_list_roles_td_after_expiry', $key, $item );
+
+					?>
 					<?php
 
 					/**

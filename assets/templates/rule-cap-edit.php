@@ -118,8 +118,9 @@
 			 * @since 0.3.9
 			 *
 			 * @param array $status_rules The status rules.
+			 * @param array $selected_rule The rule being edited.
 			 */
-			do_action( 'civi_wp_member_sync_cap_edit_after_current', $status_rules );
+			do_action( 'civi_wp_member_sync_cap_edit_after_current', $status_rules, $selected_rule );
 
 			?>
 
@@ -155,8 +156,9 @@
 			 * @since 0.3.9
 			 *
 			 * @param array $status_rules The status rules.
+			 * @param array $selected_rule The rule being edited.
 			 */
-			do_action( 'civi_wp_member_sync_cap_edit_after_expire', $status_rules );
+			do_action( 'civi_wp_member_sync_cap_edit_after_expiry', $status_rules, $selected_rule );
 
 			?>
 

@@ -465,7 +465,7 @@ class Civi_WP_Member_Sync_Admin {
 
 		// Add scripts and styles.
 		add_action( 'admin_print_scripts-' . $this->rule_add_edit_page, array( $this, 'admin_js_rules_page' ) );
-		add_action( 'admin_print_styles-' . $this->rule_add_edit_page, array( $this, 'admin_css' ) );
+		add_action( 'admin_print_styles-' . $this->rule_add_edit_page, array( $this, 'admin_css_rules_page' ) );
 		add_action( 'admin_head-' . $this->rule_add_edit_page, array( $this, 'admin_head' ), 50 );
 		add_action( 'admin_head-' . $this->rule_add_edit_page, array( $this, 'admin_menu_highlight' ), 50 );
 
@@ -528,14 +528,16 @@ class Civi_WP_Member_Sync_Admin {
 	 * Enqueue common stylesheet for this plugin's admin pages.
 	 *
 	 * @since 0.1
+	 *
+	 * @param array $dependencies The CSS script dependencies.
 	 */
-	public function admin_css() {
+	public function admin_css( $dependencies = array() ) {
 
 		// Add admin stylesheet.
 		wp_enqueue_style(
 			'civi_wp_member_sync_admin_css',
 			plugins_url( 'assets/css/civi-wp-ms.css', CIVI_WP_MEMBER_SYNC_PLUGIN_FILE ),
-			false,
+			$dependencies,
 			CIVI_WP_MEMBER_SYNC_VERSION, // Version.
 			'all' // Media.
 		);
@@ -565,22 +567,63 @@ class Civi_WP_Member_Sync_Admin {
 
 
 	/**
+	 * Enqueue stylesheets for this plugin's "Add Rule" and "Edit Rule" page.
+	 *
+	 * @since 0.4
+	 */
+	public function admin_css_rules_page() {
+
+		// Define base dependencies.
+		$dependencies = array();
+
+		/**
+		 * Allow CSS dependencies to be injected.
+		 *
+		 * @since 0.4
+		 *
+		 * @param array $dependencies The existing dependencies.
+		 * @return array $dependencies The modified dependencies.
+		 */
+		$dependencies = apply_filters( 'civi_wp_member_sync_rules_css_dependencies', $dependencies );
+
+		// Add common CSS.
+		$this->admin_css( $dependencies );
+
+	}
+
+
+
+	/**
 	 * Enqueue required scripts on the Add Rule and Edit Rule pages.
 	 *
 	 * @since 0.1
 	 */
 	public function admin_js_rules_page() {
 
-		// Add javascript plus dependencies.
+		// Define base dependencies.
+		$dependencies = array( 'jquery', 'jquery-form' );
+
+		/**
+		 * Filter dependencies.
+		 *
+		 * @since 0.4
+		 *
+		 * @param array $dependencies The existing dependencies.
+		 * @return array $dependencies The modified dependencies.
+		 */
+		$dependencies = apply_filters( 'civi_wp_member_sync_rules_js_dependencies', $dependencies );
+
+		// Add JavaScript plus dependencies.
 		wp_enqueue_script(
 			'civi_wp_member_sync_rules_js',
 			plugins_url( 'assets/js/civi-wp-ms-rules.js', CIVI_WP_MEMBER_SYNC_PLUGIN_FILE ),
-			array( 'jquery', 'jquery-form' ),
+			$dependencies,
 			CIVI_WP_MEMBER_SYNC_VERSION // Version.
 		);
 
 		// Set defaults.
 		$vars = array(
+			'ajax_url' => admin_url( 'admin-ajax.php' ),
 			'method' => $this->setting_get_method(),
 			'mode' => 'add',
 		);
@@ -1750,9 +1793,6 @@ class Civi_WP_Member_Sync_Admin {
 					'expired_wp_role' => $expired_wp_role,
 				);
 
-				// Insert/overwrite role item in data.
-				$data['roles'][$civi_member_type_id] = $rule;
-
 			} else {
 
 				// Construct rule.
@@ -1762,10 +1802,19 @@ class Civi_WP_Member_Sync_Admin {
 					'capability' => CIVI_WP_MEMBER_SYNC_CAP_PREFIX . $civi_member_type_id,
 				);
 
-				// Insert/overwrite capability item in data.
-				$data['capabilities'][$civi_member_type_id] = $rule;
-
 			}
+
+			/**
+			 * Filter our association rule before it is saved.
+			 *
+			 * @since 0.4
+			 *
+			 * @param array $rule The new or updated association rule.
+			 * @param array $data The complete set of association rule.
+			 * @param str $mode The mode ('add' or 'edit').
+			 * @param str $method The sync method.
+			 */
+			$rule = apply_filters( 'civi_wp_member_sync_rule_pre_save', $rule, $data, $mode, $method );
 
 			/**
 			 * Broadcast our association rule before it is saved.
@@ -1782,6 +1831,9 @@ class Civi_WP_Member_Sync_Admin {
 			 * @param array $rule The new or updated association rule.
 			 */
 			do_action( 'civi_wp_member_sync_rule_' . $mode . '_' . $method, $rule );
+
+			// Insert/overwrite item in data array.
+			$data[$method][$civi_member_type_id] = $rule;
 
 			// Overwrite data.
 			$this->setting_set( 'data', $data );
