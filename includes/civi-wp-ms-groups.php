@@ -155,43 +155,37 @@ class Civi_WP_Member_Sync_Groups {
 		// Go direct.
 		global $wpdb;
 
-		/*
-		// Excludes.
-		$exclude = !empty( $exclude ) ? $exclude : null;
-		if ( !empty( $exclude ) && !is_array( $exclude ) && is_string( $exclude ) ) {
-			$exclude = explode( ',', $exclude );
+		// Grab comma-separated excludes.
+		$exclude = isset( $_POST['exclude'] ) ? trim( $_POST['exclude'] ) : '';
+
+		// Parse excludes.
+		$excludes = array();
+		if ( ! empty( $exclude ) ) {
+			$excludes = explode( ',', $exclude );
 		}
-		if ( $exclude !== null && count( $exclude ) > 0 ) {
-			$exclude = implode( ',', array_map( 'intval', array_map( 'trim', $exclude ) ) );
+
+		// Construct AND clause.
+		$and = '';
+		if ( ! empty( $excludes ) ) {
+			$exclude = implode( ',', array_map( 'intval', array_map( 'trim', $excludes ) ) );
 			if ( strlen( $exclude ) > 0 ) {
-				if ( empty( $where ) ) {
-					$where = " WHERE group_id NOT IN ($exclude) ";
-				} else {
-					$where .= " AND group_id NOT IN ($exclude) ";
-				}
+				$and = 'AND group_id NOT IN (' . $exclude . ')';
 			}
 		}
-		*/
 
 		// Do query.
 		$group_table = _groups_get_tablename( 'group' );
-		$groups = $wpdb->get_results( $wpdb->prepare(
-			"SELECT * FROM $group_table WHERE name LIKE '%s'",
-			'%' . esc_sql( trim( $_POST['s'] ) ) . '%'
-		) );
+		$like = '%' . $wpdb->esc_like( trim( $_POST['s'] ) ) . '%';
+		$sql = $wpdb->prepare( "SELECT * FROM $group_table WHERE name LIKE %s $and", $like );
+		$groups = $wpdb->get_results( $sql );
 
-		// Init return.
+		// Add items to output array.
 		$json = array();
-
-		// Loop through our groups.
 		foreach( $groups AS $group ) {
-
-			// Add item to output array.
 			$json[] = array(
 				'id' => $group->group_id,
 				'name' => esc_html( $group->name ),
 			);
-
 		}
 
 		// Send data.

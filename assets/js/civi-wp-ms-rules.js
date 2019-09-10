@@ -211,6 +211,7 @@ jQuery(document).ready( function($) {
 				return {
 					s: params.term, // Search term.
 					action: 'civi_wp_member_sync_get_groups',
+					exclude: cwms_groups_get_excludes( params, this ),
 					page: params.page,
 				};
 			},
@@ -232,6 +233,26 @@ jQuery(document).ready( function($) {
 		templateSelection: cwms_groups_format_response
 
 	});
+
+	/**
+	 * Find the groups to exclude from search.
+	 *
+	 * This is disabled at present because I can't decide whether or not groups
+	 * should be available in both 'current' and 'expiry' sections. I'm going to
+	 * allow duplicates for now.
+	 *
+	 * @since 0.4
+	 *
+	 * @param {Object} params The Select2 params.
+	 * @param {Object} obj The Select2 object calling this function.
+	 * @return {String} excludes The comma-separated group IDs to exclude from search.
+	 */
+	function cwms_groups_get_excludes( params, obj ) {
+
+		// --<
+		return '';
+
+	}
 
 	/**
 	 * Select2 format results for display in dropdown.
