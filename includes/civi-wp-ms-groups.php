@@ -259,17 +259,17 @@ class Civi_WP_Member_Sync_Groups {
 	 */
 	public function rule_apply_current( $user, $membership_type_id, $status_id, $association_rule ) {
 
-		// Add the user to the current groups.
-		if ( ! empty( $association_rule['current_groups'] ) ) {
-			foreach( $association_rule['current_groups'] AS $group_id ) {
-				$this->group_member_add( $user->ID, $group_id );
-			}
-		}
-
 		// Remove the user from the expired groups.
 		if ( ! empty( $association_rule['expiry_groups'] ) ) {
 			foreach( $association_rule['expiry_groups'] AS $group_id ) {
 				$this->group_member_delete( $user->ID, $group_id );
+			}
+		}
+
+		// Add the user to the current groups.
+		if ( ! empty( $association_rule['current_groups'] ) ) {
+			foreach( $association_rule['current_groups'] AS $group_id ) {
+				$this->group_member_add( $user->ID, $group_id );
 			}
 		}
 
