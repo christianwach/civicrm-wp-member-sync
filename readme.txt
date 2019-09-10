@@ -72,6 +72,10 @@ It may sometimes be necessary to manually synchronize users. Click on the "Manua
 
 == Changelog ==
 
+= 0.4 =
+
+* Support access control based on Groups plugin group membership
+
 = 0.3.8 =
 
 * Fix fatal error when renewing and changing Membership type
