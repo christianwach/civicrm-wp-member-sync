@@ -5,11 +5,13 @@ CiviCRM WordPress Member Sync
 
 The *CiviCRM WordPress Member Sync* plugin keeps a *WordPress* user in sync with a *CiviCRM* membership by granting either a role or capabilities to a *WordPress* user who has that membership.
 
-This enables you to have, among other things, members-only content on your website that is only accessible to current members as defined by the membership types and status rules that you set up in *CiviCRM*.
+This enables you to have, among other things, members-only content on your website that is only accessible to current members as defined by the membership types and status rules that you set up in the plugin's settings. CiviCRM WordPress Member Sync is compatible with both "[Members](https://wordpress.org/plugins/members/)" and "[Groups](https://wordpress.org/plugins/groups/)" for managing members-only content in WordPress.
 
 #### Notes ####
 
 This plugin has been developed using a minimum of *WordPress 4.4* and *CiviCRM 4.6*.
+
+It is strongly recommended that you also install [CiviCRM Admin Utilities](https://wordpress.org/plugins/civicrm-admin-utilities/) and have version 0.6.8 or greater activated. Make sure the checkbox labelled "Check this to fix the Contact 'soft delete' process" is checked so that Contacts that have been "soft deleted" have their corresponding WordPress User's status updated.
 
 This plugin builds on the [GitHub repo](https://github.com/tadpolecc/civi_member_sync) written by [Tadpole Collective](https://tadpole.cc) and  originally developed by [Jag Kandasamy](http://www.orangecreative.net). It has been given its own repo because it has diverged so significantly from its origins that it no longer makes sense to call it a fork or send changes upstream.
 
