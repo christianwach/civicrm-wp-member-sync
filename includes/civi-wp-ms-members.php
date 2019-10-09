@@ -94,6 +94,9 @@ class Civi_WP_Member_Sync_Members {
 
 		}
 
+		// Filter memberships and override for Contact in Trash.
+		add_filter( 'civi_wp_member_sync_memberships_get', array( $this, 'membership_override' ), 10, 3 );
+
 	}
 
 
@@ -669,12 +672,15 @@ class Civi_WP_Member_Sync_Members {
 	 * @param int $offset The numerical offset to apply.
 	 * @param int $limit The numerical limit to apply.
 	 * @param int $contact_id The numerical CiviCRM contact ID.
-	 * @return array $membership CiviCRM formatted membership data.
+	 * @return bool|array $data CiviCRM formatted membership data or false on failure.
 	 */
 	public function memberships_get( $offset = 0, $limit = 0, $contact_id = 0 ) {
 
+		// Init return as boolean.
+		$data = false;
+
 		// Kick out if no CiviCRM.
-		if ( ! civi_wp()->initialize() ) return false;
+		if ( ! civi_wp()->initialize() ) return $data;
 
 		// Configure API query params.
 		$params = array(
@@ -725,17 +731,149 @@ class Civi_WP_Member_Sync_Members {
 			count( $memberships['values'] ) > 0
 		) {
 
-			// CiviCRM API data contains a 'values' array.
-			return $memberships;
+			// Override default with CiviCRM API data.
+			$data = $memberships;
 
 		}
 
-		// Fallback
-		return false;
+		/**
+		 * Allow Membership data to be filtered.
+		 *
+		 * Use this filter to amend Membership data for a CiviCRM Contact.
+		 *
+		 * It is used within this plugin itself to non-destructively override
+		 * the Status of Memberships where the Contact has been "soft deleted".
+		 *
+		 * @since 0.4.1
+		 *
+		 * @param bool|array $data The array of Membership data returned by the CiviCRM API.
+		 * @param array $params The params used to query the CiviCRM API.
+		 * @param int $contact_id The numerical CiviCRM Contact ID.
+		 * @return bool|array $data The array of Membership data returned by the CiviCRM API.
+		 */
+		$data = apply_filters( 'civi_wp_member_sync_memberships_get', $data, $params, $contact_id );
+
+		// --<
+		return $data;
 
 	}
 
 
+
+	/**
+	 * Filter Membership data where a Contact is in the Trash.
+	 *
+	 * @since 0.4.1
+	 *
+	 * @param bool|array $data The existing array of Membership data returned by the CiviCRM API.
+	 * @param array $params The params used to query the CiviCRM API.
+	 * @param int $contact_id The numerical CiviCRM Contact ID.
+	 * @return bool|array $data The modified array of Membership data returned by the CiviCRM API.
+	 */
+	public function membership_override( $data, $params, $contact_id ) {
+
+		// Sanity checks.
+		if ( $data === false ) return $data;
+		if ( $contact_id === 0 ) return $data;
+
+		// Get data assuming Contact is in the Trash.
+		$result = civicrm_api( 'Contact', 'get', array(
+			'version' => 3,
+			'sequential' => 1,
+			'id' => $contact_id,
+			'is_deleted' => 1,
+		));
+
+		// If Contact is in the Trash.
+		if (
+			$result['is_error'] == 0 AND
+			isset( $result['values'] ) AND
+			count( $result['values'] ) > 0
+		) {
+
+			// Override Membership Statuses.
+			$overrides = array();
+			foreach( $data['values'] AS $membership ) {
+
+				// Check if Membership is already expired.
+				$expired = $this->membership_is_expired( $membership );
+
+				// Maybe overwrite with an expired status.
+				if ( ! empty( $expired ) AND $expired['is_expired'] === false ) {
+					$membership['status_id'] = $expired['status_id'];
+					$membership['status_id.is_current_member'] = 0;
+				}
+
+				// Always populate overrides.
+				$overrides[] = $membership;
+
+			}
+
+			// Overwrite values array.
+			$data['values'] = $overrides;
+
+		}
+
+		// --<
+		return $data;
+
+	}
+
+
+
+	/**
+	 * Check if a Membership is expired.
+	 *
+	 * This returns an array in ALL cases, though it will be an EMPTY array if
+	 * an error is encountered. When there is no error, the array will contain
+	 * an expired Status ID and a boolean corresponding to whether or no the
+	 * Membership is expired.
+	 *
+	 * @since 0.4.1
+	 *
+	 * @param array $membership The CiviCRM Membership data.
+	 * @return array $expired Array containing an expired Status ID and an expired boolean.
+	 */
+	public function membership_is_expired( $membership ) {
+
+		// Init return as empty.
+		$expired = array();
+
+		// Get sync method.
+		$method = $this->plugin->admin->setting_get_method();
+
+		// Bail if something went wrong.
+		if ( ! isset( $membership['membership_type_id'] ) ) return $expired;
+		if ( ! isset( $membership['status_id'] ) ) return $expired;
+
+		// Get membership type and status rule.
+		$membership_type_id = $membership['membership_type_id'];
+		$status_id = $membership['status_id'];
+
+		// Get association rule for this membership type.
+		$association_rule = $this->plugin->admin->rule_get_by_type( $membership_type_id, $method );
+
+		// Bail if we have an error of some kind.
+		if ( $association_rule === false ) return $expired;
+
+		// Get status rules.
+		$current_rule = $association_rule['current_rule'];
+		$expiry_rule = $association_rule['expiry_rule'];
+
+		// Always add an expired Status ID.
+		$expired['status_id'] = array_pop( $expiry_rule );
+
+		// Does the membership status match a current status rule?
+		if ( array_search( $status_id, $current_rule ) ) {
+			$expired['is_expired'] = false;
+		} else {
+			$expired['is_expired'] = true;
+		}
+
+		// --<
+		return $expired;
+
+	}
 
 	/**
 	 * Get membership records by CiviCRM contact ID.
