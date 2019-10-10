@@ -59,9 +59,29 @@
 
 		</table>
 
+		<hr />
+
 		<h3><?php _e( 'Synchronization Events', 'civicrm-wp-member-sync' ); ?></h3>
 
 		<p><?php _e( 'Select which events CiviCRM WordPress Member Sync will use to trigger synchronization of CiviCRM Memberships and WordPress Users. If you choose user login/logout, you will have to run "Manual Synchronize" after you create a new rule for it to be applied to all users and contacts. Leave the default settings if you are unsure which methods to use.', 'civicrm-wp-member-sync' ); ?></p>
+
+		<?php if ( $cau_present === false ) : ?>
+			<div class="notice notice-warning inline">
+				<p><?php _e( 'In order to sync Contacts in CiviCRM that have been &#8220;soft deleted&#8221; (moved to the Trash but not fully deleted) you will need to install <a href="https://wordpress.org/plugins/civicrm-admin-utilities/">CiviCRM Admin Utilities</a> version 0.6.8 or greater. Make sure the checkbox labelled <em>&#8217;Check this to fix the Contact &#8220;soft delete&#8221; process&#8216;</em> is checked so that Contacts that have been &#8220;soft deleted&#8221; continue to have their matching WordPress User&#8216;s status updated. Note that this fix only applies to Contacts which have been &#8220;soft deleted&#8221; <em>after</em> CiviCRM Admin Utilities has been installed and configured.', 'civicrm-wp-member-sync' ); ?></p>
+			</div>
+		<?php endif; ?>
+
+		<?php if ( $cau_present === true AND $cau_version_ok === false ) : ?>
+			<div class="notice notice-warning inline">
+				<p><?php _e( 'In order to sync Contacts in CiviCRM that have been &#8220;soft deleted&#8221; (moved to the Trash but not fully deleted) you will need to upgrade <a href="https://wordpress.org/plugins/civicrm-admin-utilities/">CiviCRM Admin Utilities</a> to version 0.6.8 or higher. When you have done this, make sure the checkbox labelled <em>&#8217;Check this to fix the Contact &#8220;soft delete&#8221; process&#8216;</em> is checked so that Contacts that have been &#8220;soft deleted&#8221; continue to have their matching WordPress User&#8216;s status updated. Note that this fix only applies to Contacts which have been &#8220;soft deleted&#8221; <em>after</em> CiviCRM Admin Utilities has been upgraded and configured.', 'civicrm-wp-member-sync' ); ?></p>
+			</div>
+		<?php endif; ?>
+
+		<?php if ( $cau_present === true AND $cau_version_ok === true AND $cau_configured === false ) : ?>
+			<div class="notice notice-warning inline">
+				<p><?php echo sprintf( __( 'In order to sync Contacts in CiviCRM that have been &#8220;soft deleted&#8221; (moved to the Trash but not fully deleted) you will need to visit the CiviCRM Admin Utilities <a href="%s">Settings page</a> and make sure the checkbox labelled <em>&#8217;Check this to fix the Contact &#8220;soft delete&#8221; process&#8216;</em> is checked so that Contacts which have been &#8220;soft deleted&#8221; continue to have their matching WordPress User&#8216;s status updated. Note that this fix only applies to Contacts which have been &#8220;soft deleted&#8221; <em>after</em> CiviCRM Admin Utilities has been properly configured.', 'civicrm-wp-member-sync' ), $cau_link ); ?></p>
+			</div>
+		<?php endif; ?>
 
 		<table class="form-table">
 
@@ -137,9 +157,9 @@
 
 		</table>
 
-		<h3><?php _e( 'Other Settings', 'civicrm-wp-member-sync' ); ?></h3>
+		<hr />
 
-		<p><?php _e( 'In versions of CiviCRM WordPress Member Sync prior to 0.3.5, all CiviCRM Memberships were synchronized to WordPress Users. This meant that Organisations and Households also had corresponding WordPress Users. If you want to restrict syncing to Individuals only, then check the box below.', 'civicrm-wp-member-sync' ); ?></p>
+		<h3><?php _e( 'Other Settings', 'civicrm-wp-member-sync' ); ?></h3>
 
 		<table class="form-table">
 
@@ -156,28 +176,13 @@
 
 					?><input type="checkbox" class="settings-checkbox" name="civi_wp_member_sync_settings_types" id="civi_wp_member_sync_settings_types" value="1"<?php echo $checked; ?> />
 					<label class="civi_wp_member_sync_settings_label" for="civi_wp_member_sync_settings_types"><?php _e( 'Synchronize Individuals only.', 'civicrm-wp-member-sync' ); ?></label>
+					<p class="description"><?php _e( 'In versions of CiviCRM WordPress Member Sync prior to 0.3.5, all CiviCRM Memberships were synchronized to WordPress Users. This meant that Organisations and Households also had corresponding WordPress Users. If you want to restrict syncing to Individuals only, then check the box below.', 'civicrm-wp-member-sync' ); ?></p>
 				</td>
 			</tr>
 
 		</table>
 
-		<?php if ( defined( 'CIVI_WP_MEMBER_SYNC_DEBUG' ) AND CIVI_WP_MEMBER_SYNC_DEBUG ) { ?>
-
-			<h3><?php _e( 'Developer Testing', 'civicrm-wp-member-sync' ); ?></h3>
-
-			<table class="form-table">
-
-				<tr>
-					<th scope="row"><?php _e( 'Debug', 'civicrm-wp-member-sync' ); ?></th>
-					<td>
-						<input type="checkbox" class="settings-checkbox" name="civi_wp_member_sync_settings_debug" id="civi_wp_member_sync_settings_debug" value="1" />
-						<label class="civi_wp_member_sync_settings_label" for="civi_wp_member_sync_settings_debug"><?php _e( 'Check this to trigger do_debug().', 'civicrm-wp-member-sync' ); ?></label>
-					</td>
-				</tr>
-
-			</table>
-
-		<?php } ?>
+		<hr />
 
 		<p class="submit"><input class="button-primary" type="submit" id="civi_wp_member_sync_settings_submit" name="civi_wp_member_sync_settings_submit" value="<?php _e( 'Save Changes', 'civicrm-wp-member-sync' ); ?>" /></p>
 

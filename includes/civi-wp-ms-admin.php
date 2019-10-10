@@ -802,6 +802,18 @@ class Civi_WP_Member_Sync_Admin {
 		// Get our types setting.
 		$types = absint( $this->setting_get( 'types' ) );
 
+		// Check if CiviCRM Admin Utilities has been installed.
+		$cau_present = $this->cau_activated();
+
+		// Check the version of CiviCRM Admin Utilities is okay.
+		$cau_version_ok = $this->cau_version_ok();
+
+		// Check if CiviCRM Admin Utilities has been configured.
+		$cau_configured = $this->cau_configured();
+
+		// Get Settings page link
+		$cau_link = $this->cau_page_get_url();
+
 		// Include template file.
 		include( CIVI_WP_MEMBER_SYNC_PLUGIN_PATH . 'assets/templates/settings.php' );
 
@@ -2357,6 +2369,112 @@ class Civi_WP_Member_Sync_Admin {
 			}
 
 		}
+
+	}
+
+
+
+	//##########################################################################
+
+
+
+	/**
+	 * Check if CiviCRM Admin Utilities has been installed and activated.
+	 *
+	 * @since 0.7
+	 *
+	 * @return bool True if CiviCRM Admin Utilities is activated, false otherwise.
+	 */
+	public function cau_activated() {
+
+		// Missing if version constant not defined.
+		if ( ! defined( 'CIVICRM_ADMIN_UTILITIES_VERSION' ) ) {
+			return false;
+		}
+
+		// We're good!
+		return true;
+
+	}
+
+
+
+	/**
+	 * Check if the CiviCRM Admin Utilities version meets the requirements.
+	 *
+	 * @since 0.7
+	 *
+	 * @return bool True if CiviCRM Admin Utilities meets the requirements, false otherwise.
+	 */
+	public function cau_version_ok() {
+
+		// Bail if not installed.
+		if ( ! $this->cau_activated() ) {
+			return false;
+		}
+
+		// Fail if version is less than 0.6.8.
+		if ( version_compare( CIVICRM_ADMIN_UTILITIES_VERSION, '0.6.8', '<' ) ) {
+			return false;
+		}
+
+		// We're good!
+		return true;
+
+	}
+
+
+
+	/**
+	 * Check if CiviCRM Admin Utilities has been properly configured.
+	 *
+	 * @since 0.7
+	 *
+	 * @return bool True if CiviCRM Admin Utilities is configured, false otherwise.
+	 */
+	public function cau_configured() {
+
+		// Fail if version is less than 0.6.8.
+		if ( ! $this->cau_version_ok() ) {
+			return false;
+		}
+
+		// Not configured if "Fix Soft Delete" setting is not set.
+		if ( civicrm_au()->single->setting_get( 'fix_soft_delete', '0' ) == '0' ) {
+			return false;
+		}
+
+		// We're good!
+		return true;
+
+	}
+
+
+
+	/**
+	 * Get the link to the CiviCRM Admin Utilities "Settings" page.
+	 *
+	 * @since 0.7
+	 *
+	 * @return str The link to the CAU "Settings" page, or empty if not found.
+	 */
+	public function cau_page_get_url() {
+
+		// Sanity check.
+		if ( ! $this->cau_configured() ) {
+			return '';
+		}
+
+		// Get all site URLs.
+		$urls = civicrm_au()->single->page_get_urls();
+
+		// Return settings page URL if it exists.
+		if ( ! empty( $urls['settings'] ) ) {
+			return $urls['settings'];
+		}
+
+		// Fallback
+		return '';
 
 	}
 
