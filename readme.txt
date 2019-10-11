@@ -73,6 +73,10 @@ It may sometimes be necessary to manually synchronize users. Click on the "Manua
 
 == Changelog ==
 
+= 0.4.1 =
+
+* Fix sync for Contacts in Trash - fix requires CiviCRM Admin Utilities 0.6.8+
+
 = 0.4 =
 
 * Support access control based on Groups plugin group membership
