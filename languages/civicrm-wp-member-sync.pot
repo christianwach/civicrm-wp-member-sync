@@ -2,9 +2,9 @@
 # This file is distributed under the same license as the CiviCRM WordPress Member Sync package.
 msgid ""
 msgstr ""
-"Project-Id-Version: CiviCRM WordPress Member Sync 0.4\n"
+"Project-Id-Version: CiviCRM WordPress Member Sync 0.4.1\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/civicrm-wp-member-sync\n"
-"POT-Creation-Date: 2019-09-10 10:14:28+00:00\n"
+"POT-Creation-Date: 2019-10-11 14:41:18+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -265,71 +265,81 @@ msgstr ""
 msgid "Roles"
 msgstr ""
 
-#: assets/templates/settings.php:62
+#: assets/templates/settings.php:64
 msgid "Synchronization Events"
 msgstr ""
 
-#: assets/templates/settings.php:64
+#: assets/templates/settings.php:66
 msgid "Select which events CiviCRM WordPress Member Sync will use to trigger synchronization of CiviCRM Memberships and WordPress Users. If you choose user login/logout, you will have to run \"Manual Synchronize\" after you create a new rule for it to be applied to all users and contacts. Leave the default settings if you are unsure which methods to use."
 msgstr ""
 
-#: assets/templates/settings.php:69
+#: assets/templates/settings.php:70 assets/templates/settings.php:78
+#: assets/templates/settings.php:86
+msgid "Important Fix"
+msgstr ""
+
+#: assets/templates/settings.php:71
+msgid "In order to sync Contacts in CiviCRM that have been &#8220;soft deleted&#8221; (moved to the Trash but not fully deleted) you will need to install <a href=\"https://wordpress.org/plugins/civicrm-admin-utilities/\">CiviCRM Admin Utilities</a> version 0.6.8 or greater. Make sure the checkbox labelled <em>&#8217;Check this to fix the Contact &#8220;soft delete&#8221; process&#8216;</em> is checked so that Contacts that have been &#8220;soft deleted&#8221; continue to have their matching WordPress User&#8216;s status updated."
+msgstr ""
+
+#: assets/templates/settings.php:72 assets/templates/settings.php:80
+#: assets/templates/settings.php:88
+msgid "Note that this fix only applies to Contacts which have been &#8220;soft deleted&#8221; <em>after</em> CiviCRM Admin Utilities has been properly configured."
+msgstr ""
+
+#: assets/templates/settings.php:79
+msgid "In order to sync Contacts in CiviCRM that have been &#8220;soft deleted&#8221; (moved to the Trash but not fully deleted) you will need to upgrade <a href=\"https://wordpress.org/plugins/civicrm-admin-utilities/\">CiviCRM Admin Utilities</a> to version 0.6.8 or higher. When you have done this, make sure the checkbox labelled <em>&#8217;Check this to fix the Contact &#8220;soft delete&#8221; process&#8216;</em> is checked so that Contacts that have been &#8220;soft deleted&#8221; continue to have their matching WordPress User&#8216;s status updated."
+msgstr ""
+
+#: assets/templates/settings.php:87
+msgid "In order to sync Contacts in CiviCRM that have been &#8220;soft deleted&#8221; (moved to the Trash but not fully deleted) you will need to visit the CiviCRM Admin Utilities <a href=\"%s\">Settings page</a> and make sure the checkbox labelled <em>&#8217;Check this to fix the Contact &#8220;soft delete&#8221; process&#8216;</em> is checked so that Contacts which have been &#8220;soft deleted&#8221; continue to have their matching WordPress User&#8216;s status updated."
+msgstr ""
+
+#: assets/templates/settings.php:95
 msgid "Login and Logout"
 msgstr ""
 
-#: assets/templates/settings.php:80
+#: assets/templates/settings.php:106
 msgid "Synchronize whenever a user logs in or logs out. This action is performed only on the user logging in or out."
 msgstr ""
 
-#: assets/templates/settings.php:85
+#: assets/templates/settings.php:111
 msgid "CiviCRM Admin"
 msgstr ""
 
-#: assets/templates/settings.php:96
+#: assets/templates/settings.php:122
 msgid "Synchronize when membership is updated in CiviCRM admin pages."
 msgstr ""
 
-#: assets/templates/settings.php:101
+#: assets/templates/settings.php:127
 msgid "Scheduled Events"
 msgstr ""
 
-#: assets/templates/settings.php:112
+#: assets/templates/settings.php:138
 msgid "Synchronize using a recurring schedule. This action is performed on all users and contacts."
 msgstr ""
 
-#: assets/templates/settings.php:117
+#: assets/templates/settings.php:143
 msgid "Schedule Interval"
 msgstr ""
 
-#: assets/templates/settings.php:140
+#: assets/templates/settings.php:168
 msgid "Other Settings"
 msgstr ""
 
-#: assets/templates/settings.php:142
-msgid "In versions of CiviCRM WordPress Member Sync prior to 0.3.5, all CiviCRM Memberships were synchronized to WordPress Users. This meant that Organisations and Households also had corresponding WordPress Users. If you want to restrict syncing to Individuals only, then check the box below."
-msgstr ""
-
-#: assets/templates/settings.php:147
+#: assets/templates/settings.php:173
 msgid "Synced Contact Types"
 msgstr ""
 
-#: assets/templates/settings.php:158
+#: assets/templates/settings.php:184
 msgid "Synchronize Individuals only."
 msgstr ""
 
-#: assets/templates/settings.php:166
-msgid "Developer Testing"
+#: assets/templates/settings.php:185
+msgid "In versions of CiviCRM WordPress Member Sync prior to 0.3.5, all CiviCRM Memberships were synchronized to WordPress Users. This meant that Organisations and Households also had corresponding WordPress Users. If you want to restrict syncing to Individuals only, then check the box below."
 msgstr ""
 
-#: assets/templates/settings.php:171
-msgid "Debug"
-msgstr ""
-
-#: assets/templates/settings.php:174
-msgid "Check this to trigger do_debug()."
-msgstr ""
-
-#: assets/templates/settings.php:182
+#: assets/templates/settings.php:193
 msgid "Save Changes"
 msgstr ""
 
@@ -411,19 +421,19 @@ msgstr ""
 msgid "For further information about using CiviCRM WordPress Member Sync, please refer to the README.md that comes with this plugin."
 msgstr ""
 
-#: includes/civi-wp-ms-admin.php:1420
+#: includes/civi-wp-ms-admin.php:1432
 msgid "You must supply a setting to setting_exists()"
 msgstr ""
 
-#: includes/civi-wp-ms-admin.php:1441
+#: includes/civi-wp-ms-admin.php:1453
 msgid "You must supply a setting to setting_get()"
 msgstr ""
 
-#: includes/civi-wp-ms-admin.php:1460
+#: includes/civi-wp-ms-admin.php:1472
 msgid "You must supply a setting to setting_set()"
 msgstr ""
 
-#: includes/civi-wp-ms-admin.php:1900
+#: includes/civi-wp-ms-admin.php:1912
 msgid "Cheating, eh?"
 msgstr ""
 
