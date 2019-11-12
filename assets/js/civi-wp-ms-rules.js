@@ -202,14 +202,19 @@ jQuery(document).ready( function($) {
 	// The following require Select2.
 	if ( cwms_select2 === 'yes' ) {
 
-		/**
-		 * Select2 init.
-		 *
-		 * @since 0.4
-		 */
-		$('#civi_member_type_id').select2({
-			multiple: true
-		});
+		// Only if in add mode.
+		if ( cwms_mode == 'add' ) {
+
+			/**
+			 * Select2 init.
+			 *
+			 * @since 0.4
+			 */
+			$('#civi_member_type_id').select2({
+				multiple: true
+			});
+
+		}
 
 	}
 
