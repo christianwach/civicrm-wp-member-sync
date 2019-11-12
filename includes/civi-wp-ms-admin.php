@@ -144,12 +144,12 @@ class Civi_WP_Member_Sync_Admin {
 
 		// Define errors.
 		$this->error_strings = array(
-			'type' => __( 'Please select a CiviCRM Membership Type', 'civicrm-wp-member-sync' ),
-			'current-role' => __( 'Please select a WordPress Current Role', 'civicrm-wp-member-sync' ),
-			'current-status' => __( 'Please select a Current Status', 'civicrm-wp-member-sync' ),
-			'expire-status' => __( 'Please select an Expire Status', 'civicrm-wp-member-sync' ),
-			'expire-role' => __( 'Please select a WordPress Expiry Role', 'civicrm-wp-member-sync' ),
-			'clash-status' => __( 'You can not have the same Status Rule registered as both "Current" and "Expired"', 'civicrm-wp-member-sync' ),
+			'type' => esc_html__( 'Please select a CiviCRM Membership Type', 'civicrm-wp-member-sync' ),
+			'current-role' => esc_html__( 'Please select a WordPress Current Role', 'civicrm-wp-member-sync' ),
+			'current-status' => esc_html__( 'Please select a Current Status', 'civicrm-wp-member-sync' ),
+			'expire-status' => esc_html__( 'Please select an Expire Status', 'civicrm-wp-member-sync' ),
+			'expire-role' => esc_html__( 'Please select a WordPress Expiry Role', 'civicrm-wp-member-sync' ),
+			'clash-status' => esc_html__( 'You can not have the same Status Rule registered as both "Current" and "Expired"', 'civicrm-wp-member-sync' ),
 		);
 
 		// Test for constant.
@@ -704,10 +704,10 @@ class Civi_WP_Member_Sync_Admin {
 
 		// Init localisation.
 		$localisation = array(
-			'total' => __( '{{total}} memberships to sync...', 'civicrm-wp-member-sync' ),
-			'current' => __( 'Processing memberships {{from}} to {{to}}', 'civicrm-wp-member-sync' ),
-			'complete' => __( 'Processing memberships {{from}} to {{to}} complete', 'civicrm-wp-member-sync' ),
-			'done' => __( 'All done!', 'civicrm-wp-member-sync' ),
+			'total' => esc_html__( '{{total}} memberships to sync...', 'civicrm-wp-member-sync' ),
+			'current' => esc_html__( 'Processing memberships {{from}} to {{to}}', 'civicrm-wp-member-sync' ),
+			'complete' => esc_html__( 'Processing memberships {{from}} to {{to}} complete', 'civicrm-wp-member-sync' ),
+			'done' => esc_html__( 'All done!', 'civicrm-wp-member-sync' ),
 		);
 
 		// Init settings.
@@ -766,7 +766,7 @@ class Civi_WP_Member_Sync_Admin {
 		// Add a tab - we can add more later.
 		$screen->add_help_tab( array(
 			'id'      => 'civi_wp_member_sync',
-			'title'   => __( 'CiviCRM WordPress Member Sync', 'civicrm-wp-member-sync' ),
+			'title'   => esc_html__( 'CiviCRM WordPress Member Sync', 'civicrm-wp-member-sync' ),
 			'content' => $this->get_help(),
 		));
 
@@ -787,7 +787,7 @@ class Civi_WP_Member_Sync_Admin {
 	public function get_help() {
 
 		// Stub help text, to be developed further.
-		$help = '<p>' . __( 'For further information about using CiviCRM WordPress Member Sync, please refer to the README.md that comes with this plugin.', 'civicrm-wp-member-sync' ) . '</p>';
+		$help = '<p>' . esc_html__( 'For further information about using CiviCRM WordPress Member Sync, please refer to the README.md that comes with this plugin.', 'civicrm-wp-member-sync' ) . '</p>';
 
 		// --<
 		return $help;
@@ -1571,7 +1571,7 @@ class Civi_WP_Member_Sync_Admin {
 
 		// Sanity check.
 		if ( $setting_name == '' ) {
-			die( __( 'You must supply a setting to setting_exists()', 'civicrm-wp-member-sync' ) );
+			die( esc_html__( 'You must supply a setting to setting_exists()', 'civicrm-wp-member-sync' ) );
 		}
 
 		// Get existence of setting in array.
@@ -1592,7 +1592,7 @@ class Civi_WP_Member_Sync_Admin {
 
 		// Sanity check.
 		if ( $setting_name == '' ) {
-			die( __( 'You must supply a setting to setting_get()', 'civicrm-wp-member-sync' ) );
+			die( esc_html__( 'You must supply a setting to setting_get()', 'civicrm-wp-member-sync' ) );
 		}
 
 		// Get setting.
@@ -1611,7 +1611,7 @@ class Civi_WP_Member_Sync_Admin {
 
 		// Sanity check.
 		if ( $setting_name == '' ) {
-			die( __( 'You must supply a setting to setting_set()', 'civicrm-wp-member-sync' ) );
+			die( esc_html__( 'You must supply a setting to setting_set()', 'civicrm-wp-member-sync' ) );
 		}
 
 		// Set setting.
@@ -2224,7 +2224,7 @@ class Civi_WP_Member_Sync_Admin {
 			! wp_verify_nonce( $_GET['civi_wp_member_sync_delete_nonce'], 'civi_wp_member_sync_delete_link' )
 		) {
 
-			wp_die( __( 'Cheating, eh?', 'civicrm-wp-member-sync' ) );
+			wp_die( esc_html__( 'Cheating, eh?', 'civicrm-wp-member-sync' ) );
 			exit();
 
 		}

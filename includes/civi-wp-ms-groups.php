@@ -369,7 +369,7 @@ class Civi_WP_Member_Sync_Groups {
 			$trace = $e->getTraceAsString();
 			error_log( print_r( array(
 				'method' => __METHOD__,
-				'message' => __( 'Could not add user to group.', 'civicrm-groups-sync' ),
+				'message' => esc_html__( 'Could not add user to group.', 'civicrm-groups-sync' ),
 				'user_id' => $user_id,
 				'group_id' => $group_id,
 				'backtrace' => $trace,
@@ -408,7 +408,7 @@ class Civi_WP_Member_Sync_Groups {
 			$trace = $e->getTraceAsString();
 			error_log( print_r( array(
 				'method' => __METHOD__,
-				'message' => __( 'Could not delete user from group.', 'civicrm-groups-sync' ),
+				'message' => esc_html__( 'Could not delete user from group.', 'civicrm-groups-sync' ),
 				'user_id' => $user_id,
 				'group_id' => $group_id,
 				'backtrace' => $trace,
@@ -501,7 +501,7 @@ class Civi_WP_Member_Sync_Groups {
 	public function list_current_header() {
 
 		// Echo markup.
-		echo '<th>' . __( 'Current Group(s)', 'civicrm-wp-member-sync' ) . '</th>';
+		echo '<th>' . esc_html__( 'Current Group(s)', 'civicrm-wp-member-sync' ) . '</th>';
 
 	}
 
@@ -515,7 +515,7 @@ class Civi_WP_Member_Sync_Groups {
 	public function list_expiry_header() {
 
 		// Echo markup.
-		echo '<th>' . __( 'Expiry Group(s)', 'civicrm-wp-member-sync' ) . '</th>';
+		echo '<th>' . esc_html__( 'Expiry Group(s)', 'civicrm-wp-member-sync' ) . '</th>';
 
 	}
 
