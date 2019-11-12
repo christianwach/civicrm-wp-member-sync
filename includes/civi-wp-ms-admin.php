@@ -119,6 +119,15 @@ class Civi_WP_Member_Sync_Admin {
 	 */
 	public $batch_count = 25;
 
+	/**
+	 * Select2 Javascript flag.
+	 *
+	 * @since 0.4.2
+	 * @access public
+	 * @var bool $multiple True if Select2 library is enqueued, false otherwise.
+	 */
+	public $select2 = false;
+
 
 
 	/**
@@ -573,6 +582,11 @@ class Civi_WP_Member_Sync_Admin {
 	 */
 	public function admin_css_rules_page() {
 
+		// Has "multiple" been selected?
+		if ( defined( 'CIVI_WP_MEMBER_SYNC_MULTIPLE' ) AND CIVI_WP_MEMBER_SYNC_MULTIPLE === true ) {
+			add_filter( 'civi_wp_member_sync_rules_css_dependencies', array( $this, 'dependencies_css' ), 10, 1 );
+		}
+
 		// Define base dependencies.
 		$dependencies = array();
 
@@ -585,6 +599,11 @@ class Civi_WP_Member_Sync_Admin {
 		 * @return array $dependencies The modified dependencies.
 		 */
 		$dependencies = apply_filters( 'civi_wp_member_sync_rules_css_dependencies', $dependencies );
+
+		// Has "multiple" been selected?
+		if ( defined( 'CIVI_WP_MEMBER_SYNC_MULTIPLE' ) AND CIVI_WP_MEMBER_SYNC_MULTIPLE === true ) {
+			remove_filter( 'civi_wp_member_sync_rules_css_dependencies', array( $this, 'dependencies_css' ), 10 );
+		}
 
 		// Add common CSS.
 		$this->admin_css( $dependencies );
@@ -600,6 +619,11 @@ class Civi_WP_Member_Sync_Admin {
 	 */
 	public function admin_js_rules_page() {
 
+		// Has "multiple" been selected?
+		if ( defined( 'CIVI_WP_MEMBER_SYNC_MULTIPLE' ) AND CIVI_WP_MEMBER_SYNC_MULTIPLE === true ) {
+			add_filter( 'civi_wp_member_sync_rules_js_dependencies', array( $this, 'dependencies_js' ), 10, 1 );
+		}
+
 		// Define base dependencies.
 		$dependencies = array( 'jquery', 'jquery-form' );
 
@@ -612,6 +636,11 @@ class Civi_WP_Member_Sync_Admin {
 		 * @return array $dependencies The modified dependencies.
 		 */
 		$dependencies = apply_filters( 'civi_wp_member_sync_rules_js_dependencies', $dependencies );
+
+		// Has "multiple" been selected?
+		if ( defined( 'CIVI_WP_MEMBER_SYNC_MULTIPLE' ) AND CIVI_WP_MEMBER_SYNC_MULTIPLE === true ) {
+			remove_filter( 'civi_wp_member_sync_rules_js_dependencies', array( $this, 'dependencies_js' ), 10 );
+		}
 
 		// Add JavaScript plus dependencies.
 		wp_enqueue_script(
@@ -626,7 +655,19 @@ class Civi_WP_Member_Sync_Admin {
 			'ajax_url' => admin_url( 'admin-ajax.php' ),
 			'method' => $this->setting_get_method(),
 			'mode' => 'add',
+			'select2' => 'no',
+			'groups' => 'no',
 		);
+
+		// Maybe override select2.
+		if ( in_array( 'civi_wp_member_sync_select2_js', $dependencies ) ) {
+			$vars['select2'] = 'yes';
+		}
+
+		// Maybe override groups.
+		if ( $this->plugin->groups->enabled() ) {
+			$vars['groups'] = 'yes';
+		}
 
 		// Maybe override mode.
 		if ( isset( $_GET['mode'] ) AND $_GET['mode'] == 'edit' ) {
@@ -760,6 +801,101 @@ class Civi_WP_Member_Sync_Admin {
 
 
 	/**
+	 * Filter CSS dependencies on the "Add Rule" and "Edit Rule" pages.
+	 *
+	 * @since 0.4
+	 * @since 0.4.2 Moved into this class.
+	 *
+	 * @param array $dependencies The existing dependencies.
+	 * @return array $dependencies The modified dependencies.
+	 */
+	public function dependencies_css( $dependencies ) {
+
+		// Store instance in static variable.
+		static $dependencies_done = false;
+
+		// Bail if done.
+		if ( true === $dependencies_done ) {
+			return $dependencies;
+		}
+
+		// Define our handle.
+		$handle = 'civi_wp_member_sync_select2_css';
+
+		// Register Select2 styles.
+		wp_register_style(
+			$handle,
+			set_url_scheme( 'https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.10/css/select2.min.css' )
+		);
+
+		// Enqueue styles.
+		wp_enqueue_style( $handle );
+
+		// Add to dependencies.
+		$dependencies[] = $handle;
+
+		// Set flags.
+		$dependencies_done = true;
+		$this->select2 = true;
+
+		// --<
+		return $dependencies;
+
+	}
+
+
+
+	/**
+	 * Filter script dependencies on the "Add Rule" and "Edit Rule" pages.
+	 *
+	 * @since 0.4
+	 * @since 0.4.2 Moved into this class.
+	 *
+	 * @param array $dependencies The existing dependencies.
+	 * @return array $dependencies The modified dependencies.
+	 */
+	public function dependencies_js( $dependencies ) {
+
+		// Store instance in static variable.
+		static $dependencies_done = false;
+
+		// Bail if done.
+		if ( true === $dependencies_done ) {
+			return $dependencies;
+		}
+
+		// Define our handle.
+		$handle = 'civi_wp_member_sync_select2_js';
+
+		// Register Select2.
+		wp_register_script(
+			$handle,
+			set_url_scheme( 'https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.10/js/select2.min.js' ),
+			array( 'jquery' )
+		);
+
+		// Enqueue script.
+		wp_enqueue_script( $handle );
+
+		// Add to dependencies.
+		$dependencies[] = $handle;
+
+		// Set flags.
+		$dependencies_done = true;
+		$this->select2 = true;
+
+		// --<
+		return $dependencies;
+
+	}
+
+
+
+	//##########################################################################
+
+
+
+	/**
 	 * Show settings page.
 	 *
 	 * @since 0.1
@@ -811,7 +947,7 @@ class Civi_WP_Member_Sync_Admin {
 		// Check if CiviCRM Admin Utilities has been configured.
 		$cau_configured = $this->cau_configured();
 
-		// Get Settings page link
+		// Get Settings page link.
 		$cau_link = $this->cau_page_get_url();
 
 		// Include template file.
@@ -986,6 +1122,12 @@ class Civi_WP_Member_Sync_Admin {
 				}
 			}
 
+		}
+
+		// Convert select to multi-select.
+		$multiple = '';
+		if ( $this->select2 === true ) {
+			$multiple = ' multiple="multiple" style="min-width: 240px;"';
 		}
 
 		// Well?
@@ -1699,7 +1841,7 @@ class Civi_WP_Member_Sync_Admin {
 		// Default mode to 'add'.
 		$mode = 'add';
 
-		// Test our hidden element.
+		// Test our hidden "mode" element.
 		if (
 			isset( $_POST['civi_wp_member_sync_rules_mode'] ) AND
 			$_POST['civi_wp_member_sync_rules_mode'] == 'edit'
@@ -1710,18 +1852,58 @@ class Civi_WP_Member_Sync_Admin {
 		// Get sync method and sanitize.
 		$method = $this->setting_get_method();
 
+		// Default "multiple" to false.
+		$multiple = false;
+
+		// Test our hidden "multiple" element.
+		if (
+			isset( $_POST['civi_wp_member_sync_rules_multiple'] ) AND
+			trim( $_POST['civi_wp_member_sync_rules_multiple'] ) == 'yes'
+		) {
+			$multiple = true;
+		}
+
 		// Init errors.
 		$this->errors = array();
 
-		// Check and sanitise CiviCRM Membership Type.
-		if(
-			isset( $_POST['civi_member_type_id'] ) AND
-			! empty( $_POST['civi_member_type_id'] ) AND
-			is_numeric( $_POST['civi_member_type_id'] )
-		) {
-			$civi_member_type_id = absint( $_POST['civi_member_type_id'] );
+		// Depending on the "multiple" flag, validate membership types.
+		if ( $multiple === true ) {
+
+			// Check and sanitise CiviCRM Membership Types.
+			if(
+				isset( $_POST['civi_member_type_id'] ) AND
+				! empty( $_POST['civi_member_type_id'] ) AND
+				is_array( $_POST['civi_member_type_id'] )
+			) {
+
+				// Grab array from POST.
+				$civi_member_type_ids = $_POST['civi_member_type_id'];
+
+				// Sanitise array contents.
+				array_walk(
+					$civi_member_type_ids,
+					function( &$item ) {
+						$item = intval( trim( $item ) );
+					}
+				);
+
+			} else {
+				$this->errors[] = 'type';
+			}
+
 		} else {
-			$this->errors[] = 'type';
+
+			// Check and sanitise CiviCRM Membership Type.
+			if(
+				isset( $_POST['civi_member_type_id'] ) AND
+				! empty( $_POST['civi_member_type_id'] ) AND
+				is_numeric( $_POST['civi_member_type_id'] )
+			) {
+				$civi_member_type_id = absint( $_POST['civi_member_type_id'] );
+			} else {
+				$this->errors[] = 'type';
+			}
+
 		}
 
 		// Check and sanitise Current Status.
@@ -1730,7 +1912,17 @@ class Civi_WP_Member_Sync_Admin {
 			is_array( $_POST['current'] ) AND
 			! empty( $_POST['current'] )
 		) {
+
+			// Grab array from POST.
 			$current_rule = $_POST['current'];
+
+			// Sanitise array contents.
+			array_walk(
+				$current_rule,
+				function( &$item ) {
+					$item = intval( trim( $item ) );
+				}
+			);
 
 		} else {
 			$this->errors[] = 'current-status';
@@ -1742,7 +1934,18 @@ class Civi_WP_Member_Sync_Admin {
 			is_array( $_POST['expire'] ) AND
 			! empty( $_POST['expire'] )
 		) {
+
+			// Grab array from POST.
 			$expiry_rule = $_POST['expire'];
+
+			// Sanitise array contents.
+			array_walk(
+				$expiry_rule,
+				function( &$item ) {
+					$item = intval( trim( $item ) );
+				}
+			);
+
 		} else {
 			$this->errors[] = 'expire-status';
 		}
@@ -1789,87 +1992,85 @@ class Civi_WP_Member_Sync_Admin {
 		// How did we do?
 		if ( $current_expire_clash === false AND empty( $this->errors ) ) {
 
-			// We're good - let's add/update this rule.
+			// Depending on the "multiple" flag, create rules.
+			if ( $multiple === true ) {
 
-			// Get existing data.
-			$data = $this->setting_get( 'data' );
+				// Save each rule in turn.
+				foreach( $civi_member_type_ids AS $civi_member_type_id ) {
 
-			// Which sync method are we using?
-			if ( $method == 'roles' ) {
+					// Which sync method are we using?
+					if ( $method == 'roles' ) {
 
-				// Construct rule.
-				$rule = array(
-					'current_rule' => $current_rule,
-					'current_wp_role' => $current_wp_role,
-					'expiry_rule' => $expiry_rule,
-					'expired_wp_role' => $expired_wp_role,
-				);
+						// Combine rule data into array.
+						$rule_data = array(
+							'current_rule' => $current_rule,
+							'current_wp_role' => $current_wp_role,
+							'expiry_rule' => $expiry_rule,
+							'expired_wp_role' => $expired_wp_role,
+						);
+
+						// Get formatted array.
+						$rule = $this->rule_create_array( $method, $rule_data );
+
+						// Apply rule data and save.
+						$this->rule_save( $rule, $mode, $method, $civi_member_type_id );
+
+					} else {
+
+						// Combine rule data into array.
+						$rule_data = array(
+							'current_rule' => $current_rule,
+							'expiry_rule' => $expiry_rule,
+							'civi_member_type_id' =>  $civi_member_type_id,
+						);
+
+						// Get formatted array.
+						$rule = $this->rule_create_array( $method, $rule_data );
+
+						// Apply rule data and save.
+						$this->rule_save( $rule, $mode, $method, $civi_member_type_id );
+
+					}
+
+				}
 
 			} else {
 
-				// Construct rule.
-				$rule = array(
-					'current_rule' => $current_rule,
-					'expiry_rule' => $expiry_rule,
-					'capability' => CIVI_WP_MEMBER_SYNC_CAP_PREFIX . $civi_member_type_id,
-				);
+				// Which sync method are we using?
+				if ( $method == 'roles' ) {
+
+					// Combine rule data into array.
+					$rule_data = array(
+						'current_rule' => $current_rule,
+						'current_wp_role' => $current_wp_role,
+						'expiry_rule' => $expiry_rule,
+						'expired_wp_role' => $expired_wp_role,
+					);
+
+					// Get formatted array.
+					$rule = $this->rule_create_array( $method, $rule_data );
+
+					// Apply rule data and save.
+					$this->rule_save( $rule, $mode, $method, $civi_member_type_id );
+
+				} else {
+
+					// Combine rule data into array.
+					$rule_data = array(
+						'current_rule' => $current_rule,
+						'expiry_rule' => $expiry_rule,
+						'civi_member_type_id' =>  $civi_member_type_id,
+					);
+
+					// Get formatted array.
+					$rule = $this->rule_create_array( $method, $rule_data );
+
+					// Apply rule data and save.
+					$this->rule_save( $rule, $mode, $method, $civi_member_type_id );
+
+				}
 
 			}
-
-			/**
-			 * Filter our association rule before it is saved.
-			 *
-			 * @since 0.4
-			 *
-			 * @param array $rule The new or updated association rule.
-			 * @param array $data The complete set of association rule.
-			 * @param str $mode The mode ('add' or 'edit').
-			 * @param str $method The sync method.
-			 */
-			$rule = apply_filters( 'civi_wp_member_sync_rule_pre_save', $rule, $data, $mode, $method );
-
-			/**
-			 * Broadcast our association rule before it is saved.
-			 *
-			 * This creates four possible actions:
-			 *
-			 * civi_wp_member_sync_rule_add_roles
-			 * civi_wp_member_sync_rule_add_capabilities
-			 * civi_wp_member_sync_rule_edit_roles
-			 * civi_wp_member_sync_rule_edit_capabilities
-			 *
-			 * @since 0.2.3
-			 *
-			 * @param array $rule The new or updated association rule.
-			 */
-			do_action( 'civi_wp_member_sync_rule_' . $mode . '_' . $method, $rule );
-
-			// Insert/overwrite item in data array.
-			$data[$method][$civi_member_type_id] = $rule;
-
-			// Overwrite data.
-			$this->setting_set( 'data', $data );
-
-			// Save.
-			$this->settings_save();
-
-			/**
-			 * Broadcast that we have saved our association rule.
-			 *
-			 * This creates four possible actions:
-			 *
-			 * civi_wp_member_sync_rule_add_roles_saved
-			 * civi_wp_member_sync_rule_add_capabilities_saved
-			 * civi_wp_member_sync_rule_edit_roles_saved
-			 * civi_wp_member_sync_rule_edit_capabilities_saved
-			 *
-			 * @since 0.3.9
-			 *
-			 * @param array $rule The new or updated association rule.
-			 * @param str $method The sync method.
-			 * @param int $civi_member_type_id The numeric ID of the CiviCRM Membership Type.
-			 */
-			do_action( 'civi_wp_member_sync_rule_' . $mode . '_' . $method . '_saved', $rule, $method, $civi_member_type_id );
 
 			// Get admin URLs.
 			$urls = $this->page_get_urls();
@@ -1889,6 +2090,120 @@ class Civi_WP_Member_Sync_Admin {
 			return false;
 
 		}
+
+	}
+
+
+
+	/**
+	 * Create a membership rule array.
+	 *
+	 * @since 0.4.2
+	 *
+	 * @param str $method The sync method.
+	 * @param array $params The params to build the array from.
+	 * @return array $rule The constructed rule array.
+	 */
+	public function rule_create_array( $method, $params ) {
+
+		// Which sync method are we using?
+		if ( $method == 'roles' ) {
+
+			// Construct role rule.
+			$rule = array(
+				'current_rule' => $params['current_rule'],
+				'current_wp_role' => $params['current_wp_role'],
+				'expiry_rule' => $params['expiry_rule'],
+				'expired_wp_role' => $params['expired_wp_role'],
+			);
+
+		} else {
+
+			// Construct capability rule.
+			$rule = array(
+				'current_rule' => $params['current_rule'],
+				'expiry_rule' => $params['expiry_rule'],
+				'capability' => CIVI_WP_MEMBER_SYNC_CAP_PREFIX . $params['civi_member_type_id'],
+			);
+
+		}
+
+		// --<
+		return $rule;
+
+	}
+
+
+
+	/**
+	 * Save a membership rule.
+	 *
+	 * @since 0.4.2
+	 *
+	 * @param array $rule The new or updated association rule.
+	 * @param str $mode The mode ('add' or 'edit').
+	 * @param str $method The sync method.
+	 * @param int $$civi_member_type_id The numeric ID of the membership type.
+	 */
+	public function rule_save( $rule, $mode, $method, $civi_member_type_id ) {
+
+		// Get existing data.
+		$data = $this->setting_get( 'data' );
+
+		/**
+		 * Filter our association rule before it is saved.
+		 *
+		 * @since 0.4
+		 *
+		 * @param array $rule The new or updated association rule.
+		 * @param array $data The complete set of association rule.
+		 * @param str $mode The mode ('add' or 'edit').
+		 * @param str $method The sync method.
+		 */
+		$rule = apply_filters( 'civi_wp_member_sync_rule_pre_save', $rule, $data, $mode, $method );
+
+		/**
+		 * Broadcast our association rule before it is saved.
+		 *
+		 * This creates four possible actions:
+		 *
+		 * civi_wp_member_sync_rule_add_roles
+		 * civi_wp_member_sync_rule_add_capabilities
+		 * civi_wp_member_sync_rule_edit_roles
+		 * civi_wp_member_sync_rule_edit_capabilities
+		 *
+		 * @since 0.2.3
+		 *
+		 * @param array $rule The new or updated association rule.
+		 */
+		do_action( 'civi_wp_member_sync_rule_' . $mode . '_' . $method, $rule );
+
+		// Insert/overwrite item in data array.
+		$data[$method][$civi_member_type_id] = $rule;
+
+		// Overwrite data.
+		$this->setting_set( 'data', $data );
+
+		// Save.
+		$this->settings_save();
+
+		/**
+		 * Broadcast that we have saved our association rule.
+		 *
+		 * This creates four possible actions:
+		 *
+		 * civi_wp_member_sync_rule_add_roles_saved
+		 * civi_wp_member_sync_rule_add_capabilities_saved
+		 * civi_wp_member_sync_rule_edit_roles_saved
+		 * civi_wp_member_sync_rule_edit_capabilities_saved
+		 *
+		 * @since 0.3.9
+		 *
+		 * @param array $rule The new or updated association rule.
+		 * @param str $method The sync method.
+		 * @param int $civi_member_type_id The numeric ID of the CiviCRM Membership Type.
+		 */
+		do_action( 'civi_wp_member_sync_rule_' . $mode . '_' . $method . '_saved', $rule, $method, $civi_member_type_id );
 
 	}
 

@@ -29,7 +29,13 @@
 
 	?>
 
-	<p><?php _e( 'Choose a CiviMember Membership Type and select the Current and Expired Statuses for it. All statuses must be allocated as either Current or Expired.', 'civicrm-wp-member-sync' ); ?></p>
+	<p><?php
+	if ( empty( $multiple ) ) {
+		esc_html_e( 'Choose a CiviMember Membership Type and select the Current and Expired Statuses for it. All statuses must be allocated as either Current or Expired.', 'civicrm-wp-member-sync' );
+	} else {
+		esc_html_e( 'Choose one or more CiviMember Membership Types and select the Current and Expired Statuses for them. All statuses must be allocated as either Current or Expired.', 'civicrm-wp-member-sync' );
+	}
+	?></p>
 
 	<p><?php _e( 'Current Status adds a Membership Capability to the WordPress user, while Expired Status removes the Membership Capability from the WordPress user. This capability will be of the form "civimember_ID", where "ID" is the numeric ID of the Membership Type. So, for Membership Type 2, the capability will be "civimember_2". If you have the "Members" plugin active, then the "restrict_content" capability will also be added.', 'civicrm-wp-member-sync' ); ?></p>
 
@@ -42,10 +48,20 @@
 		<table class="form-table">
 
 			<tr class="form-field form-required">
-				<th scope="row"><label class="civi_member_type_id_label" for="civi_member_type_id"><?php _e( 'Select a CiviMember Membership Type', 'civicrm-wp-member-sync' ); ?> *</label></th>
+				<th scope="row">
+					<label class="civi_member_type_id_label" for="civi_member_type_id"><?php
+					if ( empty( $multiple ) ) {
+						esc_html_e( 'Select a CiviMember Membership Type', 'civicrm-wp-member-sync' );
+					} else {
+						esc_html_e( 'Select CiviMember Membership Type(s)', 'civicrm-wp-member-sync' );
+					}
+					?> *</label>
+				</th>
 				<td>
-					<select name="civi_member_type_id" id="civi_member_type_id" class ="required required-type">
-						<option value=""></option>
+					<select name="civi_member_type_id<?php if ( ! empty( $multiple ) ) { echo '[]'; } ?>" id="civi_member_type_id" class ="required required-type"<?php echo $multiple; ?>>
+						<?php if ( empty( $multiple ) ) { ?>
+							<option value=""></option>
+						<?php } ?>
 						<?php foreach( $membership_types AS $key => $value ) { ?>
 							<option value="<?php echo $key;?>"><?php echo $value; ?></option>
 						<?php } ?>
@@ -102,6 +118,12 @@
 		</table>
 
 		<input type="hidden" id="civi_wp_member_sync_rules_mode" name="civi_wp_member_sync_rules_mode" value="add" />
+
+		<?php if ( empty( $multiple ) ) { ?>
+			<input type="hidden" id="civi_wp_member_sync_rules_multiple" name="civi_wp_member_sync_rules_multiple" value="no" />
+		<?php } else { ?>
+			<input type="hidden" id="civi_wp_member_sync_rules_multiple" name="civi_wp_member_sync_rules_multiple" value="yes" />
+		<?php } ?>
 
 		<p class="submit"><input class="button-primary" type="submit" id="civi_wp_member_sync_rules_submit" name="civi_wp_member_sync_rules_submit" value="<?php _e( 'Add Association Rule', 'civicrm-wp-member-sync' ); ?>" /></p>
 

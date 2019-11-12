@@ -28,6 +28,15 @@ class Civi_WP_Member_Sync_Groups {
 	 */
 	public $plugin;
 
+	/**
+	 * "Groups" plugin enabled flag.
+	 *
+	 * @since 0.4.2
+	 * @access public
+	 * @var object $enabled True if "Groups" is enabled, false otherwise.
+	 */
+	public $enabled = false;
+
 
 
 	/**
@@ -63,6 +72,22 @@ class Civi_WP_Member_Sync_Groups {
 
 
 
+	/**
+	 * Getter for the "enabled" flag.
+	 *
+	 * @since 0.4.2
+	 *
+	 * @return bool $enabled True if Groups is enabled, false otherwise.
+	 */
+	public function enabled() {
+
+		// --<
+		return $this->enabled;
+
+	}
+
+
+
 	//##########################################################################
 
 
@@ -77,6 +102,11 @@ class Civi_WP_Member_Sync_Groups {
 
 		// Bail if we don't have the "Groups" plugin.
 		if ( ! defined( 'GROUPS_CORE_VERSION' ) ) return;
+
+		return;
+
+		// Set enabled flag.
+		$this->enabled = true;
 
 		// Hook into rule add.
 		add_action( 'civi_wp_member_sync_rule_add_capabilities', array( $this, 'groups_add_cap' ) );
@@ -97,8 +127,8 @@ class Civi_WP_Member_Sync_Groups {
 		if ( version_compare( GROUPS_CORE_VERSION, '2.8.0', '<' ) ) return;
 
 		// Filter script dependencies on the "Add Rule" and "Edit Rule" pages.
-		add_filter( 'civi_wp_member_sync_rules_css_dependencies', array( $this, 'dependencies_css' ), 10, 1 );
-		add_filter( 'civi_wp_member_sync_rules_js_dependencies', array( $this, 'dependencies_js' ), 10, 1 );
+		add_filter( 'civi_wp_member_sync_rules_css_dependencies', array( $this->plugin->admin, 'dependencies_css' ), 10, 1 );
+		add_filter( 'civi_wp_member_sync_rules_js_dependencies', array( $this->plugin->admin, 'dependencies_js' ), 10, 1 );
 
 		// Declare AJAX handlers.
 		add_action( 'wp_ajax_civi_wp_member_sync_get_groups', array( $this, 'search_groups' ), 10 );
@@ -387,75 +417,6 @@ class Civi_WP_Member_Sync_Groups {
 
 		// --<
 		return $success;
-
-	}
-
-
-
-	//##########################################################################
-
-
-
-	/**
-	 * Filter CSS dependencies on the "Add Rule" and "Edit Rule" pages.
-	 *
-	 * @since 0.4
-	 *
-	 * @param array $dependencies The existing dependencies.
-	 * @return array $dependencies The modified dependencies.
-	 */
-	public function dependencies_css( $dependencies ) {
-
-		// Define our handle.
-		$handle = 'civi_wp_member_sync_select2_css';
-
-		// Register Select2 styles.
-		wp_register_style(
-			$handle,
-			set_url_scheme( 'https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.10/css/select2.min.css' )
-		);
-
-		// Enqueue styles.
-		wp_enqueue_style( $handle );
-
-		// Add to dependencies.
-		$dependencies[] = $handle;
-
-		// --<
-		return $dependencies;
-
-	}
-
-
-
-	/**
-	 * Filter script dependencies on the "Add Rule" and "Edit Rule" pages.
-	 *
-	 * @since 0.4
-	 *
-	 * @param array $dependencies The existing dependencies.
-	 * @return array $dependencies The modified dependencies.
-	 */
-	public function dependencies_js( $dependencies ) {
-
-		// Define our handle.
-		$handle = 'civi_wp_member_sync_select2_js';
-
-		// Register Select2.
-		wp_register_script(
-			$handle,
-			set_url_scheme( 'https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.10/js/select2.min.js' ),
-			array( 'jquery' )
-		);
-
-		// Enqueue script.
-		wp_enqueue_script( $handle );
-
-		// Add to dependencies.
-		$dependencies[] = $handle;
-
-		// --<
-		return $dependencies;
 
 	}
 
