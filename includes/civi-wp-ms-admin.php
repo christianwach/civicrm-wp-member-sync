@@ -180,12 +180,9 @@ class Civi_WP_Member_Sync_Admin {
 		// Store version for later reference.
 		$this->store_version();
 
-		// Add settings option only if it does not exist.
+		// Store default settings option only if it does not exist.
 		if ( 'fgffgs' == $this->option_get( 'civi_wp_member_sync_settings', 'fgffgs' ) ) {
-
-			// Store default settings.
 			$this->option_save( 'civi_wp_member_sync_settings', $this->settings_get_default() );
-
 		}
 
 	}
@@ -218,17 +215,14 @@ class Civi_WP_Member_Sync_Admin {
 		static $is_network_active;
 
 		// Have we done this already?
-		if ( isset( $is_network_active ) ) return $is_network_active;
-
-		// If not multisite, it cannot be.
-		if ( ! is_multisite() ) {
-
-			// Set flag.
-			$is_network_active = false;
-
-			// Kick out.
+		if ( isset( $is_network_active ) ) {
 			return $is_network_active;
+		}
 
+		// If not multisite, set flag and bail.
+		if ( ! is_multisite() ) {
+			$is_network_active = false;
+			return $is_network_active;
 		}
 
 		// Make sure plugin file is included when outside admin.
@@ -910,15 +904,10 @@ class Civi_WP_Member_Sync_Admin {
 		// Get admin page URLs.
 		$urls = $this->page_get_urls();
 
-		// Do we have the legacy plugin?
+		// If we have the legacy plugin, include template file and bail.
 		if ( isset( $this->migrate ) AND $this->migrate->legacy_plugin_exists() ) {
-
-			// Include template file.
 			include( CIVI_WP_MEMBER_SYNC_PLUGIN_PATH . 'assets/templates/migrate.php' );
-
-			// --<
 			return;
-
 		}
 
 		// Get our sync method.
@@ -1009,12 +998,9 @@ class Civi_WP_Member_Sync_Admin {
 		// Assume we don't have all types.
 		$have_all_types = false;
 
-		// Well, do we have all types populated?
+		// Override if we have all types populated.
 		if ( count( $data ) === count( $membership_types ) ) {
-
-			// We do.
 			$have_all_types = true;
-
 		}
 
 		/**
@@ -1029,15 +1015,9 @@ class Civi_WP_Member_Sync_Admin {
 
 		// Include per method.
 		if ( $method == 'roles' ) {
-
-			// Include template file.
 			include( CIVI_WP_MEMBER_SYNC_PLUGIN_PATH . 'assets/templates/list_roles.php' );
-
 		} else {
-
-			// Include template file.
 			include( CIVI_WP_MEMBER_SYNC_PLUGIN_PATH . 'assets/templates/list_caps.php' );
-
 		}
 
 	}

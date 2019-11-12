@@ -103,11 +103,6 @@ class Civi_WP_Member_Sync_Groups {
 		// Bail if we don't have the "Groups" plugin.
 		if ( ! defined( 'GROUPS_CORE_VERSION' ) ) return;
 
-		return;
-
-		// Set enabled flag.
-		$this->enabled = true;
-
 		// Hook into rule add.
 		add_action( 'civi_wp_member_sync_rule_add_capabilities', array( $this, 'groups_add_cap' ) );
 
@@ -125,6 +120,9 @@ class Civi_WP_Member_Sync_Groups {
 
 		// Bail if "Groups" is not version 2.8.0 or greater.
 		if ( version_compare( GROUPS_CORE_VERSION, '2.8.0', '<' ) ) return;
+
+		// Set enabled flag.
+		$this->enabled = true;
 
 		// Filter script dependencies on the "Add Rule" and "Edit Rule" pages.
 		add_filter( 'civi_wp_member_sync_rules_css_dependencies', array( $this->plugin->admin, 'dependencies_css' ), 10, 1 );
