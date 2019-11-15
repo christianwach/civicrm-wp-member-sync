@@ -36,6 +36,9 @@
 			case 'delete':
 				esc_html_e( 'Association Rule deleted.', 'civicrm-wp-member-sync' );
 				break;
+			case 'delete-all':
+				esc_html_e( 'Association Rules deleted.', 'civicrm-wp-member-sync' );
+				break;
 		}
 
 		echo '</p></div>';
@@ -176,6 +179,21 @@
 		</tbody>
 
 	</table>
+
+	<?php if ( ! empty( $data ) ) : ?>
+
+		<form method="post" id="civi_wp_member_sync_rules_form" action="<?php echo $this->admin_form_url_get(); ?>">
+
+			<?php wp_nonce_field( 'civi_wp_member_sync_rule_action', 'civi_wp_member_sync_nonce' ); ?>
+
+			<p class="submit">
+				<input class="button button-secondary delete" type="submit" id="civi_wp_member_sync_clear_submit" name="civi_wp_member_sync_clear_submit" value="<?php esc_attr_e( 'Clear Association Rules', 'civicrm-wp-member-sync' ); ?>" /><br />
+				<span class="description"><?php esc_html_e( 'Warning: this will delete all your existing Association Rules.', 'civicrm-wp-member-sync' ); ?></span>
+			</p>
+
+		</form>
+
+	<?php endif; ?>
 
 </div><!-- /.wrap -->
 

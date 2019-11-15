@@ -1346,6 +1346,11 @@ class Civi_WP_Member_Sync_Admin {
 			$result = $this->rule_update();
 		}
 
+		// Was the "Clear Association Rules" form submitted?
+		if ( isset( $_POST['civi_wp_member_sync_clear_submit'] ) ) {
+			$result = $this->rules_clear();
+		}
+
 		// Was a "Delete" link clicked?
 		if ( isset( $_GET['syncrule'] ) AND $_GET['syncrule'] == 'delete' ) {
 			if ( ! empty( $_GET['type_id'] ) AND is_numeric( $_GET['type_id'] ) ) {
@@ -1751,6 +1756,61 @@ class Civi_WP_Member_Sync_Admin {
 
 		// --<
 		return $subset;
+
+	}
+
+
+
+	/**
+	 * Clear all association rules for the current method.
+	 *
+	 * @since 0.4.2
+	 */
+	public function rules_clear() {
+
+		// Get method.
+		$method = $this->setting_get_method();
+
+		// Get data.
+		$data = $this->setting_get( 'data' );
+
+		// Get subset by method.
+		$subset = ( isset( $data[$method] ) ) ? $data[$method] : false;
+
+		// Sanity check.
+		if ( ! $subset ) return;
+
+		// Loop through them.
+		foreach( $subset AS $type_id => $rule ) {
+
+			/**
+			 * Broadcast that we're deleting an association rule. This creates two
+			 * actions, depending on the sync method:
+			 *
+			 * civi_wp_member_sync_rule_delete_roles
+			 * civi_wp_member_sync_rule_delete_capabilities
+			 *
+			 * @param array $rule The association rule we're going to delete.
+			 */
+			do_action( 'civi_wp_member_sync_rule_delete_' . $method, $rule );
+
+		}
+
+		// Update data.
+		$data[$method] = array();
+
+		// Overwrite data.
+		$this->setting_set( 'data', $data );
+
+		// Save.
+		$this->settings_save();
+
+		// Get admin URLs.
+		$urls = $this->page_get_urls();
+
+		// Redirect to list page with message.
+		wp_redirect( $urls['list'] . '&syncrule=delete-all' );
+		die();
 
 	}
 
