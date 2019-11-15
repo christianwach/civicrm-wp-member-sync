@@ -570,6 +570,53 @@ class Civi_WP_Member_Sync_Admin {
 
 
 	/**
+	 * Enqueue required scripts on the Manual Sync page.
+	 *
+	 * @since 0.2.8
+	 */
+	public function admin_js_sync_page() {
+
+		// Enqueue javascript.
+		wp_enqueue_script(
+			'civi_wp_member_sync_sync_js',
+			plugins_url( 'assets/js/civi-wp-ms-sync.js', CIVI_WP_MEMBER_SYNC_PLUGIN_FILE ),
+			array( 'jquery', 'jquery-ui-core', 'jquery-ui-progressbar' ),
+			CIVI_WP_MEMBER_SYNC_VERSION // Version.
+		);
+
+		// Init localisation.
+		$localisation = array(
+			'total' => esc_html__( '{{total}} memberships to sync...', 'civicrm-wp-member-sync' ),
+			'current' => esc_html__( 'Processing memberships {{from}} to {{to}}', 'civicrm-wp-member-sync' ),
+			'complete' => esc_html__( 'Processing memberships {{from}} to {{to}} complete', 'civicrm-wp-member-sync' ),
+			'done' => esc_html__( 'All done!', 'civicrm-wp-member-sync' ),
+		);
+
+		// Init settings.
+		$settings = array(
+			'ajax_url' => admin_url( 'admin-ajax.php' ),
+			'total_memberships' => $this->plugin->members->memberships_get_count(),
+			'batch_count' => $this->setting_get_batch_count(),
+		);
+
+		// Localisation array.
+		$vars = array(
+			'localisation' => $localisation,
+			'settings' => $settings,
+		);
+
+		// Localise the WordPress way.
+		wp_localize_script(
+			'civi_wp_member_sync_sync_js',
+			'CiviCRM_WP_Member_Sync_Settings',
+			$vars
+		);
+
+	}
+
+
+
+	/**
 	 * Enqueue stylesheets for this plugin's "Add Rule" and "Edit Rule" page.
 	 *
 	 * @since 0.4
@@ -654,53 +701,6 @@ class Civi_WP_Member_Sync_Admin {
 		wp_localize_script(
 			'civi_wp_member_sync_rules_js',
 			'CiviCRM_WP_Member_Sync_Rules',
-			$vars
-		);
-
-	}
-
-
-
-	/**
-	 * Enqueue required scripts on the Manual Sync page.
-	 *
-	 * @since 0.2.8
-	 */
-	public function admin_js_sync_page() {
-
-		// Enqueue javascript.
-		wp_enqueue_script(
-			'civi_wp_member_sync_sync_js',
-			plugins_url( 'assets/js/civi-wp-ms-sync.js', CIVI_WP_MEMBER_SYNC_PLUGIN_FILE ),
-			array( 'jquery', 'jquery-ui-core', 'jquery-ui-progressbar' ),
-			CIVI_WP_MEMBER_SYNC_VERSION // Version.
-		);
-
-		// Init localisation.
-		$localisation = array(
-			'total' => esc_html__( '{{total}} memberships to sync...', 'civicrm-wp-member-sync' ),
-			'current' => esc_html__( 'Processing memberships {{from}} to {{to}}', 'civicrm-wp-member-sync' ),
-			'complete' => esc_html__( 'Processing memberships {{from}} to {{to}} complete', 'civicrm-wp-member-sync' ),
-			'done' => esc_html__( 'All done!', 'civicrm-wp-member-sync' ),
-		);
-
-		// Init settings.
-		$settings = array(
-			'ajax_url' => admin_url( 'admin-ajax.php' ),
-			'total_memberships' => $this->plugin->members->memberships_get_count(),
-			'batch_count' => $this->setting_get_batch_count(),
-		);
-
-		// Localisation array.
-		$vars = array(
-			'localisation' => $localisation,
-			'settings' => $settings,
-		);
-
-		// Localise the WordPress way.
-		wp_localize_script(
-			'civi_wp_member_sync_sync_js',
-			'CiviCRM_WP_Member_Sync_Settings',
 			$vars
 		);
 
