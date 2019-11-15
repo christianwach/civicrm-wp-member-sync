@@ -452,6 +452,7 @@ class Civi_WP_Member_Sync_Admin {
 		);
 
 		// Add scripts and styles.
+		add_action( 'admin_print_scripts-' . $this->rules_list_page, array( $this, 'admin_js_list_page' ) );
 		add_action( 'admin_print_styles-' . $this->rules_list_page, array( $this, 'admin_css' ) );
 		add_action( 'admin_head-' . $this->rules_list_page, array( $this, 'admin_head' ), 50 );
 		add_action( 'admin_head-' . $this->rules_list_page, array( $this, 'admin_menu_highlight' ), 50 );
@@ -701,6 +702,52 @@ class Civi_WP_Member_Sync_Admin {
 		wp_localize_script(
 			'civi_wp_member_sync_rules_js',
 			'CiviCRM_WP_Member_Sync_Rules',
+			$vars
+		);
+
+	}
+
+
+
+	/**
+	 * Enqueue required scripts on the List Rules page.
+	 *
+	 * @since 0.4.2
+	 */
+	public function admin_js_list_page() {
+
+		// Define base dependencies.
+		$dependencies = array( 'jquery', 'jquery-form' );
+
+		/**
+		 * Filter dependencies.
+		 *
+		 * @since 0.4.2
+		 *
+		 * @param array $dependencies The existing dependencies.
+		 * @return array $dependencies The modified dependencies.
+		 */
+		$dependencies = apply_filters( 'civi_wp_member_sync_list_js_dependencies', $dependencies );
+
+		// Add JavaScript plus dependencies.
+		wp_enqueue_script(
+			'civi_wp_member_sync_list_js',
+			plugins_url( 'assets/js/civi-wp-ms-list.js', CIVI_WP_MEMBER_SYNC_PLUGIN_FILE ),
+			$dependencies,
+			CIVI_WP_MEMBER_SYNC_VERSION // Version.
+		);
+
+		// Set defaults.
+		$vars = array(
+			'method' => $this->setting_get_method(),
+			'dialog_text' => esc_html__( 'Delete this Association Rule?', 'civicrm-wp-member-sync' ),
+			'dialog_text_all' => esc_html__( 'Delete all Association Rules?', 'civicrm-wp-member-sync' ),
+		);
+
+		// Localize our script.
+		wp_localize_script(
+			'civi_wp_member_sync_list_js',
+			'CiviCRM_WP_Member_Sync_List',
 			$vars
 		);
 
