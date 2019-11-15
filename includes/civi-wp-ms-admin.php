@@ -576,11 +576,6 @@ class Civi_WP_Member_Sync_Admin {
 	 */
 	public function admin_css_rules_page() {
 
-		// Has "multiple" been selected?
-		if ( defined( 'CIVI_WP_MEMBER_SYNC_MULTIPLE' ) AND CIVI_WP_MEMBER_SYNC_MULTIPLE === true ) {
-			add_filter( 'civi_wp_member_sync_rules_css_dependencies', array( $this, 'dependencies_css' ), 10, 1 );
-		}
-
 		// Define base dependencies.
 		$dependencies = array();
 
@@ -593,11 +588,6 @@ class Civi_WP_Member_Sync_Admin {
 		 * @return array $dependencies The modified dependencies.
 		 */
 		$dependencies = apply_filters( 'civi_wp_member_sync_rules_css_dependencies', $dependencies );
-
-		// Has "multiple" been selected?
-		if ( defined( 'CIVI_WP_MEMBER_SYNC_MULTIPLE' ) AND CIVI_WP_MEMBER_SYNC_MULTIPLE === true ) {
-			remove_filter( 'civi_wp_member_sync_rules_css_dependencies', array( $this, 'dependencies_css' ), 10 );
-		}
 
 		// Add common CSS.
 		$this->admin_css( $dependencies );
@@ -613,11 +603,6 @@ class Civi_WP_Member_Sync_Admin {
 	 */
 	public function admin_js_rules_page() {
 
-		// Has "multiple" been selected?
-		if ( defined( 'CIVI_WP_MEMBER_SYNC_MULTIPLE' ) AND CIVI_WP_MEMBER_SYNC_MULTIPLE === true ) {
-			add_filter( 'civi_wp_member_sync_rules_js_dependencies', array( $this, 'dependencies_js' ), 10, 1 );
-		}
-
 		// Define base dependencies.
 		$dependencies = array( 'jquery', 'jquery-form' );
 
@@ -630,11 +615,6 @@ class Civi_WP_Member_Sync_Admin {
 		 * @return array $dependencies The modified dependencies.
 		 */
 		$dependencies = apply_filters( 'civi_wp_member_sync_rules_js_dependencies', $dependencies );
-
-		// Has "multiple" been selected?
-		if ( defined( 'CIVI_WP_MEMBER_SYNC_MULTIPLE' ) AND CIVI_WP_MEMBER_SYNC_MULTIPLE === true ) {
-			remove_filter( 'civi_wp_member_sync_rules_js_dependencies', array( $this, 'dependencies_js' ), 10 );
-		}
 
 		// Add JavaScript plus dependencies.
 		wp_enqueue_script(
@@ -1106,7 +1086,7 @@ class Civi_WP_Member_Sync_Admin {
 
 		// Convert select to multi-select.
 		$multiple = '';
-		if ( $this->select2 === true ) {
+		if ( defined( 'CIVI_WP_MEMBER_SYNC_MULTIPLE' ) AND CIVI_WP_MEMBER_SYNC_MULTIPLE === true ) {
 			$multiple = ' multiple="multiple" style="min-width: 240px;"';
 		}
 

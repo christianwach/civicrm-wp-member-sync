@@ -202,19 +202,7 @@ jQuery(document).ready( function($) {
 	// The following require Select2.
 	if ( cwms_select2 === 'yes' ) {
 
-		// Only if in add mode.
-		if ( cwms_mode == 'add' ) {
-
-			/**
-			 * Select2 init.
-			 *
-			 * @since 0.4
-			 */
-			$('#civi_member_type_id').select2({
-				multiple: true
-			});
-
-		}
+		// Any pure Select2 stuff here.
 
 	}
 
@@ -222,7 +210,7 @@ jQuery(document).ready( function($) {
 	if ( cwms_select2 === 'yes' && cwms_groups === 'yes' ) {
 
 		/**
-		 * Select2 init.
+		 * Select2 init on Groups.
 		 *
 		 * @since 0.4
 		 */
