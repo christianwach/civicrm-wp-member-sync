@@ -16,7 +16,9 @@
 
 	?>
 
-	<p><?php esc_html_e( 'Synchronize CiviMember Memberships with WordPress Users using the available rules.<br> <em>Note:</em> if no association rules exist then no synchronization will take place.', 'civicrm-wp-member-sync' ); ?></p>
+	<p><?php esc_html_e( 'Synchronize CiviMember Memberships with WordPress Users using the available rules.', 'civicrm-wp-member-sync' ); ?></p>
+
+	<p><?php esc_html_e( 'Note: if no association rules exist then no synchronization will take place.', 'civicrm-wp-member-sync' ); ?></p>
 
 	<form method="post" id="civi_wp_member_sync_manual_sync_form" action="<?php echo $this->admin_form_url_get(); ?>">
 
