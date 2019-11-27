@@ -23,6 +23,14 @@ Before you get started, you will need to create all of your membership types and
 
 **Note:** This plugin can sync membership on user login, user logout and on a scheduled basis. It can also sync a user's role when the membership is added, edited or deleted in *CiviCRM*.
 
+###### New in version 0.4.2 ######
+
+If you have a large number of Membership Types, you can add the following code to your `wp-config.php` file:
+
+`define( 'CIVI_WP_MEMBER_SYNC_MULTIPLE', true );`
+
+This will allow you to select multiple Membership Types when adding an Association Rule. When saved, one Rule will be created for each of the selected Membership Types. This could save a lot of time in setting up your Association Rules. Thanks to [Foxpress Design](https://design.foxpress.io/) for funding this upgrade.
+
 ###### Working with Capabilities ######
 
 * Visit the plugin's admin page at "Settings" --> "CiviCRM WordPress Member Sync".

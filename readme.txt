@@ -43,6 +43,14 @@ This plugin builds on the [work](https://github.com/tadpolecc/civi_member_sync) 
 
 The first thing to decide is whether you want CiviCRM WordPress Member Sync to synchronize CiviCRM Memberships to WordPress Roles or WordPress Capabilities. If, for example, you need your WordPress user roles to be independent of membership status, then choose Capabilities. The default synchronisation method is Capabilities, because WordPress has limited support for multiple roles.
 
+<h4>New in version 0.4.2</h4>
+
+If you have a large number of Membership Types, you can add the following code to your `wp-config.php` file:
+
+`define( 'CIVI_WP_MEMBER_SYNC_MULTIPLE', true );`
+
+This will allow you to select multiple Membership Types when adding an Association Rule. When saved, one Rule will be created for each of the selected Membership Types. This could save a lot of time in setting up your Association Rules. Thanks to [Foxpress Design](https://design.foxpress.io/) for funding this upgrade.
+
 <h4>Working with Capabilities</h4>
 
 1. Visit the plugin's admin page at "Settings" --> "CiviCRM WordPress Member Sync".
@@ -72,6 +80,11 @@ It may sometimes be necessary to manually synchronize users. Click on the "Manua
 
 
 == Changelog ==
+
+= 0.4.2 =
+
+* Introduce "create multiple rules" functionality
+* Ask for confirmation before deleting an Association Rule
 
 = 0.4.1 =
 
