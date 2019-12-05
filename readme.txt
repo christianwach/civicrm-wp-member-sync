@@ -83,7 +83,7 @@ It may sometimes be necessary to manually synchronize users. Click on the "Manua
 
 = 0.4.2 =
 
-* Introduce "create multiple rules" functionality
+* Introduce "bulk create association rules" functionality
 * Ask for confirmation before deleting an Association Rule
 
 = 0.4.1 =
