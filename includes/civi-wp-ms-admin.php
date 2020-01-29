@@ -2556,7 +2556,7 @@ class Civi_WP_Member_Sync_Admin {
 					$flag = 'current';
 					
 				// Does the user's membership status match an expired status rule?
-				} else if ( ( isset( $status_id ) && array_search( $status_id, $current_rule ) ) ||
+				} else if ( ( isset( $status_id ) && array_search( $status_id, $expiry_rule ) ) ||
 					  is_null ( $default_wp_role ) ){
 
 					// Remove current role if the user has it.
@@ -2589,16 +2589,20 @@ class Civi_WP_Member_Sync_Admin {
 					if ( ! $this->plugin->users->wp_has_role( $user, $default_wp_role ) ) {
 						$this->plugin->users->wp_role_add( $user, $default_wp_role );
 					}
+					
+					// Set flag for action.
+					$flag = 'default';
 				}
 				
 
 				/**
 				 * Fires after application of rule to user when syncing roles.
 				 *
-				 * This creates two possible actions:
+				 * This creates three possible actions:
 				 *
 				 * civi_wp_member_sync_rule_apply_roles_current
 				 * civi_wp_member_sync_rule_apply_roles_expired
+				 * civi_wp_member_sync_rule_apply_roles_default
 				 *
 				 * @since 0.3.2
 				 *
