@@ -2462,6 +2462,9 @@ class Civi_WP_Member_Sync_Admin {
 
 		// Get sync method.
 		$method = $this->setting_get_method();
+		
+		// Get default role. This hasn't been defined anywhere yet, so we will have to write it.
+		$default_wp_role = $this->setting_get_default_wp_role();
 
 		// Loop through the supplied memberships.
 		foreach( $memberships['values'] AS $membership ) {
@@ -2512,8 +2515,9 @@ class Civi_WP_Member_Sync_Admin {
 
 					// Set flag for action.
 					$flag = 'current';
-
-				} else {
+					
+				// Does the user's membership status match an expired status rule?
+				} else if ( isset( $status_id ) && array_search( $status_id, $current_rule ) ){
 
 					// Remove current role if the user has it.
 					if ( $this->plugin->users->wp_has_role( $user, $current_wp_role ) ) {
@@ -2527,8 +2531,26 @@ class Civi_WP_Member_Sync_Admin {
 
 					// Set flag for action.
 					$flag = 'expired';
-
+					
+				// The membership didn't match a current or expired status rule
+				} else {
+					
+					// Remove current role if the user has it.
+					if ( $this->plugin->users->wp_has_role( $user, $current_wp_role ) ) {
+						$this->plugin->users->wp_role_remove( $user, $current_wp_role );
+					}
+					
+					// Remove expired role if the user has it.
+					if ( $this->plugin->users->wp_has_role( $user, $expired_wp_role ) ) {
+						$this->plugin->users->wp_role_remove( $user, $expired_wp_role );
+					}
+					
+					// Add default role if the user does not have it.
+					if ( ! $this->plugin->users->wp_has_role( $user, $default_wp_role ) ) {
+						$this->plugin->users->wp_role_add( $user, $default_wp_role );
+					}
 				}
+				
 
 				/**
 				 * Fires after application of rule to user when syncing roles.
