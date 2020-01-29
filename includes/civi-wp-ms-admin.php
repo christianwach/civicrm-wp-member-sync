@@ -1475,6 +1475,13 @@ class Civi_WP_Member_Sync_Admin {
 			$settings_method = trim( $_POST['civi_wp_member_sync_settings_method'] );
 		}
 		$this->setting_set( 'method', $settings_method );
+		
+		// Synchronize the default role.
+		$settings_default_wp_role = null;
+		if ( isset( $_POST['civi_wp_member_sync_settings_default_wp_role'] ) ) {
+			$settings_default_wp_role = trim ( $_POST['civi_wp_member_sync_settings_default_wp_role'] );
+		}
+		$this->setting_set ( 'default_wp_role', $settings_default_wp_role );
 
 		// Login/logout sync enabled.
 		if ( isset( $_POST['civi_wp_member_sync_settings_login'] ) ) {
