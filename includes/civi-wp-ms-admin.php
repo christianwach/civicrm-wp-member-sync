@@ -1433,6 +1433,9 @@ class Civi_WP_Member_Sync_Admin {
 
 		// Set default method.
 		$settings['method'] = 'capabilities';
+		
+		//Set default default_role.
+		$settings['default_wp_role'] = null;
 
 		// Switch all sync settings on by default.
 		$settings['login'] = 1;
