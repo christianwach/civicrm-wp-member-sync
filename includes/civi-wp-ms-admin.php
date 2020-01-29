@@ -965,6 +965,9 @@ class Civi_WP_Member_Sync_Admin {
 
 		// Get Settings page link.
 		$cau_link = $this->cau_page_get_url();
+		
+		// Get list of WordPress roles.
+		$roles = $this->plugin->users->wp_role_names_get_all();
 
 		// Include template file.
 		include( CIVI_WP_MEMBER_SYNC_PLUGIN_PATH . 'assets/templates/settings.php' );
