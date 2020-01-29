@@ -1652,8 +1652,34 @@ class Civi_WP_Member_Sync_Admin {
 		return $method;
 
 	}
+	
+	
 
+	/**
+	 * Return the value for the 'default_wp_role' setting.
+	 *
+	 * Added as a separate method to for consistency with seting_get_method.
+	 * Also allows for future sanitization rules.
+	 * 
+	 * @since TBD
+	 *
+	 * @return str $default_wp_role The value of the 'default_wp_role' setting.
+	 */
+	public function setting_get_default_wp_role() {
+		
+		if (setting_exists('default_wp_role') {
+			// Get default WordPress role.
+			$default_wp_role = $this->setting_get( 'default_wp_role' );
+		} else {
+			$default_wp_role = null;
+		}
 
+		// --<
+		return $default_wp_role;
+
+	}
+	
+	
 
 	/**
 	 * Return the value for the batch count.
@@ -2517,7 +2543,8 @@ class Civi_WP_Member_Sync_Admin {
 					$flag = 'current';
 					
 				// Does the user's membership status match an expired status rule?
-				} else if ( isset( $status_id ) && array_search( $status_id, $current_rule ) ){
+				} else if ( ( isset( $status_id ) && array_search( $status_id, $current_rule ) ) ||
+					  is_null ( $default_wp_role ) ){
 
 					// Remove current role if the user has it.
 					if ( $this->plugin->users->wp_has_role( $user, $current_wp_role ) ) {
