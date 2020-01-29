@@ -1,10 +1,10 @@
 <?php /*
 --------------------------------------------------------------------------------
-Plugin Name: CiviCRM WordPress Member Sync
+Plugin Name: CiviCRM WordPress Member Sync EOTB version
 Plugin URI: https://github.com/christianwach/civicrm-wp-member-sync
 Description: Synchronize CiviCRM memberships with WordPress user roles or capabilities.
 Author: Christian Wach
-Version: 0.4.3
+Version: 0.0.1
 Author URI: http://haystack.co.uk
 Text Domain: civicrm-wp-member-sync
 Domain Path: /languages
