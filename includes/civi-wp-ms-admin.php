@@ -1680,7 +1680,7 @@ class Civi_WP_Member_Sync_Admin {
 	 */
 	public function setting_get_default_wp_role() {
 		
-		if (setting_exists('default_wp_role') {
+		if (setting_exists('default_wp_role') ) {
 			// Get default WordPress role.
 			$default_wp_role = $this->setting_get( 'default_wp_role' );
 		} else {
