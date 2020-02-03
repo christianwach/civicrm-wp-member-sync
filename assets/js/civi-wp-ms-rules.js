@@ -83,7 +83,6 @@ jQuery(document).ready( function($) {
 
 		// Get checked.
 		expire_on = $(this).prop( 'checked' );
-                console.log(expire_on);
 
 		// Get class.
 		expire_class = $(this).prop( 'class' );
