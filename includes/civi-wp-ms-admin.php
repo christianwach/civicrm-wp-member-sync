@@ -2506,7 +2506,7 @@ class Civi_WP_Member_Sync_Admin {
 		// Get sync method.
 		$method = $this->setting_get_method();
 		
-		// Get default role. This hasn't been defined anywhere yet, so we will have to write it.
+		// Get default role.
 		$default_wp_role = $this->setting_get_default_wp_role();
 
 		// Loop through the supplied memberships.
