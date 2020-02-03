@@ -97,6 +97,22 @@
 			 * @param array $status_rules The status rules.
 			 */
 			do_action( 'civi_wp_member_sync_role_add_after_current', $status_rules );
+                        
+                        // Check for a default_wp_role
+                        $has_default_wp_role = "true";
+                        if ($this->setting_get_default_wp_role() === "") {
+                            $has_default_wp_role = "false";
+                        }
+                        
+                        // If we have a default role defined, we don't require an expired status or role.
+//                        $required_expire = '';
+//                        $required_expire_role = '';
+//                        if( $has_default_wp_role) {
+//                            $required_expire = 'required-expire ';
+//                            $required_expire_role = 'required required-role';
+//                        }
+                        
+      
 
 			?>
 
@@ -106,7 +122,7 @@
 				<?php foreach( $status_rules AS $key => $value ) { ?>
 					<input type="checkbox" class="required-expire expire-<?php echo $key; ?>" name="<?php echo 'expire[' . $key . ']'; ?>" id="<?php echo 'expire[' . $key . ']'; ?>" value="<?php echo $key; ?>" />
 					<label for="<?php echo 'expire[' . $key . ']';?>"><?php echo $value; ?></label><br />
-				<?php } ?>
+				<?php } ?>`
 				</td>
 			</tr>
 
@@ -138,6 +154,7 @@
 		</table>
 
 		<input type="hidden" id="civi_wp_member_sync_rules_mode" name="civi_wp_member_sync_rules_mode" value="add" />
+                <input type="hidden" id="civi_wp_member_sync_has_default_role" name="civi_wp_member_sync_has_default_role" value="<?php echo $has_default_wp_role?>" />
 
 		<?php if ( empty( $multiple ) ) { ?>
 			<input type="hidden" id="civi_wp_member_sync_rules_multiple" name="civi_wp_member_sync_rules_multiple" value="no" />

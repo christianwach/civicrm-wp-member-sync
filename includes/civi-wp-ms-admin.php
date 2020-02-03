@@ -939,6 +939,9 @@ class Civi_WP_Member_Sync_Admin {
 
 		// Get our sync method.
 		$method = $this->setting_get_method();
+                
+                //Get default WP role
+                $default_wp_role = $this->setting_get_default_wp_role();
 
 		// Get all schedules.
 		$schedules = $this->plugin->schedule->intervals_get();
@@ -1115,7 +1118,7 @@ class Civi_WP_Member_Sync_Admin {
 
 		// Get method.
 		$method = $this->setting_get_method();
-
+                
 		// Get rules.
 		$rules = $this->rules_get_by_method( $method );
 
@@ -1145,7 +1148,7 @@ class Civi_WP_Member_Sync_Admin {
 
 			// Get filtered roles.
 			$roles = $this->plugin->users->wp_role_names_get_all();
-
+                        
 			// Include template file.
 			include( CIVI_WP_MEMBER_SYNC_PLUGIN_PATH . 'assets/templates/rule-role-add.php' );
 
@@ -1680,18 +1683,19 @@ class Civi_WP_Member_Sync_Admin {
 	 */
 	public function setting_get_default_wp_role() {
 		
-		if (setting_exists('default_wp_role') ) {
+            $default_wp_role = $this->setting_get( 'default_wp_role' );
+            
+		if ($this->setting_exists('default_wp_role')) {
 			// Get default WordPress role.
 			$default_wp_role = $this->setting_get( 'default_wp_role' );
 		} else {
-			$default_wp_role = null;
+			$default_wp_role = '';
 		}
 
 		// --<
 		return $default_wp_role;
 
 	}
-	
 	
 
 	/**
@@ -2551,13 +2555,18 @@ class Civi_WP_Member_Sync_Admin {
 					if ( $this->plugin->users->wp_has_role( $user, $expired_wp_role ) ) {
 						$this->plugin->users->wp_role_remove( $user, $expired_wp_role );
 					}
+                                        
+                                        // Remove default role if it isn't the same as current and the user has it.
+					if ( ($current_wp_role != $default_wp_role ) AND $this->plugin->users->wp_has_role( $user, $default_wp_role ) ) {
+						$this->plugin->users->wp_role_remove( $user, $default_wp_role );
+					}                                        
 
 					// Set flag for action.
 					$flag = 'current';
 					
-				// Does the user's membership status match an expired status rule?
+				// Does the user's membership status match an expired status rule or there is no default rule?
 				} else if ( ( isset( $status_id ) && array_search( $status_id, $expiry_rule ) ) ||
-					  is_null ( $default_wp_role ) ){
+					  ( $default_wp_role === '' ) ){
 
 					// Remove current role if the user has it.
 					if ( $this->plugin->users->wp_has_role( $user, $current_wp_role ) ) {
@@ -2568,6 +2577,11 @@ class Civi_WP_Member_Sync_Admin {
 					if ( ! $this->plugin->users->wp_has_role( $user, $expired_wp_role ) ) {
 						$this->plugin->users->wp_role_add( $user, $expired_wp_role );
 					}
+
+                                        // Remove default role if it isn't the same as the expired role and the user has it.
+					if ( ($expired_wp_role != $default_wp_role ) AND $this->plugin->users->wp_has_role( $user, $default_wp_role ) ) {
+						$this->plugin->users->wp_role_remove( $user, $default_wp_role );
+					}                                        
 
 					// Set flag for action.
 					$flag = 'expired';

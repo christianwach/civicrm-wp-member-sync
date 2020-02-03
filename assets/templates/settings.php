@@ -62,7 +62,16 @@
 					<select name="civi_wp_member_sync_settings_default_wp_role" id="civi_wp_member_sync_settings_default_wp_role" class="required required-role">
 						<option value=""></option>
 						<?php foreach( $roles AS $key => $value ) { ?>
-							<option value="<?php echo $key; ?>"><?php echo $value; ?></option>
+							<option value="<?php echo $key; ?>" <?php
+                                                        
+                                                        $selected = '';
+                                                        if (isset ( $default_wp_role ) AND $default_wp_role === $key ) {
+                                                            $selected = ' selected="selected"';
+                                                        }
+                                                        
+                                                        echo $selected ?>
+                                                                ><?php echo $value; ?></option>
+
 						<?php } ?>
 					</select>
 					<p class="description"><?php esc_html_e( 'When the Roles method is selected, this default role will be applied to any membership that does not match the configured or expired rules.', 'civicrm-wp-member-sync' ); ?></p>

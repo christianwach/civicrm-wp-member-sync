@@ -41,6 +41,9 @@ jQuery(document).ready( function($) {
 	 *
 	 * @param {Object} e The click event object.
 	 */
+        
+        var has_default_role = document.getElementById('civi_wp_member_sync_has_default_role').value;
+        
 	$('.required-current').click( function(e) {
 
 		var current_on,
@@ -58,8 +61,10 @@ jQuery(document).ready( function($) {
 		expire_class = expire_last_class.split('-')[1];
 		expire_target = '.expire-' + expire_class;
 
-		// Check required elements.
-		$(expire_target).prop( 'checked', !current_on );
+		// Check required elements except if we have default role.
+                if( has_default_role === "false" || current_on) {
+                    $(expire_target).prop( 'checked', !current_on );
+                }
 
 	});
 
@@ -78,6 +83,7 @@ jQuery(document).ready( function($) {
 
 		// Get checked.
 		expire_on = $(this).prop( 'checked' );
+                console.log(expire_on);
 
 		// Get class.
 		expire_class = $(this).prop( 'class' );
@@ -87,8 +93,10 @@ jQuery(document).ready( function($) {
 		current_class = current_last_class.split('-')[1];
 		current_target = '.current-' + current_class;
 
-		// Check required elements.
-		$(current_target).prop( 'checked', !expire_on );
+		// Check required elements except if we have a default role.
+                if( has_default_role === "false" || expire_on) {
+                    $(current_target).prop( 'checked', !expire_on );
+                }
 
 	});
 
