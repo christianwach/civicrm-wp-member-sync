@@ -103,16 +103,6 @@
                         if ($this->setting_get_default_wp_role() === "") {
                             $has_default_wp_role = "false";
                         }
-                        
-                        // If we have a default role defined, we don't require an expired status or role.
-//                        $required_expire = '';
-//                        $required_expire_role = '';
-//                        if( $has_default_wp_role) {
-//                            $required_expire = 'required-expire ';
-//                            $required_expire_role = 'required required-role';
-//                        }
-                        
-      
 
 			?>
 
@@ -122,7 +112,7 @@
 				<?php foreach( $status_rules AS $key => $value ) { ?>
 					<input type="checkbox" class="required-expire expire-<?php echo $key; ?>" name="<?php echo 'expire[' . $key . ']'; ?>" id="<?php echo 'expire[' . $key . ']'; ?>" value="<?php echo $key; ?>" />
 					<label for="<?php echo 'expire[' . $key . ']';?>"><?php echo $value; ?></label><br />
-				<?php } ?>`
+				<?php } ?>
 				</td>
 			</tr>
 
