@@ -74,7 +74,7 @@
 
 						<?php } ?>
 					</select>
-					<p class="description"><?php esc_html_e( 'When the Roles method is selected, this default role will be applied to any membership that does not match the configured or expired rules.', 'civicrm-wp-member-sync' ); ?></p>
+					<p class="description"><?php esc_html_e( 'When the Roles method is selected, this default role will be applied to any membership that does not match the configured current or expired rules.', 'civicrm-wp-member-sync' ); ?></p>
 				</td>
 			</tr>
 
