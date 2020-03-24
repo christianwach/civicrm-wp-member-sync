@@ -582,6 +582,16 @@ class Civi_WP_Member_Sync_Users {
 		// Get contact.
 		$contact = array_shift( $contact_data['values'] );
 
+		/**
+		 * Filter the retrieved Contact data.
+		 *
+		 * @since 0.4.3
+		 *
+		 * @param array $contact The retrieved Contact data.
+		 * @return array $contact The modified Contact data.
+		 */
+		$contact = apply_filters( 'civi_wp_member_sync_contact_retrieved', $contact );
+
 		// --<
 		return $contact;
 
