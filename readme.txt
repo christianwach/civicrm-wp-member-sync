@@ -81,6 +81,11 @@ It may sometimes be necessary to manually synchronize users. Click on the "Manua
 
 == Changelog ==
 
+= 0.4.3 =
+
+* Introduce "civi_wp_member_sync_contact_retrieved" filter
+* Fix references to CiviCRM WP Profile Sync methods
+
 = 0.4.2 =
 
 * Introduce "bulk create association rules" functionality
