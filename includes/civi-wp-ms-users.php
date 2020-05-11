@@ -837,8 +837,8 @@ class Civi_WP_Member_Sync_Users {
 		// Remove CiviCRM WordPress Profile Sync filters.
 		global $civicrm_wp_profile_sync;
 		if ( is_object( $civicrm_wp_profile_sync ) ) {
-			remove_action( 'user_register', array( $civicrm_wp_profile_sync, 'wordpress_contact_updated' ), 100 );
-			remove_action( 'profile_update', array( $civicrm_wp_profile_sync, 'wordpress_contact_updated' ), 100 );
+			$civicrm_wp_profile_sync->hooks_wp_remove();
+			$civicrm_wp_profile_sync->hooks_bp_remove();
 		}
 
 		/**
@@ -880,8 +880,8 @@ class Civi_WP_Member_Sync_Users {
 		// Re-add CiviCRM WordPress Profile Sync filters.
 		global $civicrm_wp_profile_sync;
 		if ( is_object( $civicrm_wp_profile_sync ) ) {
-			add_action( 'user_register', array( $civicrm_wp_profile_sync, 'wordpress_contact_updated' ), 100, 1 );
-			add_action( 'profile_update', array( $civicrm_wp_profile_sync, 'wordpress_contact_updated' ), 100, 1 );
+			$civicrm_wp_profile_sync->hooks_wp_add();
+			$civicrm_wp_profile_sync->hooks_bp_add();
 		}
 
 		/**
