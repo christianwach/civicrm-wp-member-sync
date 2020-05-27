@@ -140,6 +140,12 @@
 			 * @param array $selected_rule The rule being edited.
 			 */
 			do_action( 'civi_wp_member_sync_role_edit_after_current', $status_rules, $selected_rule );
+                        
+                        $has_default_wp_role = "true";
+                        if ($this->setting_get_default_wp_role() === "") {
+                            $has_default_wp_role = "false";
+                        }
+                        
 
 			?>
 
@@ -207,6 +213,7 @@
 		</table>
 
 		<input type="hidden" id="civi_wp_member_sync_rules_mode" name="civi_wp_member_sync_rules_mode" value="edit" />
+                <input type="hidden" id="civi_wp_member_sync_has_default_role" name="civi_wp_member_sync_has_default_role" value="<?php echo $has_default_wp_role?>" />
 
 		<p class="submit"><input class="button-primary" type="submit" id="civi_wp_member_sync_rules_submit" name="civi_wp_member_sync_rules_submit" value="<?php esc_attr_e( 'Save Association Rule', 'civicrm-wp-member-sync' ); ?>" /></p>
 

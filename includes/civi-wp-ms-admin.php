@@ -939,6 +939,9 @@ class Civi_WP_Member_Sync_Admin {
 
 		// Get our sync method.
 		$method = $this->setting_get_method();
+                
+                //Get default WP role
+                $default_wp_role = $this->setting_get_default_wp_role();
 
 		// Get all schedules.
 		$schedules = $this->plugin->schedule->intervals_get();
@@ -965,6 +968,9 @@ class Civi_WP_Member_Sync_Admin {
 
 		// Get Settings page link.
 		$cau_link = $this->cau_page_get_url();
+		
+		// Get list of WordPress roles.
+		$roles = $this->plugin->users->wp_role_names_get_all();
 
 		// Include template file.
 		include( CIVI_WP_MEMBER_SYNC_PLUGIN_PATH . 'assets/templates/settings.php' );
@@ -1112,7 +1118,7 @@ class Civi_WP_Member_Sync_Admin {
 
 		// Get method.
 		$method = $this->setting_get_method();
-
+                
 		// Get rules.
 		$rules = $this->rules_get_by_method( $method );
 
@@ -1142,7 +1148,7 @@ class Civi_WP_Member_Sync_Admin {
 
 			// Get filtered roles.
 			$roles = $this->plugin->users->wp_role_names_get_all();
-
+                        
 			// Include template file.
 			include( CIVI_WP_MEMBER_SYNC_PLUGIN_PATH . 'assets/templates/rule-role-add.php' );
 
@@ -1430,6 +1436,9 @@ class Civi_WP_Member_Sync_Admin {
 
 		// Set default method.
 		$settings['method'] = 'capabilities';
+		
+		//Set default default_role.
+		$settings['default_wp_role'] = null;
 
 		// Switch all sync settings on by default.
 		$settings['login'] = 1;
@@ -1472,6 +1481,13 @@ class Civi_WP_Member_Sync_Admin {
 			$settings_method = trim( $_POST['civi_wp_member_sync_settings_method'] );
 		}
 		$this->setting_set( 'method', $settings_method );
+		
+		// Synchronize the default role.
+		$settings_default_wp_role = null;
+		if ( isset( $_POST['civi_wp_member_sync_settings_default_wp_role'] ) ) {
+			$settings_default_wp_role = trim ( $_POST['civi_wp_member_sync_settings_default_wp_role'] );
+		}
+		$this->setting_set ( 'default_wp_role', $settings_default_wp_role );
 
 		// Login/logout sync enabled.
 		if ( isset( $_POST['civi_wp_member_sync_settings_login'] ) ) {
@@ -1652,8 +1668,35 @@ class Civi_WP_Member_Sync_Admin {
 		return $method;
 
 	}
+	
+	
 
+	/**
+	 * Return the value for the 'default_wp_role' setting.
+	 *
+	 * Added as a separate method to for consistency with seting_get_method.
+	 * Also allows for future sanitization rules.
+	 * 
+	 * @since TBD
+	 *
+	 * @return str $default_wp_role The value of the 'default_wp_role' setting.
+	 */
+	public function setting_get_default_wp_role() {
+		
+            $default_wp_role = $this->setting_get( 'default_wp_role' );
+            
+		if ($this->setting_exists('default_wp_role')) {
+			// Get default WordPress role.
+			$default_wp_role = $this->setting_get( 'default_wp_role' );
+		} else {
+			$default_wp_role = '';
+		}
 
+		// --<
+		return $default_wp_role;
+
+	}
+	
 
 	/**
 	 * Return the value for the batch count.
@@ -2462,6 +2505,9 @@ class Civi_WP_Member_Sync_Admin {
 
 		// Get sync method.
 		$method = $this->setting_get_method();
+		
+		// Get default role.
+		$default_wp_role = $this->setting_get_default_wp_role();
 
 		// Loop through the supplied memberships.
 		foreach( $memberships['values'] AS $membership ) {
@@ -2509,11 +2555,18 @@ class Civi_WP_Member_Sync_Admin {
 					if ( $this->plugin->users->wp_has_role( $user, $expired_wp_role ) ) {
 						$this->plugin->users->wp_role_remove( $user, $expired_wp_role );
 					}
+                                        
+                                        // Remove default role if it isn't the same as current and the user has it.
+					if ( ($current_wp_role != $default_wp_role ) AND $this->plugin->users->wp_has_role( $user, $default_wp_role ) ) {
+						$this->plugin->users->wp_role_remove( $user, $default_wp_role );
+					}                                        
 
 					// Set flag for action.
 					$flag = 'current';
-
-				} else {
+					
+				// Does the user's membership status match an expired status rule or there is no default rule?
+				} else if ( ( isset( $status_id ) && array_search( $status_id, $expiry_rule ) ) ||
+					  ( $default_wp_role === '' ) ){
 
 					// Remove current role if the user has it.
 					if ( $this->plugin->users->wp_has_role( $user, $current_wp_role ) ) {
@@ -2525,18 +2578,45 @@ class Civi_WP_Member_Sync_Admin {
 						$this->plugin->users->wp_role_add( $user, $expired_wp_role );
 					}
 
+                                        // Remove default role if it isn't the same as the expired role and the user has it.
+					if ( ($expired_wp_role != $default_wp_role ) AND $this->plugin->users->wp_has_role( $user, $default_wp_role ) ) {
+						$this->plugin->users->wp_role_remove( $user, $default_wp_role );
+					}                                        
+
 					// Set flag for action.
 					$flag = 'expired';
-
+					
+				// The membership didn't match a current or expired status rule
+				} else {
+					
+					// Remove current role if the user has it.
+					if ( $this->plugin->users->wp_has_role( $user, $current_wp_role ) ) {
+						$this->plugin->users->wp_role_remove( $user, $current_wp_role );
+					}
+					
+					// Remove expired role if the user has it.
+					if ( $this->plugin->users->wp_has_role( $user, $expired_wp_role ) ) {
+						$this->plugin->users->wp_role_remove( $user, $expired_wp_role );
+					}
+					
+					// Add default role if the user does not have it.
+					if ( ! $this->plugin->users->wp_has_role( $user, $default_wp_role ) ) {
+						$this->plugin->users->wp_role_add( $user, $default_wp_role );
+					}
+					
+					// Set flag for action.
+					$flag = 'default';
 				}
+				
 
 				/**
 				 * Fires after application of rule to user when syncing roles.
 				 *
-				 * This creates two possible actions:
+				 * This creates three possible actions:
 				 *
 				 * civi_wp_member_sync_rule_apply_roles_current
 				 * civi_wp_member_sync_rule_apply_roles_expired
+				 * civi_wp_member_sync_rule_apply_roles_default
 				 *
 				 * @since 0.3.2
 				 *

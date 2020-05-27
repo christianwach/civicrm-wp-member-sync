@@ -97,6 +97,12 @@
 			 * @param array $status_rules The status rules.
 			 */
 			do_action( 'civi_wp_member_sync_role_add_after_current', $status_rules );
+                        
+                        // Check for a default_wp_role
+                        $has_default_wp_role = "true";
+                        if ($this->setting_get_default_wp_role() === "") {
+                            $has_default_wp_role = "false";
+                        }
 
 			?>
 
@@ -138,6 +144,7 @@
 		</table>
 
 		<input type="hidden" id="civi_wp_member_sync_rules_mode" name="civi_wp_member_sync_rules_mode" value="add" />
+                <input type="hidden" id="civi_wp_member_sync_has_default_role" name="civi_wp_member_sync_has_default_role" value="<?php echo $has_default_wp_role?>" />
 
 		<?php if ( empty( $multiple ) ) { ?>
 			<input type="hidden" id="civi_wp_member_sync_rules_multiple" name="civi_wp_member_sync_rules_multiple" value="no" />
