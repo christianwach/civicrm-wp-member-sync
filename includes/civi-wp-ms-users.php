@@ -833,20 +833,20 @@ class Civi_WP_Member_Sync_Users {
 	private function remove_filters() {
 
 		// Get CiviCRM instance.
-		$civi = civi_wp();
+		$civicrm = civi_wp();
 
 		// Do we have the old-style plugin structure?
-		if ( method_exists( $civi, 'update_user' ) ) {
+		if ( method_exists( $civicrm, 'update_user' ) ) {
 
 			// Remove previous CiviCRM plugin filters.
-			remove_action( 'user_register', array( civi_wp(), 'update_user' ) );
-			remove_action( 'profile_update', array( civi_wp(), 'update_user' ) );
+			remove_action( 'user_register', array( $civicrm, 'update_user' ) );
+			remove_action( 'profile_update', array( $civicrm, 'update_user' ) );
 
 		} else {
 
 			// Remove current CiviCRM plugin filters.
-			remove_action( 'user_register', array( civi_wp()->users, 'update_user' ) );
-			remove_action( 'profile_update', array( civi_wp()->users, 'update_user' ) );
+			remove_action( 'user_register', array( $civicrm->users, 'update_user' ) );
+			remove_action( 'profile_update', array( $civicrm->users, 'update_user' ) );
 
 		}
 
@@ -876,20 +876,20 @@ class Civi_WP_Member_Sync_Users {
 	private function add_filters() {
 
 		// Get CiviCRM instance.
-		$civi = civi_wp();
+		$civicrm = civi_wp();
 
 		// Do we have the old-style plugin structure?
-		if ( method_exists( $civi, 'update_user' ) ) {
+		if ( method_exists( $civicrm, 'update_user' ) ) {
 
 			// Re-add previous CiviCRM plugin filters.
-			add_action( 'user_register', array( civi_wp(), 'update_user' ) );
-			add_action( 'profile_update', array( civi_wp(), 'update_user' ) );
+			add_action( 'user_register', array( $civicrm, 'update_user' ) );
+			add_action( 'profile_update', array( $civicrm, 'update_user' ) );
 
 		} else {
 
 			// Re-add current CiviCRM plugin filters.
-			add_action( 'user_register', array( civi_wp()->users, 'update_user' ) );
-			add_action( 'profile_update', array( civi_wp()->users, 'update_user' ) );
+			add_action( 'user_register', array( $civicrm->users, 'update_user' ) );
+			add_action( 'profile_update', array( $civicrm->users, 'update_user' ) );
 
 		}
 
