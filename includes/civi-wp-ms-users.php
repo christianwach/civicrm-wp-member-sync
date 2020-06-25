@@ -741,6 +741,22 @@ class Civi_WP_Member_Sync_Users {
 
 			}
 
+			/**
+			 * Broadcast that we've inserted a user.
+			 *
+			 * This action fires before the hooks are re-added which can be useful
+			 * if callbacks perform actions that in some way update the WordPress
+			 * User, for example sending emails via `wp_new_user_notification()`.
+			 *
+			 * @see wp_new_user_notification()
+			 *
+			 * @since 0.4.3
+			 *
+			 * @param array $civi_contact The CiviCRM contact object.
+			 * @param int $user_id The numeric ID of the WordPress user.
+			 */
+			do_action( 'civi_wp_member_sync_post_insert_user', $civi_contact, $user_id );
+
 			// Re-add filters.
 			$this->add_filters();
 
