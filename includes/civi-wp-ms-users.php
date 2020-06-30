@@ -750,7 +750,7 @@ class Civi_WP_Member_Sync_Users {
 			 *
 			 * @see wp_new_user_notification()
 			 *
-			 * @since 0.4.3
+			 * @since 0.4.4
 			 *
 			 * @param array $civi_contact The CiviCRM contact object.
 			 * @param int $user_id The numeric ID of the WordPress user.
