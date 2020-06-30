@@ -2,9 +2,9 @@
 # This file is distributed under the same license as the CiviCRM WordPress Member Sync package.
 msgid ""
 msgstr ""
-"Project-Id-Version: CiviCRM WordPress Member Sync 0.4.3\n"
+"Project-Id-Version: CiviCRM WordPress Member Sync 0.4.4\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/civicrm-wp-member-sync\n"
-"POT-Creation-Date: 2020-05-11 14:49:39+00:00\n"
+"POT-Creation-Date: 2020-06-30 15:00:46+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -457,19 +457,19 @@ msgstr ""
 msgid "For further information about using CiviCRM WordPress Member Sync, please refer to the README.md that comes with this plugin."
 msgstr ""
 
-#: includes/civi-wp-ms-admin.php:1586
+#: includes/civi-wp-ms-admin.php:1583
 msgid "You must supply a setting to setting_exists()"
 msgstr ""
 
-#: includes/civi-wp-ms-admin.php:1607
+#: includes/civi-wp-ms-admin.php:1604
 msgid "You must supply a setting to setting_get()"
 msgstr ""
 
-#: includes/civi-wp-ms-admin.php:1626
+#: includes/civi-wp-ms-admin.php:1623
 msgid "You must supply a setting to setting_set()"
 msgstr ""
 
-#: includes/civi-wp-ms-admin.php:2294
+#: includes/civi-wp-ms-admin.php:2291
 msgid "Cheating, eh?"
 msgstr ""
 
