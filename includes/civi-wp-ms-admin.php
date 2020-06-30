@@ -1132,10 +1132,7 @@ class Civi_WP_Member_Sync_Admin {
 		}
 
 		// Convert select to multi-select.
-		$multiple = '';
-		if ( defined( 'CIVI_WP_MEMBER_SYNC_MULTIPLE' ) AND CIVI_WP_MEMBER_SYNC_MULTIPLE === true ) {
-			$multiple = ' multiple="multiple" style="min-width: 240px;"';
-		}
+		$multiple = ' multiple="multiple" style="min-width: 240px;"';
 
 		// Well?
 		if ( $method == 'roles' ) {
