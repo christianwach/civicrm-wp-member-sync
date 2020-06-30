@@ -51,6 +51,8 @@ If you have a large number of Membership Types, you can add the following code t
 
 This will allow you to select multiple Membership Types when adding an Association Rule. When saved, one Rule will be created for each of the selected Membership Types. This could save a lot of time in setting up your Association Rules. Thanks to [Foxpress Design](https://design.foxpress.io/) for funding this upgrade.
 
+Since version 0.4.4 it is not necessary to set this constant because this time-saving feature is now the default.
+
 <h4>Working with Capabilities</h4>
 
 1. Visit the plugin's admin page at "Settings" --> "CiviCRM WordPress Member Sync".
@@ -80,6 +82,11 @@ It may sometimes be necessary to manually synchronize users. Click on the "Manua
 
 
 == Changelog ==
+
+= 0.4.4 =
+
+* Allow selection of multiple Membership Types when adding an Association Rule
+* Introduce "civi_wp_member_sync_post_insert_user" action
 
 = 0.4.3 =
 
