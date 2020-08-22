@@ -112,19 +112,19 @@ jQuery(document).ready( function($) {
 			// Check required role elements.
 			$('.required-type').each( function() {
 
-				// If it's empty.
-				if ( !$(this).attr( 'value' ) ) {
+				// If it's not empty.
+				if ( $(this).val() ) {
+
+					// Colour label black.
+					$(this).parent().prev().children().removeClass( 'req' );
+
+				} else {
 
 					// Colour label red.
 					$(this).parent().prev().children().addClass( 'req' );
 
 					// Set flag.
 					passed = false;
-
-				} else {
-
-					// Colour label black.
-					$(this).parent().prev().children().removeClass( 'req' );
 
 				}
 
@@ -138,19 +138,19 @@ jQuery(document).ready( function($) {
 			// Check required role elements.
 			$('.required-role').each( function() {
 
-				// If it's empty.
-				if ( !$(this).attr( 'value' ) ) {
+				// If it's not empty.
+				if ( $(this).val() ) {
+
+					// Colour label black.
+					$(this).parent().prev().children().removeClass( 'req' );
+
+				} else {
 
 					// Colour label red.
 					$(this).parent().prev().children().addClass( 'req' );
 
 					// Set flag.
 					passed = false;
-
-				} else {
-
-					// Colour label black.
-					$(this).parent().prev().children().removeClass( 'req' );
 
 				}
 
