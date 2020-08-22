@@ -83,6 +83,10 @@ It may sometimes be necessary to manually synchronize users. Click on the "Manua
 
 == Changelog ==
 
+= 0.4.5 =
+
+* Fix validation on "Rule Add" screen
+
 = 0.4.4 =
 
 * Allow selection of multiple Membership Types when adding an Association Rule
