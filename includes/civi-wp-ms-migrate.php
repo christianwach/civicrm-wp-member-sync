@@ -65,11 +65,17 @@ class Civi_WP_Member_Sync_Migrate {
 		$data = $this->plugin->setting_get( 'data' );
 
 		// Don't show migration if we have data.
-		if ( count( $data['roles'] ) > 0 ) return false;
+		if ( count( $data['roles'] ) > 0 ) {
+			return false;
+		}
 
 		// Can we detect the legacy plugin?
-		if ( function_exists( 'tadms_install' ) ) return true;
-		if ( defined( 'CIVI_MEMBER_SYNC_VERSION' ) ) return true;
+		if ( function_exists( 'tadms_install' ) ) {
+			return true;
+		}
+		if ( defined( 'CIVI_MEMBER_SYNC_VERSION' ) ) {
+			return true;
+		}
 
 		// Not present.
 		return false;

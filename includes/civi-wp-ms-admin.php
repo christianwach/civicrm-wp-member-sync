@@ -257,7 +257,9 @@ class Civi_WP_Member_Sync_Admin {
 		$this->upgrade_tasks();
 
 		// Upgrade version if needed.
-		if ( $this->plugin_version != CIVI_WP_MEMBER_SYNC_VERSION ) $this->store_version();
+		if ( $this->plugin_version != CIVI_WP_MEMBER_SYNC_VERSION ) {
+			$this->store_version();
+		}
 
 		// Load settings array.
 		$this->settings = $this->option_get( 'civi_wp_member_sync_settings', $this->settings );
@@ -787,7 +789,9 @@ class Civi_WP_Member_Sync_Admin {
 		];
 
 		// Kick out if not our screen.
-		if ( ! in_array( $screen->id, $pages ) ) { return $screen; }
+		if ( ! in_array( $screen->id, $pages ) ) {
+			return $screen;
+		}
 
 		// Add a tab - we can add more later.
 		$screen->add_help_tab( [
@@ -1244,7 +1248,9 @@ class Civi_WP_Member_Sync_Admin {
 	public function page_get_urls() {
 
 		// Only calculate once.
-		if ( isset( $this->urls ) ) { return $this->urls; }
+		if ( isset( $this->urls ) ) {
+			return $this->urls;
+		}
 
 		// Init return.
 		$this->urls = [];
@@ -1301,7 +1307,9 @@ class Civi_WP_Member_Sync_Admin {
 
 		$url = esc_url( $url );
 
-		if ( $echo ) echo $url;
+		if ( $echo ) {
+			echo $url;
+		}
 
 		// --<
 		return $url;
@@ -1827,7 +1835,9 @@ class Civi_WP_Member_Sync_Admin {
 		$subset = ( isset( $data[$method] ) ) ? $data[$method] : false;
 
 		// Sanity check.
-		if ( ! $subset ) return;
+		if ( ! $subset ) {
+			return;
+		}
 
 		// Loop through them.
 		foreach( $subset AS $type_id => $rule ) {
@@ -2302,7 +2312,9 @@ class Civi_WP_Member_Sync_Admin {
 		$type_id = absint( $_GET['type_id'] );
 
 		// Sanity check.
-		if ( empty( $type_id ) ) return;
+		if ( empty( $type_id ) ) {
+			return;
+		}
 
 		// Get method.
 		$method = $this->setting_get_method();
@@ -2314,8 +2326,12 @@ class Civi_WP_Member_Sync_Admin {
 		$subset = ( isset( $data[$method] ) ) ? $data[$method] : false;
 
 		// Sanity check.
-		if ( ! $subset ) return;
-		if ( ! isset( $subset[$type_id] ) ) return;
+		if ( ! $subset ) {
+			return;
+		}
+		if ( ! isset( $subset[$type_id] ) ) {
+			return;
+		}
 
 		/**
 		 * Broadcast that we're deleting an association rule. This creates two
@@ -2370,11 +2386,17 @@ class Civi_WP_Member_Sync_Admin {
 		$has_rule = false;
 
 		// Kick out if no CiviCRM.
-		if ( ! civi_wp()->initialize() ) return $has_rule;
+		if ( ! civi_wp()->initialize() ) {
+			return $has_rule;
+		}
 
 		// Bail if we didn't get memberships passed.
-		if ( $memberships === false ) return $has_rule;
-		if ( empty( $memberships ) ) return $has_rule;
+		if ( $memberships === false ) {
+			return $has_rule;
+		}
+		if ( empty( $memberships ) ) {
+			return $has_rule;
+		}
 
 		// Get sync method.
 		$method = $this->setting_get_method();
@@ -2383,7 +2405,9 @@ class Civi_WP_Member_Sync_Admin {
 		foreach( $memberships['values'] AS $membership ) {
 
 			// Continue with next membership if something went wrong.
-			if ( empty( $membership['membership_type_id'] ) ) continue;
+			if ( empty( $membership['membership_type_id'] ) ) {
+				continue;
+			}
 
 			// Get membership type.
 			$membership_type_id = $membership['membership_type_id'];
@@ -2392,18 +2416,28 @@ class Civi_WP_Member_Sync_Admin {
 			$association_rule = $this->rule_get_by_type( $membership_type_id, $method );
 
 			// Continue with next membership if we have an error or no rule exists.
-			if ( $association_rule === false ) continue;
+			if ( $association_rule === false ) {
+				continue;
+			}
 
 			// Continue with next membership if something is wrong with rule.
-			if ( empty( $association_rule['current_rule'] ) ) continue;
-			if ( empty( $association_rule['expiry_rule'] ) ) continue;
+			if ( empty( $association_rule['current_rule'] ) ) {
+				continue;
+			}
+			if ( empty( $association_rule['expiry_rule'] ) ) {
+				continue;
+			}
 
 			// Which sync method are we using?
 			if ( $method == 'roles' ) {
 
 				// Continue with next membership if something is wrong with rule.
-				if ( empty( $association_rule['current_wp_role'] ) ) continue;
-				if ( empty( $association_rule['expired_wp_role'] ) ) continue;
+				if ( empty( $association_rule['current_wp_role'] ) ) {
+					continue;
+				}
+				if ( empty( $association_rule['expired_wp_role'] ) ) {
+					continue;
+				}
 
 				// Rule applies.
 				$has_rule = true;
@@ -2457,10 +2491,14 @@ class Civi_WP_Member_Sync_Admin {
 		// You're using a plugin that enables multiple roles.
 
 		// Kick out if no CiviCRM.
-		if ( ! civi_wp()->initialize() ) return;
+		if ( ! civi_wp()->initialize() ) {
+			return;
+		}
 
 		// Kick out if we didn't get memberships passed.
-		if ( $memberships === false ) return;
+		if ( $memberships === false ) {
+			return;
+		}
 
 		// Get sync method.
 		$method = $this->setting_get_method();
@@ -2469,8 +2507,12 @@ class Civi_WP_Member_Sync_Admin {
 		foreach( $memberships['values'] AS $membership ) {
 
 			// Continue if something went wrong.
-			if ( ! isset( $membership['membership_type_id'] ) ) continue;
-			if ( ! isset( $membership['status_id'] ) ) continue;
+			if ( ! isset( $membership['membership_type_id'] ) ) {
+				continue;
+			}
+			if ( ! isset( $membership['status_id'] ) ) {
+				continue;
+			}
 
 			// Get membership type and status rule.
 			$membership_type_id = $membership['membership_type_id'];
@@ -2480,7 +2522,9 @@ class Civi_WP_Member_Sync_Admin {
 			$association_rule = $this->rule_get_by_type( $membership_type_id, $method );
 
 			// Continue with next rule if we have an error of some kind.
-			if ( $association_rule === false ) continue;
+			if ( $association_rule === false ) {
+				continue;
+			}
 
 			// Get status rules.
 			$current_rule = $association_rule['current_rule'];
@@ -2492,8 +2536,12 @@ class Civi_WP_Member_Sync_Admin {
 				// SYNC ROLES
 
 				// Continue if something went wrong.
-				if ( empty( $association_rule['current_wp_role'] ) ) continue;
-				if ( empty( $association_rule['expired_wp_role'] ) ) continue;
+				if ( empty( $association_rule['current_wp_role'] ) ) {
+					continue;
+				}
+				if ( empty( $association_rule['expired_wp_role'] ) ) {
+					continue;
+				}
 
 				// Get roles for this association rule.
 				$current_wp_role = $association_rule['current_wp_role'];
@@ -2677,9 +2725,15 @@ class Civi_WP_Member_Sync_Admin {
 			$association_rule = $this->rule_get_by_type( $membership->membership_type_id, $method );
 
 			// Kick out if something went wrong.
-			if ( $association_rule === false ) return;
-			if ( empty( $association_rule['current_wp_role'] ) ) return;
-			if ( empty( $association_rule['expired_wp_role'] ) ) return;
+			if ( $association_rule === false ) {
+				return;
+			}
+			if ( empty( $association_rule['current_wp_role'] ) ) {
+				return;
+			}
+			if ( empty( $association_rule['expired_wp_role'] ) ) {
+				return;
+			}
 
 			// Get roles for this status rule.
 			$current_wp_role = $association_rule['current_wp_role'];

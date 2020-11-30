@@ -68,7 +68,9 @@ class Civi_WP_Member_Sync_Users {
 	public function wp_has_role( $user, $role ) {
 
 		// Kick out if we don't receive a valid user.
-		if ( ! ( $user instanceof WP_User ) ) return false;
+		if ( ! ( $user instanceof WP_User ) ) {
+			return false;
+		}
 
 		// Check via WordPress function.
 		$has_role = user_can( $user, $role );
@@ -91,7 +93,9 @@ class Civi_WP_Member_Sync_Users {
 	public function wp_role_get( $user ) {
 
 		// Kick out if we don't receive a valid user.
-		if ( ! ( $user instanceof WP_User ) ) return false;
+		if ( ! ( $user instanceof WP_User ) ) {
+			return false;
+		}
 
 		// Only build role names array once, since this is called by the sync routine.
 		if ( ! isset( $this->role_names ) ) {
@@ -108,7 +112,9 @@ class Civi_WP_Member_Sync_Users {
 		foreach ( $user->roles AS $role ) {
 
 			// Return the first valid one.
-			if ( $role AND in_array( $role, $filtered_roles ) ) { return $role; }
+			if ( $role AND in_array( $role, $filtered_roles ) ) {
+				return $role;
+			}
 
 		}
 
@@ -132,7 +138,9 @@ class Civi_WP_Member_Sync_Users {
 	public function wp_roles_get_all( $user ) {
 
 		// Kick out if we don't receive a valid user.
-		if ( ! ( $user instanceof WP_User ) ) return false;
+		if ( ! ( $user instanceof WP_User ) ) {
+			return false;
+		}
 
 		// Init return.
 		$user_roles = [];
@@ -176,10 +184,14 @@ class Civi_WP_Member_Sync_Users {
 	public function wp_role_add( $user, $role ) {
 
 		// Kick out if we don't receive a valid user.
-		if ( ! ( $user instanceof WP_User ) ) return;
+		if ( ! ( $user instanceof WP_User ) ) {
+			return;
+		}
 
 		// Sanity check param.
-		if ( empty( $role ) ) return;
+		if ( empty( $role ) ) {
+			return;
+		}
 
 		// Add role to user.
 		$user->add_role( $role );
@@ -207,10 +219,14 @@ class Civi_WP_Member_Sync_Users {
 	public function wp_role_remove( $user, $role ) {
 
 		// Kick out if we don't receive a valid user.
-		if ( ! ( $user instanceof WP_User ) ) return;
+		if ( ! ( $user instanceof WP_User ) ) {
+			return;
+		}
 
 		// Sanity check param.
-		if ( empty( $role ) ) return;
+		if ( empty( $role ) ) {
+			return;
+		}
 
 		// Remove role from user.
 		$user->remove_role( $role );
@@ -239,11 +255,17 @@ class Civi_WP_Member_Sync_Users {
 	public function wp_role_replace( $user, $old_role, $new_role ) {
 
 		// Kick out if we don't receive a valid user.
-		if ( ! ( $user instanceof WP_User ) ) return;
+		if ( ! ( $user instanceof WP_User ) ) {
+			return;
+		}
 
 		// Sanity check params.
-		if ( empty( $old_role ) ) return;
-		if ( empty( $new_role ) ) return;
+		if ( empty( $old_role ) ) {
+			return;
+		}
+		if ( empty( $new_role ) ) {
+			return;
+		}
 
 		// Remove old role then add new role, so that we don't inadvertently
 		// overwrite multiple roles, for example when bbPress is active.
@@ -362,10 +384,14 @@ class Civi_WP_Member_Sync_Users {
 	public function wp_cap_add( $user, $capability ) {
 
 		// Kick out if we don't receive a valid user.
-		if ( ! ( $user instanceof WP_User ) ) return;
+		if ( ! ( $user instanceof WP_User ) ) {
+			return;
+		}
 
 		// Sanity check params.
-		if ( empty( $capability ) ) return;
+		if ( empty( $capability ) ) {
+			return;
+		}
 
 		// Does this user have that capability?
 		if ( ! $user->has_cap( $capability ) ) {
@@ -398,10 +424,14 @@ class Civi_WP_Member_Sync_Users {
 	public function wp_cap_remove( $user, $capability ) {
 
 		// Kick out if we don't receive a valid user.
-		if ( ! ( $user instanceof WP_User ) ) return;
+		if ( ! ( $user instanceof WP_User ) ) {
+			return;
+		}
 
 		// Sanity check params.
-		if ( empty( $capability ) ) return;
+		if ( empty( $capability ) ) {
+			return;
+		}
 
 		// Does this user have that capability?
 		if ( $user->has_cap( $capability ) ) {
@@ -435,17 +465,25 @@ class Civi_WP_Member_Sync_Users {
 	public function wp_cap_remove_status( $user, $capability ) {
 
 		// Kick out if we don't receive a valid user.
-		if ( ! ( $user instanceof WP_User ) ) return;
+		if ( ! ( $user instanceof WP_User ) ) {
+			return;
+		}
 
 		// Sanity check params.
-		if ( empty( $capability ) ) return;
+		if ( empty( $capability ) ) {
+			return;
+		}
 
 		// Get membership status rules.
 		$status_rules = $this->plugin->members->status_rules_get_all();
 
 		// Sanity checks.
-		if ( ! is_array( $status_rules ) ) return;
-		if ( count( $status_rules ) == 0 ) return;
+		if ( ! is_array( $status_rules ) ) {
+			return;
+		}
+		if ( count( $status_rules ) == 0 ) {
+			return;
+		}
 
 		// Get keys.
 		$status_rule_ids = array_keys( $status_rules );
@@ -480,7 +518,9 @@ class Civi_WP_Member_Sync_Users {
 	public function wp_user_get_by_civi_id( $contact_id ) {
 
 		// Kick out if no CiviCRM.
-		if ( ! civi_wp()->initialize() ) return false;
+		if ( ! civi_wp()->initialize() ) {
+			return false;
+		}
 
 		// Make sure CiviCRM file is included.
 		require_once 'CRM/Core/BAO/UFMatch.php';
@@ -489,7 +529,9 @@ class Civi_WP_Member_Sync_Users {
 		$user_id = CRM_Core_BAO_UFMatch::getUFId( $contact_id );
 
 		// Kick out if we didn't get one.
-		if ( empty( $user_id ) ) return false;
+		if ( empty( $user_id ) ) {
+			return false;
+		}
 
 		// Get user object.
 		$user = new WP_User( $user_id );
@@ -512,7 +554,9 @@ class Civi_WP_Member_Sync_Users {
 	public function civi_contact_id_get( $user ) {
 
 		// Kick out if no CiviCRM.
-		if ( ! civi_wp()->initialize() ) return false;
+		if ( ! civi_wp()->initialize() ) {
+			return false;
+		}
 
 		// Make sure CiviCRM file is included.
 		require_once 'CRM/Core/BAO/UFMatch.php';
@@ -560,10 +604,14 @@ class Civi_WP_Member_Sync_Users {
 	public function civi_get_contact_by_contact_id( $contact_id ) {
 
 		// Kick out if no CiviCRM.
-		if ( ! civi_wp()->initialize() ) return false;
+		if ( ! civi_wp()->initialize() ) {
+			return false;
+		}
 
 		// Bail if we don't get a valid contact ID.
-		if ( empty( $contact_id ) OR ! is_numeric( $contact_id ) ) return false;
+		if ( empty( $contact_id ) OR ! is_numeric( $contact_id ) ) {
+			return false;
+		}
 
 		// Get all contact data.
 		$params = [
@@ -575,9 +623,15 @@ class Civi_WP_Member_Sync_Users {
 		$contact_data = civicrm_api( 'contact', 'get', $params );
 
 		// Bail if we get any errors.
-		if ( $contact_data['is_error'] == 1 ) return false;
-		if ( ! isset( $contact_data['values'] ) ) return false;
-		if ( count( $contact_data['values'] ) === 0 ) return false;
+		if ( $contact_data['is_error'] == 1 ) {
+			return false;
+		}
+		if ( ! isset( $contact_data['values'] ) ) {
+			return false;
+		}
+		if ( count( $contact_data['values'] ) === 0 ) {
+			return false;
+		}
 
 		// Get contact.
 		$contact = array_shift( $contact_data['values'] );
@@ -628,19 +682,25 @@ class Civi_WP_Member_Sync_Users {
 			$civi_contact = $this->civi_get_contact_by_contact_id( $civi_contact_id );
 
 			// Bail if something goes wrong.
-			if ( $civi_contact === false ) return false;
+			if ( $civi_contact === false ) {
+				return false;
+			}
 
 			// Get types setting.
 			$types = absint( $this->plugin->admin->setting_get( 'types' ) );
 
 			// If chosen, bail if this Contact is not an Individual.
-			if ( $types AND $civi_contact['contact_type'] != 'Individual' ) return;
+			if ( $types AND $civi_contact['contact_type'] != 'Individual' ) {
+				return;
+			}
 
 			// Create a WordPress user.
 			$user = $this->wp_create_user( $civi_contact );
 
 			// Bail if something goes wrong.
-			if ( ! ( $user instanceof WP_User ) ) return false;
+			if ( ! ( $user instanceof WP_User ) ) {
+				return false;
+			}
 
 			// Return user.
 			return $user;
@@ -799,7 +859,9 @@ class Civi_WP_Member_Sync_Users {
 	public function unique_username( $username, $civi_contact ) {
 
 		// Bail if this is already unique.
-		if ( ! username_exists( $username ) ) return $username;
+		if ( ! username_exists( $username ) ) {
+			return $username;
+		}
 
 		// Init flags.
 		$count = 1;

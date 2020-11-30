@@ -101,7 +101,9 @@ class Civi_WP_Member_Sync_Groups {
 	public function register_hooks() {
 
 		// Bail if we don't have the "Groups" plugin.
-		if ( ! defined( 'GROUPS_CORE_VERSION' ) ) return;
+		if ( ! defined( 'GROUPS_CORE_VERSION' ) ) {
+			return;
+		}
 
 		// Hook into rule add.
 		add_action( 'civi_wp_member_sync_rule_add_capabilities', [ $this, 'groups_add_cap' ] );
@@ -119,7 +121,9 @@ class Civi_WP_Member_Sync_Groups {
 		//add_action( 'save_post', [ $this, 'groups_intercept_save_post' ], 1, 2 );
 
 		// Bail if "Groups" is not version 2.8.0 or greater.
-		if ( version_compare( GROUPS_CORE_VERSION, '2.8.0', '<' ) ) return;
+		if ( version_compare( GROUPS_CORE_VERSION, '2.8.0', '<' ) ) {
+			return;
+		}
 
 		// Set enabled flag.
 		$this->enabled = true;
@@ -746,7 +750,9 @@ class Civi_WP_Member_Sync_Groups {
 		$capability = Groups_Capability::read_by_capability( $data['capability'] );
 
 		// Bail if it already exists.
-		if ( false !== $capability ) return;
+		if ( false !== $capability ) {
+			return;
+		}
 
 		// Create a new capability.
 		$capability_id = Groups_Capability::create( [ 'capability' => $data['capability'] ] );
@@ -789,7 +795,9 @@ class Civi_WP_Member_Sync_Groups {
 		$capability = Groups_Capability::read_by_capability( $data['capability'] );
 
 		// Bail if it doesn't exist.
-		if ( false === $capability ) return;
+		if ( false === $capability ) {
+			return;
+		}
 
 		// Delete capability.
 		$capability_id = Groups_Capability::delete( $capability->capability_id );
@@ -815,7 +823,9 @@ class Civi_WP_Member_Sync_Groups {
 		$current_read_caps = Groups_Options::get_option( Groups_Post_Access::READ_POST_CAPABILITIES, $default_read_caps );
 
 		// Bail if we have it already.
-		if ( in_array( $capability, $current_read_caps ) ) return;
+		if ( in_array( $capability, $current_read_caps ) ) {
+			return;
+		}
 
 		// Add the new capability.
 		$current_read_caps[] = $capability;
@@ -847,7 +857,9 @@ class Civi_WP_Member_Sync_Groups {
 		$key = array_search( $capability, $current_read_caps );
 
 		// Bail if we don't have it.
-		if ( $key === false ) return;
+		if ( $key === false ) {
+			return;
+		}
 
 		// Delete the capability.
 		unset( $current_read_caps[$key] );
@@ -871,7 +883,9 @@ class Civi_WP_Member_Sync_Groups {
 		$method = $this->plugin->admin->setting_get_method();
 
 		// Bail if we're not syncing capabilities.
-		if ( $method != 'capabilities' ) return;
+		if ( $method != 'capabilities' ) {
+			return;
+		}
 
 		// Get rules.
 		$rules = $this->plugin->admin->rules_get_by_method( $method );
@@ -905,7 +919,9 @@ class Civi_WP_Member_Sync_Groups {
 	public function groups_intercept_save_post( $post_id, $post ) {
 
 		// Bail if something went wrong.
-		if ( ! is_object( $post ) OR ! isset( $post->post_type ) ) return;
+		if ( ! is_object( $post ) OR ! isset( $post->post_type ) ) {
+			return;
+		}
 
 		// Do different things based on the post type.
 		switch( $post->post_type ) {
