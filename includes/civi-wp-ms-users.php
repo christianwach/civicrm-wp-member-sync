@@ -35,7 +35,7 @@ class Civi_WP_Member_Sync_Users {
 		$this->plugin = $plugin;
 
 		// Initialise early.
-		add_action( 'civi_wp_member_sync_initialised', array( $this, 'initialise' ), 3 );
+		add_action( 'civi_wp_member_sync_initialised', [ $this, 'initialise' ], 3 );
 
 	}
 
@@ -135,7 +135,7 @@ class Civi_WP_Member_Sync_Users {
 		if ( ! ( $user instanceof WP_User ) ) return false;
 
 		// Init return.
-		$user_roles = array();
+		$user_roles = [];
 
 		// Only build role names array once.
 		if ( ! isset( $this->role_names ) ) {
@@ -326,7 +326,7 @@ class Civi_WP_Member_Sync_Users {
 			$bbp_roles = bbp_get_blog_roles();
 
 			// Init roles.
-			$role_names = array();
+			$role_names = [];
 
 			// Sanity check.
 			if ( ! empty( $bbp_roles ) ) {
@@ -566,10 +566,10 @@ class Civi_WP_Member_Sync_Users {
 		if ( empty( $contact_id ) OR ! is_numeric( $contact_id ) ) return false;
 
 		// Get all contact data.
-		$params = array(
+		$params = [
 			'version' => 3,
 			'contact_id' => $contact_id,
-		);
+		];
 
 		// Use API.
 		$contact_data = civicrm_api( 'contact', 'get', $params );
@@ -713,13 +713,13 @@ class Civi_WP_Member_Sync_Users {
 			do_action( 'civi_wp_member_sync_before_insert_user', $civi_contact );
 
 			// Create the user.
-			$user_id = wp_insert_user( array(
+			$user_id = wp_insert_user( [
 				'user_login' => $user_name,
 				'user_pass' => $random_password,
 				'user_email' => $civi_contact['email'],
 				'first_name' => $civi_contact['first_name'],
 				'last_name' => $civi_contact['last_name'],
-			) );
+			] );
 
 			// Create UF Match.
 			if ( ! is_wp_error( $user_id ) AND isset( $civi_contact['contact_id'] ) ) {
@@ -839,14 +839,14 @@ class Civi_WP_Member_Sync_Users {
 		if ( method_exists( $civicrm, 'update_user' ) ) {
 
 			// Remove previous CiviCRM plugin filters.
-			remove_action( 'user_register', array( $civicrm, 'update_user' ) );
-			remove_action( 'profile_update', array( $civicrm, 'update_user' ) );
+			remove_action( 'user_register', [ $civicrm, 'update_user' ] );
+			remove_action( 'profile_update', [ $civicrm, 'update_user' ] );
 
 		} else {
 
 			// Remove current CiviCRM plugin filters.
-			remove_action( 'user_register', array( $civicrm->users, 'update_user' ) );
-			remove_action( 'profile_update', array( $civicrm->users, 'update_user' ) );
+			remove_action( 'user_register', [ $civicrm->users, 'update_user' ] );
+			remove_action( 'profile_update', [ $civicrm->users, 'update_user' ] );
 
 		}
 
@@ -882,14 +882,14 @@ class Civi_WP_Member_Sync_Users {
 		if ( method_exists( $civicrm, 'update_user' ) ) {
 
 			// Re-add previous CiviCRM plugin filters.
-			add_action( 'user_register', array( $civicrm, 'update_user' ) );
-			add_action( 'profile_update', array( $civicrm, 'update_user' ) );
+			add_action( 'user_register', [ $civicrm, 'update_user' ] );
+			add_action( 'profile_update', [ $civicrm, 'update_user' ] );
 
 		} else {
 
 			// Re-add current CiviCRM plugin filters.
-			add_action( 'user_register', array( $civicrm->users, 'update_user' ) );
-			add_action( 'profile_update', array( $civicrm->users, 'update_user' ) );
+			add_action( 'user_register', [ $civicrm->users, 'update_user' ] );
+			add_action( 'profile_update', [ $civicrm->users, 'update_user' ] );
 
 		}
 

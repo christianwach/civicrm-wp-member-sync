@@ -113,7 +113,7 @@ class Civi_WP_Member_Sync {
 	public function __construct() {
 
 		// Use translation.
-		add_action( 'plugins_loaded', array( $this, 'translation' ) );
+		add_action( 'plugins_loaded', [ $this, 'translation' ] );
 
 		// Include files.
 		$this->include_files();
@@ -122,7 +122,7 @@ class Civi_WP_Member_Sync {
 		$this->setup_objects();
 
 		// Initialise plugin when CiviCRM initialises during "plugins_loaded".
-		add_action( 'civicrm_instance_loaded', array( $this, 'initialise' ) );
+		add_action( 'civicrm_instance_loaded', [ $this, 'initialise' ] );
 
 	}
 
@@ -280,10 +280,10 @@ global $civi_wp_member_sync;
 $civi_wp_member_sync = new Civi_WP_Member_Sync();
 
 // Plugin activation.
-register_activation_hook( __FILE__, array( $civi_wp_member_sync, 'activate' ) );
+register_activation_hook( __FILE__, [ $civi_wp_member_sync, 'activate' ] );
 
 // Plugin deactivation.
-register_deactivation_hook( __FILE__, array( $civi_wp_member_sync, 'deactivate' ) );
+register_deactivation_hook( __FILE__, [ $civi_wp_member_sync, 'deactivate' ] );
 
 // Uninstall uses the 'uninstall.php' method.
 // See: http://codex.wordpress.org/Function_Reference/register_uninstall_hook
@@ -326,9 +326,9 @@ function civi_wp_member_sync_plugin_add_settings_link( $links, $file ) {
 			is_network_admin() OR
 			( is_super_admin() AND civicrm_wpms()->admin->is_network_activated() )
 		) {
-			$link = add_query_arg( array( 'page' => 'civi_wp_member_sync_parent' ), network_admin_url( 'settings.php' ) );
+			$link = add_query_arg( [ 'page' => 'civi_wp_member_sync_parent' ], network_admin_url( 'settings.php' ) );
 		} else {
-			$link = add_query_arg( array( 'page' => 'civi_wp_member_sync_parent' ), admin_url( 'options-general.php' ) );
+			$link = add_query_arg( [ 'page' => 'civi_wp_member_sync_parent' ], admin_url( 'options-general.php' ) );
 		}
 
 		// Add settings link.

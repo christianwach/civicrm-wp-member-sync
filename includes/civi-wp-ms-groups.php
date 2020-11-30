@@ -52,7 +52,7 @@ class Civi_WP_Member_Sync_Groups {
 		$this->plugin = $plugin;
 
 		// Initialise first.
-		add_action( 'civi_wp_member_sync_initialised', array( $this, 'initialise' ) );
+		add_action( 'civi_wp_member_sync_initialised', [ $this, 'initialise' ] );
 
 	}
 
@@ -66,7 +66,7 @@ class Civi_WP_Member_Sync_Groups {
 	public function initialise() {
 
 		// Test for "Groups" plugin on init.
-		add_action( 'init', array( $this, 'register_hooks' ) );
+		add_action( 'init', [ $this, 'register_hooks' ] );
 
 	}
 
@@ -104,19 +104,19 @@ class Civi_WP_Member_Sync_Groups {
 		if ( ! defined( 'GROUPS_CORE_VERSION' ) ) return;
 
 		// Hook into rule add.
-		add_action( 'civi_wp_member_sync_rule_add_capabilities', array( $this, 'groups_add_cap' ) );
+		add_action( 'civi_wp_member_sync_rule_add_capabilities', [ $this, 'groups_add_cap' ] );
 
 		// Hook into rule edit.
-		add_action( 'civi_wp_member_sync_rule_edit_capabilities', array( $this, 'groups_edit_cap' ) );
+		add_action( 'civi_wp_member_sync_rule_edit_capabilities', [ $this, 'groups_edit_cap' ] );
 
 		// Hook into rule delete.
-		add_action( 'civi_wp_member_sync_rule_delete_capabilities', array( $this, 'groups_delete_cap' ) );
+		add_action( 'civi_wp_member_sync_rule_delete_capabilities', [ $this, 'groups_delete_cap' ] );
 
 		// Hook into manual sync process, before sync.
-		add_action( 'civi_wp_member_sync_pre_sync_all', array( $this, 'groups_pre_sync' ) );
+		add_action( 'civi_wp_member_sync_pre_sync_all', [ $this, 'groups_pre_sync' ] );
 
 		// Hook into save post and auto-restrict. (DISABLED)
-		//add_action( 'save_post', array( $this, 'groups_intercept_save_post' ), 1, 2 );
+		//add_action( 'save_post', [ $this, 'groups_intercept_save_post' ], 1, 2 );
 
 		// Bail if "Groups" is not version 2.8.0 or greater.
 		if ( version_compare( GROUPS_CORE_VERSION, '2.8.0', '<' ) ) return;
@@ -125,42 +125,42 @@ class Civi_WP_Member_Sync_Groups {
 		$this->enabled = true;
 
 		// Filter script dependencies on the "Add Rule" and "Edit Rule" pages.
-		add_filter( 'civi_wp_member_sync_rules_css_dependencies', array( $this->plugin->admin, 'dependencies_css' ), 10, 1 );
-		add_filter( 'civi_wp_member_sync_rules_js_dependencies', array( $this->plugin->admin, 'dependencies_js' ), 10, 1 );
+		add_filter( 'civi_wp_member_sync_rules_css_dependencies', [ $this->plugin->admin, 'dependencies_css' ], 10, 1 );
+		add_filter( 'civi_wp_member_sync_rules_js_dependencies', [ $this->plugin->admin, 'dependencies_js' ], 10, 1 );
 
 		// Declare AJAX handlers.
-		add_action( 'wp_ajax_civi_wp_member_sync_get_groups', array( $this, 'search_groups' ), 10 );
+		add_action( 'wp_ajax_civi_wp_member_sync_get_groups', [ $this, 'search_groups' ], 10 );
 
 		// Hook into Rule Save process.
-		add_action( 'civi_wp_member_sync_rule_pre_save', array( $this, 'rule_pre_save' ), 10, 4 );
+		add_action( 'civi_wp_member_sync_rule_pre_save', [ $this, 'rule_pre_save' ], 10, 4 );
 
 		// Hook into Rule Apply process.
-		add_action( 'civi_wp_member_sync_rule_apply_caps_current', array( $this, 'rule_apply_caps_current' ), 10, 5 );
-		add_action( 'civi_wp_member_sync_rule_apply_caps_expired', array( $this, 'rule_apply_caps_expired' ), 10, 5 );
-		add_action( 'civi_wp_member_sync_rule_apply_roles_current', array( $this, 'rule_apply_current' ), 10, 4 );
-		add_action( 'civi_wp_member_sync_rule_apply_roles_expired', array( $this, 'rule_apply_expired' ), 10, 4 );
+		add_action( 'civi_wp_member_sync_rule_apply_caps_current', [ $this, 'rule_apply_caps_current' ], 10, 5 );
+		add_action( 'civi_wp_member_sync_rule_apply_caps_expired', [ $this, 'rule_apply_caps_expired' ], 10, 5 );
+		add_action( 'civi_wp_member_sync_rule_apply_roles_current', [ $this, 'rule_apply_current' ], 10, 4 );
+		add_action( 'civi_wp_member_sync_rule_apply_roles_expired', [ $this, 'rule_apply_expired' ], 10, 4 );
 
 		// Hook into Capabilities and Roles lists.
-		add_action( 'civi_wp_member_sync_list_caps_th_after_current', array( $this, 'list_current_header' ) );
-		add_action( 'civi_wp_member_sync_list_caps_td_after_current', array( $this, 'list_current_row' ), 10, 2 );
-		add_action( 'civi_wp_member_sync_list_caps_th_after_expiry', array( $this, 'list_expiry_header' ) );
-		add_action( 'civi_wp_member_sync_list_caps_td_after_expiry', array( $this, 'list_expiry_row' ), 10, 2 );
-		add_action( 'civi_wp_member_sync_list_roles_th_after_current', array( $this, 'list_current_header' ) );
-		add_action( 'civi_wp_member_sync_list_roles_td_after_current', array( $this, 'list_current_row' ), 10, 2 );
-		add_action( 'civi_wp_member_sync_list_roles_th_after_expiry', array( $this, 'list_expiry_header' ) );
-		add_action( 'civi_wp_member_sync_list_roles_td_after_expiry', array( $this, 'list_expiry_row' ), 10, 2 );
+		add_action( 'civi_wp_member_sync_list_caps_th_after_current', [ $this, 'list_current_header' ] );
+		add_action( 'civi_wp_member_sync_list_caps_td_after_current', [ $this, 'list_current_row' ], 10, 2 );
+		add_action( 'civi_wp_member_sync_list_caps_th_after_expiry', [ $this, 'list_expiry_header' ] );
+		add_action( 'civi_wp_member_sync_list_caps_td_after_expiry', [ $this, 'list_expiry_row' ], 10, 2 );
+		add_action( 'civi_wp_member_sync_list_roles_th_after_current', [ $this, 'list_current_header' ] );
+		add_action( 'civi_wp_member_sync_list_roles_td_after_current', [ $this, 'list_current_row' ], 10, 2 );
+		add_action( 'civi_wp_member_sync_list_roles_th_after_expiry', [ $this, 'list_expiry_header' ] );
+		add_action( 'civi_wp_member_sync_list_roles_td_after_expiry', [ $this, 'list_expiry_row' ], 10, 2 );
 
 		// Hook into Capabilities and Roles add screens.
-		add_action( 'civi_wp_member_sync_cap_add_after_current', array( $this, 'rule_add_current' ), 10, 1 );
-		add_action( 'civi_wp_member_sync_cap_add_after_expiry', array( $this, 'rule_add_expiry' ), 10, 1 );
-		add_action( 'civi_wp_member_sync_role_add_after_current', array( $this, 'rule_add_current' ), 10, 1 );
-		add_action( 'civi_wp_member_sync_role_add_after_expiry', array( $this, 'rule_add_expiry' ), 10, 1 );
+		add_action( 'civi_wp_member_sync_cap_add_after_current', [ $this, 'rule_add_current' ], 10, 1 );
+		add_action( 'civi_wp_member_sync_cap_add_after_expiry', [ $this, 'rule_add_expiry' ], 10, 1 );
+		add_action( 'civi_wp_member_sync_role_add_after_current', [ $this, 'rule_add_current' ], 10, 1 );
+		add_action( 'civi_wp_member_sync_role_add_after_expiry', [ $this, 'rule_add_expiry' ], 10, 1 );
 
 		// Hook into Capabilities and Roles edit screens.
-		add_action( 'civi_wp_member_sync_cap_edit_after_current', array( $this, 'rule_edit_current' ), 10, 2 );
-		add_action( 'civi_wp_member_sync_cap_edit_after_expiry', array( $this, 'rule_edit_expiry' ), 10, 2 );
-		add_action( 'civi_wp_member_sync_role_edit_after_current', array( $this, 'rule_edit_current' ), 10, 2 );
-		add_action( 'civi_wp_member_sync_role_edit_after_expiry', array( $this, 'rule_edit_expiry' ), 10, 2 );
+		add_action( 'civi_wp_member_sync_cap_edit_after_current', [ $this, 'rule_edit_current' ], 10, 2 );
+		add_action( 'civi_wp_member_sync_cap_edit_after_expiry', [ $this, 'rule_edit_expiry' ], 10, 2 );
+		add_action( 'civi_wp_member_sync_role_edit_after_current', [ $this, 'rule_edit_current' ], 10, 2 );
+		add_action( 'civi_wp_member_sync_role_edit_after_expiry', [ $this, 'rule_edit_expiry' ], 10, 2 );
 
 	}
 
@@ -187,7 +187,7 @@ class Civi_WP_Member_Sync_Groups {
 		$exclude = isset( $_POST['exclude'] ) ? trim( $_POST['exclude'] ) : '';
 
 		// Parse excludes.
-		$excludes = array();
+		$excludes = [];
 		if ( ! empty( $exclude ) ) {
 			$excludes = explode( ',', $exclude );
 		}
@@ -208,12 +208,12 @@ class Civi_WP_Member_Sync_Groups {
 		$groups = $wpdb->get_results( $sql );
 
 		// Add items to output array.
-		$json = array();
+		$json = [];
 		foreach( $groups AS $group ) {
-			$json[] = array(
+			$json[] = [
 				'id' => $group->group_id,
 				'name' => esc_html( $group->name ),
-			);
+			];
 		}
 
 		// Send data.
@@ -356,22 +356,22 @@ class Civi_WP_Member_Sync_Groups {
 		}
 
 		// Add user to group.
-		$success = Groups_User_Group::create( array(
+		$success = Groups_User_Group::create( [
 			'user_id'  => $user_id,
 			'group_id' => $group_id,
-		));
+		] );
 
 		// Maybe log on failure?
 		if ( ! $success ) {
 			$e = new Exception;
 			$trace = $e->getTraceAsString();
-			error_log( print_r( array(
+			error_log( print_r( [
 				'method' => __METHOD__,
 				'message' => esc_html__( 'Could not add user to group.', 'civicrm-groups-sync' ),
 				'user_id' => $user_id,
 				'group_id' => $group_id,
 				'backtrace' => $trace,
-			), true ) );
+			], true ) );
 		}
 
 		// --<
@@ -404,13 +404,13 @@ class Civi_WP_Member_Sync_Groups {
 		if ( ! $success ) {
 			$e = new Exception;
 			$trace = $e->getTraceAsString();
-			error_log( print_r( array(
+			error_log( print_r( [
 				'method' => __METHOD__,
 				'message' => esc_html__( 'Could not delete user from group.', 'civicrm-groups-sync' ),
 				'user_id' => $user_id,
 				'group_id' => $group_id,
 				'backtrace' => $trace,
-			), true ) );
+			], true ) );
 		}
 
 		// --<
@@ -437,7 +437,7 @@ class Civi_WP_Member_Sync_Groups {
 	public function rule_pre_save( $rule, $data, $mode, $method ) {
 
 		// Init "current" groups.
-		$current = array();
+		$current = [];
 
 		// Get the "current" groups.
 		if (
@@ -457,7 +457,7 @@ class Civi_WP_Member_Sync_Groups {
 		}
 
 		// Init "expiry" groups.
-		$expiry = array();
+		$expiry = [];
 
 		// Get the "expiry" groups.
 		if (
@@ -658,16 +658,16 @@ class Civi_WP_Member_Sync_Groups {
 
 		// Init options.
 		$options_html = '';
-		$options = array();
+		$options = [];
 
 		if ( ! empty( $group_ids ) ) {
 
 			// Get the groups.
-			$groups = Groups_Group::get_groups( array(
+			$groups = Groups_Group::get_groups( [
 				'order_by' => 'name',
 				'order' => 'ASC',
 				'include' => $group_ids,
-			));
+			] );
 
 			// Add options to build array.
 			foreach( $groups AS $group ) {
@@ -697,16 +697,16 @@ class Civi_WP_Member_Sync_Groups {
 
 		// Init options.
 		$options_html = '';
-		$options = array();
+		$options = [];
 
 		if ( ! empty( $group_ids ) ) {
 
 			// Get the groups.
-			$groups = Groups_Group::get_groups( array(
+			$groups = Groups_Group::get_groups( [
 				'order_by' => 'name',
 				'order' => 'ASC',
 				'include' => $group_ids,
-			));
+			] );
 
 			// Add options to build array.
 			foreach( $groups AS $group ) {
@@ -749,7 +749,7 @@ class Civi_WP_Member_Sync_Groups {
 		if ( false !== $capability ) return;
 
 		// Create a new capability.
-		$capability_id = Groups_Capability::create( array( 'capability' => $data['capability'] ) );
+		$capability_id = Groups_Capability::create( [ 'capability' => $data['capability'] ] );
 
 	}
 
@@ -809,7 +809,7 @@ class Civi_WP_Member_Sync_Groups {
 	public function groups_read_cap_add( $capability ) {
 
 		// Init with Groups default.
-		$default_read_caps = array( Groups_Post_Access::READ_POST_CAPABILITY );
+		$default_read_caps = [ Groups_Post_Access::READ_POST_CAPABILITY ];
 
 		// Get current.
 		$current_read_caps = Groups_Options::get_option( Groups_Post_Access::READ_POST_CAPABILITIES, $default_read_caps );
@@ -838,7 +838,7 @@ class Civi_WP_Member_Sync_Groups {
 	public function groups_read_cap_delete( $capability ) {
 
 		// Init with Groups default.
-		$default_read_caps = array( Groups_Post_Access::READ_POST_CAPABILITY );
+		$default_read_caps = [ Groups_Post_Access::READ_POST_CAPABILITY ];
 
 		// Get current.
 		$current_read_caps = Groups_Options::get_option( Groups_Post_Access::READ_POST_CAPABILITIES, $default_read_caps );
@@ -912,7 +912,7 @@ class Civi_WP_Member_Sync_Groups {
 
 			case 'post':
 				// Add your default capabilities.
-				Groups_Post_Access::create( array( 'post_id' => $post_id, 'capability' => 'Premium' ) );
+				Groups_Post_Access::create( [ 'post_id' => $post_id, 'capability' => 'Premium' ] );
 				break;
 
 			default:

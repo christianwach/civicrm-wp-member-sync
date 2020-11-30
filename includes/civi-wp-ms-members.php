@@ -35,7 +35,7 @@ class Civi_WP_Member_Sync_Members {
 		$this->plugin = $plugin;
 
 		// Initialise first.
-		add_action( 'civi_wp_member_sync_initialised', array( $this, 'initialise' ), 7 );
+		add_action( 'civi_wp_member_sync_initialised', [ $this, 'initialise' ], 7 );
 
 	}
 
@@ -59,10 +59,10 @@ class Civi_WP_Member_Sync_Members {
 		if ( $login === 1 ) {
 
 			// Add login check.
-			add_action( 'wp_login', array( $this, 'sync_to_user' ), 10, 2 );
+			add_action( 'wp_login', [ $this, 'sync_to_user' ], 10, 2 );
 
 			// Add logout check (can't use 'wp_logout' action, as user no longer exists).
-			add_action( 'clear_auth_cookie', array( $this, 'sync_on_logout' ) );
+			add_action( 'clear_auth_cookie', [ $this, 'sync_on_logout' ] );
 
 		}
 
@@ -73,16 +73,16 @@ class Civi_WP_Member_Sync_Members {
 		if ( $civicrm === 1 ) {
 
 			// Intercept CiviCRM membership add/edit form submission.
-			add_action( 'civicrm_postProcess', array( $this, 'membership_form_process' ), 10, 2 );
+			add_action( 'civicrm_postProcess', [ $this, 'membership_form_process' ], 10, 2 );
 
 			// Intercept before a CiviCRM membership update.
-			add_action( 'civicrm_pre', array( $this, 'membership_pre_update' ), 10, 4 );
+			add_action( 'civicrm_pre', [ $this, 'membership_pre_update' ], 10, 4 );
 
 			// Intercept a CiviCRM membership update.
-			add_action( 'civicrm_post', array( $this, 'membership_updated' ), 10, 4 );
+			add_action( 'civicrm_post', [ $this, 'membership_updated' ], 10, 4 );
 
 			// Intercept a CiviCRM membership deletion.
-			add_action( 'civicrm_post', array( $this, 'membership_deleted' ), 10, 4 );
+			add_action( 'civicrm_post', [ $this, 'membership_deleted' ], 10, 4 );
 
 		}
 
@@ -90,12 +90,12 @@ class Civi_WP_Member_Sync_Members {
 		if ( is_admin() ) {
 
 			// Add AJAX handler.
-			add_action( 'wp_ajax_sync_memberships', array( $this, 'sync_all_civicrm_memberships' ) );
+			add_action( 'wp_ajax_sync_memberships', [ $this, 'sync_all_civicrm_memberships' ] );
 
 		}
 
 		// Filter memberships and override for Contact in Trash.
-		add_filter( 'civi_wp_member_sync_memberships_get', array( $this, 'membership_override' ), 10, 3 );
+		add_filter( 'civi_wp_member_sync_memberships_get', [ $this, 'membership_override' ], 10, 3 );
 
 	}
 
@@ -116,7 +116,7 @@ class Civi_WP_Member_Sync_Members {
 		if ( ! civi_wp()->initialize() ) return;
 
 		// Init AJAX return.
-		$data = array();
+		$data = [];
 
 		// Get batch count.
 		$batch_count = $this->plugin->admin->setting_get_batch_count();
@@ -160,7 +160,7 @@ class Civi_WP_Member_Sync_Members {
 			$data['to'] = $data['from'] + $batch_count;
 
 			// Init processed array.
-			$processed = array();
+			$processed = [];
 
 			// Loop through memberships.
 			foreach( $memberships['values'] AS $membership ) {
@@ -281,7 +281,7 @@ class Civi_WP_Member_Sync_Members {
 		require_once 'CRM/Core/BAO/UFMatch.php';
 
 		// Get all WordPress users.
-		$users = get_users( array( 'all_with_meta' => true ) );
+		$users = get_users( [ 'all_with_meta' => true ] );
 
 		// Loop through all users.
 		foreach( $users AS $user ) {
@@ -446,11 +446,11 @@ class Civi_WP_Member_Sync_Members {
 		if ( $op != 'edit' ) return;
 
 		// Get details of CiviCRM membership.
-		$membership = civicrm_api( 'Membership', 'get', array(
+		$membership = civicrm_api( 'Membership', 'get', [
 			'version' => '3',
 			'sequential' => 1,
 			'id' => $objectId,
-		));
+		] );
 
 		// Sanity check.
 		if (
@@ -491,7 +491,7 @@ class Civi_WP_Member_Sync_Members {
 		if ( ! isset( $objectRef->contact_id ) ) return;
 
 		// Only process create and edit operations.
-		if ( ! in_array( $op, array( 'create', 'edit' ) ) ) return;
+		if ( ! in_array( $op, [ 'create', 'edit' ] ) ) return;
 
 		// Init previous membership.
 		$previous_membership = null;
@@ -683,16 +683,16 @@ class Civi_WP_Member_Sync_Members {
 		if ( ! civi_wp()->initialize() ) return $data;
 
 		// Configure API query params.
-		$params = array(
+		$params = [
 			'version' => '3',
 			'sequential' => 1,
-			'status_id.is_current_member' => array(
+			'status_id.is_current_member' => [
 				'IS NOT NULL' => 1
-			),
-			'options' => array(
+			],
+			'options' => [
 				'sort' => 'contact_id ASC, status_id.is_current_member ASC, end_date ASC',
-			),
-			'return' => array(
+			],
+			'return' => [
 				'id',
 				'contact_id',
 				'membership_type_id',
@@ -704,8 +704,8 @@ class Civi_WP_Member_Sync_Members {
 				'is_test',
 				'is_pay_later',
 				'status_id.is_current_member'
-			),
-		);
+			],
+		];
 
 		// Add offset if supplied.
 		if ( $offset !== 0 ) {
@@ -777,12 +777,12 @@ class Civi_WP_Member_Sync_Members {
 		if ( $contact_id === 0 ) return $data;
 
 		// Get data assuming Contact is in the Trash.
-		$result = civicrm_api( 'Contact', 'get', array(
+		$result = civicrm_api( 'Contact', 'get', [
 			'version' => 3,
 			'sequential' => 1,
 			'id' => $contact_id,
 			'is_deleted' => 1,
-		));
+		] );
 
 		// If Contact is in the Trash.
 		if (
@@ -792,7 +792,7 @@ class Civi_WP_Member_Sync_Members {
 		) {
 
 			// Override Membership Statuses.
-			$overrides = array();
+			$overrides = [];
 			foreach( $data['values'] AS $membership ) {
 
 				// Check if Membership is already expired.
@@ -837,7 +837,7 @@ class Civi_WP_Member_Sync_Members {
 	public function membership_is_expired( $membership ) {
 
 		// Init return as empty.
-		$expired = array();
+		$expired = [];
 
 		// Get sync method.
 		$method = $this->plugin->admin->setting_get_method();
@@ -943,12 +943,12 @@ class Civi_WP_Member_Sync_Members {
 	public function memberships_filter( $memberships ) {
 
 		// Init filtered array.
-		$filtered = array(
+		$filtered = [
 			'is_error' => 0,
 			'count' => 0,
 			'version' => 3,
-			'values' => array(),
-		);
+			'values' => [],
+		];
 
 		// Kick out if no CiviCRM.
 		if ( ! civi_wp()->initialize() ) return $filtered;
@@ -1047,12 +1047,12 @@ class Civi_WP_Member_Sync_Members {
 		if ( ! civi_wp()->initialize() ) return 0;
 
 		// Get all CiviCRM memberships.
-		$membership_count = civicrm_api( 'Membership', 'getcount', array(
+		$membership_count = civicrm_api( 'Membership', 'getcount', [
 			'version' => '3',
-			'options' => array(
+			'options' => [
 				'limit' => '0',
-			),
-		));
+			],
+		] );
 
 		// Sanity check in case of error.
 		if ( ! is_numeric( $membership_count ) ) $membership_count = 0;
@@ -1077,19 +1077,19 @@ class Civi_WP_Member_Sync_Members {
 		if ( isset( $this->membership_types ) ) { return $this->membership_types; }
 
 		// Init return.
-		$this->membership_types = array();
+		$this->membership_types = [];
 
 		// Return empty array if no CiviCRM.
-		if ( ! civi_wp()->initialize() ) return array();
+		if ( ! civi_wp()->initialize() ) return [];
 
 		// Get all membership type details.
-		$membership_type_details = civicrm_api( 'MembershipType', 'get', array(
+		$membership_type_details = civicrm_api( 'MembershipType', 'get', [
 			'version' => '3',
 			'sequential' => '1',
-			'options' => array(
+			'options' => [
 				'limit' => '0',
-			),
-		));
+			],
+		] );
 
 		// Construct array of types.
 		foreach( $membership_type_details['values'] AS $key => $values ) {
@@ -1116,19 +1116,19 @@ class Civi_WP_Member_Sync_Members {
 		if ( isset( $this->membership_status_rules ) ) { return $this->membership_status_rules; }
 
 		// Init return.
-		$this->membership_status_rules = array();
+		$this->membership_status_rules = [];
 
 		// Return empty array if no CiviCRM.
-		if ( ! civi_wp()->initialize() ) return array();
+		if ( ! civi_wp()->initialize() ) return [];
 
 		// Get all membership status details.
-		$membership_status_details = civicrm_api( 'MembershipStatus', 'get', array(
+		$membership_status_details = civicrm_api( 'MembershipStatus', 'get', [
 			'version' => '3',
 			'sequential' => '1',
-			'options' => array(
+			'options' => [
 				'limit' => '0',
-			),
-		));
+			],
+		] );
 
 		// Construct array of status rules.
 		foreach( $membership_status_details['values'] AS $key => $values ) {
@@ -1194,7 +1194,7 @@ class Civi_WP_Member_Sync_Members {
 		$status_rules = array_flip( $status_rules );
 
 		// Init return.
-		$rules_array = array();
+		$rules_array = [];
 
 		// Init current rule.
 		$current_rule = maybe_unserialize( $values );

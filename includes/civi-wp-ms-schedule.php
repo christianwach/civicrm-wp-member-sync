@@ -35,7 +35,7 @@ class Civi_WP_Member_Sync_Schedule {
 		$this->plugin = $plugin;
 
 		// Initialise early.
-		add_action( 'civi_wp_member_sync_initialised', array( $this, 'initialise' ), 5 );
+		add_action( 'civi_wp_member_sync_initialised', [ $this, 'initialise' ], 5 );
 
 	}
 
@@ -66,7 +66,7 @@ class Civi_WP_Member_Sync_Schedule {
 			}
 
 			// Add schedule callback action.
-			add_action( 'civi_wp_member_sync_refresh', array( $this, 'schedule_callback' ) );
+			add_action( 'civi_wp_member_sync_refresh', [ $this, 'schedule_callback' ] );
 
 		}
 

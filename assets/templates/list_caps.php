@@ -56,7 +56,7 @@
 	if ( isset( $this->errors ) AND is_array( $this->errors ) ) {
 
 		// Init messages.
-		$error_messages = array();
+		$error_messages = [];
 
 		// Construct array of messages based on error code.
 		foreach( $this->errors AS $error_code ) {

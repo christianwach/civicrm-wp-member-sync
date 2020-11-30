@@ -90,7 +90,7 @@ class Civi_WP_Member_Sync_Admin {
 	 * @access public
 	 * @var array $settings The plugin settings.
 	 */
-	public $settings = array();
+	public $settings = [];
 
 	/**
 	 * Form error messages.
@@ -143,14 +143,14 @@ class Civi_WP_Member_Sync_Admin {
 		$this->plugin = $plugin;
 
 		// Define errors.
-		$this->error_strings = array(
+		$this->error_strings = [
 			'type' => esc_html__( 'Please select a CiviCRM Membership Type', 'civicrm-wp-member-sync' ),
 			'current-role' => esc_html__( 'Please select a WordPress Current Role', 'civicrm-wp-member-sync' ),
 			'current-status' => esc_html__( 'Please select a Current Status', 'civicrm-wp-member-sync' ),
 			'expire-status' => esc_html__( 'Please select an Expire Status', 'civicrm-wp-member-sync' ),
 			'expire-role' => esc_html__( 'Please select a WordPress Expiry Role', 'civicrm-wp-member-sync' ),
 			'clash-status' => esc_html__( 'You can not have the same Status Rule registered as both "Current" and "Expired"', 'civicrm-wp-member-sync' ),
-		);
+		];
 
 		// Test for constant.
 		if ( defined( 'CIVI_WP_MEMBER_SYNC_MIGRATE' ) AND CIVI_WP_MEMBER_SYNC_MIGRATE ) {
@@ -164,7 +164,7 @@ class Civi_WP_Member_Sync_Admin {
 		}
 
 		// Initialise first.
-		add_action( 'civi_wp_member_sync_initialised', array( $this, 'initialise' ), 1 );
+		add_action( 'civi_wp_member_sync_initialised', [ $this, 'initialise' ], 1 );
 
 	}
 
@@ -272,12 +272,12 @@ class Civi_WP_Member_Sync_Admin {
 			if ( $this->is_network_activated() ) {
 
 				// Add admin page to Network Settings menu.
-				add_action( 'network_admin_menu', array( $this, 'admin_menu' ), 30 );
+				add_action( 'network_admin_menu', [ $this, 'admin_menu' ], 30 );
 
 			} else {
 
 				// Add admin page to menu.
-				add_action( 'admin_menu', array( $this, 'admin_menu' ), 25 );
+				add_action( 'admin_menu', [ $this, 'admin_menu' ], 25 );
 
 			}
 
@@ -304,7 +304,7 @@ class Civi_WP_Member_Sync_Admin {
 			if ( $this->is_network_activated() ) {
 
 				// Get existing settings from local options.
-				$settings = get_option( 'civi_wp_member_sync_settings', array() );
+				$settings = get_option( 'civi_wp_member_sync_settings', [] );
 
 				// What if we don't have any?
 				if ( ! array_key_exists( 'data', $settings ) ) {
@@ -393,7 +393,7 @@ class Civi_WP_Member_Sync_Admin {
 				__( 'CiviCRM WordPress Member Sync', 'civicrm-wp-member-sync' ), // Menu title.
 				'manage_options', // Required caps.
 				'civi_wp_member_sync_parent', // Slug name.
-				array( $this, 'page_settings' ) // Callback.
+				[ $this, 'page_settings' ] // Callback.
 			);
 
 		} else {
@@ -405,14 +405,14 @@ class Civi_WP_Member_Sync_Admin {
 				__( 'Member Sync', 'civicrm-wp-member-sync' ), // Menu title.
 				'manage_options', // Required caps.
 				'civi_wp_member_sync_parent', // Slug name.
-				array( $this, 'page_settings' ) // Callback.
+				[ $this, 'page_settings' ] // Callback.
 			);
 
 		}
 
 		// Add scripts and styles.
-		add_action( 'admin_print_styles-' . $this->parent_page, array( $this, 'admin_css' ) );
-		add_action( 'admin_head-' . $this->parent_page, array( $this, 'admin_head' ), 50 );
+		add_action( 'admin_print_styles-' . $this->parent_page, [ $this, 'admin_css' ] );
+		add_action( 'admin_head-' . $this->parent_page, [ $this, 'admin_head' ], 50 );
 
 		// Add settings page.
 		$this->settings_page = add_submenu_page(
@@ -421,13 +421,13 @@ class Civi_WP_Member_Sync_Admin {
 			__( 'Settings', 'civicrm-wp-member-sync' ), // Menu title.
 			'manage_options', // Required caps.
 			'civi_wp_member_sync_settings', // Slug name.
-			array( $this, 'page_settings' ) // Callback.
+			[ $this, 'page_settings' ] // Callback.
 		);
 
 		// Add scripts and styles.
-		add_action( 'admin_print_styles-' . $this->settings_page, array( $this, 'admin_css' ) );
-		add_action( 'admin_head-' . $this->settings_page, array( $this, 'admin_head' ), 50 );
-		add_action( 'admin_head-' . $this->settings_page, array( $this, 'admin_menu_highlight' ), 50 );
+		add_action( 'admin_print_styles-' . $this->settings_page, [ $this, 'admin_css' ] );
+		add_action( 'admin_head-' . $this->settings_page, [ $this, 'admin_head' ], 50 );
+		add_action( 'admin_head-' . $this->settings_page, [ $this, 'admin_menu_highlight' ], 50 );
 
 		// Add manual sync page.
 		$this->sync_page = add_submenu_page(
@@ -436,15 +436,15 @@ class Civi_WP_Member_Sync_Admin {
 			__( 'Manual Sync', 'civicrm-wp-member-sync' ), // Menu title.
 			'manage_options', // Required caps.
 			'civi_wp_member_sync_manual_sync', // Slug name.
-			array( $this, 'page_manual_sync' ) // Callback.
+			[ $this, 'page_manual_sync' ] // Callback.
 		);
 
 		// Add scripts and styles.
-		add_action( 'admin_print_scripts-' . $this->sync_page, array( $this, 'admin_js_sync_page' ) );
-		add_action( 'admin_print_styles-' . $this->sync_page, array( $this, 'admin_css' ) );
-		add_action( 'admin_print_styles-' . $this->sync_page, array( $this, 'admin_css_sync_page' ) );
-		add_action( 'admin_head-' . $this->sync_page, array( $this, 'admin_head' ), 50 );
-		add_action( 'admin_head-' . $this->sync_page, array( $this, 'admin_menu_highlight' ), 50 );
+		add_action( 'admin_print_scripts-' . $this->sync_page, [ $this, 'admin_js_sync_page' ] );
+		add_action( 'admin_print_styles-' . $this->sync_page, [ $this, 'admin_css' ] );
+		add_action( 'admin_print_styles-' . $this->sync_page, [ $this, 'admin_css_sync_page' ] );
+		add_action( 'admin_head-' . $this->sync_page, [ $this, 'admin_head' ], 50 );
+		add_action( 'admin_head-' . $this->sync_page, [ $this, 'admin_menu_highlight' ], 50 );
 
 		// Add rules listing page.
 		$this->rules_list_page = add_submenu_page(
@@ -453,14 +453,14 @@ class Civi_WP_Member_Sync_Admin {
 			__( 'List Rules', 'civicrm-wp-member-sync' ), // Menu title.
 			'manage_options', // Required caps.
 			'civi_wp_member_sync_list', // Slug name.
-			array( $this, 'page_rules_list' ) // Callback.
+			[ $this, 'page_rules_list' ] // Callback.
 		);
 
 		// Add scripts and styles.
-		add_action( 'admin_print_scripts-' . $this->rules_list_page, array( $this, 'admin_js_list_page' ) );
-		add_action( 'admin_print_styles-' . $this->rules_list_page, array( $this, 'admin_css' ) );
-		add_action( 'admin_head-' . $this->rules_list_page, array( $this, 'admin_head' ), 50 );
-		add_action( 'admin_head-' . $this->rules_list_page, array( $this, 'admin_menu_highlight' ), 50 );
+		add_action( 'admin_print_scripts-' . $this->rules_list_page, [ $this, 'admin_js_list_page' ] );
+		add_action( 'admin_print_styles-' . $this->rules_list_page, [ $this, 'admin_css' ] );
+		add_action( 'admin_head-' . $this->rules_list_page, [ $this, 'admin_head' ], 50 );
+		add_action( 'admin_head-' . $this->rules_list_page, [ $this, 'admin_menu_highlight' ], 50 );
 
 		// Add rules page.
 		$this->rule_add_edit_page = add_submenu_page(
@@ -469,14 +469,14 @@ class Civi_WP_Member_Sync_Admin {
 			__( 'Association Rule', 'civicrm-wp-member-sync' ), // Menu title.
 			'manage_options', // Required caps.
 			'civi_wp_member_sync_rules', // Slug name.
-			array( $this, 'page_rule_add_edit' ) // Callback.
+			[ $this, 'page_rule_add_edit' ] // Callback.
 		);
 
 		// Add scripts and styles.
-		add_action( 'admin_print_scripts-' . $this->rule_add_edit_page, array( $this, 'admin_js_rules_page' ) );
-		add_action( 'admin_print_styles-' . $this->rule_add_edit_page, array( $this, 'admin_css_rules_page' ) );
-		add_action( 'admin_head-' . $this->rule_add_edit_page, array( $this, 'admin_head' ), 50 );
-		add_action( 'admin_head-' . $this->rule_add_edit_page, array( $this, 'admin_menu_highlight' ), 50 );
+		add_action( 'admin_print_scripts-' . $this->rule_add_edit_page, [ $this, 'admin_js_rules_page' ] );
+		add_action( 'admin_print_styles-' . $this->rule_add_edit_page, [ $this, 'admin_css_rules_page' ] );
+		add_action( 'admin_head-' . $this->rule_add_edit_page, [ $this, 'admin_head' ], 50 );
+		add_action( 'admin_head-' . $this->rule_add_edit_page, [ $this, 'admin_menu_highlight' ], 50 );
 
 		// Try and update options.
 		$saved = $this->settings_update_router();
@@ -499,12 +499,12 @@ class Civi_WP_Member_Sync_Admin {
 		global $plugin_page, $submenu_file;
 
 		// Define subpages.
-		$subpages = array(
+		$subpages = [
 		 	'civi_wp_member_sync_settings',
 		 	'civi_wp_member_sync_manual_sync',
 		 	'civi_wp_member_sync_list',
 		 	'civi_wp_member_sync_rules',
-		 );
+		];
 
 		// This tweaks the Settings subnav menu to show only one menu item.
 		if ( in_array( $plugin_page, $subpages ) ) {
@@ -540,7 +540,7 @@ class Civi_WP_Member_Sync_Admin {
 	 *
 	 * @param array $dependencies The CSS script dependencies.
 	 */
-	public function admin_css( $dependencies = array() ) {
+	public function admin_css( $dependencies = [] ) {
 
 		// Add admin stylesheet.
 		wp_enqueue_style(
@@ -586,30 +586,30 @@ class Civi_WP_Member_Sync_Admin {
 		wp_enqueue_script(
 			'civi_wp_member_sync_sync_js',
 			plugins_url( 'assets/js/civi-wp-ms-sync.js', CIVI_WP_MEMBER_SYNC_PLUGIN_FILE ),
-			array( 'jquery', 'jquery-ui-core', 'jquery-ui-progressbar' ),
+			[ 'jquery', 'jquery-ui-core', 'jquery-ui-progressbar' ],
 			CIVI_WP_MEMBER_SYNC_VERSION // Version.
 		);
 
 		// Init localisation.
-		$localisation = array(
+		$localisation = [
 			'total' => esc_html__( '{{total}} memberships to sync...', 'civicrm-wp-member-sync' ),
 			'current' => esc_html__( 'Processing memberships {{from}} to {{to}}', 'civicrm-wp-member-sync' ),
 			'complete' => esc_html__( 'Processing memberships {{from}} to {{to}} complete', 'civicrm-wp-member-sync' ),
 			'done' => esc_html__( 'All done!', 'civicrm-wp-member-sync' ),
-		);
+		];
 
 		// Init settings.
-		$settings = array(
+		$settings = [
 			'ajax_url' => admin_url( 'admin-ajax.php' ),
 			'total_memberships' => $this->plugin->members->memberships_get_count(),
 			'batch_count' => $this->setting_get_batch_count(),
-		);
+		];
 
 		// Localisation array.
-		$vars = array(
+		$vars = [
 			'localisation' => $localisation,
 			'settings' => $settings,
-		);
+		];
 
 		// Localise the WordPress way.
 		wp_localize_script(
@@ -630,7 +630,7 @@ class Civi_WP_Member_Sync_Admin {
 	public function admin_css_rules_page() {
 
 		// Define base dependencies.
-		$dependencies = array();
+		$dependencies = [];
 
 		/**
 		 * Allow CSS dependencies to be injected.
@@ -657,7 +657,7 @@ class Civi_WP_Member_Sync_Admin {
 	public function admin_js_rules_page() {
 
 		// Define base dependencies.
-		$dependencies = array( 'jquery', 'jquery-form' );
+		$dependencies = [ 'jquery', 'jquery-form' ];
 
 		/**
 		 * Filter dependencies.
@@ -678,13 +678,13 @@ class Civi_WP_Member_Sync_Admin {
 		);
 
 		// Set defaults.
-		$vars = array(
+		$vars = [
 			'ajax_url' => admin_url( 'admin-ajax.php' ),
 			'method' => $this->setting_get_method(),
 			'mode' => 'add',
 			'select2' => 'no',
 			'groups' => 'no',
-		);
+		];
 
 		// Maybe override select2.
 		if ( in_array( 'civi_wp_member_sync_select2_js', $dependencies ) ) {
@@ -722,7 +722,7 @@ class Civi_WP_Member_Sync_Admin {
 	public function admin_js_list_page() {
 
 		// Define base dependencies.
-		$dependencies = array( 'jquery', 'jquery-form' );
+		$dependencies = [ 'jquery', 'jquery-form' ];
 
 		/**
 		 * Filter dependencies.
@@ -743,11 +743,11 @@ class Civi_WP_Member_Sync_Admin {
 		);
 
 		// Set defaults.
-		$vars = array(
+		$vars = [
 			'method' => $this->setting_get_method(),
 			'dialog_text' => esc_html__( 'Delete this Association Rule?', 'civicrm-wp-member-sync' ),
 			'dialog_text_all' => esc_html__( 'Delete all Association Rules?', 'civicrm-wp-member-sync' ),
-		);
+		];
 
 		// Localize our script.
 		wp_localize_script(
@@ -779,22 +779,22 @@ class Civi_WP_Member_Sync_Admin {
 		}
 
 		// Init page IDs.
-		$pages = array(
+		$pages = [
 			$this->settings_page . $page,
 			$this->sync_page . $page,
 			$this->rules_list_page . $page,
 			$this->rule_add_edit_page . $page,
-		);
+		];
 
 		// Kick out if not our screen.
 		if ( ! in_array( $screen->id, $pages ) ) { return $screen; }
 
 		// Add a tab - we can add more later.
-		$screen->add_help_tab( array(
+		$screen->add_help_tab( [
 			'id'      => 'civi_wp_member_sync',
 			'title'   => esc_html__( 'CiviCRM WordPress Member Sync', 'civicrm-wp-member-sync' ),
 			'content' => $this->get_help(),
-		));
+		] );
 
 		// --<
 		return $screen;
@@ -897,7 +897,7 @@ class Civi_WP_Member_Sync_Admin {
 		wp_register_script(
 			$handle,
 			set_url_scheme( 'https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.10/js/select2.min.js' ),
-			array( 'jquery' )
+			[ 'jquery' ]
 		);
 
 		// Enqueue script.
@@ -1022,7 +1022,7 @@ class Civi_WP_Member_Sync_Admin {
 		$all_data = $this->setting_get( 'data' );
 
 		// Get data for this sync method.
-		$data = ( isset( $all_data[$method] ) ) ? $all_data[$method] : array();
+		$data = ( isset( $all_data[$method] ) ) ? $all_data[$method] : [];
 
 		// Get all membership types.
 		$membership_types = $this->plugin->members->types_get_all();
@@ -1247,7 +1247,7 @@ class Civi_WP_Member_Sync_Admin {
 		if ( isset( $this->urls ) ) { return $this->urls; }
 
 		// Init return.
-		$this->urls = array();
+		$this->urls = [];
 
 		// Multisite?
 		if ( $this->is_network_activated() ) {
@@ -1424,11 +1424,11 @@ class Civi_WP_Member_Sync_Admin {
 	public function settings_get_default() {
 
 		// Init return.
-		$settings = array();
+		$settings = [];
 
 		// Set empty data arrays.
-		$settings['data']['roles'] = array();
-		$settings['data']['capabilities'] = array();
+		$settings['data']['roles'] = [];
+		$settings['data']['capabilities'] = [];
 
 		// Set default method.
 		$settings['method'] = 'capabilities';
@@ -1846,7 +1846,7 @@ class Civi_WP_Member_Sync_Admin {
 		}
 
 		// Update data.
-		$data[$method] = array();
+		$data[$method] = [];
 
 		// Overwrite data.
 		$this->setting_set( 'data', $data );
@@ -1933,7 +1933,7 @@ class Civi_WP_Member_Sync_Admin {
 		}
 
 		// Init errors.
-		$this->errors = array();
+		$this->errors = [];
 
 		// Depending on the "multiple" flag, validate membership types.
 		if ( $multiple === true ) {
@@ -2071,12 +2071,12 @@ class Civi_WP_Member_Sync_Admin {
 					if ( $method == 'roles' ) {
 
 						// Combine rule data into array.
-						$rule_data = array(
+						$rule_data = [
 							'current_rule' => $current_rule,
 							'current_wp_role' => $current_wp_role,
 							'expiry_rule' => $expiry_rule,
 							'expired_wp_role' => $expired_wp_role,
-						);
+						];
 
 						// Get formatted array.
 						$rule = $this->rule_create_array( $method, $rule_data );
@@ -2087,11 +2087,11 @@ class Civi_WP_Member_Sync_Admin {
 					} else {
 
 						// Combine rule data into array.
-						$rule_data = array(
+						$rule_data = [
 							'current_rule' => $current_rule,
 							'expiry_rule' => $expiry_rule,
 							'civi_member_type_id' =>  $civi_member_type_id,
-						);
+						];
 
 						// Get formatted array.
 						$rule = $this->rule_create_array( $method, $rule_data );
@@ -2109,12 +2109,12 @@ class Civi_WP_Member_Sync_Admin {
 				if ( $method == 'roles' ) {
 
 					// Combine rule data into array.
-					$rule_data = array(
+					$rule_data = [
 						'current_rule' => $current_rule,
 						'current_wp_role' => $current_wp_role,
 						'expiry_rule' => $expiry_rule,
 						'expired_wp_role' => $expired_wp_role,
-					);
+					];
 
 					// Get formatted array.
 					$rule = $this->rule_create_array( $method, $rule_data );
@@ -2125,11 +2125,11 @@ class Civi_WP_Member_Sync_Admin {
 				} else {
 
 					// Combine rule data into array.
-					$rule_data = array(
+					$rule_data = [
 						'current_rule' => $current_rule,
 						'expiry_rule' => $expiry_rule,
 						'civi_member_type_id' =>  $civi_member_type_id,
-					);
+					];
 
 					// Get formatted array.
 					$rule = $this->rule_create_array( $method, $rule_data );
@@ -2179,21 +2179,21 @@ class Civi_WP_Member_Sync_Admin {
 		if ( $method == 'roles' ) {
 
 			// Construct role rule.
-			$rule = array(
+			$rule = [
 				'current_rule' => $params['current_rule'],
 				'current_wp_role' => $params['current_wp_role'],
 				'expiry_rule' => $params['expiry_rule'],
 				'expired_wp_role' => $params['expired_wp_role'],
-			);
+			];
 
 		} else {
 
 			// Construct capability rule.
-			$rule = array(
+			$rule = [
 				'current_rule' => $params['current_rule'],
 				'expiry_rule' => $params['expiry_rule'],
 				'capability' => CIVI_WP_MEMBER_SYNC_CAP_PREFIX . $params['civi_member_type_id'],
-			);
+			];
 
 		}
 
