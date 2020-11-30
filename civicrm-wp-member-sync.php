@@ -328,7 +328,7 @@ function civi_wp_member_sync_plugin_add_settings_link( $links, $file ) {
 		) {
 			$link = add_query_arg( [ 'page' => 'civi_wp_member_sync_parent' ], network_admin_url( 'settings.php' ) );
 		} else {
-			$link = add_query_arg( [ 'page' => 'civi_wp_member_sync_parent' ], admin_url( 'options-general.php' ) );
+			$link = add_query_arg( [ 'page' => 'civi_wp_member_sync_parent' ], admin_url( 'admin.php' ) );
 		}
 
 		// Add settings link.
