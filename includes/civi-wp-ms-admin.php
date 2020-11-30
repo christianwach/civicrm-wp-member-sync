@@ -277,7 +277,7 @@ class Civi_WP_Member_Sync_Admin {
 			} else {
 
 				// Add admin page to menu.
-				add_action( 'admin_menu', array( $this, 'admin_menu' ) );
+				add_action( 'admin_menu', array( $this, 'admin_menu' ), 25 );
 
 			}
 
@@ -374,10 +374,14 @@ class Civi_WP_Member_Sync_Admin {
 	public function admin_menu() {
 
 		// We must be network admin in multisite.
-		if ( is_multisite() AND ! is_super_admin() ) return false;
+		if ( is_multisite() AND ! is_super_admin() ) {
+			return false;
+		}
 
 		// Check user permissions.
-		if ( ! current_user_can( 'manage_options' ) ) return false;
+		if ( ! current_user_can( 'manage_options' ) ) {
+			return false;
+		}
 
 		// Multisite?
 		if ( $this->is_network_activated() ) {
@@ -394,10 +398,11 @@ class Civi_WP_Member_Sync_Admin {
 
 		} else {
 
-			// Add the settings page to the Settings menu.
-			$this->parent_page = add_options_page(
+			// Add the settings page to the CiviCRM menu.
+			$this->parent_page = add_submenu_page(
+				'CiviCRM', // Parent slug.
 				__( 'CiviCRM WordPress Member Sync: Settings', 'civicrm-wp-member-sync' ), // Page title.
-				__( 'CiviCRM WordPress Member Sync', 'civicrm-wp-member-sync' ), // Menu title.
+				__( 'Member Sync', 'civicrm-wp-member-sync' ), // Menu title.
 				'manage_options', // Required caps.
 				'civi_wp_member_sync_parent', // Slug name.
 				array( $this, 'page_settings' ) // Callback.
