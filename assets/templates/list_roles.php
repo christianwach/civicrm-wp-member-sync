@@ -64,7 +64,7 @@
 
 	?>
 
-	<table cellspacing="0" class="wp-list-table widefat fixed users">
+	<table cellspacing="0" class="wp-list-table widefat fixed">
 
 		<thead>
 			<tr>
