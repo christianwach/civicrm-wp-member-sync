@@ -83,6 +83,10 @@ It may sometimes be necessary to manually synchronize users. Click on the "Manua
 
 == Changelog ==
 
+= 0.4.6 =
+
+* Housekeeping release
+
 = 0.4.5 =
 
 * Fix validation on "Rule Add" screen
