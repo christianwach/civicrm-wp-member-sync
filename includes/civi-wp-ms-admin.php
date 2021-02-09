@@ -855,7 +855,7 @@ class Civi_WP_Member_Sync_Admin {
 		// Register Select2 styles.
 		wp_register_style(
 			$handle,
-			set_url_scheme( 'https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.10/css/select2.min.css' )
+			set_url_scheme( 'https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css' )
 		);
 
 		// Enqueue styles.
@@ -900,7 +900,7 @@ class Civi_WP_Member_Sync_Admin {
 		// Register Select2.
 		wp_register_script(
 			$handle,
-			set_url_scheme( 'https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.10/js/select2.min.js' ),
+			set_url_scheme( 'https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js' ),
 			[ 'jquery' ]
 		);
 
