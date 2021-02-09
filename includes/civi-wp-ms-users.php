@@ -781,24 +781,9 @@ class Civi_WP_Member_Sync_Users {
 				'last_name' => $civi_contact['last_name'],
 			] );
 
-			// Create UF Match.
+			// Create a UF Match record if the User was successfully created.
 			if ( ! is_wp_error( $user_id ) AND isset( $civi_contact['contact_id'] ) ) {
-
-				$transaction = new CRM_Core_Transaction();
-
-				// Create the UF Match record.
-				$ufmatch             = new CRM_Core_DAO_UFMatch();
-				$ufmatch->domain_id  = CRM_Core_Config::domainID();
-				$ufmatch->uf_id      = $user_id;
-				$ufmatch->contact_id = $civi_contact['contact_id'];
-				$ufmatch->uf_name    = $civi_contact['email'];
-
-				if ( ! $ufmatch->find( true ) ) {
-					$ufmatch->save();
-					$ufmatch->free();
-					$transaction->commit();
-				}
-
+				$this->ufmatch_create( $civi_contact['contact_id'], $user_id, $civi_contact['email'] );
 			}
 
 			/**
@@ -840,7 +825,7 @@ class Civi_WP_Member_Sync_Users {
 
 		}
 
-		// Return error
+		// Fallback.
 		return false;
 
 	}
@@ -882,6 +867,67 @@ class Civi_WP_Member_Sync_Users {
 
 		// --<
 		return $new_username;
+
+	}
+
+
+
+	/**
+	 * Create a link between a WordPress User and a CiviCRM Contact.
+	 *
+	 * This method optionally allows a Domain ID to be specified.
+	 *
+	 * @since 0.4.7
+	 *
+	 * @param integer $contact_id The numeric ID of the CiviCRM Contact.
+	 * @param integer $user_id The numeric ID of the WordPress User.
+	 * @param str $username The WordPress username.
+	 * @param integer $domain_id The CiviCRM Domain ID (defaults to current Domain ID).
+	 * @return array|bool The UFMatch data on success, or false on failure.
+	 */
+	public function ufmatch_create( $contact_id, $user_id, $username, $domain_id = '' ) {
+
+		// Kick out if no CiviCRM.
+		if ( ! civi_wp()->initialize() ) {
+			return false;
+		}
+
+		// Sanity checks.
+		if ( ! is_numeric( $contact_id ) OR ! is_numeric( $user_id ) ) {
+			return false;
+		}
+
+		// Construct params.
+		$params = [
+			'version' => 3,
+			'uf_id' => $user_id,
+			'uf_name' => $username,
+			'contact_id' => $contact_id,
+		];
+
+		// Maybe add Domain ID.
+		if ( ! empty( $domain_id ) ) {
+			$params['domain_id'] = $domain_id;
+		}
+
+		// Create record via API.
+		$result = civicrm_api( 'UFMatch', 'create', $params );
+
+		// Log and bail on failure.
+		if ( isset( $result['is_error'] ) AND $result['is_error'] == '1' ) {
+			$e = new \Exception;
+			$trace = $e->getTraceAsString();
+			error_log( print_r( [
+				'method' => __METHOD__,
+				'params' => $params,
+				'result' => $result,
+				'backtrace' => $trace,
+			], true ) );
+			return false;
+		}
+
+		// --<
+		return $result;
 
 	}
 
