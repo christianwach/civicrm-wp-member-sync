@@ -78,3 +78,7 @@ It may sometimes be necessary to manually synchronize users. Click on the "Manua
 ## Test Test Test
 
 **Note:** Be sure to test this plugin thoroughly before using it in a production environment. At minimum, you should log in as a test user to ensure you have been granted the appropriate role or capabilities when that user is given membership. Then take away the membership for the user in their *CiviCRM* record, log back in as the test user, and make sure you no longer have that role or those capabilities.
+
+## Known Issues
+
+Code that used the `civi_wp_member_sync_after_insert_user` hook to send User Notifications on User Account creation should switch to the newer `civi_wp_member_sync_post_insert_user` hook to avoid the inadvertent loss of session data.
