@@ -11,7 +11,8 @@ var cwms_method = 'roles',
 	cwms_mode = 'add',
 	cwms_ajax_url = '',
 	cwms_select2 = 'no',
-	cwms_groups = 'no';
+	cwms_groups = 'no',
+	cwms_buddypress = 'no';
 
 // Test for our localisation object.
 if ( 'undefined' !== typeof CiviCRM_WP_Member_Sync_Rules ) {
@@ -22,6 +23,7 @@ if ( 'undefined' !== typeof CiviCRM_WP_Member_Sync_Rules ) {
 	cwms_ajax_url = CiviCRM_WP_Member_Sync_Rules.ajax_url;
 	cwms_select2 = CiviCRM_WP_Member_Sync_Rules.select2;
 	cwms_groups = CiviCRM_WP_Member_Sync_Rules.groups;
+	cwms_buddypress = CiviCRM_WP_Member_Sync_Rules.buddypress;
 
 }
 
@@ -206,7 +208,7 @@ jQuery(document).ready( function($) {
 
 	}
 
-	// The following require Select2 and groups.
+	// The following require Select2 and Groups groups.
 	if ( cwms_select2 === 'yes' && cwms_groups === 'yes' ) {
 
 		/**
@@ -304,6 +306,109 @@ jQuery(document).ready( function($) {
 		 * @return {String} The expected response.
 		 */
 		function cwms_groups_format_response( data ) {
+			return data.name || data.text;
+		}
+
+	}
+
+	// The following require Select2 and BuddyPress.
+	if ( cwms_select2 === 'yes' && cwms_buddypress === 'yes' ) {
+
+		/**
+		 * Select2 init on BuddyPress Groups.
+		 *
+		 * @since 0.4.7
+		 */
+		$('#cwms_buddypress_select_current, #cwms_buddypress_select_expiry').select2({
+
+			// Action.
+			ajax: {
+				method: 'POST',
+				url: cwms_ajax_url,
+				dataType: 'json',
+				delay: 250,
+				data: function( params ) {
+					return {
+						s: params.term, // Search term.
+						action: 'civi_wp_member_sync_get_bp_groups',
+						exclude: cwms_buddypress_get_excludes( params, this ),
+						page: params.page,
+					};
+				},
+				processResults: function( data, page ) {
+					// Parse the results into the format expected by Select2.
+					// Since we are using custom formatting functions we do not need to
+					// alter the remote JSON data.
+					return {
+						results: data
+					};
+				},
+				cache: true
+			},
+
+			// Settings.
+			escapeMarkup: function( markup ) { return markup; }, // Let our custom formatter work.
+			minimumInputLength: 3,
+			templateResult: cwms_buddypress_format_result,
+			templateSelection: cwms_buddypress_format_response
+
+		});
+
+		/**
+		 * Find the BuddyPress groups to exclude from search.
+		 *
+		 * This is disabled at present because I can't decide whether or not groups
+		 * should be available in both 'current' and 'expiry' sections. I'm going to
+		 * allow duplicates for now.
+		 *
+		 * @since 0.4.7
+		 *
+		 * @param {Object} params The Select2 params.
+		 * @param {Object} obj The Select2 object calling this function.
+		 * @return {String} excludes The comma-separated group IDs to exclude from search.
+		 */
+		function cwms_buddypress_get_excludes( params, obj ) {
+
+			// --<
+			return '';
+
+		}
+
+		/**
+		 * Select2 format results for display in dropdown.
+		 *
+		 * @since 0.4.7
+		 *
+		 * @param {Object} data The results data.
+		 * @return {String} markup The results markup.
+		 */
+		function cwms_buddypress_format_result( data ) {
+
+			// Bail if still loading.
+			if ( data.loading ) return data.name;
+
+			// Declare vars.
+			var markup;
+
+			// Construct basic group info.
+			markup = '<div style="clear:both;">' +
+			'<div class="select2_results_group_name"><span style="font-weight:600;">' + data.name + '</span></div>' +
+			'</div>';
+
+			// --<
+			return markup;
+
+		}
+
+		/**
+		 * Select2 format response.
+		 *
+		 * @since 0.4.7
+		 *
+		 * @param {Object} data The results data.
+		 * @return {String} The expected response.
+		 */
+		function cwms_buddypress_format_response( data ) {
 			return data.name || data.text;
 		}
 

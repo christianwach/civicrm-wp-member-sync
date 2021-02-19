@@ -686,6 +686,7 @@ class Civi_WP_Member_Sync_Admin {
 			'mode' => 'add',
 			'select2' => 'no',
 			'groups' => 'no',
+			'buddypress' => 'no',
 		];
 
 		// Maybe override select2.
@@ -696,6 +697,11 @@ class Civi_WP_Member_Sync_Admin {
 		// Maybe override groups.
 		if ( $this->plugin->groups->enabled() ) {
 			$vars['groups'] = 'yes';
+		}
+
+		// Maybe override BuddyPress.
+		if ( $this->plugin->buddypress->enabled() ) {
+			$vars['buddypress'] = 'yes';
 		}
 
 		// Maybe override mode.

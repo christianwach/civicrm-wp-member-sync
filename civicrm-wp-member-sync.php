@@ -99,9 +99,18 @@ class Civi_WP_Member_Sync {
 	 *
 	 * @since 0.3.9
 	 * @access public
-	 * @var object $members The "Groups" compatibility object.
+	 * @var object $groups The "Groups" compatibility object.
 	 */
 	public $groups;
+
+	/**
+	 * CiviCRM BuddyPress compatibility object.
+	 *
+	 * @since 0.4.7
+	 * @access public
+	 * @var object $buddypress The BuddyPress compatibility object.
+	 */
+	public $buddypress;
 
 
 
@@ -150,6 +159,9 @@ class Civi_WP_Member_Sync {
 		// Load our "Groups" compatibility class.
 		require( CIVI_WP_MEMBER_SYNC_PLUGIN_PATH . 'includes/civi-wp-ms-groups.php' );
 
+		// Load our BuddyPress compatibility class.
+		require( CIVI_WP_MEMBER_SYNC_PLUGIN_PATH . 'includes/civi-wp-ms-buddypress.php' );
+
 	}
 
 
@@ -175,6 +187,9 @@ class Civi_WP_Member_Sync {
 
 		// Instantiate "Groups" compatibility object.
 		$this->groups = new Civi_WP_Member_Sync_Groups( $this );
+
+		// Instantiate BuddyPress compatibility object.
+		$this->buddypress = new Civi_WP_Member_Sync_BuddyPress( $this );
 
 	}
 
@@ -230,6 +245,7 @@ class Civi_WP_Member_Sync {
 		 * Civi_WP_Member_Sync_Schedule - Priority 5
 		 * Civi_WP_Member_Sync_Members - Priority 7
 		 * Civi_WP_Member_Sync_Groups - Priority 10
+		 * Civi_WP_Member_Sync_BuddyPress - Priority 20
 		 *
 		 * @since 0.1
 		 * @since 0.3.9 All CWMS classes hook into this to trigger initialisation.

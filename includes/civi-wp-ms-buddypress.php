@@ -1,39 +1,31 @@
 <?php
 
 /**
- * CiviCRM WordPress Member Sync "Groups" compatibility class.
+ * CiviCRM WordPress Member Sync BuddyPress compatibility class.
  *
- * Class for encapsulating compatibility with the "Groups" plugin.
+ * Class for encapsulating compatibility with the BuddyPress plugin.
  *
- * Groups version 2.8.0 changed the way that access restrictions are implemented
- * and switched from "access control based on capabilities" to "access control
- * based on group membership". Furthermore, the legacy functionality does not
- * work as expected any more.
- *
- * As a result, the "groups_read_cap_add" and "groups_read_cap_delete" methods
- * used by this class cannot be relied upon any more.
- *
- * @since 0.3.9
+ * @since 0.4.7
  *
  * @package Civi_WP_Member_Sync
  */
-class Civi_WP_Member_Sync_Groups {
+class Civi_WP_Member_Sync_BuddyPress {
 
 	/**
 	 * Plugin (calling) object.
 	 *
-	 * @since 0.3.9
+	 * @since 0.4.7
 	 * @access public
 	 * @var object $plugin The plugin object.
 	 */
 	public $plugin;
 
 	/**
-	 * "Groups" plugin enabled flag.
+	 * BuddyPress plugin enabled flag.
 	 *
-	 * @since 0.4.2
+	 * @since 0.4.7
 	 * @access public
-	 * @var object $enabled True if "Groups" is enabled, false otherwise.
+	 * @var object $enabled True if BuddyPress is enabled, false otherwise.
 	 */
 	public $enabled = false;
 
@@ -42,7 +34,7 @@ class Civi_WP_Member_Sync_Groups {
 	/**
 	 * Constructor.
 	 *
-	 * @since 0.3.9
+	 * @since 0.4.7
 	 *
 	 * @param object $plugin The plugin object.
 	 */
@@ -51,8 +43,8 @@ class Civi_WP_Member_Sync_Groups {
 		// Store reference to plugin.
 		$this->plugin = $plugin;
 
-		// Initialise first.
-		add_action( 'civi_wp_member_sync_initialised', [ $this, 'initialise' ] );
+		// Initialise.
+		add_action( 'civi_wp_member_sync_initialised', [ $this, 'initialise' ], 20 );
 
 	}
 
@@ -61,12 +53,41 @@ class Civi_WP_Member_Sync_Groups {
 	/**
 	 * Initialise this object.
 	 *
-	 * @since 0.3.9
+	 * @since 0.4.7
 	 */
 	public function initialise() {
 
-		// Test for "Groups" plugin on init.
+		// Test for BuddyPress plugin on init.
 		add_action( 'init', [ $this, 'register_hooks' ] );
+
+	}
+
+
+
+	/**
+	 * Test if BuddyPress plugin is active.
+	 *
+	 * @since 0.4.7
+	 *
+	 * @return bool|object False if BuddyPress could not be found, BuddyPress reference if successful.
+	 */
+	public function is_active() {
+
+		// Bail if no BuddyPress init function.
+		if ( ! function_exists( 'buddypress' ) ) {
+			return false;
+		}
+
+		// Bail if BuddyPress Groups component is not active.
+		if ( ! bp_is_active( 'groups' ) ) {
+			return false;
+		}
+
+		// Set enabled flag.
+		$this->enabled = true;
+
+		// Try and init BuddyPress.
+		return buddypress();
 
 	}
 
@@ -75,9 +96,9 @@ class Civi_WP_Member_Sync_Groups {
 	/**
 	 * Getter for the "enabled" flag.
 	 *
-	 * @since 0.4.2
+	 * @since 0.4.7
 	 *
-	 * @return bool $enabled True if Groups is enabled, false otherwise.
+	 * @return bool $enabled True if BuddyPress is enabled, false otherwise.
 	 */
 	public function enabled() {
 
@@ -93,47 +114,23 @@ class Civi_WP_Member_Sync_Groups {
 
 
 	/**
-	 * Register "Groups" plugin hooks if it's present.
+	 * Register BuddyPress plugin hooks if it's present.
 	 *
-	 * @since 0.2.3
-	 * @since 0.3.9 Moved into this class.
+	 * @since 0.4.7
 	 */
 	public function register_hooks() {
 
-		// Bail if we don't have the "Groups" plugin.
-		if ( ! defined( 'GROUPS_CORE_VERSION' ) ) {
+		// Bail if we don't have the BuddyPress plugin.
+		if ( ! $this->is_active() ) {
 			return;
 		}
-
-		// Hook into rule add.
-		add_action( 'civi_wp_member_sync_rule_add_capabilities', [ $this, 'groups_add_cap' ] );
-
-		// Hook into rule edit.
-		add_action( 'civi_wp_member_sync_rule_edit_capabilities', [ $this, 'groups_edit_cap' ] );
-
-		// Hook into rule delete.
-		add_action( 'civi_wp_member_sync_rule_delete_capabilities', [ $this, 'groups_delete_cap' ] );
-
-		// Hook into manual sync process, before sync.
-		add_action( 'civi_wp_member_sync_pre_sync_all', [ $this, 'groups_pre_sync' ] );
-
-		// Hook into save post and auto-restrict. (DISABLED)
-		//add_action( 'save_post', [ $this, 'groups_intercept_save_post' ], 1, 2 );
-
-		// Bail if "Groups" is not version 2.8.0 or greater.
-		if ( version_compare( GROUPS_CORE_VERSION, '2.8.0', '<' ) ) {
-			return;
-		}
-
-		// Set enabled flag.
-		$this->enabled = true;
 
 		// Filter script dependencies on the "Add Rule" and "Edit Rule" pages.
 		add_filter( 'civi_wp_member_sync_rules_css_dependencies', [ $this->plugin->admin, 'dependencies_css' ], 10, 1 );
 		add_filter( 'civi_wp_member_sync_rules_js_dependencies', [ $this->plugin->admin, 'dependencies_js' ], 10, 1 );
 
 		// Declare AJAX handlers.
-		add_action( 'wp_ajax_civi_wp_member_sync_get_groups', [ $this, 'search_groups' ], 10 );
+		add_action( 'wp_ajax_civi_wp_member_sync_get_bp_groups', [ $this, 'search_groups' ], 10 );
 
 		// Hook into Rule Save process.
 		add_action( 'civi_wp_member_sync_rule_pre_save', [ $this, 'rule_pre_save' ], 10, 4 );
@@ -175,12 +172,12 @@ class Civi_WP_Member_Sync_Groups {
 
 
 	/**
-	 * Search for groups on the "Add Rule" and "Edit Rule" pages.
+	 * Search for BuddyPress groups on the "Add Rule" and "Edit Rule" pages.
 	 *
 	 * We still need to exclude groups which are present in the "opposite"
 	 * select - i.e. exclude current groups from expiry and vice versa.
 	 *
-	 * @since 0.4
+	 * @since 0.4.7
 	 */
 	public function search_groups() {
 
@@ -196,27 +193,21 @@ class Civi_WP_Member_Sync_Groups {
 			$excludes = explode( ',', $exclude );
 		}
 
-		// Construct AND clause.
-		$and = '';
-		if ( ! empty( $excludes ) ) {
-			$exclude = implode( ',', array_map( 'intval', array_map( 'trim', $excludes ) ) );
-			if ( strlen( $exclude ) > 0 ) {
-				$and = 'AND group_id NOT IN (' . $exclude . ')';
-			}
-		}
-
-		// Do query.
-		$group_table = _groups_get_tablename( 'group' );
-		$like = '%' . $wpdb->esc_like( trim( $_POST['s'] ) ) . '%';
-		$sql = $wpdb->prepare( "SELECT * FROM $group_table WHERE name LIKE %s $and", $like );
-		$groups = $wpdb->get_results( $sql );
+		// Get groups this user can see for this search.
+		$groups = groups_get_groups( [
+			'user_id' => is_super_admin() ? 0 : bp_loggedin_user_id(),
+			'search_terms' => $_POST['s'],
+			'show_hidden' => true,
+			'populate_extras' => false,
+			'exclude' => $excludes,
+		] );
 
 		// Add items to output array.
 		$json = [];
-		foreach( $groups AS $group ) {
+		foreach( $groups['groups'] AS $group ) {
 			$json[] = [
-				'id' => $group->group_id,
-				'name' => esc_html( $group->name ),
+				'id' => $group->id,
+				'name' => stripslashes( $group->name ),
 			];
 		}
 
@@ -239,7 +230,7 @@ class Civi_WP_Member_Sync_Groups {
 	 * signatures - `civi_wp_member_sync_rule_apply_caps_current` also passes
 	 * the capability, which we don't need.
 	 *
-	 * @since 0.4
+	 * @since 0.4.7
 	 *
 	 * @param WP_User $user The WordPress user object.
 	 * @param int $membership_type_id The ID of the CiviCRM membership type.
@@ -263,7 +254,7 @@ class Civi_WP_Member_Sync_Groups {
 	 * signatures - `civi_wp_member_sync_rule_apply_caps_current` also passes
 	 * the capability, which we don't need.
 	 *
-	 * @since 0.4
+	 * @since 0.4.7
 	 *
 	 * @param WP_User $user The WordPress user object.
 	 * @param int $membership_type_id The ID of the CiviCRM membership type.
@@ -282,7 +273,7 @@ class Civi_WP_Member_Sync_Groups {
 	/**
 	 * Intercept Rule Apply when membership is "current".
 	 *
-	 * @since 0.4
+	 * @since 0.4.7
 	 *
 	 * @param WP_User $user The WordPress user object.
 	 * @param int $membership_type_id The ID of the CiviCRM membership type.
@@ -292,15 +283,15 @@ class Civi_WP_Member_Sync_Groups {
 	public function rule_apply_current( $user, $membership_type_id, $status_id, $association_rule ) {
 
 		// Remove the user from the expired groups.
-		if ( ! empty( $association_rule['expiry_groups'] ) ) {
-			foreach( $association_rule['expiry_groups'] AS $group_id ) {
+		if ( ! empty( $association_rule['expiry_buddypress'] ) ) {
+			foreach( $association_rule['expiry_buddypress'] AS $group_id ) {
 				$this->group_member_delete( $user->ID, $group_id );
 			}
 		}
 
 		// Add the user to the current groups.
-		if ( ! empty( $association_rule['current_groups'] ) ) {
-			foreach( $association_rule['current_groups'] AS $group_id ) {
+		if ( ! empty( $association_rule['current_buddypress'] ) ) {
+			foreach( $association_rule['current_buddypress'] AS $group_id ) {
 				$this->group_member_add( $user->ID, $group_id );
 			}
 		}
@@ -312,7 +303,7 @@ class Civi_WP_Member_Sync_Groups {
 	/**
 	 * Intercept Rule Apply when membership is "expired".
 	 *
-	 * @since 0.4
+	 * @since 0.4.7
 	 *
 	 * @param WP_User $user The WordPress user object.
 	 * @param int $membership_type_id The ID of the CiviCRM membership type.
@@ -322,15 +313,15 @@ class Civi_WP_Member_Sync_Groups {
 	public function rule_apply_expired( $user, $membership_type_id, $status_id, $association_rule ) {
 
 		// Remove the user from the current groups.
-		if ( ! empty( $association_rule['current_groups'] ) ) {
-			foreach( $association_rule['current_groups'] AS $group_id ) {
+		if ( ! empty( $association_rule['current_buddypress'] ) ) {
+			foreach( $association_rule['current_buddypress'] AS $group_id ) {
 				$this->group_member_delete( $user->ID, $group_id );
 			}
 		}
 
 		// Add the user to the expired groups.
-		if ( ! empty( $association_rule['expiry_groups'] ) ) {
-			foreach( $association_rule['expiry_groups'] AS $group_id ) {
+		if ( ! empty( $association_rule['expiry_buddypress'] ) ) {
+			foreach( $association_rule['expiry_buddypress'] AS $group_id ) {
 				$this->group_member_add( $user->ID, $group_id );
 			}
 		}
@@ -344,26 +335,23 @@ class Civi_WP_Member_Sync_Groups {
 
 
 	/**
-	 * Add a WordPress user to a "Groups" group.
+	 * Add a WordPress user to a BuddyPress group.
 	 *
-	 * @since 0.4
+	 * @since 0.4.7
 	 *
 	 * @param int $user_id The ID of the WordPress user to add to the group.
-	 * @param int $group_id The ID of the "Groups" group.
+	 * @param int $group_id The ID of the BuddyPress group.
 	 * @return bool $success True on success, false otherwise.
 	 */
 	public function group_member_add( $user_id, $group_id ) {
 
-		// Bail if they are already a group member.
-		if ( Groups_User_Group::read( $user_id, $group_id ) ) {
+		// Bail if USer is already a Member.
+		if ( groups_is_user_member( $user_id, $group_id ) ) {
 			return true;
 		}
 
-		// Add user to group.
-		$success = Groups_User_Group::create( [
-			'user_id'  => $user_id,
-			'group_id' => $group_id,
-		] );
+		// Add to BuddyPress Group.
+		$success = groups_join_group( $group_id, $user_id );
 
 		// Maybe log on failure?
 		if ( ! $success ) {
@@ -386,36 +374,39 @@ class Civi_WP_Member_Sync_Groups {
 
 
 	/**
-	 * Delete a WordPress user from a "Groups" group.
+	 * Delete a WordPress user from a BuddyPress group.
 	 *
-	 * @since 0.4
+	 * We cannot use 'groups_remove_member()' because the logged in User may not
+	 * pass the 'bp_is_item_admin()' check in that function.
+	 *
+	 * @since 0.4.7
 	 *
 	 * @param int $user_id The ID of the WordPress user to delete from the group.
-	 * @param int $group_id The ID of the "Groups" group.
+	 * @param int $group_id The ID of the BuddyPress group.
 	 * @return bool $success True on success, false otherwise.
 	 */
 	public function group_member_delete( $user_id, $group_id ) {
 
-		// Bail if they are not a group member.
-		if ( ! Groups_User_Group::read( $user_id, $group_id ) ) {
-			return true;
+		// Bail if User is not a Member.
+		if ( ! groups_is_user_member( $user_id, $group_id ) ) {
+			return false;
 		}
 
-		// Delete user from group.
-		$success = Groups_User_Group::delete( $user_id, $group_id );
+		// Set up object.
+		$member = new BP_Groups_Member( $user_id, $group_id );
 
-		// Maybe log on failure?
-		if ( ! $success ) {
-			$e = new Exception;
-			$trace = $e->getTraceAsString();
-			error_log( print_r( [
-				'method' => __METHOD__,
-				'message' => esc_html__( 'Could not delete user from group.', 'civicrm-groups-sync' ),
-				'user_id' => $user_id,
-				'group_id' => $group_id,
-				'backtrace' => $trace,
-			], true ) );
-		}
+		/**
+		 * Trigger BuddyPress action.
+		 *
+		 * @since 0.4.7
+		 *
+		 * @param int $group_id The numeric ID of the Group.
+		 * @param int $user_id The numeric ID of the User.
+		 */
+		do_action( 'groups_remove_member', $group_id, $user_id );
+
+		// Remove Member.
+		$success = $member->remove();
 
 		// --<
 		return $success;
@@ -431,7 +422,7 @@ class Civi_WP_Member_Sync_Groups {
 	/**
 	 * Amend the association rule that is about to be saved.
 	 *
-	 * @since 0.4
+	 * @since 0.4.7
 	 *
 	 * @param array $rule The new or updated association rule.
 	 * @param array $data The complete set of association rule.
@@ -445,13 +436,13 @@ class Civi_WP_Member_Sync_Groups {
 
 		// Get the "current" groups.
 		if (
-			isset( $_POST['cwms_groups_select_current'] ) AND
-			is_array( $_POST['cwms_groups_select_current'] ) AND
-			! empty( $_POST['cwms_groups_select_current'] )
+			isset( $_POST['cwms_buddypress_select_current'] ) AND
+			is_array( $_POST['cwms_buddypress_select_current'] ) AND
+			! empty( $_POST['cwms_buddypress_select_current'] )
 		) {
 
 			// Grab array of group IDs.
-			$current = $_POST['cwms_groups_select_current'];
+			$current = $_POST['cwms_buddypress_select_current'];
 
 			// Sanitise array items.
 			array_walk( $current, function( &$item ) {
@@ -465,13 +456,13 @@ class Civi_WP_Member_Sync_Groups {
 
 		// Get the "expiry" groups.
 		if (
-			isset( $_POST['cwms_groups_select_expiry'] ) AND
-			is_array( $_POST['cwms_groups_select_expiry'] ) AND
-			! empty( $_POST['cwms_groups_select_expiry'] )
+			isset( $_POST['cwms_buddypress_select_expiry'] ) AND
+			is_array( $_POST['cwms_buddypress_select_expiry'] ) AND
+			! empty( $_POST['cwms_buddypress_select_expiry'] )
 		) {
 
 			// Grab array of group IDs.
-			$expiry = $_POST['cwms_groups_select_expiry'];
+			$expiry = $_POST['cwms_buddypress_select_expiry'];
 
 			// Sanitise array items.
 			array_walk( $expiry, function( &$item ) {
@@ -481,8 +472,8 @@ class Civi_WP_Member_Sync_Groups {
 		}
 
 		// Add to the rule.
-		$rule['current_groups'] = $current;
-		$rule['expiry_groups'] = $expiry;
+		$rule['current_buddypress'] = $current;
+		$rule['expiry_buddypress'] = $expiry;
 
 		// --<
 		return $rule;
@@ -498,12 +489,12 @@ class Civi_WP_Member_Sync_Groups {
 	/**
 	 * Show the Current Group header.
 	 *
-	 * @since 0.4
+	 * @since 0.4.7
 	 */
 	public function list_current_header() {
 
 		// Echo markup.
-		echo '<th>' . esc_html__( 'Current "Groups" Group(s)', 'civicrm-wp-member-sync' ) . '</th>';
+		echo '<th>' . esc_html__( 'Current BuddyPress Group(s)', 'civicrm-wp-member-sync' ) . '</th>';
 
 	}
 
@@ -512,21 +503,21 @@ class Civi_WP_Member_Sync_Groups {
 	/**
 	 * Show the Expired Group header.
 	 *
-	 * @since 0.4
+	 * @since 0.4.7
 	 */
 	public function list_expiry_header() {
 
 		// Echo markup.
-		echo '<th>' . esc_html__( 'Expiry "Groups" Group(s)', 'civicrm-wp-member-sync' ) . '</th>';
+		echo '<th>' . esc_html__( 'Expiry BuddyPress Group(s)', 'civicrm-wp-member-sync' ) . '</th>';
 
 	}
 
 
 
 	/**
-	 * Show the Current Groups.
+	 * Show the Current BuddyPress Groups.
 	 *
-	 * @since 0.4
+	 * @since 0.4.7
 	 *
 	 * @param int $key The current key (type ID).
 	 * @param array $item The current item.
@@ -535,8 +526,8 @@ class Civi_WP_Member_Sync_Groups {
 
 		// Build list.
 		$markup = '&mdash;';
-		if ( ! empty( $item['current_groups'] ) ) {
-			$markup = $this->markup_get_list_items( $item['current_groups'] );
+		if ( ! empty( $item['current_buddypress'] ) ) {
+			$markup = $this->markup_get_list_items( $item['current_buddypress'] );
 		}
 
 		// Echo markup.
@@ -547,9 +538,9 @@ class Civi_WP_Member_Sync_Groups {
 
 
 	/**
-	 * Show the Expired Groups.
+	 * Show the Expired BuddyPress Groups.
 	 *
-	 * @since 0.4
+	 * @since 0.4.7
 	 *
 	 * @param int $key The current key (type ID).
 	 * @param array $item The current item.
@@ -558,8 +549,8 @@ class Civi_WP_Member_Sync_Groups {
 
 		// Build list.
 		$markup = '&mdash;';
-		if ( ! empty( $item['expiry_groups'] ) ) {
-			$markup = $this->markup_get_list_items( $item['expiry_groups'] );
+		if ( ! empty( $item['expiry_buddypress'] ) ) {
+			$markup = $this->markup_get_list_items( $item['expiry_buddypress'] );
 		}
 
 		// Echo markup.
@@ -572,14 +563,14 @@ class Civi_WP_Member_Sync_Groups {
 	/**
 	 * Show the Current Group.
 	 *
-	 * @since 0.4
+	 * @since 0.4.7
 	 *
 	 * @param array $status_rules The status rules.
 	 */
 	public function rule_add_current( $status_rules ) {
 
 		// Include template file.
-		include( CIVI_WP_MEMBER_SYNC_PLUGIN_PATH . 'assets/templates/groups-add-current.php' );
+		include CIVI_WP_MEMBER_SYNC_PLUGIN_PATH . 'assets/templates/buddypress-add-current.php';
 
 	}
 
@@ -588,14 +579,14 @@ class Civi_WP_Member_Sync_Groups {
 	/**
 	 * Show the Expired Group.
 	 *
-	 * @since 0.4
+	 * @since 0.4.7
 	 *
 	 * @param array $status_rules The status rules.
 	 */
 	public function rule_add_expiry( $status_rules ) {
 
 		// Include template file.
-		include( CIVI_WP_MEMBER_SYNC_PLUGIN_PATH . 'assets/templates/groups-add-expiry.php' );
+		include CIVI_WP_MEMBER_SYNC_PLUGIN_PATH . 'assets/templates/buddypress-add-expiry.php';
 
 	}
 
@@ -604,7 +595,7 @@ class Civi_WP_Member_Sync_Groups {
 	/**
 	 * Show the Current Group.
 	 *
-	 * @since 0.4
+	 * @since 0.4.7
 	 *
 	 * @param array $status_rules The status rules.
 	 * @param array $selected_rule The rule being edited.
@@ -613,12 +604,12 @@ class Civi_WP_Member_Sync_Groups {
 
 		// Build options.
 		$options_html = '';
-		if ( ! empty( $selected_rule['current_groups'] ) ) {
-			$options_html = $this->markup_get_options( $selected_rule['current_groups'] );
+		if ( ! empty( $selected_rule['current_buddypress'] ) ) {
+			$options_html = $this->markup_get_options( $selected_rule['current_buddypress'] );
 		}
 
 		// Include template file.
-		include( CIVI_WP_MEMBER_SYNC_PLUGIN_PATH . 'assets/templates/groups-edit-current.php' );
+		include CIVI_WP_MEMBER_SYNC_PLUGIN_PATH . 'assets/templates/buddypress-edit-current.php';
 
 	}
 
@@ -627,7 +618,7 @@ class Civi_WP_Member_Sync_Groups {
 	/**
 	 * Show the Expired Group.
 	 *
-	 * @since 0.4
+	 * @since 0.4.7
 	 *
 	 * @param array $status_rules The status rules.
 	 * @param array $selected_rule The rule being edited.
@@ -636,12 +627,12 @@ class Civi_WP_Member_Sync_Groups {
 
 		// Build options.
 		$options_html = '';
-		if ( ! empty( $selected_rule['expiry_groups'] ) ) {
-			$options_html = $this->markup_get_options( $selected_rule['expiry_groups'] );
+		if ( ! empty( $selected_rule['expiry_buddypress'] ) ) {
+			$options_html = $this->markup_get_options( $selected_rule['expiry_buddypress'] );
 		}
 
 		// Include template file.
-		include( CIVI_WP_MEMBER_SYNC_PLUGIN_PATH . 'assets/templates/groups-edit-expiry.php' );
+		include CIVI_WP_MEMBER_SYNC_PLUGIN_PATH . 'assets/templates/buddypress-edit-expiry.php';
 
 	}
 
@@ -654,7 +645,7 @@ class Civi_WP_Member_Sync_Groups {
 	/**
 	 * Get the markup for a pseudo-list generated from a list of groups data.
 	 *
-	 * @since 0.4
+	 * @since 0.4.7
 	 *
 	 * @param array $group_ids The array of group IDs.
 	 */
@@ -667,14 +658,14 @@ class Civi_WP_Member_Sync_Groups {
 		if ( ! empty( $group_ids ) ) {
 
 			// Get the groups.
-			$groups = Groups_Group::get_groups( [
+			$groups = groups_get_groups( [
 				'order_by' => 'name',
 				'order' => 'ASC',
 				'include' => $group_ids,
 			] );
 
 			// Add options to build array.
-			foreach( $groups AS $group ) {
+			foreach( $groups['groups'] AS $group ) {
 				$options[] = esc_html( $group->name );
 			}
 
@@ -693,7 +684,7 @@ class Civi_WP_Member_Sync_Groups {
 	/**
 	 * Get the markup for options generated from a list of groups data.
 	 *
-	 * @since 0.4
+	 * @since 0.4.7
 	 *
 	 * @param array $group_ids The array of group IDs.
 	 */
@@ -706,15 +697,16 @@ class Civi_WP_Member_Sync_Groups {
 		if ( ! empty( $group_ids ) ) {
 
 			// Get the groups.
-			$groups = Groups_Group::get_groups( [
+			$groups = groups_get_groups( [
 				'order_by' => 'name',
 				'order' => 'ASC',
+				'show_hidden' => true,
 				'include' => $group_ids,
 			] );
 
 			// Add options to build array.
-			foreach( $groups AS $group ) {
-				$options[] = '<option value="' . $group->group_id . '" selected="selected">' . esc_html( $group->name ) . '</option>';
+			foreach( $groups['groups'] AS $group ) {
+				$options[] = '<option value="' . $group->id . '" selected="selected">' . esc_html( $group->name ) . '</option>';
 			}
 
 			// Construct markup.
@@ -724,217 +716,6 @@ class Civi_WP_Member_Sync_Groups {
 
 		// --<
 		return $options_html;
-
-	}
-
-
-
-	//##########################################################################
-
-
-
-	/**
-	 * When an association rule is created, add capability to "Groups" plugin.
-	 *
-	 * @since 0.2.3
-	 * @since 0.3.9 Moved into this class.
-	 *
-	 * @param array $data The association rule data.
-	 */
-	public function groups_add_cap( $data ) {
-
-		// Add it as "read post" capability.
-		$this->groups_read_cap_add( $data['capability'] );
-
-		// Get existing capability.
-		$capability = Groups_Capability::read_by_capability( $data['capability'] );
-
-		// Bail if it already exists.
-		if ( false !== $capability ) {
-			return;
-		}
-
-		// Create a new capability.
-		$capability_id = Groups_Capability::create( [ 'capability' => $data['capability'] ] );
-
-	}
-
-
-
-	/**
-	 * When an association rule is edited, edit capability in "Groups" plugin.
-	 *
-	 * @since 0.2.3
-	 * @since 0.3.9 Moved into this class.
-	 *
-	 * @param array $data The association rule data.
-	 */
-	public function groups_edit_cap( $data ) {
-
-		// Same as add.
-		$this->groups_add_cap( $data );
-
-	}
-
-
-
-	/**
-	 * When an association rule is deleted, delete capability from "Groups" plugin.
-	 *
-	 * @since 0.2.3
-	 * @since 0.3.9 Moved into this class.
-	 *
-	 * @param array $data The association rule data.
-	 */
-	public function groups_delete_cap( $data ) {
-
-		// Delete from "read post" capabilities.
-		$this->groups_read_cap_delete( $data['capability'] );
-
-		// Get existing.
-		$capability = Groups_Capability::read_by_capability( $data['capability'] );
-
-		// Bail if it doesn't exist.
-		if ( false === $capability ) {
-			return;
-		}
-
-		// Delete capability.
-		$capability_id = Groups_Capability::delete( $capability->capability_id );
-
-	}
-
-
-
-	/**
-	 * Add "read post" capability to "Groups" plugin.
-	 *
-	 * @since 0.2.3
-	 * @since 0.3.9 Moved into this class.
-	 *
-	 * @param array $capability The capability to add.
-	 */
-	public function groups_read_cap_add( $capability ) {
-
-		// Init with Groups default.
-		$default_read_caps = [ Groups_Post_Access::READ_POST_CAPABILITY ];
-
-		// Get current.
-		$current_read_caps = Groups_Options::get_option( Groups_Post_Access::READ_POST_CAPABILITIES, $default_read_caps );
-
-		// Bail if we have it already.
-		if ( in_array( $capability, $current_read_caps ) ) {
-			return;
-		}
-
-		// Add the new capability.
-		$current_read_caps[] = $capability;
-
-		// Resave option.
-		Groups_Options::update_option( Groups_Post_Access::READ_POST_CAPABILITIES, $current_read_caps );
-
-	}
-
-
-
-	/**
-	 * Delete "read post" capability from "Groups" plugin.
-	 *
-	 * @since 0.2.3
-	 * @since 0.3.9 Moved into this class.
-	 *
-	 * @param array $capability The capability to delete.
-	 */
-	public function groups_read_cap_delete( $capability ) {
-
-		// Init with Groups default.
-		$default_read_caps = [ Groups_Post_Access::READ_POST_CAPABILITY ];
-
-		// Get current.
-		$current_read_caps = Groups_Options::get_option( Groups_Post_Access::READ_POST_CAPABILITIES, $default_read_caps );
-
-		// Get key if capability is present.
-		$key = array_search( $capability, $current_read_caps );
-
-		// Bail if we don't have it.
-		if ( $key === false ) {
-			return;
-		}
-
-		// Delete the capability.
-		unset( $current_read_caps[$key] );
-
-		// Resave option.
-		Groups_Options::update_option( Groups_Post_Access::READ_POST_CAPABILITIES, $current_read_caps );
-
-	}
-
-
-
-	/**
-	 * Before a manual sync, make sure "Groups" plugin is in sync.
-	 *
-	 * @since 0.2.3
-	 * @since 0.3.9 Moved into this class.
-	 */
-	public function groups_pre_sync() {
-
-		// Get sync method.
-		$method = $this->plugin->admin->setting_get_method();
-
-		// Bail if we're not syncing capabilities.
-		if ( $method != 'capabilities' ) {
-			return;
-		}
-
-		// Get rules.
-		$rules = $this->plugin->admin->rules_get_by_method( $method );
-
-		// If we get some.
-		if ( $rules !== false AND is_array( $rules ) AND count( $rules ) > 0 ) {
-
-			// Add capability to "Groups" plugin if not already present.
-			foreach( $rules AS $rule ) {
-				$this->groups_add_cap( $rule );
-			}
-
-		}
-
-	}
-
-
-
-	/**
-	 * Auto-restrict a post based on the post type.
-	 *
-	 * @since 0.2.3
-	 * @since 0.3.9 Moved into this class.
-	 *
-	 * This is a placeholder in case we want to extend this plugin to handle
-	 * automatic content restriction.
-	 *
-	 * @param int $post_id The numeric ID of the post.
-	 * @param object $post The WordPress post object.
-	 */
-	public function groups_intercept_save_post( $post_id, $post ) {
-
-		// Bail if something went wrong.
-		if ( ! is_object( $post ) OR ! isset( $post->post_type ) ) {
-			return;
-		}
-
-		// Do different things based on the post type.
-		switch( $post->post_type ) {
-
-			case 'post':
-				// Add your default capabilities.
-				Groups_Post_Access::create( [ 'post_id' => $post_id, 'capability' => 'Premium' ] );
-				break;
-
-			default:
-				// Do other stuff.
-
-		}
 
 	}
 
