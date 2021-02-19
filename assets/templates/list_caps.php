@@ -72,7 +72,7 @@
 
 		<thead>
 			<tr>
-				<th class="manage-column column-type" id="civi_member_type_id" scope="col"><?php esc_html_e( 'Civi Membership Type', 'civicrm-wp-member-sync' ); ?></th>
+				<th class="manage-column column-type" id="civi_member_type_id" scope="col"><?php esc_html_e( 'CiviCRM Membership Type', 'civicrm-wp-member-sync' ); ?></th>
 				<th class="manage-column column-current-code" id="current_rule" scope="col"><?php esc_html_e( 'Current Codes', 'civicrm-wp-member-sync' ); ?></th>
 				<?php
 
@@ -109,7 +109,7 @@
 			</tr>
 		</thead>
 
-		<tbody class="civi_wp_member_sync_table" id="civi_wp_member_sync_list">
+		<tbody class="civi_wp_member_sync_table" id="the-comment-list">
 			<?php
 
 			// Loop through our data array, keyed by type ID.
@@ -125,8 +125,10 @@
 
 				?>
 				<tr>
-					<td>
-						<?php echo $this->plugin->members->membership_name_get_by_id( $key ); ?><br />
+					<td class="comment column-comment has-row-actions column-primary">
+						<strong>
+							<a href="<?php echo $edit_url; ?>"><?php echo $this->plugin->members->membership_name_get_by_id( $key ); ?></a>
+						<strong>
 						<div class="row-actions">
 							<span class="edit"><a href="<?php echo $edit_url; ?>"><?php esc_html_e( 'Edit', 'civicrm-wp-member-sync' ); ?></a> | </span>
 							<span class="delete"><a href="<?php echo $delete_url; ?>" class="submitdelete"><?php esc_html_e( 'Delete', 'civicrm-wp-member-sync' );?></a></span>
