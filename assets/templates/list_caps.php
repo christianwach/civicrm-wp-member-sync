@@ -128,7 +128,7 @@
 					<td class="comment column-comment has-row-actions column-primary">
 						<strong>
 							<a href="<?php echo $edit_url; ?>"><?php echo $this->plugin->members->membership_name_get_by_id( $key ); ?></a>
-						<strong>
+						</strong>
 						<div class="row-actions">
 							<span class="edit"><a href="<?php echo $edit_url; ?>"><?php esc_html_e( 'Edit', 'civicrm-wp-member-sync' ); ?></a> | </span>
 							<span class="delete"><a href="<?php echo $delete_url; ?>" class="submitdelete"><?php esc_html_e( 'Delete', 'civicrm-wp-member-sync' );?></a></span>
