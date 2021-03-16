@@ -152,16 +152,20 @@ class Civi_WP_Member_Sync_BuddyPress {
 		add_action( 'civi_wp_member_sync_list_roles_td_after_expiry', [ $this, 'list_expiry_row' ], 10, 2 );
 
 		// Hook into Capabilities and Roles add screens.
-		add_action( 'civi_wp_member_sync_cap_add_after_current', [ $this, 'rule_add_current' ], 10, 1 );
-		add_action( 'civi_wp_member_sync_cap_add_after_expiry', [ $this, 'rule_add_expiry' ], 10, 1 );
-		add_action( 'civi_wp_member_sync_role_add_after_current', [ $this, 'rule_add_current' ], 10, 1 );
-		add_action( 'civi_wp_member_sync_role_add_after_expiry', [ $this, 'rule_add_expiry' ], 10, 1 );
+		add_action( 'civi_wp_member_sync_cap_add_after_current', [ $this, 'rule_current_add' ], 10, 1 );
+		add_action( 'civi_wp_member_sync_cap_add_after_expiry', [ $this, 'rule_expiry_add' ], 10, 1 );
+		add_action( 'civi_wp_member_sync_role_add_after_current', [ $this, 'rule_current_add' ], 10, 1 );
+		add_action( 'civi_wp_member_sync_role_add_after_expiry', [ $this, 'rule_expiry_add' ], 10, 1 );
 
 		// Hook into Capabilities and Roles edit screens.
-		add_action( 'civi_wp_member_sync_cap_edit_after_current', [ $this, 'rule_edit_current' ], 10, 2 );
-		add_action( 'civi_wp_member_sync_cap_edit_after_expiry', [ $this, 'rule_edit_expiry' ], 10, 2 );
-		add_action( 'civi_wp_member_sync_role_edit_after_current', [ $this, 'rule_edit_current' ], 10, 2 );
-		add_action( 'civi_wp_member_sync_role_edit_after_expiry', [ $this, 'rule_edit_expiry' ], 10, 2 );
+		add_action( 'civi_wp_member_sync_cap_edit_after_current', [ $this, 'rule_current_edit' ], 10, 2 );
+		add_action( 'civi_wp_member_sync_cap_edit_after_expiry', [ $this, 'rule_expiry_edit' ], 10, 2 );
+		add_action( 'civi_wp_member_sync_role_edit_after_current', [ $this, 'rule_current_edit' ], 10, 2 );
+		add_action( 'civi_wp_member_sync_role_edit_after_expiry', [ $this, 'rule_expiry_edit' ], 10, 2 );
+
+		// Hook into Rule Simulate process.
+		add_action( 'cwms/feedback/th', [ $this, 'simulate_header' ] );
+		add_action( 'cwms/feedback/td', [ $this, 'simulate_row' ], 10, 2 );
 
 	}
 
@@ -501,20 +505,6 @@ class Civi_WP_Member_Sync_BuddyPress {
 
 
 	/**
-	 * Show the Expired Group header.
-	 *
-	 * @since 0.4.7
-	 */
-	public function list_expiry_header() {
-
-		// Echo markup.
-		echo '<th>' . esc_html__( 'Expiry BuddyPress Group(s)', 'civicrm-wp-member-sync' ) . '</th>';
-
-	}
-
-
-
-	/**
 	 * Show the Current BuddyPress Groups.
 	 *
 	 * @since 0.4.7
@@ -532,6 +522,63 @@ class Civi_WP_Member_Sync_BuddyPress {
 
 		// Echo markup.
 		echo '<td>' . $markup . '</td>';
+
+	}
+
+
+
+	/**
+	 * Show the Current Group.
+	 *
+	 * @since 0.4.7
+	 *
+	 * @param array $status_rules The status rules.
+	 */
+	public function rule_current_add( $status_rules ) {
+
+		// Include template file.
+		include CIVI_WP_MEMBER_SYNC_PLUGIN_PATH . 'assets/templates/buddypress-add-current.php';
+
+	}
+
+
+
+	/**
+	 * Show the Current Group.
+	 *
+	 * @since 0.4.7
+	 *
+	 * @param array $status_rules The status rules.
+	 * @param array $selected_rule The rule being edited.
+	 */
+	public function rule_current_edit( $status_rules, $selected_rule ) {
+
+		// Build options.
+		$options_html = '';
+		if ( ! empty( $selected_rule['current_buddypress'] ) ) {
+			$options_html = $this->markup_get_options( $selected_rule['current_buddypress'] );
+		}
+
+		// Include template file.
+		include CIVI_WP_MEMBER_SYNC_PLUGIN_PATH . 'assets/templates/buddypress-edit-current.php';
+
+	}
+
+
+
+	//##########################################################################
+
+
+
+	/**
+	 * Show the Expired Group header.
+	 *
+	 * @since 0.4.7
+	 */
+	public function list_expiry_header() {
+
+		// Echo markup.
+		echo '<th>' . esc_html__( 'Expiry BuddyPress Group(s)', 'civicrm-wp-member-sync' ) . '</th>';
 
 	}
 
@@ -561,29 +608,13 @@ class Civi_WP_Member_Sync_BuddyPress {
 
 
 	/**
-	 * Show the Current Group.
-	 *
-	 * @since 0.4.7
-	 *
-	 * @param array $status_rules The status rules.
-	 */
-	public function rule_add_current( $status_rules ) {
-
-		// Include template file.
-		include CIVI_WP_MEMBER_SYNC_PLUGIN_PATH . 'assets/templates/buddypress-add-current.php';
-
-	}
-
-
-
-	/**
 	 * Show the Expired Group.
 	 *
 	 * @since 0.4.7
 	 *
 	 * @param array $status_rules The status rules.
 	 */
-	public function rule_add_expiry( $status_rules ) {
+	public function rule_expiry_add( $status_rules ) {
 
 		// Include template file.
 		include CIVI_WP_MEMBER_SYNC_PLUGIN_PATH . 'assets/templates/buddypress-add-expiry.php';
@@ -593,29 +624,6 @@ class Civi_WP_Member_Sync_BuddyPress {
 
 
 	/**
-	 * Show the Current Group.
-	 *
-	 * @since 0.4.7
-	 *
-	 * @param array $status_rules The status rules.
-	 * @param array $selected_rule The rule being edited.
-	 */
-	public function rule_edit_current( $status_rules, $selected_rule ) {
-
-		// Build options.
-		$options_html = '';
-		if ( ! empty( $selected_rule['current_buddypress'] ) ) {
-			$options_html = $this->markup_get_options( $selected_rule['current_buddypress'] );
-		}
-
-		// Include template file.
-		include CIVI_WP_MEMBER_SYNC_PLUGIN_PATH . 'assets/templates/buddypress-edit-current.php';
-
-	}
-
-
-
-	/**
 	 * Show the Expired Group.
 	 *
 	 * @since 0.4.7
@@ -623,7 +631,7 @@ class Civi_WP_Member_Sync_BuddyPress {
 	 * @param array $status_rules The status rules.
 	 * @param array $selected_rule The rule being edited.
 	 */
-	public function rule_edit_expiry( $status_rules, $selected_rule ) {
+	public function rule_expiry_edit( $status_rules, $selected_rule ) {
 
 		// Build options.
 		$options_html = '';
@@ -633,6 +641,50 @@ class Civi_WP_Member_Sync_BuddyPress {
 
 		// Include template file.
 		include CIVI_WP_MEMBER_SYNC_PLUGIN_PATH . 'assets/templates/buddypress-edit-expiry.php';
+
+	}
+
+
+
+	//##########################################################################
+
+
+
+	/**
+	 * Show the Simulate header.
+	 *
+	 * @since 0.5
+	 */
+	public function simulate_header() {
+
+		// Echo markup.
+		echo '<th>' . esc_html__( 'BuddyPress Group(s)', 'civicrm-wp-member-sync' ) . '</th>';
+
+	}
+
+
+
+	/**
+	 * Show the Groups.
+	 *
+	 * @since 0.5
+	 *
+	 * @param int $key The current key (type ID).
+	 * @param array $item The current item.
+	 */
+	public function simulate_row( $key, $item ) {
+
+		// Build list.
+		$markup = '&mdash;';
+		if ( $item['flag'] == 'current' AND ! empty( $item['association_rule']['current_buddypress'] ) ) {
+			$markup = $this->markup_get_list_items( $item['association_rule']['current_buddypress'] );
+		}
+		if ( $item['flag'] == 'expired' AND ! empty( $item['association_rule']['expiry_buddypress'] ) ) {
+			$markup = $this->markup_get_list_items( $item['association_rule']['expiry_buddypress'] );
+		}
+
+		// Echo markup.
+		echo '<td>' . $markup . '</td>';
 
 	}
 
