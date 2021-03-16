@@ -15,3 +15,24 @@ h1.nav-tab-wrapper
 {
 	padding-bottom: 0;
 }
+
+#progress-bar
+{
+	height: 30px;
+}
+
+#feedback
+{
+	margin-top: 2em;
+}
+
+#feedback hr
+{
+	margin-bottom: 2em;
+}
+
+#feedback,
+#feedback-results
+{
+	display: none;
+}

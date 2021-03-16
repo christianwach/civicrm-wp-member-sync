@@ -36,11 +36,55 @@
 				</td>
 			</tr>
 
+			<tr>
+				<th scope="row"><?php esc_html_e( 'Dry Run', 'civicrm-wp-member-sync' ); ?></th>
+				<td>
+					<input type="checkbox" class="settings-checkbox" name="civi_wp_member_sync_manual_sync_dry_run" id="civi_wp_member_sync_manual_sync_dry_run" value="1" checked="checked" />
+					<label class="civi_wp_member_sync_manual_sync_label" for="civi_wp_member_sync_manual_sync_dry_run"><?php esc_html_e( 'When this box is checked, no changes will be made and you will get feedback on what would happen.', 'civicrm-wp-member-sync' ); ?></label>
+				</td>
+			</tr>
+
 		</table>
 
-		<div id="progress-bar"><div class="progress-label"></div></div>
-
 		<p><input type="submit" id="civi_wp_member_sync_manual_sync_submit" name="civi_wp_member_sync_manual_sync_submit" value="<?php if ( 'fgffgs' == get_option( '_civi_wpms_memberships_offset', 'fgffgs' ) ) { esc_attr_e( 'Synchronize Now', 'civicrm-wp-member-sync' ); } else { esc_attr_e( 'Continue Sync', 'civicrm-wp-member-sync' ); } ?>" class="button-primary" /><?php if ( 'fgffgs' == get_option( '_civi_wpms_memberships_offset', 'fgffgs' ) ) {} else { ?> <input type="submit" id="civi_wp_member_sync_manual_sync_stop" name="civi_wp_member_sync_manual_sync_stop" value="<?php esc_attr_e( 'Stop Sync', 'civicrm-wp-member-sync' ); ?>" class="button-secondary" /><?php } ?></p>
+
+		<div id="feedback">
+
+			<hr>
+
+			<div id="progress-bar"><div class="progress-label"></div></div>
+
+			<div id="feedback-results">
+
+				<table cellspacing="0" class="wp-list-table widefat fixed striped">
+
+					<thead>
+						<tr>
+							<th class="manage-column column-contact-name" id="cwms-contact-name" scope="col"><?php esc_html_e( 'Contact Name', 'civicrm-wp-member-sync' ); ?></th>
+							<th class="manage-column column-username" id="cwms-user-name" scope="col"><?php esc_html_e( 'Username', 'civicrm-wp-member-sync' ); ?></th>
+							<th class="manage-column column-member-type" id="cwms-member-type" scope="col"><?php esc_html_e( 'Membership Type', 'civicrm-wp-member-sync' ); ?></th>
+							<th class="manage-column column-member-status" id="cwms-member-status" scope="col"><?php esc_html_e( 'Status', 'civicrm-wp-member-sync' ); ?></th>
+							<?php
+
+							/**
+							 * Allow extra columns to be added after "Status".
+							 *
+							 * @since 0.5
+							 */
+							do_action( 'cwms/feedback/th' );
+
+							?>
+						</tr>
+					</thead>
+
+					<tbody class="cwmp-feedback-list" id="the-comment-list">
+					</tbody>
+
+				</table>
+
+			</div>
+
+		</div>
 
 	</form>
 

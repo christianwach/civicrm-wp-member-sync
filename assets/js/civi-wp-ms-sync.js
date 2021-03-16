@@ -124,10 +124,31 @@ var CiviCRM_WP_Member_Sync_Manual_Sync = CiviCRM_WP_Member_Sync_Manual_Sync || {
 		 *
 		 * @return {String} The value of the checkbox ('y' or 'n')
 		 */
-		this.get_create_users = function( identifier ) {
+		this.get_create_users = function() {
 
 			// Get checked value.
 			var checked = $('#civi_wp_member_sync_manual_sync_create').prop( 'checked' );
+
+			// Well?
+			if ( checked ) {
+				return 'y';
+			} else {
+				return 'n';
+			}
+
+		};
+
+		/**
+		 * Getter for retrieving the status of the "Dry Run" checkbox.
+		 *
+		 * @since 0.5
+		 *
+		 * @return {String} The value of the checkbox ('y' or 'n')
+		 */
+		this.get_dry_run = function() {
+
+			// Get checked value.
+			var checked = $('#civi_wp_member_sync_manual_sync_dry_run').prop( 'checked' );
 
 			// Well?
 			if ( checked ) {
@@ -206,7 +227,8 @@ var CiviCRM_WP_Member_Sync_Manual_Sync = CiviCRM_WP_Member_Sync_Manual_Sync || {
 		this.listeners = function() {
 
 			// Declare vars.
-			var button = $('#civi_wp_member_sync_manual_sync_submit');
+			var button = $('#civi_wp_member_sync_manual_sync_submit'),
+				boxes = $('#civi_wp_member_sync_manual_sync_create, #civi_wp_member_sync_manual_sync_dry_run');
 
 			/**
 			 * Add a click event listener to start sync.
@@ -220,11 +242,20 @@ var CiviCRM_WP_Member_Sync_Manual_Sync = CiviCRM_WP_Member_Sync_Manual_Sync || {
 					event.preventDefault();
 				}
 
-				// Initialise progress bar
+				// Initialise progress bar.
 				me.bar.progressbar({
 					value: false,
 					max: me.total
 				});
+
+				// Show Feedback area.
+				$('#feedback').show();
+
+				// Also show results if Dry Run.
+				if ( 'y' == CiviCRM_WP_Member_Sync_Manual_Sync.settings.get_dry_run() ) {
+					$('#feedback-results').show();
+					$('#the-comment-list').empty();
+				}
 
 				// Show progress bar if not already shown.
 				me.bar.show();
@@ -234,6 +265,24 @@ var CiviCRM_WP_Member_Sync_Manual_Sync = CiviCRM_WP_Member_Sync_Manual_Sync || {
 
 				// Send.
 				me.send();
+
+			});
+
+			/**
+			 * Listen for clicks on the checkboxes.
+			 *
+			 * @since 0.5
+			 *
+			 * @param {Object} event The event object
+			 */
+			boxes.on( 'click', function( event ) {
+
+				// Hide the progress bar.
+				me.bar.hide();
+
+				// Clear the table.
+				$('#feedback-results').hide();
+				$('#the-comment-list').empty();
 
 			});
 
@@ -268,6 +317,11 @@ var CiviCRM_WP_Member_Sync_Manual_Sync = CiviCRM_WP_Member_Sync_Manual_Sync || {
 				// Update progress bar.
 				me.bar.progressbar( 'value', val + batch_count );
 
+				// Maybe append data to Feedback table.
+				if ( data.simulated ) {
+					me.feedback_append( data.simulated );
+				}
+
 				// Trigger next batch.
 				me.send();
 
@@ -276,10 +330,12 @@ var CiviCRM_WP_Member_Sync_Manual_Sync = CiviCRM_WP_Member_Sync_Manual_Sync || {
 				// Update progress bar label.
 				me.label.html( me.label_done );
 
+				/*
 				// Hide the progress bar.
 				setTimeout(function () {
 					me.bar.hide();
 				}, 2000 );
+				*/
 
 			}
 
@@ -303,8 +359,11 @@ var CiviCRM_WP_Member_Sync_Manual_Sync = CiviCRM_WP_Member_Sync_Manual_Sync || {
 					// Token received by WordPress.
 					action: 'sync_memberships',
 
-					// Send "create users" flag.
-					civi_wp_member_sync_manual_sync_create: CiviCRM_WP_Member_Sync_Manual_Sync.settings.get_create_users()
+					// Send "Create Users" flag.
+					civi_wp_member_sync_manual_sync_create: CiviCRM_WP_Member_Sync_Manual_Sync.settings.get_create_users(),
+
+					// Send "Dry Run" flag.
+					civi_wp_member_sync_manual_sync_dry_run: CiviCRM_WP_Member_Sync_Manual_Sync.settings.get_dry_run()
 
 				},
 
@@ -332,6 +391,20 @@ var CiviCRM_WP_Member_Sync_Manual_Sync = CiviCRM_WP_Member_Sync_Manual_Sync || {
 				'json'
 
 			);
+
+		};
+
+		/**
+		 * Append the returned markup to the Feedback Table.
+		 *
+		 * @since 0.5
+		 *
+		 * @param {Array} feedback The feedback data received from the server.
+		 */
+		this.feedback_append = function( feedback ) {
+
+			// Add rows to the feedback table.
+			$(feedback).appendTo( '#the-comment-list' );
 
 		};
 

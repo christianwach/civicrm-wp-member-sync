@@ -134,6 +134,17 @@ class Civi_WP_Member_Sync_Members {
 			$create_users = true;
 		}
 
+		// Assume not dry run.
+		$dry_run = false;
+
+		// Override "dry run" flag if chosen.
+		if (
+			isset( $_POST['civi_wp_member_sync_manual_sync_dry_run'] ) AND
+			$_POST['civi_wp_member_sync_manual_sync_dry_run'] == 'y'
+		) {
+			$dry_run = true;
+		}
+
 		// If the memberships offset value doesn't exist.
 		if ( 'fgffgs' == get_option( '_civi_wpms_memberships_offset', 'fgffgs' ) ) {
 
@@ -163,6 +174,9 @@ class Civi_WP_Member_Sync_Members {
 
 			// Init processed array.
 			$processed = [];
+
+			// Init Feedback array.
+			$feedback = [];
 
 			// Loop through memberships.
 			foreach( $memberships['values'] AS $membership ) {
@@ -215,14 +229,24 @@ class Civi_WP_Member_Sync_Members {
 				// Get WordPress user.
 				$user = $this->plugin->users->wp_user_get_by_civi_id( $civi_contact_id );
 
-				// If we don't have a valid user.
-				if ( ! ( $user instanceof WP_User ) OR ! $user->exists() ) {
+				// If this isn't a Dry Run and we don't have a valid user.
+				if (! ( $user instanceof WP_User ) OR ! $user->exists() ) {
 
 					// Create a WordPress user if asked to.
 					if ( $create_users ) {
 
-						// Create WordPress user and prepare for sync.
-						$user = $this->user_prepare_for_sync( $civi_contact_id );
+						// If this is not a Dry Run.
+						if ( ! $dry_run ) {
+
+							// Create WordPress user and prepare for sync.
+							$user = $this->user_prepare_for_sync( $civi_contact_id );
+
+						} else {
+
+							// Create a dummy WordPress user.
+							$user = $this->user_prepare_for_simulate( $civi_contact_id );
+
+						}
 
 						// Skip to next if something went wrong.
 						if ( $user === false ) {
@@ -241,10 +265,29 @@ class Civi_WP_Member_Sync_Members {
 					continue;
 				}
 
-				// Apply rules for this WordPress user.
-				$this->plugin->admin->rule_apply( $user, $all_memberships );
+				// Build feedback if Dry Run.
+				if ( $dry_run ) {
+
+					// Simulate the "rule_apply" logic.
+					$simulated = $this->plugin->admin->rule_simulate( $user, $all_memberships );
+
+					// Build feedback from template.
+					ob_start();
+					include CIVI_WP_MEMBER_SYNC_PLUGIN_PATH . 'assets/templates/manual-sync-feedback.php';
+					$feedback[] = ob_get_contents();
+					ob_end_clean();
+
+				} else {
+
+					// Apply rules for this WordPress user.
+					$this->plugin->admin->rule_apply( $user, $all_memberships );
+
+				}
 
 			}
+
+			// Append to data.
+			$data['simulated'] = implode( "\n", $feedback );
 
 			// Increment memberships offset option.
 			update_option( '_civi_wpms_memberships_offset', (string) $data['to'] );
@@ -259,21 +302,8 @@ class Civi_WP_Member_Sync_Members {
 
 		}
 
-		// Is this an AJAX request?
-		if ( defined( 'DOING_AJAX' ) AND DOING_AJAX ) {
-
-			// Set reasonable headers.
-			header( 'Content-type: text/plain' );
-			header( "Cache-Control: no-cache" );
-			header( "Expires: -1" );
-
-			// Echo.
-			echo json_encode( $data );
-
-			// Die.
-			exit();
-
-		}
+		// Send data to browser.
+		wp_send_json( $data );
 
 	}
 
@@ -366,6 +396,44 @@ class Civi_WP_Member_Sync_Members {
 		if ( $method == 'roles' ) {
 			$user->remove_role( get_option( 'default_role' ) );
 		}
+
+		// --<
+		return $user;
+
+	}
+
+
+
+	/**
+	 * Prepare a dummy WordPress user for the Simulate process.
+	 *
+	 * @since 0.5
+	 *
+	 * @param int $civi_contact_id The numeric ID of the CiviCRM contact.
+	 * @return WP_User|bool $user The WordPress user object - or false on failure.
+	 */
+	public function user_prepare_for_simulate( $civi_contact_id ) {
+
+		// Get CiviCRM contact.
+		$civi_contact = $this->plugin->users->civi_get_contact_by_contact_id( $civi_contact_id );
+
+		// Bail if something goes wrong.
+		if ( $civi_contact === false ) {
+			return false;
+		}
+
+		// Let's mimic a User.
+		$user = new WP_User();
+		$user->ID = PHP_INT_MAX;
+
+		// Create username from display name.
+		$user_name = sanitize_title( sanitize_user( $civi_contact['display_name'] ) );
+		$user->user_login = $this->plugin->users->unique_username( $user_name, $civi_contact );
+
+		// Add Display Name and First & Last Names.
+		$user->display_name =$civi_contact['display_name'];
+		$user->first_name =$civi_contact['first_name'];
+		$user->last_name =$civi_contact['last_name'];
 
 		// --<
 		return $user;
@@ -1261,6 +1329,48 @@ class Civi_WP_Member_Sync_Members {
 
 		// --<
 		return $this->membership_status_rules;
+
+	}
+
+
+
+	/**
+	 * Get name of CiviCRM membership status by ID.
+	 *
+	 * @since 0.5
+	 *
+	 * @param int $status_id the numeric ID of the membership status.
+	 * @return string|bool $name The name of the membership status, false if not found.
+	 */
+	public function status_name_get_by_id( $status_id = 0 ) {
+
+		// Sanity checks.
+		if ( ! is_numeric( $status_id ) ) {
+			return false;
+		}
+		if ( $status_id === 0 ) {
+			return false;
+		}
+
+		// Get membership statuses.
+		$membership_statuses = $this->status_rules_get_all();
+
+		// Sanity checks.
+		if ( ! is_array( $membership_statuses ) ) {
+			return false;
+		}
+		if ( count( $membership_statuses ) == 0 ) {
+			return false;
+		}
+
+		// Flip for easier searching.
+		$membership_statuses = array_flip( $membership_statuses );
+
+		// Find the item (returns false if not found).
+		$name = array_search( $status_id, $membership_statuses );
+
+		// --<
+		return $name;
 
 	}
 

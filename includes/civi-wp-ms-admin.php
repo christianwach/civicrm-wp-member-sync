@@ -2493,8 +2493,11 @@ class Civi_WP_Member_Sync_Admin {
 	 */
 	public function rule_apply( $user, $memberships = false ) {
 
-		// Removed check for admin user - DO NOT call this for admins UNLESS
-		// You're using a plugin that enables multiple roles.
+		/*
+		 * Removed check for admin user - DO NOT call this for admins UNLESS
+		 * You're using a plugin that enables multiple roles.
+		 */
+
 
 		// Kick out if no CiviCRM.
 		if ( ! civi_wp()->initialize() ) {
@@ -2616,12 +2619,9 @@ class Civi_WP_Member_Sync_Admin {
 				// Does the user's membership status match a current status rule?
 				if ( isset( $status_id ) && array_search( $status_id, $current_rule ) ) {
 
-					// Do we have the "Members" plugin?
+					// Maybe add the "Members" plugin's custom capability.
 					if ( defined( 'MEMBERS_VERSION' ) ) {
-
-						// Add the plugin's custom capability.
 						$this->plugin->users->wp_cap_add( $user, 'restrict_content' );
-
 					}
 
 					// Add type capability.
@@ -2638,12 +2638,9 @@ class Civi_WP_Member_Sync_Admin {
 
 				} else {
 
-					// Do we have the "Members" plugin?
+					// Maybe remove the "Members" plugin's custom capability.
 					if ( defined( 'MEMBERS_VERSION' ) ) {
-
-						// Remove the plugin's custom capability.
 						$this->plugin->users->wp_cap_remove( $user, 'restrict_content' );
-
 					}
 
 					// Remove type capability.
@@ -2694,6 +2691,132 @@ class Civi_WP_Member_Sync_Admin {
 		 * @param str $method The sync method - either 'caps' or 'roles'.
 		 */
 		do_action( 'civi_wp_member_sync_rules_applied', $user, $memberships, $method );
+
+	}
+
+
+
+	/**
+	 * Simulate the application of "rule_apply".
+	 *
+	 * Adding a new param to "rule_apply" would still fire the actions in that
+	 * method - which could have unforeseen consequences. This method simply
+	 * duplicates the logic without the actions which avoids that danger.
+	 *
+	 * @since 0.5
+	 *
+	 * @param WP_User $user WP_User object of the user in question.
+	 * @param array $memberships The memberships of the WordPress user in question.
+	 * @return array $result Results of applying the rule.
+	 */
+	public function rule_simulate( $user, $memberships = false ) {
+
+		// Init return array.
+		$result = [];
+
+		// Kick out if no CiviCRM.
+		if ( ! civi_wp()->initialize() ) {
+			return $result;
+		}
+
+		// Kick out if we didn't get memberships passed.
+		if ( $memberships === false ) {
+			return $result;
+		}
+
+		// Get sync method.
+		$method = $this->setting_get_method();
+
+		// Loop through the supplied memberships.
+		foreach( $memberships['values'] AS $membership ) {
+
+			// Continue if something went wrong.
+			if ( ! isset( $membership['membership_type_id'] ) ) {
+				continue;
+			}
+			if ( ! isset( $membership['status_id'] ) ) {
+				continue;
+			}
+
+			// Get membership type and status rule.
+			$membership_type_id = $membership['membership_type_id'];
+			$status_id = $membership['status_id'];
+
+			// Get association rule for this membership type.
+			$association_rule = $this->rule_get_by_type( $membership_type_id, $method );
+
+			// Continue with next rule if we have an error of some kind.
+			if ( $association_rule === false ) {
+				continue;
+			}
+
+			// Get status rules.
+			$current_rule = $association_rule['current_rule'];
+			$expiry_rule = $association_rule['expiry_rule'];
+
+			// Which sync method are we using?
+			if ( $method == 'roles' ) {
+
+				// SYNC ROLES
+
+				// Continue if something went wrong.
+				if ( empty( $association_rule['current_wp_role'] ) ) {
+					continue;
+				}
+				if ( empty( $association_rule['expired_wp_role'] ) ) {
+					continue;
+				}
+
+				// Does the user's membership status match a current status rule?
+				if ( isset( $status_id ) && array_search( $status_id, $current_rule ) ) {
+					$flag = 'current';
+				} else {
+					$flag = 'expired';
+				}
+
+			} else {
+
+				// SYNC CAPABILITY
+
+				// Does the user's membership status match a current status rule?
+				if ( isset( $status_id ) && array_search( $status_id, $current_rule ) ) {
+					$flag = 'current';
+				} else {
+					$flag = 'expired';
+				}
+
+			}
+
+			// Gather data.
+			$user_data = [
+				'display_name' => $user->display_name,
+				'username' => $user->user_login,
+				'membership_type_id' => $membership_type_id,
+				'status_id' => $status_id,
+				'membership_name' => $this->plugin->members->membership_name_get_by_id( $membership_type_id ),
+				'membership_status' => $this->plugin->members->status_name_get_by_id( $status_id ),
+				'flag' => $flag,
+				'association_rule' => $association_rule,
+			];
+
+			// Append to return array.
+			$result[] = $user_data;
+
+		}
+
+		/**
+		 * Filter the return array.
+		 *
+		 * @since 0.5
+		 *
+		 * @param WP_User $user The WordPress user object.
+		 * @param array $memberships The memberships of the WordPress user in question.
+		 * @param str $method The sync method - either 'caps' or 'roles'.
+		 */
+		$result = apply_filters( 'cwms/admin/rule_simulate/applied', $result, $user, $memberships, $method );
+
+		// --<
+		return $result;
 
 	}
 

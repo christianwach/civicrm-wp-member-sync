@@ -116,7 +116,6 @@
 /* Component containers
 ----------------------------------*/
 .ui-widget {
-	font-family: Verdana,Arial,sans-serif;
 	font-size: 1.1em;
 }
 .ui-widget .ui-widget {
@@ -126,7 +125,6 @@
 .ui-widget select,
 .ui-widget textarea,
 .ui-widget button {
-	font-family: Verdana,Arial,sans-serif;
 	font-size: 1em;
 }
 .ui-widget-content {
@@ -639,7 +637,6 @@
 /* Component containers
 ----------------------------------*/
 .ui-widget {
-	font-family: Verdana,Arial,sans-serif;
 	font-size: 1.1em;
 }
 .ui-widget .ui-widget {
@@ -649,7 +646,6 @@
 .ui-widget select,
 .ui-widget textarea,
 .ui-widget button {
-	font-family: Verdana,Arial,sans-serif;
 	font-size: 1em;
 }
 .ui-widget-content {
@@ -1045,7 +1041,7 @@
 .progress-label {
 	position: absolute;
 	left: 1%;
-	top: 4px;
+	top: 6px;
 	font-weight: bold;
-	text-shadow: 1px 1px 0 #fff;
+	text-shadow: 0 0 5px #fff;
 }
