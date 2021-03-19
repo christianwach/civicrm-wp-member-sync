@@ -36,3 +36,25 @@ h1.nav-tab-wrapper
 {
 	display: none;
 }
+
+#cwms-is-new
+{
+	width: 2.8em;
+}
+
+#cwms-member-status
+{
+	width: 7em;
+}
+
+.dashicons-yes,
+.dashicons-yes-alt
+{
+	color: #dba617;
+}
+
+.dashicons-no,
+.dashicons-no-alt
+{
+	color: #00a32a;
+}

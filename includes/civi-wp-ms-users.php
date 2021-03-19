@@ -764,6 +764,9 @@ class Civi_WP_Member_Sync_Users {
 			return false;
 		}
 
+		// Assume it's not a new User.
+		$new_user = false;
+
 		// Create username from display name.
 		$user_name = sanitize_title( sanitize_user( $civi_contact['display_name'] ) );
 
@@ -848,13 +851,22 @@ class Civi_WP_Member_Sync_Users {
 			 */
 			do_action( 'civi_wp_member_sync_after_insert_user', $civi_contact, $user_id );
 
+			// It is a new User.
+			$new_user = true;
+
 		}
 
 		// Sanity check.
 		if ( is_numeric( $user_id ) AND $user_id ) {
 
+			// Get the WordPress User object.
+			$user = get_user_by( 'id', $user_id );
+
+			// Add "New User" flag to User object.
+			$user->user_is_new = $new_user;
+
 			// Return WordPress user.
-			return get_user_by( 'id', $user_id );
+			return $user;
 
 		}
 

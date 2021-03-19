@@ -2490,6 +2490,7 @@ class Civi_WP_Member_Sync_Admin {
 	 *
 	 * @param WP_User $user WP_User object of the user in question.
 	 * @param array $memberships The memberships of the WordPress user in question.
+	 * @return array $result Results of applying the rule.
 	 */
 	public function rule_apply( $user, $memberships = false ) {
 
@@ -2499,14 +2500,17 @@ class Civi_WP_Member_Sync_Admin {
 		 */
 
 
+		// Init return array.
+		$result = [];
+
 		// Kick out if no CiviCRM.
 		if ( ! civi_wp()->initialize() ) {
-			return;
+			return $result;
 		}
 
 		// Kick out if we didn't get memberships passed.
 		if ( $memberships === false ) {
-			return;
+			return $result;
 		}
 
 		// Get sync method.
@@ -2679,6 +2683,23 @@ class Civi_WP_Member_Sync_Admin {
 
 			}
 
+			// Gather data.
+			$user_data = [
+				'is_new' => empty( $user->user_is_new ) ? false : true,
+				'display_name' => $user->display_name,
+				'link' => civi_wp()->admin->get_admin_link( 'civicrm/contact/view', 'reset=1&cid=' . $membership['contact_id'] ),
+				'username' => $user->user_login,
+				'membership_type_id' => $membership_type_id,
+				'status_id' => $status_id,
+				'membership_name' => $this->plugin->members->membership_name_get_by_id( $membership_type_id ),
+				'membership_status' => $this->plugin->members->status_name_get_by_id( $status_id ),
+				'flag' => $flag,
+				'association_rule' => $association_rule,
+			];
+
+			// Append to return array.
+			$result[] = $user_data;
+
 		}
 
 		/**
@@ -2691,6 +2712,9 @@ class Civi_WP_Member_Sync_Admin {
 		 * @param str $method The sync method - either 'caps' or 'roles'.
 		 */
 		do_action( 'civi_wp_member_sync_rules_applied', $user, $memberships, $method );
+
+		// --<
+		return $result;
 
 	}
 
@@ -2789,7 +2813,9 @@ class Civi_WP_Member_Sync_Admin {
 
 			// Gather data.
 			$user_data = [
+				'is_new' => ( $user->ID === PHP_INT_MAX ),
 				'display_name' => $user->display_name,
+				'link' => civi_wp()->admin->get_admin_link( 'civicrm/contact/view', 'reset=1&cid=' . $membership['contact_id'] ),
 				'username' => $user->user_login,
 				'membership_type_id' => $membership_type_id,
 				'status_id' => $status_id,

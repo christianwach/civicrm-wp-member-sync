@@ -60,6 +60,7 @@
 
 					<thead>
 						<tr>
+							<th class="manage-column column-is-new" id="cwms-is-new" scope="col"><?php esc_html_e( 'New', 'civicrm-wp-member-sync' ); ?></th>
 							<th class="manage-column column-contact-name" id="cwms-contact-name" scope="col"><?php esc_html_e( 'Contact Name', 'civicrm-wp-member-sync' ); ?></th>
 							<th class="manage-column column-username" id="cwms-user-name" scope="col"><?php esc_html_e( 'Username', 'civicrm-wp-member-sync' ); ?></th>
 							<th class="manage-column column-member-type" id="cwms-member-type" scope="col"><?php esc_html_e( 'Membership Type', 'civicrm-wp-member-sync' ); ?></th>
@@ -71,7 +72,7 @@
 							 *
 							 * @since 0.5
 							 */
-							do_action( 'cwms/feedback/th' );
+							do_action( 'cwms/manual_sync/feedback/th' );
 
 							?>
 						</tr>

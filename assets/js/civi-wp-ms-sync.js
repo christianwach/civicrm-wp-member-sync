@@ -250,12 +250,8 @@ var CiviCRM_WP_Member_Sync_Manual_Sync = CiviCRM_WP_Member_Sync_Manual_Sync || {
 
 				// Show Feedback area.
 				$('#feedback').show();
-
-				// Also show results if Dry Run.
-				if ( 'y' == CiviCRM_WP_Member_Sync_Manual_Sync.settings.get_dry_run() ) {
-					$('#feedback-results').show();
-					$('#the-comment-list').empty();
-				}
+				$('#feedback-results').show();
+				$('#the-comment-list').empty();
 
 				// Show progress bar if not already shown.
 				me.bar.show();
@@ -318,8 +314,8 @@ var CiviCRM_WP_Member_Sync_Manual_Sync = CiviCRM_WP_Member_Sync_Manual_Sync || {
 				me.bar.progressbar( 'value', val + batch_count );
 
 				// Maybe append data to Feedback table.
-				if ( data.simulated ) {
-					me.feedback_append( data.simulated );
+				if ( data.feedback ) {
+					me.feedback_append( data.feedback );
 				}
 
 				// Trigger next batch.

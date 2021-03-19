@@ -265,29 +265,23 @@ class Civi_WP_Member_Sync_Members {
 					continue;
 				}
 
-				// Build feedback if Dry Run.
+				// Simulate the "rule_apply" logic if Dry Run.
 				if ( $dry_run ) {
-
-					// Simulate the "rule_apply" logic.
-					$simulated = $this->plugin->admin->rule_simulate( $user, $all_memberships );
-
-					// Build feedback from template.
-					ob_start();
-					include CIVI_WP_MEMBER_SYNC_PLUGIN_PATH . 'assets/templates/manual-sync-feedback.php';
-					$feedback[] = ob_get_contents();
-					ob_end_clean();
-
+					$result = $this->plugin->admin->rule_simulate( $user, $all_memberships );
 				} else {
-
-					// Apply rules for this WordPress user.
-					$this->plugin->admin->rule_apply( $user, $all_memberships );
-
+					$result = $this->plugin->admin->rule_apply( $user, $all_memberships );
 				}
+
+				// Build feedback row from template.
+				ob_start();
+				include CIVI_WP_MEMBER_SYNC_PLUGIN_PATH . 'assets/templates/manual-sync-feedback.php';
+				$feedback[] = ob_get_contents();
+				ob_end_clean();
 
 			}
 
 			// Append to data.
-			$data['simulated'] = implode( "\n", $feedback );
+			$data['feedback'] = implode( "\n", $feedback );
 
 			// Increment memberships offset option.
 			update_option( '_civi_wpms_memberships_offset', (string) $data['to'] );
@@ -419,6 +413,11 @@ class Civi_WP_Member_Sync_Members {
 
 		// Bail if something goes wrong.
 		if ( $civi_contact === false ) {
+			return false;
+		}
+
+		// Bail if the Contact has no email.
+		if ( empty( $civi_contact['email'] ) ) {
 			return false;
 		}
 

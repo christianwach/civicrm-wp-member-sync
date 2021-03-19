@@ -167,8 +167,8 @@ class Civi_WP_Member_Sync_Groups {
 		add_action( 'civi_wp_member_sync_role_edit_after_expiry', [ $this, 'rule_expiry_edit' ], 10, 2 );
 
 		// Hook into Rule Simulate process.
-		add_action( 'cwms/feedback/th', [ $this, 'simulate_header' ] );
-		add_action( 'cwms/feedback/td', [ $this, 'simulate_row' ], 10, 2 );
+		add_action( 'cwms/manual_sync/feedback/th', [ $this, 'simulate_header' ] );
+		add_action( 'cwms/manual_sync/feedback/td', [ $this, 'simulate_row' ], 10, 2 );
 
 	}
 
