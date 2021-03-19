@@ -594,6 +594,39 @@ class Civi_WP_Member_Sync_Users {
 
 
 	/**
+	 * Get a CiviCRM Contact ID for a WordPress User ID.
+	 *
+	 * @since 0.5
+	 *
+	 * @param int $user_id The numeric ID of the WordPress User.
+	 * @return int $contact_id The numeric ID CiviCRM Contact, or false on failure.
+	 */
+	public function civi_contact_id_get_by_user_id( $user_id ) {
+
+		// Kick out if no CiviCRM.
+		if ( ! civi_wp()->initialize() ) {
+			return false;
+		}
+
+		// Make sure CiviCRM file is included.
+		require_once 'CRM/Core/BAO/UFMatch.php';
+
+		// Search for the Contact.
+		$contact_id = CRM_Core_BAO_UFMatch::getContactId( $user_id );
+
+		// If not found, return false.
+		if ( ! $contact_id ) {
+			return false;
+		}
+
+		// --<
+		return $contact_id;
+
+	}
+
+
+
+	/**
 	 * Get CiviCRM contact data by contact ID.
 	 *
 	 * @since 0.1
