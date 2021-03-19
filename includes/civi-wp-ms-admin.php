@@ -2765,7 +2765,7 @@ class Civi_WP_Member_Sync_Admin {
 			$user_data = [
 				'is_new' => empty( $user->user_is_new ) ? false : true,
 				'display_name' => $user->display_name,
-				'link' => civi_wp()->admin->get_admin_link( 'civicrm/contact/view', 'reset=1&cid=' . $membership['contact_id'] ),
+				'link' => '',
 				'username' => $user->user_login,
 				'membership_type_id' => $membership_type_id,
 				'status_id' => $status_id,
@@ -2774,6 +2774,12 @@ class Civi_WP_Member_Sync_Admin {
 				'flag' => $flag,
 				'association_rule' => $association_rule,
 			];
+
+			// Check with CiviCRM that this Contact can be viewed.
+			$allowed = CRM_Contact_BAO_Contact_Permission::allow( $membership['contact_id'], CRM_Core_Permission::VIEW );
+			if ( $allowed ) {
+				$user_data['link'] = $this->get_link( 'civicrm/contact/view', 'reset=1&cid=' . $membership['contact_id'] );
+			}
 
 			// Append to return array.
 			$result[] = $user_data;
@@ -2893,7 +2899,7 @@ class Civi_WP_Member_Sync_Admin {
 			$user_data = [
 				'is_new' => ( $user->ID === PHP_INT_MAX ),
 				'display_name' => $user->display_name,
-				'link' => civi_wp()->admin->get_admin_link( 'civicrm/contact/view', 'reset=1&cid=' . $membership['contact_id'] ),
+				'link' => '',
 				'username' => $user->user_login,
 				'membership_type_id' => $membership_type_id,
 				'status_id' => $status_id,
@@ -2902,6 +2908,12 @@ class Civi_WP_Member_Sync_Admin {
 				'flag' => $flag,
 				'association_rule' => $association_rule,
 			];
+
+			// Check with CiviCRM that this Contact can be viewed.
+			$allowed = CRM_Contact_BAO_Contact_Permission::allow( $membership['contact_id'], CRM_Core_Permission::VIEW );
+			if ( $allowed ) {
+				$user_data['link'] = $this->get_link( 'civicrm/contact/view', 'reset=1&cid=' . $membership['contact_id'] );
+			}
 
 			// Append to return array.
 			$result[] = $user_data;
@@ -3040,6 +3052,47 @@ class Civi_WP_Member_Sync_Admin {
 			}
 
 		}
+
+	}
+
+
+
+	//##########################################################################
+
+
+
+	/**
+	 * Get a CiviCRM admin link.
+	 *
+	 * @since 0.5
+	 *
+	 * @param str $path The CiviCRM path.
+	 * @param str $params The CiviCRM parameters.
+	 * @return string $link The URL of the CiviCRM page.
+	 */
+	public function get_link( $path = '', $params = null ) {
+
+		// Init link.
+		$link = '';
+
+		// Kick out if no CiviCRM.
+		if ( ! civi_wp()->initialize() ) {
+			return $link;
+		}
+
+		// Use CiviCRM to construct link.
+		$link = CRM_Utils_System::url(
+			$path,
+			$params,
+			true,
+			null,
+			true,
+			false,
+			true
+		);
+
+		// --<
+		return $link;
 
 	}
 
