@@ -810,9 +810,11 @@ class Civi_WP_Member_Sync_Members {
 	 * @param int $offset The numerical offset to apply.
 	 * @param int $limit The numerical limit to apply.
 	 * @param int $contact_id The numerical CiviCRM contact ID.
+	 * @param int $type_id The numerical CiviCRM Membership Type ID.
+	 * @param int $status_id The numerical CiviCRM Membership Status ID.
 	 * @return bool|array $data CiviCRM formatted membership data or false on failure.
 	 */
-	public function memberships_get( $offset = 0, $limit = 0, $contact_id = 0 ) {
+	public function memberships_get( $offset = 0, $limit = 0, $contact_id = 0, $type_id = 0, $status_id = 0 ) {
 
 		// Init return as boolean.
 		$data = false;
@@ -859,6 +861,16 @@ class Civi_WP_Member_Sync_Members {
 		if ( $contact_id !== 0 ) {
 			$params['contact_id'] = $contact_id;
 			$params['options']['sort'] = 'status_id.is_current_member ASC, end_date ASC';
+		}
+
+		// Amend params using Membership Type ID if supplied.
+		if ( $type_id !== 0 ) {
+			$params['membership_type_id'] = $type_id;
+		}
+
+		// Amend params using Membership Status ID if supplied.
+		if ( $status_id !== 0 ) {
+			$params['status_id'] = $status_id;
 		}
 
 		// Get details of CiviCRM memberships.
