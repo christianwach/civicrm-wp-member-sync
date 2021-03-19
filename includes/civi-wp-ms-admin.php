@@ -21,6 +21,15 @@ class Civi_WP_Member_Sync_Admin {
 	public $plugin;
 
 	/**
+	 * CiviCRM Admin Utilities compatibility object.
+	 *
+	 * @since 0.5
+	 * @access public
+	 * @var object $cau The CiviCRM Admin Utilities compatibility object.
+	 */
+	public $cau;
+
+	/**
 	 * Migration object.
 	 *
 	 * @since 0.1
@@ -250,6 +259,36 @@ class Civi_WP_Member_Sync_Admin {
 	 */
 	public function initialise() {
 
+		// Init settings.
+		$this->initialise_settings();
+
+		// Include files.
+		$this->include_files();
+
+		// Set up objects and references.
+		$this->setup_objects();
+
+		// Register hooks.
+		$this->register_hooks();
+
+		/**
+		 * Broadcast that this class is now loaded.
+		 *
+		 * @since 0.5
+		 */
+		do_action( 'cwms/admin/loaded' );
+
+	}
+
+
+
+	/**
+	 * Initialise settings.
+	 *
+	 * @since 0.5
+	 */
+	public function initialise_settings() {
+
 		// Load plugin version.
 		$this->plugin_version = $this->option_get( 'civi_wp_member_sync_version', false );
 
@@ -266,6 +305,45 @@ class Civi_WP_Member_Sync_Admin {
 
 		// Settings upgrade tasks.
 		$this->upgrade_settings();
+
+	}
+
+
+
+	/**
+	 * Include files.
+	 *
+	 * @since 0.5
+	 */
+	public function include_files() {
+
+		// Include CiviCRM Admin Utilities compatibility class.
+		include CIVI_WP_MEMBER_SYNC_PLUGIN_PATH . 'includes/civi-wp-ms-admin-cau.php';
+
+	}
+
+
+
+	/**
+	 * Set up this plugin's objects.
+	 *
+	 * @since 0.5
+	 */
+	public function setup_objects() {
+
+		// Instantiate CiviCRM Admin Utilities compatibility object.
+		$this->cau = new Civi_WP_Member_Sync_Admin_CAU( $this );
+
+	}
+
+
+
+	/**
+	 * Register hooks.
+	 *
+	 * @since 0.5
+	 */
+	public function register_hooks() {
 
 		// Is this the back end?
 		if ( is_admin() ) {
