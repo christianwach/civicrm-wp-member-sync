@@ -310,11 +310,11 @@ class Civi_WP_Member_Sync_Admin_CAU {
 			}
 		}
 
-		// Always overwrite the "include" array.
+		// Overwrite either the "include" or "exclude" array.
 		if ( $member_status === 'members' ) {
 			$args['include'] = $member_user_ids;
 		} else {
-			$args['include'] = $non_member_user_ids;
+			$args['exclude'] = $member_user_ids;
 		}
 
 		// --<
