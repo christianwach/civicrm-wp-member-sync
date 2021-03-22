@@ -229,7 +229,6 @@ class Civi_WP_Member_Sync_Admin_CAU {
 
 		// Query for the Memberships with the selected Type ID.
 		$memberships = $this->plugin->members->memberships_get( 0, 0, [ 'IN' => $all_contact_ids ], 0, $status_id );
-
 		if ( empty( $memberships['values'] ) ) {
 			return $args;
 		}
@@ -379,9 +378,16 @@ class Civi_WP_Member_Sync_Admin_CAU {
 	 */
 	public function views_add( $url_base, $table ) {
 
-		// Set default numbers for CiviCRM Membership.
+		// Default number with CiviCRM Membership.
 		$member_count = 0;
-		$non_member_count = $table->user_counts['all'];
+
+		/*
+		 * We can't rely on the total number of Users reported by WordPress here
+		 * because plugins like BuddyPress may skew the totals in order to
+		 * implement their "moderation queue". We use our two calculated values
+		 * instead to derive the default number without CiviCRM Membership.
+		 */
+		$non_member_count = $table->user_counts['in_civicrm'] + $table->user_counts['not_in_civicrm'];
 
 		// Query for all Memberships.
 		$memberships = $this->plugin->members->memberships_get( 0, 0 );
@@ -396,7 +402,7 @@ class Civi_WP_Member_Sync_Admin_CAU {
 			$unique_contact_ids = array_unique( $contact_ids );
 
 			// No need to calculate if there are no Contacts.
-			if ( ! empty( $contact_ids ) ) {
+			if ( ! empty( $unique_contact_ids ) ) {
 
 				// Grab the list of all Contact IDs.
 				$ufmatch_ids = wp_list_pluck( $this->ufmatch, 'contact_id' );
@@ -406,17 +412,6 @@ class Civi_WP_Member_Sync_Admin_CAU {
 
 				// Remove the Contacts in UFMatch that have Membership.
 				$diff = array_diff( $unique_ufmatch_ids, $unique_contact_ids );
-
-				// Build the list of User IDs with no Membership.
-				$non_member_ids = [];
-				foreach( $this->ufmatch AS $item ) {
-					if ( in_array( $item['contact_id'], $diff ) ) {
-						$non_member_ids[] = $item['uf_id'];
-					}
-				}
-
-				// Assign final count.
-				$non_member_count = count( $non_member_ids );
 
 				// Build the list of User IDs with Membership.
 				$member_ids = [];
@@ -428,6 +423,9 @@ class Civi_WP_Member_Sync_Admin_CAU {
 
 				// Assign final count.
 				$member_count = count( $member_ids );
+
+				// Assign final count.
+				$non_member_count = $non_member_count - $member_count;
 
 			}
 
