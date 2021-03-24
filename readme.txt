@@ -89,6 +89,11 @@ Code that used the `civi_wp_member_sync_after_insert_user` hook to send User Not
 
 == Changelog ==
 
+= 0.5 =
+
+* Introduce "Dry Run" functionality
+* Compatibility with CiviCRM Admin Utilities "Manage Users" screen
+
 = 0.4.7 =
 
 * Support for syncing to BuddyPress Groups
