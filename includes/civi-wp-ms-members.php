@@ -768,6 +768,16 @@ class Civi_WP_Member_Sync_Members {
 		// Undo WordPress user's membership.
 		$this->plugin->admin->rule_undo( $user, $objectRef );
 
+		/**
+		 * Broadcast that a membership has been deleted.
+		 *
+		 * @since 0.5.1
+		 *
+		 * @param WP_User $user The WordPress user object.
+		 * @param object $objectRef The CiviCRM membership being deleted.
+		 */
+		do_action( 'civi_wp_member_sync_membership_deleted', $user, $objectRef );
+
 	}
 
 
