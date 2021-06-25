@@ -1,5 +1,5 @@
 /**
- * CiviCRM WordPress Member Sync Manual Sync Javascript.
+ * CiviCRM Member Sync Manual Sync Javascript.
  *
  * Implements sync functionality on the plugin's Manual Sync admin pages.
  *
@@ -7,7 +7,7 @@
  */
 
 /**
- * Create CiviCRM WordPress Member Sync Manual Sync object.
+ * Create CiviCRM Member Sync Manual Sync object.
  *
  * This works as a "namespace" of sorts, allowing us to hang properties, methods
  * and "sub-namespaces" from it.

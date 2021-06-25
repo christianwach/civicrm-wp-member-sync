@@ -1,5 +1,5 @@
 /**
- * CiviCRM WordPress Member Sync List Javascript.
+ * CiviCRM Member Sync List Javascript.
  *
  * Implements sync functionality on the plugin's List Rules page.
  *

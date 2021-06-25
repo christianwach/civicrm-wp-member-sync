@@ -1,5 +1,5 @@
 /**
- * CiviCRM WordPress Member Sync Rules Javascript.
+ * CiviCRM Member Sync Rules Javascript.
  *
  * Implements sync functionality on the plugin's Add Rule and Edit Rule admin pages.
  *

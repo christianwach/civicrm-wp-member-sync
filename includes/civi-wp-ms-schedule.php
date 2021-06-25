@@ -1,7 +1,7 @@
 <?php
 
 /**
- * CiviCRM WordPress Member Sync Schedule class.
+ * CiviCRM Member Sync Schedule class.
  *
  * Class for encapsulating WordPress scheduling functionality.
  *

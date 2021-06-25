@@ -1,7 +1,7 @@
 <!-- assets/templates/settings.php -->
 <div class="wrap">
 
-	<h1><?php esc_html_e( 'CiviCRM WordPress Member Sync', 'civicrm-wp-member-sync' ); ?></h1>
+	<h1><?php esc_html_e( 'CiviCRM Member Sync', 'civicrm-wp-member-sync' ); ?></h1>
 
 	<h2 class="nav-tab-wrapper">
 		<a href="<?php echo $urls['settings']; ?>" class="nav-tab nav-tab-active"><?php esc_html_e( 'Settings', 'civicrm-wp-member-sync' ); ?></a>
@@ -29,7 +29,7 @@
 
 		<h3><?php esc_html_e( 'Synchronization Method', 'civicrm-wp-member-sync' ); ?></h3>
 
-		<p><?php esc_html_e( 'Select whether you want CiviCRM WordPress Member Sync to synchronize CiviCRM Memberships to WordPress Roles or WordPress Capabilities. If, for example, you need your WordPress User Roles to be independent of Membership Status, then choose Capabilities.', 'civicrm-wp-member-sync' ); ?></p>
+		<p><?php esc_html_e( 'Select whether you want CiviCRM Member Sync to synchronize CiviCRM Memberships to WordPress Roles or WordPress Capabilities. If, for example, you need your WordPress User Roles to be independent of Membership Status, then choose Capabilities.', 'civicrm-wp-member-sync' ); ?></p>
 
 		<table class="form-table">
 
@@ -65,7 +65,7 @@
 
 		<h3><?php esc_html_e( 'Synchronization Events', 'civicrm-wp-member-sync' ); ?></h3>
 
-		<p><?php esc_html_e( 'Select which events CiviCRM WordPress Member Sync will use to trigger synchronization of CiviCRM Memberships and WordPress Users. If you choose User login/logout, you will have to run "Manual Synchronize" after you create a new rule for it to be applied to all Users and Contacts. Leave the default settings if you are unsure which methods to use.', 'civicrm-wp-member-sync' ); ?></p>
+		<p><?php esc_html_e( 'Select which events CiviCRM Member Sync will use to trigger synchronization of CiviCRM Memberships and WordPress Users. If you choose User login/logout, you will have to run "Manual Synchronize" after you create a new rule for it to be applied to all Users and Contacts. Leave the default settings if you are unsure which methods to use.', 'civicrm-wp-member-sync' ); ?></p>
 
 		<?php if ( $cau_present === false ) : ?>
 			<div class="notice notice-warning inline">
@@ -184,7 +184,7 @@
 
 					?><input type="checkbox" class="settings-checkbox" name="civi_wp_member_sync_settings_types" id="civi_wp_member_sync_settings_types" value="1"<?php echo $checked; ?> />
 					<label class="civi_wp_member_sync_settings_label" for="civi_wp_member_sync_settings_types"><?php esc_html_e( 'Synchronize Individuals only.', 'civicrm-wp-member-sync' ); ?></label>
-					<p class="description"><?php esc_html_e( 'In versions of CiviCRM WordPress Member Sync prior to 0.3.5, all CiviCRM Memberships were synchronized to WordPress Users. This meant that Organisations and Households also had corresponding WordPress Users. If you want to restrict syncing to Individuals only, then check the box below.', 'civicrm-wp-member-sync' ); ?></p>
+					<p class="description"><?php esc_html_e( 'In versions of CiviCRM Member Sync prior to 0.3.5, all CiviCRM Memberships were synchronized to WordPress Users. This meant that Organisations and Households also had corresponding WordPress Users. If you want to restrict syncing to Individuals only, then check the box below.', 'civicrm-wp-member-sync' ); ?></p>
 				</td>
 			</tr>
 

@@ -1,7 +1,7 @@
 <?php
 
 /**
- * CiviCRM WordPress Member Sync BuddyPress compatibility class.
+ * CiviCRM Member Sync BuddyPress compatibility class.
  *
  * Class for encapsulating compatibility with the BuddyPress plugin.
  *

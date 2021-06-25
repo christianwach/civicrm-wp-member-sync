@@ -1,7 +1,7 @@
 <!-- assets/templates/migrate.php -->
 <div class="wrap">
 
-	<h1><?php esc_html_e( 'CiviCRM WordPress Member Sync', 'civicrm-wp-member-sync' ); ?></h1>
+	<h1><?php esc_html_e( 'CiviCRM Member Sync', 'civicrm-wp-member-sync' ); ?></h1>
 
 	<h2 class="nav-tab-wrapper">
 		<a href="<?php echo $urls['settings']; ?>" class="nav-tab nav-tab-active"><?php esc_html_e( 'Settings', 'civicrm-wp-member-sync' ); ?></a>
@@ -26,7 +26,7 @@
 
 		<p><?php esc_html_e( 'A version of the civi_member_sync plugin has been detected.', 'civicrm-wp-member-sync' ); ?></p>
 
-		<p><?php esc_html_e( 'Click the "Migrate Data Now" button below to import all association rules into CiviCRM WordPress Member Sync.', 'civicrm-wp-member-sync' ); ?></p>
+		<p><?php esc_html_e( 'Click the "Migrate Data Now" button below to import all association rules into CiviCRM Member Sync.', 'civicrm-wp-member-sync' ); ?></p>
 
 		<p class="submit"><input class="button-primary" type="submit" id="civi_wp_member_sync_migrate_submit" name="civi_wp_member_sync_migrate_submit" value="<?php esc_attr_e( 'Migrate Data Now', 'civicrm-wp-member-sync' ); ?>" /></p>
 

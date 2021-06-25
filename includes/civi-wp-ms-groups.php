@@ -1,7 +1,7 @@
 <?php
 
 /**
- * CiviCRM WordPress Member Sync "Groups" compatibility class.
+ * CiviCRM Member Sync "Groups" compatibility class.
  *
  * Class for encapsulating compatibility with the "Groups" plugin.
  *

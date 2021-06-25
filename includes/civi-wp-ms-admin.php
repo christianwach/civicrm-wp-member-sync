@@ -1,7 +1,7 @@
 <?php
 
 /**
- * CiviCRM WordPress Member Sync Admin class.
+ * CiviCRM Member Sync Admin class.
  *
  * Class for encapsulating admin functionality.
  *
@@ -454,8 +454,8 @@ class Civi_WP_Member_Sync_Admin {
 			// Add settings page to the Network Settings menu.
 			$this->parent_page = add_submenu_page(
 				'settings.php',
-				__( 'CiviCRM WordPress Member Sync: Settings', 'civicrm-wp-member-sync' ), // Page title.
-				__( 'CiviCRM WordPress Member Sync', 'civicrm-wp-member-sync' ), // Menu title.
+				__( 'CiviCRM Member Sync: Settings', 'civicrm-wp-member-sync' ), // Page title.
+				__( 'CiviCRM Member Sync', 'civicrm-wp-member-sync' ), // Menu title.
 				'manage_options', // Required caps.
 				'civi_wp_member_sync_parent', // Slug name.
 				[ $this, 'page_settings' ] // Callback.
@@ -466,7 +466,7 @@ class Civi_WP_Member_Sync_Admin {
 			// Add the settings page to the CiviCRM menu.
 			$this->parent_page = add_submenu_page(
 				'CiviCRM', // Parent slug.
-				__( 'CiviCRM WordPress Member Sync: Settings', 'civicrm-wp-member-sync' ), // Page title.
+				__( 'CiviCRM Member Sync: Settings', 'civicrm-wp-member-sync' ), // Page title.
 				__( 'Member Sync', 'civicrm-wp-member-sync' ), // Menu title.
 				'manage_options', // Required caps.
 				'civi_wp_member_sync_parent', // Slug name.
@@ -482,7 +482,7 @@ class Civi_WP_Member_Sync_Admin {
 		// Add settings page.
 		$this->settings_page = add_submenu_page(
 			'civi_wp_member_sync_parent', // Parent slug.
-			__( 'CiviCRM WordPress Member Sync: Settings', 'civicrm-wp-member-sync' ), // Page title.
+			__( 'CiviCRM Member Sync: Settings', 'civicrm-wp-member-sync' ), // Page title.
 			__( 'Settings', 'civicrm-wp-member-sync' ), // Menu title.
 			'manage_options', // Required caps.
 			'civi_wp_member_sync_settings', // Slug name.
@@ -497,7 +497,7 @@ class Civi_WP_Member_Sync_Admin {
 		// Add manual sync page.
 		$this->sync_page = add_submenu_page(
 			'civi_wp_member_sync_parent', // Parent slug.
-			__( 'CiviCRM WordPress Member Sync: Manual Sync', 'civicrm-wp-member-sync' ), // Page title.
+			__( 'CiviCRM Member Sync: Manual Sync', 'civicrm-wp-member-sync' ), // Page title.
 			__( 'Manual Sync', 'civicrm-wp-member-sync' ), // Menu title.
 			'manage_options', // Required caps.
 			'civi_wp_member_sync_manual_sync', // Slug name.
@@ -514,7 +514,7 @@ class Civi_WP_Member_Sync_Admin {
 		// Add rules listing page.
 		$this->rules_list_page = add_submenu_page(
 			'civi_wp_member_sync_parent', // Parent slug.
-			__( 'CiviCRM WordPress Member Sync: List Rules', 'civicrm-wp-member-sync' ), // Page title.
+			__( 'CiviCRM Member Sync: List Rules', 'civicrm-wp-member-sync' ), // Page title.
 			__( 'List Rules', 'civicrm-wp-member-sync' ), // Menu title.
 			'manage_options', // Required caps.
 			'civi_wp_member_sync_list', // Slug name.
@@ -530,7 +530,7 @@ class Civi_WP_Member_Sync_Admin {
 		// Add rules page.
 		$this->rule_add_edit_page = add_submenu_page(
 			'civi_wp_member_sync_parent', // Parent slug.
-			__( 'CiviCRM WordPress Member Sync: Association Rule', 'civicrm-wp-member-sync' ), // Page title.
+			__( 'CiviCRM Member Sync: Association Rule', 'civicrm-wp-member-sync' ), // Page title.
 			__( 'Association Rule', 'civicrm-wp-member-sync' ), // Menu title.
 			'manage_options', // Required caps.
 			'civi_wp_member_sync_rules', // Slug name.
@@ -865,7 +865,7 @@ class Civi_WP_Member_Sync_Admin {
 		// Add a tab - we can add more later.
 		$screen->add_help_tab( [
 			'id'      => 'civi_wp_member_sync',
-			'title'   => esc_html__( 'CiviCRM WordPress Member Sync', 'civicrm-wp-member-sync' ),
+			'title'   => esc_html__( 'CiviCRM Member Sync', 'civicrm-wp-member-sync' ),
 			'content' => $this->get_help(),
 		] );
 
@@ -886,7 +886,7 @@ class Civi_WP_Member_Sync_Admin {
 	public function get_help() {
 
 		// Stub help text, to be developed further.
-		$help = '<p>' . esc_html__( 'For further information about using CiviCRM WordPress Member Sync, please refer to the README.md that comes with this plugin.', 'civicrm-wp-member-sync' ) . '</p>';
+		$help = '<p>' . esc_html__( 'For further information about using CiviCRM Member Sync, please refer to the README.md that comes with this plugin.', 'civicrm-wp-member-sync' ) . '</p>';
 
 		// --<
 		return $help;

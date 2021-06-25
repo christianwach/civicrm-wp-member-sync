@@ -1,7 +1,7 @@
 <?php
 
 /**
- * CiviCRM WordPress Member Sync Admin CAU compatibility class.
+ * CiviCRM Member Sync Admin CAU compatibility class.
  *
  * Class for encapsulating Admin CAU compatibility functionality.
  *

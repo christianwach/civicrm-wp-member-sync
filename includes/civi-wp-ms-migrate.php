@@ -1,7 +1,7 @@
 <?php
 
 /**
- * CiviCRM WordPress Member Sync Migrate class.
+ * CiviCRM Member Sync Migrate class.
  *
  * Class for encapsulating migration functionality.
  *
