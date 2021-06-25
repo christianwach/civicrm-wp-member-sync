@@ -410,8 +410,6 @@ class Civi_WP_Member_Sync_Members {
 
 		// Get CiviCRM Contact.
 		$civi_contact = $this->plugin->users->civi_get_contact_by_contact_id( $civi_contact_id );
-
-		// Bail if something goes wrong.
 		if ( $civi_contact === false ) {
 			return false;
 		}
@@ -1021,8 +1019,6 @@ class Civi_WP_Member_Sync_Members {
 
 		// Get association rule for this Membership Type.
 		$association_rule = $this->plugin->admin->rule_get_by_type( $membership_type_id, $method );
-
-		// Bail if we have an error of some kind.
 		if ( $association_rule === false ) {
 			return $expired;
 		}
@@ -1091,8 +1087,6 @@ class Civi_WP_Member_Sync_Members {
 
 		// Get Membership Types.
 		$membership_types = $this->types_get_all();
-
-		// Sanity checks.
 		if ( ! is_array( $membership_types ) ) {
 			return false;
 		}
@@ -1375,8 +1369,6 @@ class Civi_WP_Member_Sync_Members {
 
 		// Get Membership Statuses.
 		$membership_statuses = $this->status_rules_get_all();
-
-		// Sanity checks.
 		if ( ! is_array( $membership_statuses ) ) {
 			return false;
 		}
@@ -1440,8 +1432,6 @@ class Civi_WP_Member_Sync_Members {
 
 		// Get Membership Status rules.
 		$status_rules = $this->status_rules_get_all();
-
-		// Sanity checks.
 		if ( ! is_array( $status_rules ) ) {
 			return false;
 		}
@@ -1475,6 +1465,3 @@ class Civi_WP_Member_Sync_Members {
 
 
 } // Class ends.
-
-
-

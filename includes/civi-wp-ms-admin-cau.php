@@ -281,8 +281,6 @@ class Civi_WP_Member_Sync_Admin_CAU {
 
 		// Get the views param.
 		$member_status = $_REQUEST['user_status'];
-
-		// Sanity check.
 		if ( ! in_array( $member_status, [ 'members', 'non_members' ] ) ) {
 			return $args;
 		}
@@ -482,16 +480,12 @@ class Civi_WP_Member_Sync_Admin_CAU {
 
 		// Get the Contact ID for this User.
 		$contact_id = ! empty( $this->query_ids[$user->ID] ) ? $this->query_ids[$user->ID] : false;
-
-		// Bail if we didn't find one.
 		if ( $contact_id === false ) {
 			return $retval;
 		}
 
 		// Get the Memberships for this Contact ID.
 		$memberships = wp_list_filter( $this->query_memberships, [ 'contact_id' => $contact_id ] );
-
-		// Bail if we didn't find any.
 		if ( empty( $memberships ) ) {
 			return $retval;
 		}
@@ -567,16 +561,12 @@ class Civi_WP_Member_Sync_Admin_CAU {
 
 		// Get the Contact ID for this User.
 		$contact_id = ! empty( $this->query_ids[$user->ID] ) ? $this->query_ids[$user->ID] : false;
-
-		// Bail if we didn't find one.
 		if ( $contact_id === false ) {
 			return $retval;
 		}
 
 		// Get the Memberships for this Contact ID.
 		$memberships = wp_list_filter( $this->query_memberships, [ 'contact_id' => $contact_id ] );
-
-		// Bail if we didn't find any.
 		if ( empty( $memberships ) ) {
 			return $retval;
 		}
@@ -614,6 +604,3 @@ class Civi_WP_Member_Sync_Admin_CAU {
 
 
 } // Class ends.
-
-
-

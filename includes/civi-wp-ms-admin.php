@@ -161,15 +161,10 @@ class Civi_WP_Member_Sync_Admin {
 			'clash-status' => esc_html__( 'You can not have the same Status Rule registered as both "Current" and "Expired"', 'civicrm-wp-member-sync' ),
 		];
 
-		// Test for constant.
+		// Maybe load our Migration utility.
 		if ( defined( 'CIVI_WP_MEMBER_SYNC_MIGRATE' ) AND CIVI_WP_MEMBER_SYNC_MIGRATE ) {
-
-			// Load our Migration utility class.
 			require( CIVI_WP_MEMBER_SYNC_PLUGIN_PATH . 'includes/civi-wp-ms-migrate.php' );
-
-			// Instantiate.
 			$this->migrate = new Civi_WP_Member_Sync_Migrate( $this );
-
 		}
 
 		// Initialise first.
@@ -222,8 +217,6 @@ class Civi_WP_Member_Sync_Admin {
 
 		// Only need to test once.
 		static $is_network_active;
-
-		// Have we done this already?
 		if ( isset( $is_network_active ) ) {
 			return $is_network_active;
 		}
@@ -350,15 +343,9 @@ class Civi_WP_Member_Sync_Admin {
 
 			// Multisite and network-activated?
 			if ( $this->is_network_activated() ) {
-
-				// Add admin page to Network Settings menu.
 				add_action( 'network_admin_menu', [ $this, 'admin_menu' ], 30 );
-
 			} else {
-
-				// Add admin page to menu.
 				add_action( 'admin_menu', [ $this, 'admin_menu' ], 25 );
-
 			}
 
 		}
@@ -385,8 +372,6 @@ class Civi_WP_Member_Sync_Admin {
 
 				// Get existing settings from local options.
 				$settings = get_option( 'civi_wp_member_sync_settings', [] );
-
-				// What if we don't have any?
 				if ( ! array_key_exists( 'data', $settings ) ) {
 					return;
 				}
@@ -927,8 +912,6 @@ class Civi_WP_Member_Sync_Admin {
 
 		// Store instance in static variable.
 		static $dependencies_done = false;
-
-		// Bail if done.
 		if ( true === $dependencies_done ) {
 			return $dependencies;
 		}
@@ -972,8 +955,6 @@ class Civi_WP_Member_Sync_Admin {
 
 		// Store instance in static variable.
 		static $dependencies_done = false;
-
-		// Bail if done.
 		if ( true === $dependencies_done ) {
 			return $dependencies;
 		}
@@ -1060,7 +1041,7 @@ class Civi_WP_Member_Sync_Admin {
 		$cau_link = $this->cau_page_get_url();
 
 		// Include template file.
-		include( CIVI_WP_MEMBER_SYNC_PLUGIN_PATH . 'assets/templates/settings.php' );
+		include CIVI_WP_MEMBER_SYNC_PLUGIN_PATH . 'assets/templates/settings.php';
 
 	}
 
@@ -1082,7 +1063,7 @@ class Civi_WP_Member_Sync_Admin {
 		$urls = $this->page_get_urls();
 
 		// Include template file.
-		include( CIVI_WP_MEMBER_SYNC_PLUGIN_PATH . 'assets/templates/manual-sync.php' );
+		include CIVI_WP_MEMBER_SYNC_PLUGIN_PATH . 'assets/templates/manual-sync.php';
 
 	}
 
@@ -1135,9 +1116,9 @@ class Civi_WP_Member_Sync_Admin {
 
 		// Include per method.
 		if ( $method == 'roles' ) {
-			include( CIVI_WP_MEMBER_SYNC_PLUGIN_PATH . 'assets/templates/list_roles.php' );
+			include CIVI_WP_MEMBER_SYNC_PLUGIN_PATH . 'assets/templates/list_roles.php';
 		} else {
-			include( CIVI_WP_MEMBER_SYNC_PLUGIN_PATH . 'assets/templates/list_caps.php' );
+			include CIVI_WP_MEMBER_SYNC_PLUGIN_PATH . 'assets/templates/list_caps.php';
 		}
 
 	}
@@ -1234,12 +1215,12 @@ class Civi_WP_Member_Sync_Admin {
 			$roles = $this->plugin->users->wp_role_names_get_all();
 
 			// Include template file.
-			include( CIVI_WP_MEMBER_SYNC_PLUGIN_PATH . 'assets/templates/rule-role-add.php' );
+			include CIVI_WP_MEMBER_SYNC_PLUGIN_PATH . 'assets/templates/rule-role-add.php';
 
 		} else {
 
 			// Include template file.
-			include( CIVI_WP_MEMBER_SYNC_PLUGIN_PATH . 'assets/templates/rule-cap-add.php' );
+			include CIVI_WP_MEMBER_SYNC_PLUGIN_PATH . 'assets/templates/rule-cap-add.php';
 
 		}
 
@@ -1305,12 +1286,12 @@ class Civi_WP_Member_Sync_Admin {
 			$expired_wp_role = $selected_rule['expired_wp_role'];
 
 			// Include template file.
-			include( CIVI_WP_MEMBER_SYNC_PLUGIN_PATH . 'assets/templates/rule-role-edit.php' );
+			include CIVI_WP_MEMBER_SYNC_PLUGIN_PATH . 'assets/templates/rule-role-edit.php';
 
 		} else {
 
 			// Include template file.
-			include( CIVI_WP_MEMBER_SYNC_PLUGIN_PATH . 'assets/templates/rule-cap-edit.php' );
+			include CIVI_WP_MEMBER_SYNC_PLUGIN_PATH . 'assets/templates/rule-cap-edit.php';
 
 		}
 
@@ -1801,15 +1782,9 @@ class Civi_WP_Member_Sync_Admin {
 
 		// If multisite and network activated.
 		if ( $this->is_network_activated() ) {
-
-			// Get site option.
 			$value = get_site_option( $key, $default );
-
 		} else {
-
-			// Get option.
 			$value = get_option( $key, $default );
-
 		}
 
 		// --<
@@ -1831,15 +1806,9 @@ class Civi_WP_Member_Sync_Admin {
 
 		// If multisite and network activated.
 		if ( $this->is_network_activated() ) {
-
-			// Update site option.
 			update_site_option( $key, $value );
-
 		} else {
-
-			// Update option.
 			update_option( $key, $value );
-
 		}
 
 	}
@@ -1857,15 +1826,9 @@ class Civi_WP_Member_Sync_Admin {
 
 		// If multisite and network activated.
 		if ( $this->is_network_activated() ) {
-
-			// Delete site option.
 			delete_site_option( $key );
-
 		} else {
-
-			// Delete option.
 			delete_option( $key );
-
 		}
 
 	}
@@ -1917,8 +1880,6 @@ class Civi_WP_Member_Sync_Admin {
 
 		// Get subset by method.
 		$subset = ( isset( $data[$method] ) ) ? $data[$method] : false;
-
-		// Sanity check.
 		if ( ! $subset ) {
 			return;
 		}
@@ -2394,8 +2355,6 @@ class Civi_WP_Member_Sync_Admin {
 
 		// Get Membership Type.
 		$type_id = absint( $_GET['type_id'] );
-
-		// Sanity check.
 		if ( empty( $type_id ) ) {
 			return;
 		}
@@ -2408,8 +2367,6 @@ class Civi_WP_Member_Sync_Admin {
 
 		// Get subset by method.
 		$subset = ( isset( $data[$method] ) ) ? $data[$method] : false;
-
-		// Sanity check.
 		if ( ! $subset ) {
 			return;
 		}
@@ -3204,6 +3161,3 @@ class Civi_WP_Member_Sync_Admin {
 
 
 } // Class ends.
-
-
-

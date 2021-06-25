@@ -57,12 +57,9 @@ class Civi_WP_Member_Sync_Schedule {
 			// Get our interval setting.
 			$interval = $this->plugin->admin->setting_get( 'interval' );
 
-			// Sanity check.
+			// Set schedule to setting.
 			if ( ! empty( $interval ) ) {
-
-				// Set schedule.
 				$this->schedule( $interval );
-
 			}
 
 			// Add schedule callback action.
@@ -187,6 +184,3 @@ class Civi_WP_Member_Sync_Schedule {
 
 
 } // Class ends.
-
-
-

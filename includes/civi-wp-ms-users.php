@@ -476,8 +476,6 @@ class Civi_WP_Member_Sync_Users {
 
 		// Get Membership Status rules.
 		$status_rules = $this->plugin->members->status_rules_get_all();
-
-		// Sanity checks.
 		if ( ! is_array( $status_rules ) ) {
 			return;
 		}
@@ -527,8 +525,6 @@ class Civi_WP_Member_Sync_Users {
 
 		// Search using CiviCRM's logic.
 		$user_id = CRM_Core_BAO_UFMatch::getUFId( $contact_id );
-
-		// Kick out if we didn't get one.
 		if ( empty( $user_id ) ) {
 			return false;
 		}
@@ -613,8 +609,6 @@ class Civi_WP_Member_Sync_Users {
 
 		// Search for the Contact.
 		$contact_id = CRM_Core_BAO_UFMatch::getContactId( $user_id );
-
-		// If not found, return false.
 		if ( ! $contact_id ) {
 			return false;
 		}
@@ -729,8 +723,6 @@ class Civi_WP_Member_Sync_Users {
 
 			// Create a WordPress User.
 			$user = $this->wp_create_user( $civi_contact );
-
-			// Bail if something goes wrong.
 			if ( ! ( $user instanceof WP_User ) ) {
 				return false;
 			}
@@ -1065,6 +1057,3 @@ class Civi_WP_Member_Sync_Users {
 
 
 } // Class ends.
-
-
-

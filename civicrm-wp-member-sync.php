@@ -144,22 +144,12 @@ class Civi_WP_Member_Sync {
 	 */
 	public function include_files() {
 
-		// Load our Users utility class.
+		// Load our class files.
 		require CIVI_WP_MEMBER_SYNC_PLUGIN_PATH . 'includes/civi-wp-ms-users.php';
-
-		// Load our Schedule utility class.
 		require CIVI_WP_MEMBER_SYNC_PLUGIN_PATH . 'includes/civi-wp-ms-schedule.php';
-
-		// Load our Admin utility class.
 		require CIVI_WP_MEMBER_SYNC_PLUGIN_PATH . 'includes/civi-wp-ms-admin.php';
-
-		// Load our CiviCRM Membership utility class.
 		require CIVI_WP_MEMBER_SYNC_PLUGIN_PATH . 'includes/civi-wp-ms-members.php';
-
-		// Load our "Groups" compatibility class.
 		require CIVI_WP_MEMBER_SYNC_PLUGIN_PATH . 'includes/civi-wp-ms-groups.php';
-
-		// Load our BuddyPress compatibility class.
 		require CIVI_WP_MEMBER_SYNC_PLUGIN_PATH . 'includes/civi-wp-ms-buddypress.php';
 
 	}
@@ -173,22 +163,12 @@ class Civi_WP_Member_Sync {
 	 */
 	public function setup_objects() {
 
-		// Instantiate Users object.
+		// Instantiate our objects.
 		$this->users = new Civi_WP_Member_Sync_Users( $this );
-
-		// Instantiate Schedule object.
 		$this->schedule = new Civi_WP_Member_Sync_Schedule( $this );
-
-		// Instantiate Admin object.
 		$this->admin = new Civi_WP_Member_Sync_Admin( $this );
-
-		// Instantiate CiviCRM Membership object.
 		$this->members = new Civi_WP_Member_Sync_Members( $this );
-
-		// Instantiate "Groups" compatibility object.
 		$this->groups = new Civi_WP_Member_Sync_Groups( $this );
-
-		// Instantiate BuddyPress compatibility object.
 		$this->buddypress = new Civi_WP_Member_Sync_BuddyPress( $this );
 
 	}
@@ -359,6 +339,3 @@ function civi_wp_member_sync_plugin_add_settings_link( $links, $file ) {
 
 add_filter( 'network_admin_plugin_action_links', 'civi_wp_member_sync_plugin_add_settings_link', 10, 2 );
 add_filter( 'plugin_action_links', 'civi_wp_member_sync_plugin_add_settings_link', 10, 2 );
-
-
-

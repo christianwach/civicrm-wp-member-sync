@@ -188,6 +188,3 @@ class Civi_WP_Member_Sync_Migrate {
 
 
 } // Class ends.
-
-
-

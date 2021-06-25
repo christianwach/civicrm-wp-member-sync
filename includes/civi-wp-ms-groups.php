@@ -546,7 +546,7 @@ class Civi_WP_Member_Sync_Groups {
 	public function rule_current_add( $status_rules ) {
 
 		// Include template file.
-		include( CIVI_WP_MEMBER_SYNC_PLUGIN_PATH . 'assets/templates/groups-add-current.php' );
+		include CIVI_WP_MEMBER_SYNC_PLUGIN_PATH . 'assets/templates/groups-add-current.php';
 
 	}
 
@@ -569,7 +569,7 @@ class Civi_WP_Member_Sync_Groups {
 		}
 
 		// Include template file.
-		include( CIVI_WP_MEMBER_SYNC_PLUGIN_PATH . 'assets/templates/groups-edit-current.php' );
+		include CIVI_WP_MEMBER_SYNC_PLUGIN_PATH . 'assets/templates/groups-edit-current.php';
 
 	}
 
@@ -626,7 +626,7 @@ class Civi_WP_Member_Sync_Groups {
 	public function rule_expiry_add( $status_rules ) {
 
 		// Include template file.
-		include( CIVI_WP_MEMBER_SYNC_PLUGIN_PATH . 'assets/templates/groups-add-expiry.php' );
+		include CIVI_WP_MEMBER_SYNC_PLUGIN_PATH . 'assets/templates/groups-add-expiry.php';
 
 	}
 
@@ -649,7 +649,7 @@ class Civi_WP_Member_Sync_Groups {
 		}
 
 		// Include template file.
-		include( CIVI_WP_MEMBER_SYNC_PLUGIN_PATH . 'assets/templates/groups-edit-expiry.php' );
+		include CIVI_WP_MEMBER_SYNC_PLUGIN_PATH . 'assets/templates/groups-edit-expiry.php';
 
 	}
 
@@ -800,8 +800,6 @@ class Civi_WP_Member_Sync_Groups {
 
 		// Get existing Capability.
 		$capability = Groups_Capability::read_by_capability( $data['capability'] );
-
-		// Bail if it already exists.
 		if ( false !== $capability ) {
 			return;
 		}
@@ -845,8 +843,6 @@ class Civi_WP_Member_Sync_Groups {
 
 		// Get existing.
 		$capability = Groups_Capability::read_by_capability( $data['capability'] );
-
-		// Bail if it doesn't exist.
 		if ( false === $capability ) {
 			return;
 		}
@@ -873,8 +869,6 @@ class Civi_WP_Member_Sync_Groups {
 
 		// Get current.
 		$current_read_caps = Groups_Options::get_option( Groups_Post_Access::READ_POST_CAPABILITIES, $default_read_caps );
-
-		// Bail if we have it already.
 		if ( in_array( $capability, $current_read_caps ) ) {
 			return;
 		}
@@ -907,8 +901,6 @@ class Civi_WP_Member_Sync_Groups {
 
 		// Get key if Capability is present.
 		$key = array_search( $capability, $current_read_caps );
-
-		// Bail if we don't have it.
 		if ( $key === false ) {
 			return;
 		}
@@ -993,6 +985,3 @@ class Civi_WP_Member_Sync_Groups {
 
 
 } // Class ends.
-
-
-

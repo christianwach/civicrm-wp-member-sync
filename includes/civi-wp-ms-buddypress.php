@@ -774,6 +774,3 @@ class Civi_WP_Member_Sync_BuddyPress {
 
 
 } // Class ends.
-
-
-
