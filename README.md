@@ -6,7 +6,7 @@ CiviCRM Member Sync
 **Tags:** civicrm, member, membership, sync<br/>
 **Requires at least:** 4.9<br/>
 **Tested up to:** 5.7<br/>
-**Stable tag:** 0.5.1<br/>
+**Stable tag:** 0.5.2<br/>
 **License:** GPLv2 or later<br/>
 **License URI:** https://www.gnu.org/licenses/gpl-2.0.html
 
