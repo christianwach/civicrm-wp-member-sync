@@ -20,6 +20,8 @@
 
 	<p><?php esc_html_e( 'Synchronize CiviMember Memberships with WordPress Users using the available rules.', 'civicrm-wp-member-sync' ); ?></p>
 
+	<p><?php esc_html_e( 'Because of the way in which Memberships are stored in CiviCRM, you may not see 100% accurate feedback during the sync process. Examples of situations that can affect feedback are: whether or not the Contact associated with a Membership has an email address; whether or not there are multiple Memberships per Contact. Rules will, however, be fully applied by the end of the process.', 'civicrm-wp-member-sync' ); ?></p>
+
 	<p><?php esc_html_e( 'Note: if no association rules exist then no synchronization will take place.', 'civicrm-wp-member-sync' ); ?></p>
 
 	<form method="post" id="civi_wp_member_sync_manual_sync_form" action="<?php echo $this->admin_form_url_get(); ?>">
@@ -40,7 +42,7 @@
 				<th scope="row"><?php esc_html_e( 'Selected Memberships', 'civicrm-wp-member-sync' ); ?></th>
 				<td>
 					<p><label class="civi_wp_member_sync_manual_sync_label" for="civi_wp_member_sync_manual_sync_from"><?php esc_html_e( 'From:', 'civicrm-wp-member-sync' ); ?></label> <input type="number" class="settings-text-field small-text" name="civi_wp_member_sync_manual_sync_from" id="civi_wp_member_sync_manual_sync_from" value="" /> <label class="civi_wp_member_sync_manual_sync_label" for="civi_wp_member_sync_manual_sync_to"><?php esc_html_e( '&rarr; To:', 'civicrm-wp-member-sync' ); ?></label> <input type="number" class="settings-text-field small-text" name="civi_wp_member_sync_manual_sync_to" id="civi_wp_member_sync_manual_sync_to" value="" /></p>
-					<p class="description"><?php esc_html_e( 'In some situations (e.g. to avoid external API rate limits) you may need the sync process to be limited to a certain "block" of Memberships. Enter starting and ending Membership IDs or leave empty to sync all Memberships.', 'civicrm-wp-member-sync' ); ?></p>
+					<p class="description"><?php esc_html_e( 'In some situations (e.g. to avoid external API rate limits) you may need the sync process to be limited to a certain "block" of Memberships. Enter starting and ending Membership IDs to restrict the sync process. Leave the fields empty to sync all Memberships.', 'civicrm-wp-member-sync' ); ?></p>
 				</td>
 			</tr>
 
