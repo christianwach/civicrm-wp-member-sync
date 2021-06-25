@@ -1,4 +1,17 @@
-<!-- assets/templates/list_caps.php -->
+<?php
+/**
+ * List Capabilities template.
+ *
+ * Main template for the Association Rules page when syncing Capabilities.
+ *
+ * @package Civi_WP_Member_Sync
+ * @since 0.1
+ */
+
+// Exit if accessed directly.
+defined( 'ABSPATH' ) || exit;
+
+?><!-- assets/templates/list_caps.php -->
 <div class="wrap">
 
 	<h1><?php esc_html_e( 'CiviCRM Member Sync', 'civicrm-wp-member-sync' ); ?></h1>

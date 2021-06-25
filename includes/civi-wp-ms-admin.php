@@ -1,7 +1,20 @@
 <?php
+/**
+ * Admin class.
+ *
+ * Handles admin functionality.
+ *
+ * @package Civi_WP_Member_Sync
+ * @since 0.1
+ */
+
+// Exit if accessed directly.
+defined( 'ABSPATH' ) || exit;
+
+
 
 /**
- * CiviCRM Member Sync Admin class.
+ * Admin class.
  *
  * Class for encapsulating admin functionality.
  *
@@ -1673,6 +1686,8 @@ class Civi_WP_Member_Sync_Admin {
 	 *
 	 * @since 0.1
 	 *
+	 * @param str $setting_name The name of the setting.
+	 * @param mixed $default The default return value if no value exists.
 	 * @return mixed $setting The value of the setting.
 	 */
 	public function setting_get( $setting_name = '', $default = false ) {
@@ -1693,6 +1708,9 @@ class Civi_WP_Member_Sync_Admin {
 	 * Set a value for a specified setting.
 	 *
 	 * @since 0.1
+	 *
+	 * @param str $setting_name The name of the setting.
+	 * @param mixed $value The value to set.
 	 */
 	public function setting_set( $setting_name = '', $value = '' ) {
 
@@ -2267,7 +2285,7 @@ class Civi_WP_Member_Sync_Admin {
 	 * @param array $rule The new or updated association rule.
 	 * @param str $mode The mode ('add' or 'edit').
 	 * @param str $method The sync method.
-	 * @param int $$civi_member_type_id The numeric ID of the Membership Type.
+	 * @param int $civi_member_type_id The numeric ID of the Membership Type.
 	 */
 	public function rule_save( $rule, $mode, $method, $civi_member_type_id ) {
 

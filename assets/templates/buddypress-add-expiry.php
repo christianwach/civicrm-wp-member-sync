@@ -1,4 +1,17 @@
-<!-- assets/templates/buddypress-add-expiry.php -->
+<?php
+/**
+ * Expiry BuddyPress Groups template.
+ *
+ * Shows the Expiry BuddyPress Groups on the "Add Rule" page.
+ *
+ * @package Civi_WP_Member_Sync
+ * @since 0.4.7
+ */
+
+// Exit if accessed directly.
+defined( 'ABSPATH' ) || exit;
+
+?><!-- assets/templates/buddypress-add-expiry.php -->
 <tr>
 	<th scope="row"><label class="expiry_label" for="cwms_buddypress_select_expiry"><?php esc_html_e( 'Expiry BuddyPress Group(s)', 'civicrm-wp-member-sync' ); ?></label></th>
 	<td>

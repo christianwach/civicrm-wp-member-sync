@@ -1,7 +1,20 @@
 <?php
+/**
+ * Admin CAU compatibility class.
+ *
+ * Handles Admin CAU compatibility functionality.
+ *
+ * @package Civi_WP_Member_Sync
+ * @since 0.5
+ */
+
+// Exit if accessed directly.
+defined( 'ABSPATH' ) || exit;
+
+
 
 /**
- * CiviCRM Member Sync Admin CAU compatibility class.
+ * Admin CAU compatibility class.
  *
  * Class for encapsulating Admin CAU compatibility functionality.
  *

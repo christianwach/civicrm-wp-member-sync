@@ -1,4 +1,17 @@
-<!-- assets/templates/rule-role-edit.php -->
+<?php
+/**
+ * Roles Edit Rule template.
+ *
+ * Main template for for the "Edit Rule" page when syncing Roles.
+ *
+ * @package Civi_WP_Member_Sync
+ * @since 0.1
+ */
+
+// Exit if accessed directly.
+defined( 'ABSPATH' ) || exit;
+
+?><!-- assets/templates/rule-role-edit.php -->
 <div class="wrap">
 
 	<h1><?php esc_html_e( 'CiviCRM Member Sync', 'civicrm-wp-member-sync' ); ?></h1>

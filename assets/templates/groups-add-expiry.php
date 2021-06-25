@@ -1,4 +1,17 @@
-<!-- assets/templates/groups-add-expiry.php -->
+<?php
+/**
+ * Expiry "Groups" Groups template.
+ *
+ * Shows the Expiry "Groups" Groups on the "Add Rule" page.
+ *
+ * @package Civi_WP_Member_Sync
+ * @since 0.3.9
+ */
+
+// Exit if accessed directly.
+defined( 'ABSPATH' ) || exit;
+
+?><!-- assets/templates/groups-add-expiry.php -->
 <tr>
 	<th scope="row"><label class="expiry_label" for="cwms_groups_select_expiry"><?php esc_html_e( 'Expiry Group(s)', 'civicrm-wp-member-sync' ); ?></label></th>
 	<td>

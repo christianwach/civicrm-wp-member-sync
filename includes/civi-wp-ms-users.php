@@ -1,7 +1,20 @@
 <?php
+/**
+ * Users class.
+ *
+ * Handles WordPress User functionality.
+ *
+ * @package Civi_WP_Member_Sync
+ * @since 0.1
+ */
+
+// Exit if accessed directly.
+defined( 'ABSPATH' ) || exit;
+
+
 
 /**
- * CiviCRM Member Sync Users class.
+ * Users class.
  *
  * Class for encapsulating WordPress User functionality.
  *

@@ -1,4 +1,17 @@
-<!-- assets/templates/list_roles.php -->
+<?php
+/**
+ * List Roles template.
+ *
+ * Main template for the Association Rules page when syncing Roles.
+ *
+ * @package Civi_WP_Member_Sync
+ * @since 0.1
+ */
+
+// Exit if accessed directly.
+defined( 'ABSPATH' ) || exit;
+
+?><!-- assets/templates/list_roles.php -->
 <div class="wrap">
 
 	<h1><?php esc_html_e( 'CiviCRM Member Sync', 'civicrm-wp-member-sync' ); ?></h1>

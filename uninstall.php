@@ -1,10 +1,15 @@
-<?php /*
---------------------------------------------------------------------------------
-CiviCRM Member Sync Uninstaller.
---------------------------------------------------------------------------------
-*/
+<?php
+/**
+ * Uninstaller.
+ *
+ * Handles uninstallation functionality.
+ *
+ * @package Civi_WP_Member_Sync
+ * @since 0.1
+ */
 
-
+// Exit if accessed directly.
+defined( 'ABSPATH' ) || exit;
 
 // Kick out if uninstall not called from WordPress.
 if ( ! defined( 'WP_UNINSTALL_PLUGIN' ) ) {

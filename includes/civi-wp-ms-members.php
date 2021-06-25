@@ -1,7 +1,20 @@
 <?php
+/**
+ * Membership class.
+ *
+ * Handles CiviCRM Membership functionality.
+ *
+ * @package Civi_WP_Member_Sync
+ * @since 0.1
+ */
+
+// Exit if accessed directly.
+defined( 'ABSPATH' ) || exit;
+
+
 
 /**
- * CiviCRM Member Sync Membership class.
+ * Membership class.
  *
  * Class for encapsulating CiviCRM Membership functionality.
  *

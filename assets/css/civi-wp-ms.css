@@ -1,9 +1,10 @@
 /**
- * CiviCRM Member Sync Styles.
+ * Admin Styles.
  *
- * Implements styling common to all CiviCRM Member Sync admin pages.
+ * Implements styling common to all admin pages.
  *
  * @package Civi_WP_Member_Sync
+ * @since 0.1
  */
 
 .req

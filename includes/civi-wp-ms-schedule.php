@@ -1,13 +1,24 @@
 <?php
+/**
+ * Schedule class.
+ *
+ * Handles WordPress scheduling functionality.
+ *
+ * @package Civi_WP_Member_Sync
+ * @since 0.1
+ */
+
+// Exit if accessed directly.
+defined( 'ABSPATH' ) || exit;
+
+
 
 /**
- * CiviCRM Member Sync Schedule class.
+ * Schedule class.
  *
  * Class for encapsulating WordPress scheduling functionality.
  *
  * @since 0.1
- *
- * @package Civi_WP_Member_Sync
  */
 class Civi_WP_Member_Sync_Schedule {
 

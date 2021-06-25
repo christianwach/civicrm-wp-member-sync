@@ -1,27 +1,27 @@
-<?php /*
---------------------------------------------------------------------------------
-Plugin Name: CiviCRM Member Sync
-Plugin URI: https://github.com/christianwach/civicrm-wp-member-sync
-Description: Synchronize CiviCRM Memberships with WordPress User Roles or Capabilities.
-Author: Christian Wach
-Version: 0.5.1
-Author URI: http://haystack.co.uk
-Text Domain: civicrm-wp-member-sync
-Domain Path: /languages
-Depends: CiviCRM
---------------------------------------------------------------------------------
+<?php
+/**
+ * Plugin Name: CiviCRM Member Sync
+ * Plugin URI: https://github.com/christianwach/civicrm-wp-member-sync
+ * Description: Synchronize CiviCRM Memberships with WordPress User Roles or Capabilities.
+ * Author: Christian Wach
+ * Author URI: https://haystack.co.uk
+ * Version: 0.5.1
+ * Text Domain: civicrm-wp-member-sync
+ * Domain Path: /languages
+ * Depends: CiviCRM
+ *
+ * Thanks to:
+ * Jag Kandasamy <http://www.orangecreative.net> for:
+ * "Wordpress CiviMember Role Sync Plugin"
+ * <https://github.com/jeevajoy/Wordpress-CiviCRM-Member-Role-Sync>
+ *
+ * Tadpole Collective <https://tadpole.cc> for their fork:
+ * "Tadpole CiviMember Role Synchronize"
+ * <https://github.com/tadpolecc/civi_member_sync>
+ */
 
-Thanks to:
-Jag Kandasamy <http://www.orangecreative.net> for the
-"Wordpress CiviMember Role Sync Plugin" <https://github.com/jeevajoy/Wordpress-CiviCRM-Member-Role-Sync>
-
-Tadpole Collective <https://tadpole.cc> for their fork:
-"Tadpole CiviMember Role Synchronize" <https://github.com/tadpolecc/civi_member_sync>
-
---------------------------------------------------------------------------------
-*/
-
-
+// Exit if accessed directly.
+defined( 'ABSPATH' ) || exit;
 
 // Define Capability prefix.
 if ( ! defined( 'CIVI_WP_MEMBER_SYNC_CAP_PREFIX' ) ) {
@@ -50,7 +50,7 @@ if ( ! defined( 'CIVI_WP_MEMBER_SYNC_PLUGIN_PATH' ) ) {
 
 
 /**
- * CiviCRM Member Sync class.
+ * Plugin class.
  *
  * A class for encapsulating plugin functionality.
  *

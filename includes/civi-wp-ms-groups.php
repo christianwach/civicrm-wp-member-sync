@@ -1,7 +1,20 @@
 <?php
+/**
+ * "Groups" compatibility class.
+ *
+ * Handles compatibility with the "Groups" plugin.
+ *
+ * @package Civi_WP_Member_Sync
+ * @since 0.3.9
+ */
+
+// Exit if accessed directly.
+defined( 'ABSPATH' ) || exit;
+
+
 
 /**
- * CiviCRM Member Sync "Groups" compatibility class.
+ * "Groups" compatibility class.
  *
  * Class for encapsulating compatibility with the "Groups" plugin.
  *
@@ -273,6 +286,7 @@ class Civi_WP_Member_Sync_Groups {
 	 * @param int $membership_type_id The ID of the CiviCRM Membership Type.
 	 * @param int $status_id The ID of the CiviCRM Membership Status.
 	 * @param array $capability The Membership Type Capability added or removed.
+	 * @param array $association_rule The rule used to apply the changes.
 	 */
 	public function rule_apply_caps_expired( $user, $membership_type_id, $status_id, $capability, $association_rule ) {
 

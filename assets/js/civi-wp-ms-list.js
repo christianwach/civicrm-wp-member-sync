@@ -1,9 +1,10 @@
 /**
- * CiviCRM Member Sync List Javascript.
+ * List Rules page Javascript.
  *
  * Implements sync functionality on the plugin's List Rules page.
  *
  * @package Civi_WP_Member_Sync
+ * @since 0.4.2
  */
 
 // Defaults.

@@ -1,7 +1,20 @@
 <?php
+/**
+ * Migrate class.
+ *
+ * Handles migration functionality.
+ *
+ * @package Civi_WP_Member_Sync
+ * @since 0.1
+ */
+
+// Exit if accessed directly.
+defined( 'ABSPATH' ) || exit;
+
+
 
 /**
- * CiviCRM Member Sync Migrate class.
+ * Migrate class.
  *
  * Class for encapsulating migration functionality.
  *
@@ -162,7 +175,8 @@ class Civi_WP_Member_Sync_Migrate {
 	 *
 	 * @since 0.1
 	 *
-	 * @return boolean $result
+	 * @param str $table_name The name of the table to delete.
+	 * @return boolean $result True if successful, false otherwise.
 	 */
 	public function legacy_table_delete( $table_name = 'civi_member_sync' ) {
 

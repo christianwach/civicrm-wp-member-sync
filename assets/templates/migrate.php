@@ -1,4 +1,17 @@
-<!-- assets/templates/migrate.php -->
+<?php
+/**
+ * Migration template.
+ *
+ * Main template for the Migration page.
+ *
+ * @package Civi_WP_Member_Sync
+ * @since 0.1
+ */
+
+// Exit if accessed directly.
+defined( 'ABSPATH' ) || exit;
+
+?><!-- assets/templates/migrate.php -->
 <div class="wrap">
 
 	<h1><?php esc_html_e( 'CiviCRM Member Sync', 'civicrm-wp-member-sync' ); ?></h1>

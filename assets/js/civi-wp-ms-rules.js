@@ -1,9 +1,10 @@
 /**
- * CiviCRM Member Sync Rules Javascript.
+ * Add Rule and Edit Rule page Javascript.
  *
  * Implements sync functionality on the plugin's Add Rule and Edit Rule admin pages.
  *
  * @package Civi_WP_Member_Sync
+ * @since 0.1
  */
 
 // Defaults.

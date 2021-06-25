@@ -1,4 +1,17 @@
-<!-- assets/templates/manual-sync.php -->
+<?php
+/**
+ * Manual Sync template.
+ *
+ * Main template for the Manual Sync page.
+ *
+ * @package Civi_WP_Member_Sync
+ * @since 0.2.8
+ */
+
+// Exit if accessed directly.
+defined( 'ABSPATH' ) || exit;
+
+?><!-- assets/templates/manual-sync.php -->
 <div class="wrap">
 
 	<h1><?php esc_html_e( 'CiviCRM Member Sync', 'civicrm-wp-member-sync' ); ?></h1>

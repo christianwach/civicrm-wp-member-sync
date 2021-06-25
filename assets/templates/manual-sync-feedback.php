@@ -1,4 +1,17 @@
-<!-- assets/templates/manual-sync-feedback.php -->
+<?php
+/**
+ * Manual Sync "feedback" template.
+ *
+ * Template for each table row in Manual Sync feedback table.
+ *
+ * @package Civi_WP_Member_Sync
+ * @since 0.5
+ */
+
+// Exit if accessed directly.
+defined( 'ABSPATH' ) || exit;
+
+?><!-- assets/templates/manual-sync-feedback.php -->
 <?php foreach( $result AS $item ) : ?>
 	<tr>
 		<?php if ( $item['is_new'] ) : ?>

@@ -1,4 +1,17 @@
-<!-- assets/templates/cau-user-views.php -->
+<?php
+/**
+ * CAU User Views template.
+ *
+ * Shows the number of Members and non-Members on the CAU User Views page.
+ *
+ * @package Civi_WP_Member_Sync
+ * @since 0.5
+ */
+
+// Exit if accessed directly.
+defined( 'ABSPATH' ) || exit;
+
+?><!-- assets/templates/cau-user-views.php -->
 <li class="members">
 	| <a href="<?php echo esc_url( add_query_arg( 'user_status', 'members', $url_base ) ); ?>" class="<?php if ( 'members' === $user_status ) echo 'current'; ?>">
 		<?php printf(
