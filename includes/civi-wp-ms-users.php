@@ -3,7 +3,7 @@
 /**
  * CiviCRM WordPress Member Sync Users class.
  *
- * Class for encapsulating WordPress user functionality.
+ * Class for encapsulating WordPress User functionality.
  *
  * @since 0.1
  *
@@ -57,17 +57,17 @@ class Civi_WP_Member_Sync_Users {
 
 
 	/**
-	 * Check if a WordPress user has a particular role.
+	 * Check if a WordPress User has a particular Role.
 	 *
 	 * @since 0.2.8
 	 *
 	 * @param WP_User $user WP_User object.
-	 * @param string $role WordPress role key.
-	 * @return bool $has_role True if this user has the supplied role, false otherwise.
+	 * @param string $role WordPress Role key.
+	 * @return bool $has_role True if this User has the supplied Role, false otherwise.
 	 */
 	public function wp_has_role( $user, $role ) {
 
-		// Kick out if we don't receive a valid user.
+		// Kick out if we don't receive a valid User.
 		if ( ! ( $user instanceof WP_User ) ) {
 			return false;
 		}
@@ -83,24 +83,24 @@ class Civi_WP_Member_Sync_Users {
 
 
 	/**
-	 * Get primary WordPress user role.
+	 * Get primary WordPress User Role.
 	 *
 	 * @since 0.1
 	 *
 	 * @param WP_User $user WP_User object.
-	 * @return string $role Primary WordPress role for this user.
+	 * @return string $role Primary WordPress Role for this User.
 	 */
 	public function wp_role_get( $user ) {
 
-		// Kick out if we don't receive a valid user.
+		// Kick out if we don't receive a valid User.
 		if ( ! ( $user instanceof WP_User ) ) {
 			return false;
 		}
 
-		// Only build role names array once, since this is called by the sync routine.
+		// Only build Role names array once, since this is called by the sync routine.
 		if ( ! isset( $this->role_names ) ) {
 
-			// Get role names array.
+			// Get Role names array.
 			$this->role_names = $this->wp_role_names_get_all();
 
 		}
@@ -126,18 +126,18 @@ class Civi_WP_Member_Sync_Users {
 
 
 	/**
-	 * Get all current roles for a WordPress user.
+	 * Get all current Roles for a WordPress User.
 	 *
-	 * The roles returned exclude any that are assigned by bbPress.
+	 * The Roles returned exclude any that are assigned by bbPress.
 	 *
 	 * @since 0.2.8
 	 *
 	 * @param WP_User $user WP_User object.
-	 * @return array $roles WordPress roles for this user.
+	 * @return array $roles WordPress Roles for this User.
 	 */
 	public function wp_roles_get_all( $user ) {
 
-		// Kick out if we don't receive a valid user.
+		// Kick out if we don't receive a valid User.
 		if ( ! ( $user instanceof WP_User ) ) {
 			return false;
 		}
@@ -145,10 +145,10 @@ class Civi_WP_Member_Sync_Users {
 		// Init return.
 		$user_roles = [];
 
-		// Only build role names array once.
+		// Only build Role names array once.
 		if ( ! isset( $this->role_names ) ) {
 
-			// Get role names array.
+			// Get Role names array.
 			$this->role_names = $this->wp_role_names_get_all();
 
 		}
@@ -156,10 +156,10 @@ class Civi_WP_Member_Sync_Users {
 		// Init filtered array in same format as $user->roles.
 		$filtered_roles = array_keys( $this->role_names );
 
-		// Check all user roles.
+		// Check all User Roles.
 		foreach( $user->roles AS $role ) {
 
-			// Add role to return array if it's a "blog" role.
+			// Add Role to return array if it's a "blog" Role.
 			if ( $role AND in_array( $role, $filtered_roles ) ) {
 				$user_roles[] = $role;
 			}
@@ -174,16 +174,16 @@ class Civi_WP_Member_Sync_Users {
 
 
 	/**
-	 * Add a role to a WordPress user.
+	 * Add a Role to a WordPress User.
 	 *
 	 * @since 0.2.8
 	 *
-	 * @param WP_User $user WordPress user object.
-	 * @param string $role WordPress role key.
+	 * @param WP_User $user WordPress User object.
+	 * @param string $role WordPress Role key.
 	 */
 	public function wp_role_add( $user, $role ) {
 
-		// Kick out if we don't receive a valid user.
+		// Kick out if we don't receive a valid User.
 		if ( ! ( $user instanceof WP_User ) ) {
 			return;
 		}
@@ -193,14 +193,14 @@ class Civi_WP_Member_Sync_Users {
 			return;
 		}
 
-		// Add role to user.
+		// Add Role to User.
 		$user->add_role( $role );
 
 		/**
-		 * Let other plugins know that a role has been added to a user.
+		 * Let other plugins know that a Role has been added to a User.
 		 *
-		 * @param WP_User $user The WordPress user object.
-		 * @param string $role The new role added to the user.
+		 * @param WP_User $user The WordPress User object.
+		 * @param string $role The new Role added to the User.
 		 */
 		do_action( 'civi_wp_member_sync_add_role', $user, $role );
 
@@ -209,16 +209,16 @@ class Civi_WP_Member_Sync_Users {
 
 
 	/**
-	 * Remove a role from a WordPress user.
+	 * Remove a Role from a WordPress User.
 	 *
 	 * @since 0.2.8
 	 *
-	 * @param WP_User $user WordPress user object.
-	 * @param string $role WordPress role key.
+	 * @param WP_User $user WordPress User object.
+	 * @param string $role WordPress Role key.
 	 */
 	public function wp_role_remove( $user, $role ) {
 
-		// Kick out if we don't receive a valid user.
+		// Kick out if we don't receive a valid User.
 		if ( ! ( $user instanceof WP_User ) ) {
 			return;
 		}
@@ -228,14 +228,14 @@ class Civi_WP_Member_Sync_Users {
 			return;
 		}
 
-		// Remove role from user.
+		// Remove Role from User.
 		$user->remove_role( $role );
 
 		/**
-		 * Let other plugins know that a role has been removed from a user.
+		 * Let other plugins know that a Role has been removed from a User.
 		 *
-		 * @param WP_User $user The WordPress user object.
-		 * @param string $role The role removed from the user.
+		 * @param WP_User $user The WordPress User object.
+		 * @param string $role The Role removed from the User.
 		 */
 		do_action( 'civi_wp_member_sync_remove_role', $user, $role );
 
@@ -244,17 +244,17 @@ class Civi_WP_Member_Sync_Users {
 
 
 	/**
-	 * Replace a WordPress user role.
+	 * Replace a WordPress User Role.
 	 *
 	 * @since 0.1
 	 *
-	 * @param WP_User $user WordPress user object.
-	 * @param string $old_role Old WordPress role key.
-	 * @param string $new_role New WordPress role key.
+	 * @param WP_User $user WordPress User object.
+	 * @param string $old_role Old WordPress Role key.
+	 * @param string $new_role New WordPress Role key.
 	 */
 	public function wp_role_replace( $user, $old_role, $new_role ) {
 
-		// Kick out if we don't receive a valid user.
+		// Kick out if we don't receive a valid User.
 		if ( ! ( $user instanceof WP_User ) ) {
 			return;
 		}
@@ -267,21 +267,21 @@ class Civi_WP_Member_Sync_Users {
 			return;
 		}
 
-		// Remove old role then add new role, so that we don't inadvertently
-		// overwrite multiple roles, for example when bbPress is active.
+		// Remove old Role then add new Role, so that we don't inadvertently
+		// overwrite multiple Roles, for example when bbPress is active.
 
-		// Remove user's existing role.
+		// Remove User's existing Role.
 		$user->remove_role( $old_role );
 
-		// Add new role.
+		// Add new Role.
 		$user->add_role( $new_role );
 
 		/**
-		 * Let other plugins know that a user's role has been changed.
+		 * Let other plugins know that a User's Role has been changed.
 		 *
-		 * @param object $user The WordPress user object.
-		 * @param string $new_role The new role that the user has.
-		 * @param string $old_role The role that the user had before.
+		 * @param object $user The WordPress User object.
+		 * @param string $new_role The new Role that the User has.
+		 * @param string $old_role The Role that the User had before.
 		 */
 		do_action( 'civi_wp_member_sync_set_role', $user, $new_role, $old_role );
 
@@ -294,7 +294,7 @@ class Civi_WP_Member_Sync_Users {
 
 
 	/**
-	 * Get a WordPress role name by role key.
+	 * Get a WordPress Role name by Role key.
 	 *
 	 * @since 0.1
 	 *
@@ -303,10 +303,10 @@ class Civi_WP_Member_Sync_Users {
 	 */
 	public function wp_role_name_get( $key ) {
 
-		// Only build role names array once, since this is called by the list page.
+		// Only build Role names array once, since this is called by the list page.
 		if ( ! isset( $this->role_names ) ) {
 
-			// Get role names array.
+			// Get Role names array.
 			$this->role_names = $this->wp_role_names_get_all();
 
 		}
@@ -322,18 +322,18 @@ class Civi_WP_Member_Sync_Users {
 
 
 	/**
-	 * Get all WordPress role names.
+	 * Get all WordPress Role names.
 	 *
 	 * @since 0.1
 	 *
-	 * @return array $role_names An array of role names, keyed by role key.
+	 * @return array $role_names An array of Role names, keyed by Role key.
 	 */
 	public function wp_role_names_get_all() {
 
-		// Access roles global.
+		// Access Roles global.
 		global $wp_roles;
 
-		// Load roles if not set.
+		// Load Roles if not set.
 		if ( ! isset( $wp_roles ) ) {
 			$wp_roles = new WP_Roles();
 		}
@@ -341,20 +341,20 @@ class Civi_WP_Member_Sync_Users {
 		// Get names.
 		$role_names = $wp_roles->get_names();
 
-		// If we have bbPress active, filter out its custom roles.
+		// If we have bbPress active, filter out its custom Roles.
 		if ( function_exists( 'bbp_get_blog_roles' ) ) {
 
-			// Get bbPress-filtered roles.
+			// Get bbPress-filtered Roles.
 			$bbp_roles = bbp_get_blog_roles();
 
-			// Init roles.
+			// Init Roles.
 			$role_names = [];
 
 			// Sanity check.
 			if ( ! empty( $bbp_roles ) ) {
 				foreach( $bbp_roles AS $bbp_role => $bbp_role_data ) {
 
-					// Add to roles array.
+					// Add to Roles array.
 					$role_names[$bbp_role] = $bbp_role_data['name'];
 
 				}
@@ -374,7 +374,7 @@ class Civi_WP_Member_Sync_Users {
 
 
 	/**
-	 * Add a capability to a WordPress user.
+	 * Add a Capability to a WordPress User.
 	 *
 	 * @since 0.1
 	 *
@@ -383,7 +383,7 @@ class Civi_WP_Member_Sync_Users {
 	 */
 	public function wp_cap_add( $user, $capability ) {
 
-		// Kick out if we don't receive a valid user.
+		// Kick out if we don't receive a valid User.
 		if ( ! ( $user instanceof WP_User ) ) {
 			return;
 		}
@@ -393,17 +393,17 @@ class Civi_WP_Member_Sync_Users {
 			return;
 		}
 
-		// Does this user have that capability?
+		// Does this User have that Capability?
 		if ( ! $user->has_cap( $capability ) ) {
 
 			// No, add it.
 			$user->add_cap( $capability );
 
 			/**
-			 * Let other plugins know that a capability has been added to a user.
+			 * Let other plugins know that a Capability has been added to a User.
 			 *
-			 * @param object $user The WordPress user object.
-			 * @param string $capability The name of the capability.
+			 * @param object $user The WordPress User object.
+			 * @param string $capability The name of the Capability.
 			 */
 			do_action( 'civi_wp_member_sync_add_cap', $user, $capability );
 
@@ -414,7 +414,7 @@ class Civi_WP_Member_Sync_Users {
 
 
 	/**
-	 * Remove a capability from a WordPress user.
+	 * Remove a Capability from a WordPress User.
 	 *
 	 * @since 0.1
 	 *
@@ -423,7 +423,7 @@ class Civi_WP_Member_Sync_Users {
 	 */
 	public function wp_cap_remove( $user, $capability ) {
 
-		// Kick out if we don't receive a valid user.
+		// Kick out if we don't receive a valid User.
 		if ( ! ( $user instanceof WP_User ) ) {
 			return;
 		}
@@ -433,17 +433,17 @@ class Civi_WP_Member_Sync_Users {
 			return;
 		}
 
-		// Does this user have that capability?
+		// Does this User have that Capability?
 		if ( $user->has_cap( $capability ) ) {
 
 			// Yes, remove it.
 			$user->remove_cap( $capability );
 
 			/**
-			 * Let other plugins know that a capability has been removed from a user.
+			 * Let other plugins know that a Capability has been removed from a User.
 			 *
-			 * @param object $user The WordPress user object.
-			 * @param string $capability The name of the capability.
+			 * @param object $user The WordPress User object.
+			 * @param string $capability The name of the Capability.
 			 */
 			do_action( 'civi_wp_member_sync_remove_cap', $user, $capability );
 
@@ -454,8 +454,8 @@ class Civi_WP_Member_Sync_Users {
 
 
 	/**
-	 * Clear all status capabilities from a WordPress user, since we don't necessarily
-	 * know which one the user had before the status change.
+	 * Clear all status Capabilities from a WordPress User, since we don't necessarily
+	 * know which one the User had before the status change.
 	 *
 	 * @since 0.1
 	 *
@@ -464,7 +464,7 @@ class Civi_WP_Member_Sync_Users {
 	 */
 	public function wp_cap_remove_status( $user, $capability ) {
 
-		// Kick out if we don't receive a valid user.
+		// Kick out if we don't receive a valid User.
 		if ( ! ( $user instanceof WP_User ) ) {
 			return;
 		}
@@ -474,7 +474,7 @@ class Civi_WP_Member_Sync_Users {
 			return;
 		}
 
-		// Get membership status rules.
+		// Get Membership Status rules.
 		$status_rules = $this->plugin->members->status_rules_get_all();
 
 		// Sanity checks.
@@ -491,7 +491,7 @@ class Civi_WP_Member_Sync_Users {
 		// Loop through them.
 		foreach( $status_rule_ids AS $status_id ) {
 
-			// Construct membership status capability name.
+			// Construct Membership Status Capability name.
 			$capability_status = $capability . '_' . $status_id;
 
 			// Use local remove method.
@@ -508,12 +508,12 @@ class Civi_WP_Member_Sync_Users {
 
 
 	/**
-	 * Get a WordPress user for a CiviCRM contact ID.
+	 * Get a WordPress User for a CiviCRM Contact ID.
 	 *
 	 * @since 0.1
 	 *
-	 * @param int $contact_id The numeric CiviCRM contact ID.
-	 * @return WP_User $user WP_User object for the WordPress user.
+	 * @param int $contact_id The numeric CiviCRM Contact ID.
+	 * @return WP_User $user WP_User object for the WordPress User.
 	 */
 	public function wp_user_get_by_civi_id( $contact_id ) {
 
@@ -533,7 +533,7 @@ class Civi_WP_Member_Sync_Users {
 			return false;
 		}
 
-		// Get user object.
+		// Get User object.
 		$user = new WP_User( $user_id );
 
 		// --<
@@ -544,12 +544,12 @@ class Civi_WP_Member_Sync_Users {
 
 
 	/**
-	 * Get a CiviCRM contact ID for a WordPress user object.
+	 * Get a CiviCRM Contact ID for a WordPress User object.
 	 *
 	 * @since 0.1
 	 *
-	 * @param WP_User $user WP_User object of the logged-in user.
-	 * @return int $civi_contact_id The numerical CiviCRM contact ID.
+	 * @param WP_User $user WP_User object of the logged-in User.
+	 * @return int $civi_contact_id The numerical CiviCRM Contact ID.
 	 */
 	public function civi_contact_id_get( $user ) {
 
@@ -565,18 +565,18 @@ class Civi_WP_Member_Sync_Users {
 		$civi_contact_id = CRM_Core_BAO_UFMatch::getContactId( $user->ID );
 		if ( ! $civi_contact_id ) {
 
-			// Sync this user.
+			// Sync this User.
 			CRM_Core_BAO_UFMatch::synchronizeUFMatch(
 				$user, // User object.
 				$user->ID, // ID.
 				$user->user_email, // Unique identifier.
 				'WordPress', // CMS.
 				null, // Status.
-				'Individual', // Contact type.
+				'Individual', // Contact Type.
 				null // Is_login.
 			);
 
-			// Get the CiviCRM contact ID.
+			// Get the CiviCRM Contact ID.
 			$civi_contact_id = CRM_Core_BAO_UFMatch::getContactId( $user->ID );
 
 			// Sanity check.
@@ -627,11 +627,11 @@ class Civi_WP_Member_Sync_Users {
 
 
 	/**
-	 * Get CiviCRM contact data by contact ID.
+	 * Get CiviCRM Contact data by Contact ID.
 	 *
 	 * @since 0.1
 	 *
-	 * @param int $contact_id The numeric ID of the CiviCRM contact.
+	 * @param int $contact_id The numeric ID of the CiviCRM Contact.
 	 * @return mixed $civi_contact The array of data for the CiviCRM Contact, or false if not found.
 	 */
 	public function civi_get_contact_by_contact_id( $contact_id ) {
@@ -641,12 +641,12 @@ class Civi_WP_Member_Sync_Users {
 			return false;
 		}
 
-		// Bail if we don't get a valid contact ID.
+		// Bail if we don't get a valid Contact ID.
 		if ( empty( $contact_id ) OR ! is_numeric( $contact_id ) ) {
 			return false;
 		}
 
-		// Get all contact data.
+		// Get all Contact data.
 		$params = [
 			'version' => 3,
 			'contact_id' => $contact_id,
@@ -666,7 +666,7 @@ class Civi_WP_Member_Sync_Users {
 			return false;
 		}
 
-		// Get contact.
+		// Get Contact.
 		$contact = array_shift( $contact_data['values'] );
 
 		/**
@@ -691,27 +691,27 @@ class Civi_WP_Member_Sync_Users {
 
 
 	/**
-	 * Create a WordPress user for a given CiviCRM Contact ID.
+	 * Create a WordPress User for a given CiviCRM Contact ID.
 	 *
 	 * @since 0.2.8
 	 *
-	 * @param int $civi_contact_id The numerical CiviCRM contact ID.
-	 * @return object $user The WordPress user object, false on error.
+	 * @param int $civi_contact_id The numerical CiviCRM Contact ID.
+	 * @return object $user The WordPress User object, false on error.
 	 */
 	public function wp_user_create_from_contact_id( $civi_contact_id ) {
 
 		/**
-		 * Let other plugins override whether a user should be created.
+		 * Let other plugins override whether a User should be created.
 		 *
 		 * @since 0.2
 		 *
-		 * @param bool True - users should be created by default.
+		 * @param bool True - Users should be created by default.
 		 * @param int $civi_contact_id The numeric ID of the CiviCRM Contact.
-		 * @return bool True if users should be created, false otherwise.
+		 * @return bool True if Users should be created, false otherwise.
 		 */
 		if ( true === apply_filters( 'civi_wp_member_sync_auto_create_wp_user', true, $civi_contact_id ) ) {
 
-			// Get CiviCRM contact.
+			// Get CiviCRM Contact.
 			$civi_contact = $this->civi_get_contact_by_contact_id( $civi_contact_id );
 
 			// Bail if something goes wrong.
@@ -727,7 +727,7 @@ class Civi_WP_Member_Sync_Users {
 				return;
 			}
 
-			// Create a WordPress user.
+			// Create a WordPress User.
 			$user = $this->wp_create_user( $civi_contact );
 
 			// Bail if something goes wrong.
@@ -735,7 +735,7 @@ class Civi_WP_Member_Sync_Users {
 				return false;
 			}
 
-			// Return user.
+			// Return User.
 			return $user;
 
 		} else {
@@ -750,12 +750,12 @@ class Civi_WP_Member_Sync_Users {
 
 
 	/**
-	 * Creates a WordPress User given a CiviCRM contact.
+	 * Creates a WordPress User given a CiviCRM Contact.
 	 *
 	 * @since 0.1
 	 *
-	 * @param array $civi_contact The data for the CiviCRM contact.
-	 * @return mixed $user WordPress user object or false on failure.
+	 * @param array $civi_contact The data for the CiviCRM Contact.
+	 * @return mixed $user WordPress User object or false on failure.
 	 */
 	public function wp_create_user( $civi_contact ) {
 
@@ -779,12 +779,12 @@ class Civi_WP_Member_Sync_Users {
 		 * @since 0.1
 		 *
 		 * @param str $user_name The previously-generated WordPress username.
-		 * @param array $civi_contact The CiviCRM contact data.
+		 * @param array $civi_contact The CiviCRM Contact data.
 		 * @return str $user_name The modified WordPress username.
 		 */
 		$user_name = apply_filters( 'civi_wp_member_sync_new_username', $user_name, $civi_contact );
 
-		// Check if we have a user with that username.
+		// Check if we have a User with that username.
 		$user_id = username_exists( $user_name );
 
 		// If not, check against email address.
@@ -800,15 +800,15 @@ class Civi_WP_Member_Sync_Users {
 			$this->remove_filters();
 
 			/**
-			 * Let other plugins know that we're about to insert a user.
+			 * Let other plugins know that we're about to insert a User.
 			 *
 			 * @since 0.1
 			 *
-			 * @param array $civi_contact The CiviCRM contact object.
+			 * @param array $civi_contact The CiviCRM Contact object.
 			 */
 			do_action( 'civi_wp_member_sync_before_insert_user', $civi_contact );
 
-			// Create the user.
+			// Create the User.
 			$user_id = wp_insert_user( [
 				'user_login' => $user_name,
 				'user_pass' => $random_password,
@@ -823,7 +823,7 @@ class Civi_WP_Member_Sync_Users {
 			}
 
 			/**
-			 * Broadcast that we've inserted a user.
+			 * Broadcast that we've inserted a User.
 			 *
 			 * This action fires before the hooks are re-added which can be useful
 			 * if callbacks perform actions that in some way update the WordPress
@@ -833,8 +833,8 @@ class Civi_WP_Member_Sync_Users {
 			 *
 			 * @since 0.4.4
 			 *
-			 * @param array $civi_contact The CiviCRM contact object.
-			 * @param int $user_id The numeric ID of the WordPress user.
+			 * @param array $civi_contact The CiviCRM Contact object.
+			 * @param int $user_id The numeric ID of the WordPress User.
 			 */
 			do_action( 'civi_wp_member_sync_post_insert_user', $civi_contact, $user_id );
 
@@ -842,12 +842,12 @@ class Civi_WP_Member_Sync_Users {
 			$this->add_filters();
 
 			/**
-			 * Let other plugins know that we've inserted a user.
+			 * Let other plugins know that we've inserted a User.
 			 *
 			 * @since 0.1
 			 *
-			 * @param array $civi_contact The CiviCRM contact object.
-			 * @param int $user_id The numeric ID of the WordPress user.
+			 * @param array $civi_contact The CiviCRM Contact object.
+			 * @param int $user_id The numeric ID of the WordPress User.
 			 */
 			do_action( 'civi_wp_member_sync_after_insert_user', $civi_contact, $user_id );
 
@@ -865,7 +865,7 @@ class Civi_WP_Member_Sync_Users {
 			// Add "New User" flag to User object.
 			$user->user_is_new = $new_user;
 
-			// Return WordPress user.
+			// Return WordPress User.
 			return $user;
 
 		}
@@ -878,12 +878,12 @@ class Civi_WP_Member_Sync_Users {
 
 
 	/**
-	 * Generate a unique username for a WordPress user.
+	 * Generate a unique username for a WordPress User.
 	 *
 	 * @since 0.3.7
 	 *
 	 * @param str $username The previously-generated WordPress username.
-	 * @param array $civi_contact The CiviCRM contact data.
+	 * @param array $civi_contact The CiviCRM Contact data.
 	 * @return str $new_username The modified WordPress username.
 	 */
 	public function unique_username( $username, $civi_contact ) {
@@ -979,7 +979,7 @@ class Civi_WP_Member_Sync_Users {
 
 
 	/**
-	 * Remove filters (that we know of) that will interfere with creating a WordPress user.
+	 * Remove filters (that we know of) that will interfere with creating a WordPress User.
 	 *
 	 * @since 0.1
 	 */
@@ -1011,7 +1011,7 @@ class Civi_WP_Member_Sync_Users {
 		}
 
 		/**
-		 * Let other plugins know that we're removing user actions.
+		 * Let other plugins know that we're removing User actions.
 		 *
 		 * @since 0.1
 		 */
@@ -1022,7 +1022,7 @@ class Civi_WP_Member_Sync_Users {
 
 
 	/**
-	 * Add filters (that we know of) after creating a WordPress user.
+	 * Add filters (that we know of) after creating a WordPress User.
 	 *
 	 * @since 0.1
 	 */
@@ -1054,7 +1054,7 @@ class Civi_WP_Member_Sync_Users {
 		}
 
 		/**
-		 * Let other plugins know that we're adding user actions.
+		 * Let other plugins know that we're adding User actions.
 		 *
 		 * @since 0.1
 		 */

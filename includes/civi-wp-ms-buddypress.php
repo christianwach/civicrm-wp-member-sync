@@ -176,10 +176,10 @@ class Civi_WP_Member_Sync_BuddyPress {
 
 
 	/**
-	 * Search for BuddyPress groups on the "Add Rule" and "Edit Rule" pages.
+	 * Search for BuddyPress Groups on the "Add Rule" and "Edit Rule" pages.
 	 *
-	 * We still need to exclude groups which are present in the "opposite"
-	 * select - i.e. exclude current groups from expiry and vice versa.
+	 * We still need to exclude Groups which are present in the "opposite"
+	 * select - i.e. exclude current Groups from expiry and vice versa.
 	 *
 	 * @since 0.4.7
 	 */
@@ -197,7 +197,7 @@ class Civi_WP_Member_Sync_BuddyPress {
 			$excludes = explode( ',', $exclude );
 		}
 
-		// Get groups this user can see for this search.
+		// Get Groups this User can see for this search.
 		$groups = groups_get_groups( [
 			'user_id' => is_super_admin() ? 0 : bp_loggedin_user_id(),
 			'search_terms' => $_POST['s'],
@@ -228,23 +228,23 @@ class Civi_WP_Member_Sync_BuddyPress {
 
 
 	/**
-	 * Intercept Rule Apply when method is "capabilities" and membership is "current".
+	 * Intercept Rule Apply when method is "capabilities" and Membership is "current".
 	 *
 	 * We need this method because the two related actions have different
 	 * signatures - `civi_wp_member_sync_rule_apply_caps_current` also passes
-	 * the capability, which we don't need.
+	 * the Capability, which we don't need.
 	 *
 	 * @since 0.4.7
 	 *
-	 * @param WP_User $user The WordPress user object.
-	 * @param int $membership_type_id The ID of the CiviCRM membership type.
-	 * @param int $status_id The ID of the CiviCRM membership status.
-	 * @param array $capability The membership type capability added or removed.
+	 * @param WP_User $user The WordPress User object.
+	 * @param int $membership_type_id The ID of the CiviCRM Membership Type.
+	 * @param int $status_id The ID of the CiviCRM Membership Status.
+	 * @param array $capability The Membership Type Capability added or removed.
 	 * @param array $association_rule The rule used to apply the changes.
 	 */
 	public function rule_apply_caps_current( $user, $membership_type_id, $status_id, $capability, $association_rule ) {
 
-		// Pass through without capability param.
+		// Pass through without Capability param.
 		$this->rule_apply_current( $user, $membership_type_id, $status_id, $association_rule );
 
 	}
@@ -252,22 +252,22 @@ class Civi_WP_Member_Sync_BuddyPress {
 
 
 	/**
-	 * Intercept Rule Apply when method is "capabilities" and membership is "expired".
+	 * Intercept Rule Apply when method is "capabilities" and Membership is "expired".
 	 *
 	 * We need this method because the two related actions have different
 	 * signatures - `civi_wp_member_sync_rule_apply_caps_current` also passes
-	 * the capability, which we don't need.
+	 * the Capability, which we don't need.
 	 *
 	 * @since 0.4.7
 	 *
-	 * @param WP_User $user The WordPress user object.
-	 * @param int $membership_type_id The ID of the CiviCRM membership type.
-	 * @param int $status_id The ID of the CiviCRM membership status.
-	 * @param array $capability The membership type capability added or removed.
+	 * @param WP_User $user The WordPress User object.
+	 * @param int $membership_type_id The ID of the CiviCRM Membership Type.
+	 * @param int $status_id The ID of the CiviCRM Membership Status.
+	 * @param array $capability The Membership Type Capability added or removed.
 	 */
 	public function rule_apply_caps_expired( $user, $membership_type_id, $status_id, $capability, $association_rule ) {
 
-		// Pass through without capability param.
+		// Pass through without Capability param.
 		$this->rule_apply_expired( $user, $membership_type_id, $status_id, $association_rule );
 
 	}
@@ -275,25 +275,25 @@ class Civi_WP_Member_Sync_BuddyPress {
 
 
 	/**
-	 * Intercept Rule Apply when membership is "current".
+	 * Intercept Rule Apply when Membership is "current".
 	 *
 	 * @since 0.4.7
 	 *
-	 * @param WP_User $user The WordPress user object.
-	 * @param int $membership_type_id The ID of the CiviCRM membership type.
-	 * @param int $status_id The ID of the CiviCRM membership status.
+	 * @param WP_User $user The WordPress User object.
+	 * @param int $membership_type_id The ID of the CiviCRM Membership Type.
+	 * @param int $status_id The ID of the CiviCRM Membership Status.
 	 * @param array $association_rule The rule used to apply the changes.
 	 */
 	public function rule_apply_current( $user, $membership_type_id, $status_id, $association_rule ) {
 
-		// Remove the user from the expired groups.
+		// Remove the User from the expired Groups.
 		if ( ! empty( $association_rule['expiry_buddypress'] ) ) {
 			foreach( $association_rule['expiry_buddypress'] AS $group_id ) {
 				$this->group_member_delete( $user->ID, $group_id );
 			}
 		}
 
-		// Add the user to the current groups.
+		// Add the User to the current Groups.
 		if ( ! empty( $association_rule['current_buddypress'] ) ) {
 			foreach( $association_rule['current_buddypress'] AS $group_id ) {
 				$this->group_member_add( $user->ID, $group_id );
@@ -305,25 +305,25 @@ class Civi_WP_Member_Sync_BuddyPress {
 
 
 	/**
-	 * Intercept Rule Apply when membership is "expired".
+	 * Intercept Rule Apply when Membership is "expired".
 	 *
 	 * @since 0.4.7
 	 *
-	 * @param WP_User $user The WordPress user object.
-	 * @param int $membership_type_id The ID of the CiviCRM membership type.
-	 * @param int $status_id The ID of the CiviCRM membership status.
+	 * @param WP_User $user The WordPress User object.
+	 * @param int $membership_type_id The ID of the CiviCRM Membership Type.
+	 * @param int $status_id The ID of the CiviCRM Membership Status.
 	 * @param array $association_rule The rule used to apply the changes.
 	 */
 	public function rule_apply_expired( $user, $membership_type_id, $status_id, $association_rule ) {
 
-		// Remove the user from the current groups.
+		// Remove the User from the current Groups.
 		if ( ! empty( $association_rule['current_buddypress'] ) ) {
 			foreach( $association_rule['current_buddypress'] AS $group_id ) {
 				$this->group_member_delete( $user->ID, $group_id );
 			}
 		}
 
-		// Add the user to the expired groups.
+		// Add the User to the expired Groups.
 		if ( ! empty( $association_rule['expiry_buddypress'] ) ) {
 			foreach( $association_rule['expiry_buddypress'] AS $group_id ) {
 				$this->group_member_add( $user->ID, $group_id );
@@ -339,12 +339,12 @@ class Civi_WP_Member_Sync_BuddyPress {
 
 
 	/**
-	 * Add a WordPress user to a BuddyPress group.
+	 * Add a WordPress User to a BuddyPress Group.
 	 *
 	 * @since 0.4.7
 	 *
-	 * @param int $user_id The ID of the WordPress user to add to the group.
-	 * @param int $group_id The ID of the BuddyPress group.
+	 * @param int $user_id The ID of the WordPress User to add to the Group.
+	 * @param int $group_id The ID of the BuddyPress Group.
 	 * @return bool $success True on success, false otherwise.
 	 */
 	public function group_member_add( $user_id, $group_id ) {
@@ -378,15 +378,15 @@ class Civi_WP_Member_Sync_BuddyPress {
 
 
 	/**
-	 * Delete a WordPress user from a BuddyPress group.
+	 * Delete a WordPress User from a BuddyPress Group.
 	 *
 	 * We cannot use 'groups_remove_member()' because the logged in User may not
 	 * pass the 'bp_is_item_admin()' check in that function.
 	 *
 	 * @since 0.4.7
 	 *
-	 * @param int $user_id The ID of the WordPress user to delete from the group.
-	 * @param int $group_id The ID of the BuddyPress group.
+	 * @param int $user_id The ID of the WordPress User to delete from the Group.
+	 * @param int $group_id The ID of the BuddyPress Group.
 	 * @return bool $success True on success, false otherwise.
 	 */
 	public function group_member_delete( $user_id, $group_id ) {
@@ -435,17 +435,17 @@ class Civi_WP_Member_Sync_BuddyPress {
 	 */
 	public function rule_pre_save( $rule, $data, $mode, $method ) {
 
-		// Init "current" groups.
+		// Init "current" Groups.
 		$current = [];
 
-		// Get the "current" groups.
+		// Get the "current" Groups.
 		if (
 			isset( $_POST['cwms_buddypress_select_current'] ) AND
 			is_array( $_POST['cwms_buddypress_select_current'] ) AND
 			! empty( $_POST['cwms_buddypress_select_current'] )
 		) {
 
-			// Grab array of group IDs.
+			// Grab array of Group IDs.
 			$current = $_POST['cwms_buddypress_select_current'];
 
 			// Sanitise array items.
@@ -455,17 +455,17 @@ class Civi_WP_Member_Sync_BuddyPress {
 
 		}
 
-		// Init "expiry" groups.
+		// Init "expiry" Groups.
 		$expiry = [];
 
-		// Get the "expiry" groups.
+		// Get the "expiry" Groups.
 		if (
 			isset( $_POST['cwms_buddypress_select_expiry'] ) AND
 			is_array( $_POST['cwms_buddypress_select_expiry'] ) AND
 			! empty( $_POST['cwms_buddypress_select_expiry'] )
 		) {
 
-			// Grab array of group IDs.
+			// Grab array of Group IDs.
 			$expiry = $_POST['cwms_buddypress_select_expiry'];
 
 			// Sanitise array items.
@@ -695,11 +695,11 @@ class Civi_WP_Member_Sync_BuddyPress {
 
 
 	/**
-	 * Get the markup for a pseudo-list generated from a list of groups data.
+	 * Get the markup for a pseudo-list generated from a list of Groups data.
 	 *
 	 * @since 0.4.7
 	 *
-	 * @param array $group_ids The array of group IDs.
+	 * @param array $group_ids The array of Group IDs.
 	 */
 	public function markup_get_list_items( $group_ids ) {
 
@@ -709,7 +709,7 @@ class Civi_WP_Member_Sync_BuddyPress {
 
 		if ( ! empty( $group_ids ) ) {
 
-			// Get the groups.
+			// Get the Groups.
 			$groups = groups_get_groups( [
 				'order_by' => 'name',
 				'order' => 'ASC',
@@ -734,11 +734,11 @@ class Civi_WP_Member_Sync_BuddyPress {
 
 
 	/**
-	 * Get the markup for options generated from a list of groups data.
+	 * Get the markup for options generated from a list of Groups data.
 	 *
 	 * @since 0.4.7
 	 *
-	 * @param array $group_ids The array of group IDs.
+	 * @param array $group_ids The array of Group IDs.
 	 */
 	public function markup_get_options( $group_ids ) {
 
@@ -748,7 +748,7 @@ class Civi_WP_Member_Sync_BuddyPress {
 
 		if ( ! empty( $group_ids ) ) {
 
-			// Get the groups.
+			// Get the Groups.
 			$groups = groups_get_groups( [
 				'order_by' => 'name',
 				'order' => 'ASC',

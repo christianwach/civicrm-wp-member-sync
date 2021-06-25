@@ -139,7 +139,7 @@ class Civi_WP_Member_Sync_Admin_CAU {
 
 
 	/**
-	 * Filter the CiviCRM Admin Utilities "Manage Users" table to include users
+	 * Filter the CiviCRM Admin Utilities "Manage Users" table to include Users
 	 * of a specified Membership Type.
 	 *
 	 * @since 0.5
@@ -200,7 +200,7 @@ class Civi_WP_Member_Sync_Admin_CAU {
 
 
 	/**
-	 * Filter the CiviCRM Admin Utilities "Manage Users" table to include users
+	 * Filter the CiviCRM Admin Utilities "Manage Users" table to include Users
 	 * of a specified Membership Status.
 	 *
 	 * @since 0.5
@@ -258,7 +258,7 @@ class Civi_WP_Member_Sync_Admin_CAU {
 
 
 	/**
-	 * Filter the CiviCRM Admin Utilities "Manage Users" table to include users
+	 * Filter the CiviCRM Admin Utilities "Manage Users" table to include Users
 	 * with or without a Membership.
 	 *
 	 * @since 0.5
@@ -471,7 +471,7 @@ class Civi_WP_Member_Sync_Admin_CAU {
 	 * @param string $retval The markup to display.
 	 * @param string $column_name The table column name.
 	 * @param WP_User $user The WordPress User object.
-	 * @return string Membership Type as a link to filter all users.
+	 * @return string Membership Type as a link to filter all Users.
 	 */
 	public function populate_type_cell( $retval = '', $column_name = '', $user = null ) {
 

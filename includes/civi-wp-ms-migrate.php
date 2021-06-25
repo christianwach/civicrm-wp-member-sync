@@ -135,7 +135,7 @@ class Civi_WP_Member_Sync_Migrate {
 				$current_rule = maybe_unserialize( $item->current_rule );
 				$expiry_rule = maybe_unserialize( $item->expiry_rule );
 
-				// Add to roles data array, keyed by civi_member_type_id.
+				// Add to Roles data array, keyed by civi_member_type_id.
 				$data['roles'][$item->civi_mem_type] = [
 					'current_rule' => $current_rule,
 					'current_wp_role' => $item->wp_role,

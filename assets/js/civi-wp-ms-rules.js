@@ -108,10 +108,10 @@ jQuery(document).ready( function($) {
 			current_checked = false,
 			expire_checked = false;
 
-		// Only check membership type if in add mode.
+		// Only check Membership Type if in add mode.
 		if ( cwms_mode == 'add' ) {
 
-			// Check required role elements.
+			// Check required Role elements.
 			$('.required-type').each( function() {
 
 				// If it's not empty.
@@ -134,10 +134,10 @@ jQuery(document).ready( function($) {
 
 		}
 
-		// Only check roles if that's our sync method.
+		// Only check Roles if that's our sync method.
 		if ( cwms_method == 'roles' ) {
 
-			// Check required role elements.
+			// Check required Role elements.
 			$('.required-role').each( function() {
 
 				// If it's not empty.
@@ -208,7 +208,7 @@ jQuery(document).ready( function($) {
 
 	}
 
-	// The following require Select2 and Groups groups.
+	// The following require Select2 and "Groups" Groups.
 	if ( cwms_select2 === 'yes' && cwms_groups === 'yes' ) {
 
 		/**
@@ -252,9 +252,9 @@ jQuery(document).ready( function($) {
 		});
 
 		/**
-		 * Find the groups to exclude from search.
+		 * Find the Groups to exclude from search.
 		 *
-		 * This is disabled at present because I can't decide whether or not groups
+		 * This is disabled at present because I can't decide whether or not Groups
 		 * should be available in both 'current' and 'expiry' sections. I'm going to
 		 * allow duplicates for now.
 		 *
@@ -262,7 +262,7 @@ jQuery(document).ready( function($) {
 		 *
 		 * @param {Object} params The Select2 params.
 		 * @param {Object} obj The Select2 object calling this function.
-		 * @return {String} excludes The comma-separated group IDs to exclude from search.
+		 * @return {String} excludes The comma-separated Group IDs to exclude from search.
 		 */
 		function cwms_groups_get_excludes( params, obj ) {
 
@@ -287,7 +287,7 @@ jQuery(document).ready( function($) {
 			// Declare vars.
 			var markup;
 
-			// Construct basic group info.
+			// Construct basic Group info.
 			markup = '<div style="clear:both;">' +
 			'<div class="select2_results_group_name"><span style="font-weight:600;">' + data.name + '</span></div>' +
 			'</div>';
@@ -355,9 +355,9 @@ jQuery(document).ready( function($) {
 		});
 
 		/**
-		 * Find the BuddyPress groups to exclude from search.
+		 * Find the BuddyPress Groups to exclude from search.
 		 *
-		 * This is disabled at present because I can't decide whether or not groups
+		 * This is disabled at present because I can't decide whether or not Groups
 		 * should be available in both 'current' and 'expiry' sections. I'm going to
 		 * allow duplicates for now.
 		 *
@@ -365,7 +365,7 @@ jQuery(document).ready( function($) {
 		 *
 		 * @param {Object} params The Select2 params.
 		 * @param {Object} obj The Select2 object calling this function.
-		 * @return {String} excludes The comma-separated group IDs to exclude from search.
+		 * @return {String} excludes The comma-separated Group IDs to exclude from search.
 		 */
 		function cwms_buddypress_get_excludes( params, obj ) {
 
@@ -390,7 +390,7 @@ jQuery(document).ready( function($) {
 			// Declare vars.
 			var markup;
 
-			// Construct basic group info.
+			// Construct basic Group info.
 			markup = '<div style="clear:both;">' +
 			'<div class="select2_results_group_name"><span style="font-weight:600;">' + data.name + '</span></div>' +
 			'</div>';

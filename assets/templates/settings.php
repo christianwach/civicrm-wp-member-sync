@@ -29,7 +29,7 @@
 
 		<h3><?php esc_html_e( 'Synchronization Method', 'civicrm-wp-member-sync' ); ?></h3>
 
-		<p><?php esc_html_e( 'Select whether you want CiviCRM WordPress Member Sync to synchronize CiviCRM Memberships to WordPress Roles or WordPress Capabilities. If, for example, you need your WordPress user roles to be independent of membership status, then choose Capabilities.', 'civicrm-wp-member-sync' ); ?></p>
+		<p><?php esc_html_e( 'Select whether you want CiviCRM WordPress Member Sync to synchronize CiviCRM Memberships to WordPress Roles or WordPress Capabilities. If, for example, you need your WordPress User Roles to be independent of Membership Status, then choose Capabilities.', 'civicrm-wp-member-sync' ); ?></p>
 
 		<table class="form-table">
 
@@ -65,7 +65,7 @@
 
 		<h3><?php esc_html_e( 'Synchronization Events', 'civicrm-wp-member-sync' ); ?></h3>
 
-		<p><?php esc_html_e( 'Select which events CiviCRM WordPress Member Sync will use to trigger synchronization of CiviCRM Memberships and WordPress Users. If you choose user login/logout, you will have to run "Manual Synchronize" after you create a new rule for it to be applied to all users and contacts. Leave the default settings if you are unsure which methods to use.', 'civicrm-wp-member-sync' ); ?></p>
+		<p><?php esc_html_e( 'Select which events CiviCRM WordPress Member Sync will use to trigger synchronization of CiviCRM Memberships and WordPress Users. If you choose User login/logout, you will have to run "Manual Synchronize" after you create a new rule for it to be applied to all Users and Contacts. Leave the default settings if you are unsure which methods to use.', 'civicrm-wp-member-sync' ); ?></p>
 
 		<?php if ( $cau_present === false ) : ?>
 			<div class="notice notice-warning inline">
@@ -105,7 +105,7 @@
 					}
 
 					?><input type="checkbox" class="settings-checkbox" name="civi_wp_member_sync_settings_login" id="civi_wp_member_sync_settings_login" value="1"<?php echo $checked; ?> />
-					<label class="civi_wp_member_sync_settings_label" for="civi_wp_member_sync_settings_login"><?php esc_html_e( 'Synchronize whenever a user logs in or logs out. This action is performed only on the user logging in or out.', 'civicrm-wp-member-sync' ); ?></label>
+					<label class="civi_wp_member_sync_settings_label" for="civi_wp_member_sync_settings_login"><?php esc_html_e( 'Synchronize whenever a User logs in or logs out. This action is performed only on the User logging in or out.', 'civicrm-wp-member-sync' ); ?></label>
 				</td>
 			</tr>
 
@@ -121,7 +121,7 @@
 					}
 
 					?><input type="checkbox" class="settings-checkbox" name="civi_wp_member_sync_settings_civicrm" id="civi_wp_member_sync_settings_civicrm" value="1"<?php echo $checked; ?> />
-					<label class="civi_wp_member_sync_settings_label" for="civi_wp_member_sync_settings_civicrm"><?php esc_html_e( 'Synchronize when membership is updated in CiviCRM admin pages.', 'civicrm-wp-member-sync' ); ?></label>
+					<label class="civi_wp_member_sync_settings_label" for="civi_wp_member_sync_settings_civicrm"><?php esc_html_e( 'Synchronize when Membership is updated in CiviCRM admin pages.', 'civicrm-wp-member-sync' ); ?></label>
 				</td>
 			</tr>
 
@@ -137,7 +137,7 @@
 					}
 
 					?><input type="checkbox" class="settings-checkbox" name="civi_wp_member_sync_settings_schedule" id="civi_wp_member_sync_settings_schedule" value="1"<?php echo $checked; ?> />
-					<label class="civi_wp_member_sync_settings_label" for="civi_wp_member_sync_settings_schedule"><?php esc_html_e( 'Synchronize using a recurring schedule. This action is performed on all users and contacts.', 'civicrm-wp-member-sync' ); ?></label>
+					<label class="civi_wp_member_sync_settings_label" for="civi_wp_member_sync_settings_schedule"><?php esc_html_e( 'Synchronize using a recurring schedule. This action is performed on all Users and Contacts.', 'civicrm-wp-member-sync' ); ?></label>
 				</td>
 			</tr>
 

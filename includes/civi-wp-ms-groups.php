@@ -6,8 +6,8 @@
  * Class for encapsulating compatibility with the "Groups" plugin.
  *
  * Groups version 2.8.0 changed the way that access restrictions are implemented
- * and switched from "access control based on capabilities" to "access control
- * based on group membership". Furthermore, the legacy functionality does not
+ * and switched from "access control based on Capabilities" to "access control
+ * based on Group Membership". Furthermore, the legacy functionality does not
  * work as expected any more.
  *
  * As a result, the "groups_read_cap_add" and "groups_read_cap_delete" methods
@@ -179,10 +179,10 @@ class Civi_WP_Member_Sync_Groups {
 
 
 	/**
-	 * Search for groups on the "Add Rule" and "Edit Rule" pages.
+	 * Search for Groups on the "Add Rule" and "Edit Rule" pages.
 	 *
-	 * We still need to exclude groups which are present in the "opposite"
-	 * select - i.e. exclude current groups from expiry and vice versa.
+	 * We still need to exclude Groups which are present in the "opposite"
+	 * select - i.e. exclude current Groups from expiry and vice versa.
 	 *
 	 * @since 0.4
 	 */
@@ -237,23 +237,23 @@ class Civi_WP_Member_Sync_Groups {
 
 
 	/**
-	 * Intercept Rule Apply when method is "capabilities" and membership is "current".
+	 * Intercept Rule Apply when method is "capabilities" and Membership is "current".
 	 *
 	 * We need this method because the two related actions have different
 	 * signatures - `civi_wp_member_sync_rule_apply_caps_current` also passes
-	 * the capability, which we don't need.
+	 * the Capability, which we don't need.
 	 *
 	 * @since 0.4
 	 *
-	 * @param WP_User $user The WordPress user object.
-	 * @param int $membership_type_id The ID of the CiviCRM membership type.
-	 * @param int $status_id The ID of the CiviCRM membership status.
-	 * @param array $capability The membership type capability added or removed.
+	 * @param WP_User $user The WordPress User object.
+	 * @param int $membership_type_id The ID of the CiviCRM Membership Type.
+	 * @param int $status_id The ID of the CiviCRM Membership Status.
+	 * @param array $capability The Membership Type Capability added or removed.
 	 * @param array $association_rule The rule used to apply the changes.
 	 */
 	public function rule_apply_caps_current( $user, $membership_type_id, $status_id, $capability, $association_rule ) {
 
-		// Pass through without capability param.
+		// Pass through without Capability param.
 		$this->rule_apply_current( $user, $membership_type_id, $status_id, $association_rule );
 
 	}
@@ -261,22 +261,22 @@ class Civi_WP_Member_Sync_Groups {
 
 
 	/**
-	 * Intercept Rule Apply when method is "capabilities" and membership is "expired".
+	 * Intercept Rule Apply when method is "capabilities" and Membership is "expired".
 	 *
 	 * We need this method because the two related actions have different
 	 * signatures - `civi_wp_member_sync_rule_apply_caps_current` also passes
-	 * the capability, which we don't need.
+	 * the Capability, which we don't need.
 	 *
 	 * @since 0.4
 	 *
-	 * @param WP_User $user The WordPress user object.
-	 * @param int $membership_type_id The ID of the CiviCRM membership type.
-	 * @param int $status_id The ID of the CiviCRM membership status.
-	 * @param array $capability The membership type capability added or removed.
+	 * @param WP_User $user The WordPress User object.
+	 * @param int $membership_type_id The ID of the CiviCRM Membership Type.
+	 * @param int $status_id The ID of the CiviCRM Membership Status.
+	 * @param array $capability The Membership Type Capability added or removed.
 	 */
 	public function rule_apply_caps_expired( $user, $membership_type_id, $status_id, $capability, $association_rule ) {
 
-		// Pass through without capability param.
+		// Pass through without Capability param.
 		$this->rule_apply_expired( $user, $membership_type_id, $status_id, $association_rule );
 
 	}
@@ -284,25 +284,25 @@ class Civi_WP_Member_Sync_Groups {
 
 
 	/**
-	 * Intercept Rule Apply when membership is "current".
+	 * Intercept Rule Apply when Membership is "current".
 	 *
 	 * @since 0.4
 	 *
-	 * @param WP_User $user The WordPress user object.
-	 * @param int $membership_type_id The ID of the CiviCRM membership type.
-	 * @param int $status_id The ID of the CiviCRM membership status.
+	 * @param WP_User $user The WordPress User object.
+	 * @param int $membership_type_id The ID of the CiviCRM Membership Type.
+	 * @param int $status_id The ID of the CiviCRM Membership Status.
 	 * @param array $association_rule The rule used to apply the changes.
 	 */
 	public function rule_apply_current( $user, $membership_type_id, $status_id, $association_rule ) {
 
-		// Remove the user from the expired groups.
+		// Remove the User from the expired Groups.
 		if ( ! empty( $association_rule['expiry_groups'] ) ) {
 			foreach( $association_rule['expiry_groups'] AS $group_id ) {
 				$this->group_member_delete( $user->ID, $group_id );
 			}
 		}
 
-		// Add the user to the current groups.
+		// Add the User to the current Groups.
 		if ( ! empty( $association_rule['current_groups'] ) ) {
 			foreach( $association_rule['current_groups'] AS $group_id ) {
 				$this->group_member_add( $user->ID, $group_id );
@@ -314,25 +314,25 @@ class Civi_WP_Member_Sync_Groups {
 
 
 	/**
-	 * Intercept Rule Apply when membership is "expired".
+	 * Intercept Rule Apply when Membership is "expired".
 	 *
 	 * @since 0.4
 	 *
-	 * @param WP_User $user The WordPress user object.
-	 * @param int $membership_type_id The ID of the CiviCRM membership type.
-	 * @param int $status_id The ID of the CiviCRM membership status.
+	 * @param WP_User $user The WordPress User object.
+	 * @param int $membership_type_id The ID of the CiviCRM Membership Type.
+	 * @param int $status_id The ID of the CiviCRM Membership Status.
 	 * @param array $association_rule The rule used to apply the changes.
 	 */
 	public function rule_apply_expired( $user, $membership_type_id, $status_id, $association_rule ) {
 
-		// Remove the user from the current groups.
+		// Remove the User from the current Groups.
 		if ( ! empty( $association_rule['current_groups'] ) ) {
 			foreach( $association_rule['current_groups'] AS $group_id ) {
 				$this->group_member_delete( $user->ID, $group_id );
 			}
 		}
 
-		// Add the user to the expired groups.
+		// Add the User to the expired Groups.
 		if ( ! empty( $association_rule['expiry_groups'] ) ) {
 			foreach( $association_rule['expiry_groups'] AS $group_id ) {
 				$this->group_member_add( $user->ID, $group_id );
@@ -348,22 +348,22 @@ class Civi_WP_Member_Sync_Groups {
 
 
 	/**
-	 * Add a WordPress user to a "Groups" group.
+	 * Add a WordPress User to a "Groups" Group.
 	 *
 	 * @since 0.4
 	 *
-	 * @param int $user_id The ID of the WordPress user to add to the group.
-	 * @param int $group_id The ID of the "Groups" group.
+	 * @param int $user_id The ID of the WordPress User to add to the Group.
+	 * @param int $group_id The ID of the "Groups" Group.
 	 * @return bool $success True on success, false otherwise.
 	 */
 	public function group_member_add( $user_id, $group_id ) {
 
-		// Bail if they are already a group member.
+		// Bail if they are already a Group Member.
 		if ( Groups_User_Group::read( $user_id, $group_id ) ) {
 			return true;
 		}
 
-		// Add user to group.
+		// Add User to Group.
 		$success = Groups_User_Group::create( [
 			'user_id'  => $user_id,
 			'group_id' => $group_id,
@@ -390,22 +390,22 @@ class Civi_WP_Member_Sync_Groups {
 
 
 	/**
-	 * Delete a WordPress user from a "Groups" group.
+	 * Delete a WordPress User from a "Groups" Group.
 	 *
 	 * @since 0.4
 	 *
-	 * @param int $user_id The ID of the WordPress user to delete from the group.
-	 * @param int $group_id The ID of the "Groups" group.
+	 * @param int $user_id The ID of the WordPress User to delete from the Group.
+	 * @param int $group_id The ID of the "Groups" Group.
 	 * @return bool $success True on success, false otherwise.
 	 */
 	public function group_member_delete( $user_id, $group_id ) {
 
-		// Bail if they are not a group member.
+		// Bail if they are not a Group Member.
 		if ( ! Groups_User_Group::read( $user_id, $group_id ) ) {
 			return true;
 		}
 
-		// Delete user from group.
+		// Delete User from Group.
 		$success = Groups_User_Group::delete( $user_id, $group_id );
 
 		// Maybe log on failure?
@@ -444,17 +444,17 @@ class Civi_WP_Member_Sync_Groups {
 	 */
 	public function rule_pre_save( $rule, $data, $mode, $method ) {
 
-		// Init "current" groups.
+		// Init "current" Groups.
 		$current = [];
 
-		// Get the "current" groups.
+		// Get the "current" Groups.
 		if (
 			isset( $_POST['cwms_groups_select_current'] ) AND
 			is_array( $_POST['cwms_groups_select_current'] ) AND
 			! empty( $_POST['cwms_groups_select_current'] )
 		) {
 
-			// Grab array of group IDs.
+			// Grab array of Group IDs.
 			$current = $_POST['cwms_groups_select_current'];
 
 			// Sanitise array items.
@@ -464,17 +464,17 @@ class Civi_WP_Member_Sync_Groups {
 
 		}
 
-		// Init "expiry" groups.
+		// Init "expiry" Groups.
 		$expiry = [];
 
-		// Get the "expiry" groups.
+		// Get the "expiry" Groups.
 		if (
 			isset( $_POST['cwms_groups_select_expiry'] ) AND
 			is_array( $_POST['cwms_groups_select_expiry'] ) AND
 			! empty( $_POST['cwms_groups_select_expiry'] )
 		) {
 
-			// Grab array of group IDs.
+			// Grab array of Group IDs.
 			$expiry = $_POST['cwms_groups_select_expiry'];
 
 			// Sanitise array items.
@@ -704,11 +704,11 @@ class Civi_WP_Member_Sync_Groups {
 
 
 	/**
-	 * Get the markup for a pseudo-list generated from a list of groups data.
+	 * Get the markup for a pseudo-list generated from a list of Groups data.
 	 *
 	 * @since 0.4
 	 *
-	 * @param array $group_ids The array of group IDs.
+	 * @param array $group_ids The array of Group IDs.
 	 */
 	public function markup_get_list_items( $group_ids ) {
 
@@ -718,7 +718,7 @@ class Civi_WP_Member_Sync_Groups {
 
 		if ( ! empty( $group_ids ) ) {
 
-			// Get the groups.
+			// Get the Groups.
 			$groups = Groups_Group::get_groups( [
 				'order_by' => 'name',
 				'order' => 'ASC',
@@ -743,11 +743,11 @@ class Civi_WP_Member_Sync_Groups {
 
 
 	/**
-	 * Get the markup for options generated from a list of groups data.
+	 * Get the markup for options generated from a list of Groups data.
 	 *
 	 * @since 0.4
 	 *
-	 * @param array $group_ids The array of group IDs.
+	 * @param array $group_ids The array of Group IDs.
 	 */
 	public function markup_get_options( $group_ids ) {
 
@@ -757,7 +757,7 @@ class Civi_WP_Member_Sync_Groups {
 
 		if ( ! empty( $group_ids ) ) {
 
-			// Get the groups.
+			// Get the Groups.
 			$groups = Groups_Group::get_groups( [
 				'order_by' => 'name',
 				'order' => 'ASC',
@@ -786,7 +786,7 @@ class Civi_WP_Member_Sync_Groups {
 
 
 	/**
-	 * When an association rule is created, add capability to "Groups" plugin.
+	 * When an association rule is created, add Capability to "Groups" plugin.
 	 *
 	 * @since 0.2.3
 	 * @since 0.3.9 Moved into this class.
@@ -795,10 +795,10 @@ class Civi_WP_Member_Sync_Groups {
 	 */
 	public function groups_add_cap( $data ) {
 
-		// Add it as "read post" capability.
+		// Add it as "read post" Capability.
 		$this->groups_read_cap_add( $data['capability'] );
 
-		// Get existing capability.
+		// Get existing Capability.
 		$capability = Groups_Capability::read_by_capability( $data['capability'] );
 
 		// Bail if it already exists.
@@ -806,7 +806,7 @@ class Civi_WP_Member_Sync_Groups {
 			return;
 		}
 
-		// Create a new capability.
+		// Create a new Capability.
 		$capability_id = Groups_Capability::create( [ 'capability' => $data['capability'] ] );
 
 	}
@@ -814,7 +814,7 @@ class Civi_WP_Member_Sync_Groups {
 
 
 	/**
-	 * When an association rule is edited, edit capability in "Groups" plugin.
+	 * When an association rule is edited, edit Capability in "Groups" plugin.
 	 *
 	 * @since 0.2.3
 	 * @since 0.3.9 Moved into this class.
@@ -831,7 +831,7 @@ class Civi_WP_Member_Sync_Groups {
 
 
 	/**
-	 * When an association rule is deleted, delete capability from "Groups" plugin.
+	 * When an association rule is deleted, delete Capability from "Groups" plugin.
 	 *
 	 * @since 0.2.3
 	 * @since 0.3.9 Moved into this class.
@@ -840,7 +840,7 @@ class Civi_WP_Member_Sync_Groups {
 	 */
 	public function groups_delete_cap( $data ) {
 
-		// Delete from "read post" capabilities.
+		// Delete from "read post" Capabilities.
 		$this->groups_read_cap_delete( $data['capability'] );
 
 		// Get existing.
@@ -851,7 +851,7 @@ class Civi_WP_Member_Sync_Groups {
 			return;
 		}
 
-		// Delete capability.
+		// Delete Capability.
 		$capability_id = Groups_Capability::delete( $capability->capability_id );
 
 	}
@@ -859,12 +859,12 @@ class Civi_WP_Member_Sync_Groups {
 
 
 	/**
-	 * Add "read post" capability to "Groups" plugin.
+	 * Add "read post" Capability to "Groups" plugin.
 	 *
 	 * @since 0.2.3
 	 * @since 0.3.9 Moved into this class.
 	 *
-	 * @param array $capability The capability to add.
+	 * @param array $capability The Capability to add.
 	 */
 	public function groups_read_cap_add( $capability ) {
 
@@ -879,7 +879,7 @@ class Civi_WP_Member_Sync_Groups {
 			return;
 		}
 
-		// Add the new capability.
+		// Add the new Capability.
 		$current_read_caps[] = $capability;
 
 		// Resave option.
@@ -890,12 +890,12 @@ class Civi_WP_Member_Sync_Groups {
 
 
 	/**
-	 * Delete "read post" capability from "Groups" plugin.
+	 * Delete "read post" Capability from "Groups" plugin.
 	 *
 	 * @since 0.2.3
 	 * @since 0.3.9 Moved into this class.
 	 *
-	 * @param array $capability The capability to delete.
+	 * @param array $capability The Capability to delete.
 	 */
 	public function groups_read_cap_delete( $capability ) {
 
@@ -905,7 +905,7 @@ class Civi_WP_Member_Sync_Groups {
 		// Get current.
 		$current_read_caps = Groups_Options::get_option( Groups_Post_Access::READ_POST_CAPABILITIES, $default_read_caps );
 
-		// Get key if capability is present.
+		// Get key if Capability is present.
 		$key = array_search( $capability, $current_read_caps );
 
 		// Bail if we don't have it.
@@ -913,7 +913,7 @@ class Civi_WP_Member_Sync_Groups {
 			return;
 		}
 
-		// Delete the capability.
+		// Delete the Capability.
 		unset( $current_read_caps[$key] );
 
 		// Resave option.
@@ -934,7 +934,7 @@ class Civi_WP_Member_Sync_Groups {
 		// Get sync method.
 		$method = $this->plugin->admin->setting_get_method();
 
-		// Bail if we're not syncing capabilities.
+		// Bail if we're not syncing Capabilities.
 		if ( $method != 'capabilities' ) {
 			return;
 		}
@@ -945,7 +945,7 @@ class Civi_WP_Member_Sync_Groups {
 		// If we get some.
 		if ( $rules !== false AND is_array( $rules ) AND count( $rules ) > 0 ) {
 
-			// Add capability to "Groups" plugin if not already present.
+			// Add Capability to "Groups" plugin if not already present.
 			foreach( $rules AS $rule ) {
 				$this->groups_add_cap( $rule );
 			}
@@ -957,7 +957,7 @@ class Civi_WP_Member_Sync_Groups {
 
 
 	/**
-	 * Auto-restrict a post based on the post type.
+	 * Auto-restrict a Post based on the Post Type.
 	 *
 	 * @since 0.2.3
 	 * @since 0.3.9 Moved into this class.
@@ -965,8 +965,8 @@ class Civi_WP_Member_Sync_Groups {
 	 * This is a placeholder in case we want to extend this plugin to handle
 	 * automatic content restriction.
 	 *
-	 * @param int $post_id The numeric ID of the post.
-	 * @param object $post The WordPress post object.
+	 * @param int $post_id The numeric ID of the Post.
+	 * @param object $post The WordPress Post object.
 	 */
 	public function groups_intercept_save_post( $post_id, $post ) {
 
@@ -975,11 +975,11 @@ class Civi_WP_Member_Sync_Groups {
 			return;
 		}
 
-		// Do different things based on the post type.
+		// Do different things based on the Post Type.
 		switch( $post->post_type ) {
 
 			case 'post':
-				// Add your default capabilities.
+				// Add your default Capabilities.
 				Groups_Post_Access::create( [ 'post_id' => $post_id, 'capability' => 'Premium' ] );
 				break;
 

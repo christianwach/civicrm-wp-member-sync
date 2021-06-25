@@ -2,7 +2,7 @@
 --------------------------------------------------------------------------------
 Plugin Name: CiviCRM WordPress Member Sync
 Plugin URI: https://github.com/christianwach/civicrm-wp-member-sync
-Description: Synchronize CiviCRM memberships with WordPress user roles or capabilities.
+Description: Synchronize CiviCRM Memberships with WordPress User Roles or Capabilities.
 Author: Christian Wach
 Version: 0.5.1
 Author URI: http://haystack.co.uk
@@ -23,7 +23,7 @@ Tadpole Collective <https://tadpole.cc> for their fork:
 
 
 
-// Define capability prefix.
+// Define Capability prefix.
 if ( ! defined( 'CIVI_WP_MEMBER_SYNC_CAP_PREFIX' ) ) {
 	define( 'CIVI_WP_MEMBER_SYNC_CAP_PREFIX', 'civimember_' );
 }
@@ -63,7 +63,7 @@ class Civi_WP_Member_Sync {
 	 *
 	 * @since 0.1
 	 * @access public
-	 * @var object $user The users utilities object.
+	 * @var object $user The Users utilities object.
 	 */
 	public $users;
 
@@ -72,7 +72,7 @@ class Civi_WP_Member_Sync {
 	 *
 	 * @since 0.1
 	 * @access public
-	 * @var object $schedule The scheduled events utilities object.
+	 * @var object $schedule The Scheduled Events utilities object.
 	 */
 	public $schedule;
 
@@ -81,7 +81,7 @@ class Civi_WP_Member_Sync {
 	 *
 	 * @since 0.1
 	 * @access public
-	 * @var object $admin The admin utilities object.
+	 * @var object $admin The Admin utilities object.
 	 */
 	public $admin;
 
@@ -90,12 +90,12 @@ class Civi_WP_Member_Sync {
 	 *
 	 * @since 0.1
 	 * @access public
-	 * @var object $members The membership utilities object.
+	 * @var object $members The CiviCRM Membership utilities object.
 	 */
 	public $members;
 
 	/**
-	 * CiviCRM "Groups" compatibility object.
+	 * "Groups" compatibility object.
 	 *
 	 * @since 0.3.9
 	 * @access public
@@ -104,7 +104,7 @@ class Civi_WP_Member_Sync {
 	public $groups;
 
 	/**
-	 * CiviCRM BuddyPress compatibility object.
+	 * BuddyPress compatibility object.
 	 *
 	 * @since 0.4.7
 	 * @access public
@@ -153,7 +153,7 @@ class Civi_WP_Member_Sync {
 		// Load our Admin utility class.
 		require CIVI_WP_MEMBER_SYNC_PLUGIN_PATH . 'includes/civi-wp-ms-admin.php';
 
-		// Load our CiviCRM utility class.
+		// Load our CiviCRM Membership utility class.
 		require CIVI_WP_MEMBER_SYNC_PLUGIN_PATH . 'includes/civi-wp-ms-members.php';
 
 		// Load our "Groups" compatibility class.
@@ -182,7 +182,7 @@ class Civi_WP_Member_Sync {
 		// Instantiate Admin object.
 		$this->admin = new Civi_WP_Member_Sync_Admin( $this );
 
-		// Instantiate CiviCRM Members object.
+		// Instantiate CiviCRM Membership object.
 		$this->members = new Civi_WP_Member_Sync_Members( $this );
 
 		// Instantiate "Groups" compatibility object.

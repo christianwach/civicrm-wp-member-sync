@@ -14,7 +14,7 @@ if ( ! defined( 'WP_UNINSTALL_PLUGIN' ) ) {
 
 
 /**
- * We need to remove all capabilities granted to users via this plugin.
+ * We need to remove all Capabilities granted to Users via this plugin.
  */
 function civi_wp_member_sync_reset_caps() {
 
@@ -35,21 +35,21 @@ function civi_wp_member_sync_reset_caps() {
 	// Get 'capabilities' association rules.
 	$rules = $settings['data']['capabilities'];
 
-	// Init capabilities list.
+	// Init Capabilities list.
 	$capabilities = array();
 
 	// Sanity check.
 	if ( count( $rules ) > 0 ) {
 		foreach( $rules AS $rule ) {
 
-			// Add base capability.
+			// Add base Capability.
 			$capabilities[] = $rule['capability'];
 
 			// Add current rule caps.
 			if ( count( $rule['current_rule'] ) > 0 ) {
 				foreach( $rule['current_rule'] AS $status ) {
 
-					// Add status capability.
+					// Add status Capability.
 					$capabilities[] = $rule['capability'] . '_' . $status;
 
 				}
@@ -59,7 +59,7 @@ function civi_wp_member_sync_reset_caps() {
 			if ( count( $rule['expiry_rule'] ) > 0 ) {
 				foreach( $rule['expiry_rule'] AS $status ) {
 
-					// Add status capability.
+					// Add status Capability.
 					$capabilities[] = $rule['capability'] . '_' . $status;
 
 				}
@@ -68,20 +68,20 @@ function civi_wp_member_sync_reset_caps() {
 		}
 	}
 
-	// Get all WordPress users.
+	// Get all WordPress Users.
 	$users = get_users( array( 'all_with_meta' => true ) );
 
 	// Loop through them.
 	foreach( $users AS $user ) {
 
-		// Skip if we don't have a valid user.
+		// Skip if we don't have a valid User.
 		if ( ! ( $user instanceof WP_User ) ) continue;
 		if ( ! $user->exists() ) continue;
 
 		if ( count( $capabilities ) > 0 ) {
 			foreach( $capabilities AS $capability ) {
 
-				// Remove capability if they have it.
+				// Remove Capability if they have it.
 				if ( $user->has_cap( $capability ) ) {
 					$user->remove_cap( $capability );
 				}
@@ -93,7 +93,7 @@ function civi_wp_member_sync_reset_caps() {
 
 }
 
-// Remove capabilities from users.
+// Remove Capabilities from Users.
 civi_wp_member_sync_reset_caps();
 
 

@@ -124,7 +124,7 @@ class Civi_WP_Member_Sync_Admin {
 	 *
 	 * @since 0.3.7
 	 * @access public
-	 * @var int $batch_count The number of memberships to process per batch.
+	 * @var int $batch_count The number of Memberships to process per batch.
 	 */
 	public $batch_count = 25;
 
@@ -458,7 +458,7 @@ class Civi_WP_Member_Sync_Admin {
 			return false;
 		}
 
-		// Check user permissions.
+		// Check User permissions.
 		if ( ! current_user_can( 'manage_options' ) ) {
 			return false;
 		}
@@ -772,7 +772,7 @@ class Civi_WP_Member_Sync_Admin {
 			$vars['select2'] = 'yes';
 		}
 
-		// Maybe override groups.
+		// Maybe override Groups.
 		if ( $this->plugin->groups->enabled() ) {
 			$vars['groups'] = 'yes';
 		}
@@ -1016,7 +1016,7 @@ class Civi_WP_Member_Sync_Admin {
 	 */
 	public function page_settings() {
 
-		// Check user permissions.
+		// Check User permissions.
 		if ( ! current_user_can( 'manage_options' ) ) {
 			return;
 		}
@@ -1073,7 +1073,7 @@ class Civi_WP_Member_Sync_Admin {
 	 */
 	public function page_manual_sync() {
 
-		// Check user permissions.
+		// Check User permissions.
 		if ( ! current_user_can( 'manage_options' ) ) {
 			return;
 		}
@@ -1095,7 +1095,7 @@ class Civi_WP_Member_Sync_Admin {
 	 */
 	public function page_rules_list() {
 
-		// Check user permissions.
+		// Check User permissions.
 		if ( ! current_user_can( 'manage_options' ) ) {
 			return;
 		}
@@ -1112,7 +1112,7 @@ class Civi_WP_Member_Sync_Admin {
 		// Get data for this sync method.
 		$data = ( isset( $all_data[$method] ) ) ? $all_data[$method] : [];
 
-		// Get all membership types.
+		// Get all Membership Types.
 		$membership_types = $this->plugin->members->types_get_all();
 
 		// Assume we don't have all types.
@@ -1151,7 +1151,7 @@ class Civi_WP_Member_Sync_Admin {
 	 */
 	public function page_rule_add_edit() {
 
-		// Check user permissions.
+		// Check User permissions.
 		if ( ! current_user_can( 'manage_options' ) ) {
 			return;
 		}
@@ -1197,10 +1197,10 @@ class Civi_WP_Member_Sync_Admin {
 		// Get admin page URLs.
 		$urls = $this->page_get_urls();
 
-		// Get all membership types.
+		// Get all Membership Types.
 		$membership_types = $this->plugin->members->types_get_all();
 
-		// Get all membership status rules.
+		// Get all Membership Status rules.
 		$status_rules = $this->plugin->members->status_rules_get_all();
 
 		// Get method.
@@ -1212,10 +1212,10 @@ class Civi_WP_Member_Sync_Admin {
 		// If we get some.
 		if ( $rules !== false AND is_array( $rules ) AND count( $rules ) > 0 ) {
 
-			// Get used membership type IDs.
+			// Get used Membership Type IDs.
 			$type_ids = array_keys( $rules );
 
-			// Loop and remove from membership_types array.
+			// Loop and remove from Membership_types array.
 			foreach( $type_ids AS $type_id ) {
 				if ( isset( $membership_types[$type_id] ) ) {
 					unset( $membership_types[$type_id] );
@@ -1230,7 +1230,7 @@ class Civi_WP_Member_Sync_Admin {
 		// Well?
 		if ( $method == 'roles' ) {
 
-			// Get filtered roles.
+			// Get filtered Roles.
 			$roles = $this->plugin->users->wp_role_names_get_all();
 
 			// Include template file.
@@ -1257,16 +1257,16 @@ class Civi_WP_Member_Sync_Admin {
 		// Get admin page URLs.
 		$urls = $this->page_get_urls();
 
-		// Get all membership types.
+		// Get all Membership Types.
 		$membership_types = $this->plugin->members->types_get_all();
 
-		// Get all membership status rules.
+		// Get all Membership Status rules.
 		$status_rules = $this->plugin->members->status_rules_get_all();
 
 		// Get method.
 		$method = $this->setting_get_method();
 
-		// Get requested membership type ID.
+		// Get requested Membership Type ID.
 		$civi_member_type_id = absint( $_GET['type_id'] );
 
 		// Get rule by type.
@@ -1282,7 +1282,7 @@ class Civi_WP_Member_Sync_Admin {
 		// If we get some.
 		if ( $rules !== false AND is_array( $rules ) AND count( $rules ) > 0 ) {
 
-			// Get used membership type IDs.
+			// Get used Membership Type IDs.
 			$type_ids = array_keys( $rules );
 
 			// Loop and remove from membership_types array.
@@ -1294,13 +1294,13 @@ class Civi_WP_Member_Sync_Admin {
 
 		}
 
-		// Do we need roles?
+		// Do we need Roles?
 		if ( $method == 'roles' ) {
 
-			// Get filtered roles.
+			// Get filtered Roles.
 			$roles = $this->plugin->users->wp_role_names_get_all();
 
-			// Get stored roles.
+			// Get stored Roles.
 			$current_wp_role = $selected_rule['current_wp_role'];
 			$expired_wp_role = $selected_rule['expired_wp_role'];
 
@@ -1464,17 +1464,17 @@ class Civi_WP_Member_Sync_Admin {
 			check_admin_referer( 'civi_wp_member_sync_manual_sync_action', 'civi_wp_member_sync_nonce' );
 
 			/**
-			 * Let other plugins know that we're about to sync all users.
+			 * Let other plugins know that we're about to sync all Users.
 			 *
 			 * @since 0.1
 			 */
 			do_action( 'civi_wp_member_sync_pre_sync_all' );
 
-			// Sync all memberships for *existing* WordPress users.
+			// Sync all Memberships for *existing* WordPress Users.
 			$result = $this->plugin->members->sync_all_civicrm_memberships();
 
 			/**
-			 * Let other plugins know that we've synced all users.
+			 * Let other plugins know that we've synced all Users.
 			 *
 			 * @since 0.1
 			 */
@@ -1533,7 +1533,7 @@ class Civi_WP_Member_Sync_Admin {
 		// Set default schedule interval.
 		$settings['interval'] = 'daily';
 
-		// Sync only the Individual contact type by default.
+		// Sync only the "Individual" Contact Type by default.
 		$settings['types'] = 1;
 
 		/**
@@ -1767,13 +1767,13 @@ class Civi_WP_Member_Sync_Admin {
 		 * Filter the batch count.
 		 *
 		 * Overriding this value allows the batch process to be controlled such
-		 * that installs with large numbers of memberships running on faster
+		 * that installs with large numbers of Memberships running on faster
 		 * machines can reduce the time taken to perform the sync process.
 		 *
 		 * @since 0.3.7
 		 *
-		 * @param int $count The default number of memberships to process per batch.
-		 * @param int $count The modified number of memberships to process per batch.
+		 * @param int $count The default number of Memberships to process per batch.
+		 * @param int $count The modified number of Memberships to process per batch.
 		 */
 		$count = apply_filters( 'civi_wp_member_sync_get_batch_count', $count );
 
@@ -1960,11 +1960,11 @@ class Civi_WP_Member_Sync_Admin {
 
 
 	/**
-	 * Get an association rule by membership type ID.
+	 * Get an association rule by Membership Type ID.
 	 *
 	 * @since 0.1
 	 *
-	 * @param int $type_id The numeric ID of the CiviCRM membership type.
+	 * @param int $type_id The numeric ID of the CiviCRM Membership Type.
 	 * @param string $method The sync method (either 'roles' or 'capabilities').
 	 * @return mixed $rule Array if successful, boolean false otherwise.
 	 */
@@ -1990,7 +1990,7 @@ class Civi_WP_Member_Sync_Admin {
 
 
 	/**
-	 * Update (or add) a membership rule.
+	 * Update (or add) a Membership rule.
 	 *
 	 * @since 0.1
 	 *
@@ -2029,7 +2029,7 @@ class Civi_WP_Member_Sync_Admin {
 		// Init errors.
 		$this->errors = [];
 
-		// Depending on the "multiple" flag, validate membership types.
+		// Depending on the "multiple" flag, validate Membership Types.
 		if ( $multiple === true ) {
 
 			// Check and sanitise CiviCRM Membership Types.
@@ -2127,7 +2127,7 @@ class Civi_WP_Member_Sync_Admin {
 
 		}
 
-		// Do we want roles?
+		// Do we want Roles?
 		if ( $method == 'roles' ) {
 
 			// Check and sanitise WordPress Role.
@@ -2259,7 +2259,7 @@ class Civi_WP_Member_Sync_Admin {
 
 
 	/**
-	 * Create a membership rule array.
+	 * Create a Membership rule array.
 	 *
 	 * @since 0.4.2
 	 *
@@ -2272,7 +2272,7 @@ class Civi_WP_Member_Sync_Admin {
 		// Which sync method are we using?
 		if ( $method == 'roles' ) {
 
-			// Construct role rule.
+			// Construct Role rule.
 			$rule = [
 				'current_rule' => $params['current_rule'],
 				'current_wp_role' => $params['current_wp_role'],
@@ -2282,7 +2282,7 @@ class Civi_WP_Member_Sync_Admin {
 
 		} else {
 
-			// Construct capability rule.
+			// Construct Capability rule.
 			$rule = [
 				'current_rule' => $params['current_rule'],
 				'expiry_rule' => $params['expiry_rule'],
@@ -2299,14 +2299,14 @@ class Civi_WP_Member_Sync_Admin {
 
 
 	/**
-	 * Save a membership rule.
+	 * Save a Membership rule.
 	 *
 	 * @since 0.4.2
 	 *
 	 * @param array $rule The new or updated association rule.
 	 * @param str $mode The mode ('add' or 'edit').
 	 * @param str $method The sync method.
-	 * @param int $$civi_member_type_id The numeric ID of the membership type.
+	 * @param int $$civi_member_type_id The numeric ID of the Membership Type.
 	 */
 	public function rule_save( $rule, $mode, $method, $civi_member_type_id ) {
 
@@ -2373,7 +2373,7 @@ class Civi_WP_Member_Sync_Admin {
 
 
 	/**
-	 * Delete a membership rule.
+	 * Delete a Membership rule.
 	 *
 	 * @since 0.1
 	 *
@@ -2392,7 +2392,7 @@ class Civi_WP_Member_Sync_Admin {
 
 		}
 
-		// Get membership type.
+		// Get Membership Type.
 		$type_id = absint( $_GET['type_id'] );
 
 		// Sanity check.
@@ -2452,16 +2452,16 @@ class Civi_WP_Member_Sync_Admin {
 
 
 	/**
-	 * Check if there is at least one rule applied to a set of memberships.
+	 * Check if there is at least one rule applied to a set of Memberships.
 	 *
-	 * The reason for this method is, as @andymyersau points out, that users
+	 * The reason for this method is, as @andymyersau points out, that Users
 	 * should not be created unless there is an Association Rule that applies
 	 * to them. This method therefore checks for the existence of at least one
-	 * applicable rule for a given set of memberships.
+	 * applicable rule for a given set of Memberships.
 	 *
 	 * @since 0.3.7
 	 *
-	 * @param array $memberships The memberships to analyse.
+	 * @param array $memberships The Memberships to analyse.
 	 * @return bool $has_rule True if a rule applies, false otherwise.
 	 */
 	public function rule_exists( $memberships = false ) {
@@ -2474,7 +2474,7 @@ class Civi_WP_Member_Sync_Admin {
 			return $has_rule;
 		}
 
-		// Bail if we didn't get memberships passed.
+		// Bail if we didn't get Memberships passed.
 		if ( $memberships === false ) {
 			return $has_rule;
 		}
@@ -2485,26 +2485,26 @@ class Civi_WP_Member_Sync_Admin {
 		// Get sync method.
 		$method = $this->setting_get_method();
 
-		// Loop through the supplied memberships.
+		// Loop through the supplied Memberships.
 		foreach( $memberships['values'] AS $membership ) {
 
-			// Continue with next membership if something went wrong.
+			// Continue with next Membership if something went wrong.
 			if ( empty( $membership['membership_type_id'] ) ) {
 				continue;
 			}
 
-			// Get membership type.
+			// Get Membership Type.
 			$membership_type_id = $membership['membership_type_id'];
 
-			// Get association rule for this membership type.
+			// Get association rule for this Membership Type.
 			$association_rule = $this->rule_get_by_type( $membership_type_id, $method );
 
-			// Continue with next membership if we have an error or no rule exists.
+			// Continue with next Membership if we have an error or no rule exists.
 			if ( $association_rule === false ) {
 				continue;
 			}
 
-			// Continue with next membership if something is wrong with rule.
+			// Continue with next Membership if something is wrong with rule.
 			if ( empty( $association_rule['current_rule'] ) ) {
 				continue;
 			}
@@ -2515,7 +2515,7 @@ class Civi_WP_Member_Sync_Admin {
 			// Which sync method are we using?
 			if ( $method == 'roles' ) {
 
-				// Continue with next membership if something is wrong with rule.
+				// Continue with next Membership if something is wrong with rule.
 				if ( empty( $association_rule['current_wp_role'] ) ) {
 					continue;
 				}
@@ -2545,38 +2545,37 @@ class Civi_WP_Member_Sync_Admin {
 
 
 	/**
-	 * Manage WordPress roles or capabilities based on the status of a user's memberships.
+	 * Manage WordPress Roles or Capabilities based on the status of a User's Memberships.
 	 *
 	 * The following notes are to describe how this method should be enhanced:
 	 *
-	 * There are sometimes situations - when there are multiple roles assigned via
-	 * multiple memberships - where a role may be incorrectly removed (and perhaps
+	 * There are sometimes situations - when there are multiple Roles assigned via
+	 * multiple Memberships - where a Role may be incorrectly removed (and perhaps
 	 * added but I haven't tested that fully yet) if the association rules share a
-	 * common "expired" role, such as "Anonymous User".
+	 * common "expired" Role, such as "Anonymous User".
 	 *
-	 * The current logic may remove the expired role because other rules may be
-	 * applied after the rule which assigns the expired role. If they are - and
-	 * they are not expired memberships - the expired rule will therefore be
-	 * removed from the user.
+	 * The current logic may remove the expired Role because other rules may be
+	 * applied after the rule which assigns the expired Role. If they are - and
+	 * they are not expired Memberships - the expired rule will therefore be
+	 * removed from the User.
 	 *
 	 * It seems that what's needed is to parse the rules prior to applying them
-	 * to determine the final set of roles that a user should have. These rules
+	 * to determine the final set of Roles that a User should have. These rules
 	 * can then be applied in one go, thus avoiding the overrides resulting from
 	 * the conflicting rules.
 	 *
 	 * @since 0.1
 	 *
-	 * @param WP_User $user WP_User object of the user in question.
-	 * @param array $memberships The memberships of the WordPress user in question.
+	 * @param WP_User $user WP_User object of the User in question.
+	 * @param array $memberships The Memberships of the WordPress User in question.
 	 * @return array $result Results of applying the rule.
 	 */
 	public function rule_apply( $user, $memberships = false ) {
 
 		/*
-		 * Removed check for admin user - DO NOT call this for admins UNLESS
-		 * You're using a plugin that enables multiple roles.
+		 * Removed check for admin User - DO NOT call this for admins UNLESS
+		 * You're using a plugin that enables multiple Roles.
 		 */
-
 
 		// Init return array.
 		$result = [];
@@ -2586,7 +2585,7 @@ class Civi_WP_Member_Sync_Admin {
 			return $result;
 		}
 
-		// Kick out if we didn't get memberships passed.
+		// Kick out if we didn't get Memberships passed.
 		if ( $memberships === false ) {
 			return $result;
 		}
@@ -2594,7 +2593,7 @@ class Civi_WP_Member_Sync_Admin {
 		// Get sync method.
 		$method = $this->setting_get_method();
 
-		// Loop through the supplied memberships.
+		// Loop through the supplied Memberships.
 		foreach( $memberships['values'] AS $membership ) {
 
 			// Continue if something went wrong.
@@ -2605,11 +2604,11 @@ class Civi_WP_Member_Sync_Admin {
 				continue;
 			}
 
-			// Get membership type and status rule.
+			// Get Membership Type and status rule.
 			$membership_type_id = $membership['membership_type_id'];
 			$status_id = $membership['status_id'];
 
-			// Get association rule for this membership type.
+			// Get association rule for this Membership Type.
 			$association_rule = $this->rule_get_by_type( $membership_type_id, $method );
 
 			// Continue with next rule if we have an error of some kind.
@@ -2634,19 +2633,19 @@ class Civi_WP_Member_Sync_Admin {
 					continue;
 				}
 
-				// Get roles for this association rule.
+				// Get Roles for this association rule.
 				$current_wp_role = $association_rule['current_wp_role'];
 				$expired_wp_role = $association_rule['expired_wp_role'];
 
-				// Does the user's membership status match a current status rule?
+				// Does the User's Membership Status match a current status rule?
 				if ( isset( $status_id ) && array_search( $status_id, $current_rule ) ) {
 
-					// Add current role if the user does not have it.
+					// Add current Role if the User does not have it.
 					if ( ! $this->plugin->users->wp_has_role( $user, $current_wp_role ) ) {
 						$this->plugin->users->wp_role_add( $user, $current_wp_role );
 					}
 
-					// Remove expired role if the user has it.
+					// Remove expired Role if the User has it.
 					if ( $this->plugin->users->wp_has_role( $user, $expired_wp_role ) ) {
 						$this->plugin->users->wp_role_remove( $user, $expired_wp_role );
 					}
@@ -2656,12 +2655,12 @@ class Civi_WP_Member_Sync_Admin {
 
 				} else {
 
-					// Remove current role if the user has it.
+					// Remove current Role if the User has it.
 					if ( $this->plugin->users->wp_has_role( $user, $current_wp_role ) ) {
 						$this->plugin->users->wp_role_remove( $user, $current_wp_role );
 					}
 
-					// Add expired role if the user does not have it.
+					// Add expired Role if the User does not have it.
 					if ( ! $this->plugin->users->wp_has_role( $user, $expired_wp_role ) ) {
 						$this->plugin->users->wp_role_add( $user, $expired_wp_role );
 					}
@@ -2672,7 +2671,7 @@ class Civi_WP_Member_Sync_Admin {
 				}
 
 				/**
-				 * Fires after application of rule to user when syncing roles.
+				 * Fires after application of rule to User when syncing Roles.
 				 *
 				 * This creates two possible actions:
 				 *
@@ -2681,9 +2680,9 @@ class Civi_WP_Member_Sync_Admin {
 				 *
 				 * @since 0.3.2
 				 *
-				 * @param WP_User $user The WordPress user object.
-				 * @param int $membership_type_id The ID of the CiviCRM membership type.
-				 * @param int $status_id The ID of the CiviCRM membership status.
+				 * @param WP_User $user The WordPress User object.
+				 * @param int $membership_type_id The ID of the CiviCRM Membership Type.
+				 * @param int $status_id The ID of the CiviCRM Membership Status.
 				 * @param array $association_rule The rule used to apply the changes.
 				 */
 				do_action( 'civi_wp_member_sync_rule_apply_roles_' . $flag, $user, $membership_type_id, $status_id, $association_rule );
@@ -2692,27 +2691,27 @@ class Civi_WP_Member_Sync_Admin {
 
 				// SYNC CAPABILITY
 
-				// Construct membership type capability name.
+				// Construct Membership Type Capability name.
 				$capability = CIVI_WP_MEMBER_SYNC_CAP_PREFIX . $membership_type_id;
 
-				// Construct membership status capability name.
+				// Construct Membership Status Capability name.
 				$capability_status = $capability . '_' . $status_id;
 
-				// Does the user's membership status match a current status rule?
+				// Does the User's Membership Status match a current status rule?
 				if ( isset( $status_id ) && array_search( $status_id, $current_rule ) ) {
 
-					// Maybe add the "Members" plugin's custom capability.
+					// Maybe add the "Members" plugin's custom Capability.
 					if ( defined( 'MEMBERS_VERSION' ) ) {
 						$this->plugin->users->wp_cap_add( $user, 'restrict_content' );
 					}
 
-					// Add type capability.
+					// Add type Capability.
 					$this->plugin->users->wp_cap_add( $user, $capability );
 
-					// Clear status capabilities.
+					// Clear status Capabilities.
 					$this->plugin->users->wp_cap_remove_status( $user, $capability );
 
-					// Add status capability.
+					// Add status Capability.
 					$this->plugin->users->wp_cap_add( $user, $capability_status );
 
 					// Set flag for action.
@@ -2720,15 +2719,15 @@ class Civi_WP_Member_Sync_Admin {
 
 				} else {
 
-					// Maybe remove the "Members" plugin's custom capability.
+					// Maybe remove the "Members" plugin's custom Capability.
 					if ( defined( 'MEMBERS_VERSION' ) ) {
 						$this->plugin->users->wp_cap_remove( $user, 'restrict_content' );
 					}
 
-					// Remove type capability.
+					// Remove type Capability.
 					$this->plugin->users->wp_cap_remove( $user, $capability );
 
-					// Clear status capabilities.
+					// Clear status Capabilities.
 					$this->plugin->users->wp_cap_remove_status( $user, $capability );
 
 					// Set flag for action.
@@ -2737,24 +2736,24 @@ class Civi_WP_Member_Sync_Admin {
 				}
 
 				/**
-				 * Fires after application of rule to user when syncing capabilities.
+				 * Fires after application of rule to User when syncing Capabilities.
 				 *
 				 * This creates two possible actions:
 				 *
 				 * civi_wp_member_sync_rule_apply_caps_current
 				 * civi_wp_member_sync_rule_apply_caps_expired
 				 *
-				 * The status capability can be derived from the combination of
+				 * The status Capability can be derived from the combination of
 				 * $capability and $status_id and is therefore not needed when
 				 * firing this action.
 				 *
 				 * @since 0.3.2
 				 * @since 0.4 Added association rule parameter.
 				 *
-				 * @param WP_User $user The WordPress user object.
-				 * @param int $membership_type_id The ID of the CiviCRM membership type.
-				 * @param int $status_id The ID of the CiviCRM membership status.
-				 * @param array $capability The membership type capability added or removed.
+				 * @param WP_User $user The WordPress User object.
+				 * @param int $membership_type_id The ID of the CiviCRM Membership Type.
+				 * @param int $status_id The ID of the CiviCRM Membership Status.
+				 * @param array $capability The Membership Type Capability added or removed.
 				 * @param array $association_rule The rule used to apply the changes.
 				 */
 				do_action( 'civi_wp_member_sync_rule_apply_caps_' . $flag, $user, $membership_type_id, $status_id, $capability, $association_rule );
@@ -2787,12 +2786,12 @@ class Civi_WP_Member_Sync_Admin {
 		}
 
 		/**
-		 * Fires after the application of all rules to a user's memberships.
+		 * Fires after the application of all rules to a User's Memberships.
 		 *
 		 * @since 0.3.6
 		 *
-		 * @param WP_User $user The WordPress user object.
-		 * @param array $memberships The memberships of the WordPress user in question.
+		 * @param WP_User $user The WordPress User object.
+		 * @param array $memberships The Memberships of the WordPress User in question.
 		 * @param str $method The sync method - either 'caps' or 'roles'.
 		 */
 		do_action( 'civi_wp_member_sync_rules_applied', $user, $memberships, $method );
@@ -2813,8 +2812,8 @@ class Civi_WP_Member_Sync_Admin {
 	 *
 	 * @since 0.5
 	 *
-	 * @param WP_User $user WP_User object of the user in question.
-	 * @param array $memberships The memberships of the WordPress user in question.
+	 * @param WP_User $user WP_User object of the User in question.
+	 * @param array $memberships The Memberships of the WordPress User in question.
 	 * @return array $result Results of applying the rule.
 	 */
 	public function rule_simulate( $user, $memberships = false ) {
@@ -2827,7 +2826,7 @@ class Civi_WP_Member_Sync_Admin {
 			return $result;
 		}
 
-		// Kick out if we didn't get memberships passed.
+		// Kick out if we didn't get Memberships passed.
 		if ( $memberships === false ) {
 			return $result;
 		}
@@ -2835,7 +2834,7 @@ class Civi_WP_Member_Sync_Admin {
 		// Get sync method.
 		$method = $this->setting_get_method();
 
-		// Loop through the supplied memberships.
+		// Loop through the supplied Memberships.
 		foreach( $memberships['values'] AS $membership ) {
 
 			// Continue if something went wrong.
@@ -2846,11 +2845,11 @@ class Civi_WP_Member_Sync_Admin {
 				continue;
 			}
 
-			// Get membership type and status rule.
+			// Get Membership Type and status rule.
 			$membership_type_id = $membership['membership_type_id'];
 			$status_id = $membership['status_id'];
 
-			// Get association rule for this membership type.
+			// Get association rule for this Membership Type.
 			$association_rule = $this->rule_get_by_type( $membership_type_id, $method );
 
 			// Continue with next rule if we have an error of some kind.
@@ -2875,7 +2874,7 @@ class Civi_WP_Member_Sync_Admin {
 					continue;
 				}
 
-				// Does the user's membership status match a current status rule?
+				// Does the User's Membership Status match a current status rule?
 				if ( isset( $status_id ) && array_search( $status_id, $current_rule ) ) {
 					$flag = 'current';
 				} else {
@@ -2886,7 +2885,7 @@ class Civi_WP_Member_Sync_Admin {
 
 				// SYNC CAPABILITY
 
-				// Does the user's membership status match a current status rule?
+				// Does the User's Membership Status match a current status rule?
 				if ( isset( $status_id ) && array_search( $status_id, $current_rule ) ) {
 					$flag = 'current';
 				} else {
@@ -2925,8 +2924,8 @@ class Civi_WP_Member_Sync_Admin {
 		 *
 		 * @since 0.5
 		 *
-		 * @param WP_User $user The WordPress user object.
-		 * @param array $memberships The memberships of the WordPress user in question.
+		 * @param WP_User $user The WordPress User object.
+		 * @param array $memberships The Memberships of the WordPress User in question.
 		 * @param str $method The sync method - either 'caps' or 'roles'.
 		 */
 		$result = apply_filters( 'cwms/admin/rule_simulate/applied', $result, $user, $memberships, $method );
@@ -2939,16 +2938,16 @@ class Civi_WP_Member_Sync_Admin {
 
 
 	/**
-	 * Remove WordPress role or capability when a membership is deleted.
+	 * Remove WordPress Role or Capability when a Membership is deleted.
 	 *
-	 * This method is only called when a Membership is removed from a user in
-	 * the CiviCRM admin. The membership details passed to this method will
-	 * therefore only ever be for a single membership.
+	 * This method is only called when a Membership is removed from a User in
+	 * the CiviCRM admin. The Membership details passed to this method will
+	 * therefore only ever be for a single Membership.
 	 *
 	 * @since 0.1
 	 *
-	 * @param WP_User $user WP_User object of the user in question.
-	 * @param object $membership The membership details of the WordPress user in question.
+	 * @param WP_User $user WP_User object of the User in question.
+	 * @param object $membership The Membership details of the WordPress User in question.
 	 */
 	public function rule_undo( $user, $membership = false ) {
 
@@ -2959,14 +2958,14 @@ class Civi_WP_Member_Sync_Admin {
 		if ( $method == 'roles' ) {
 
 			/*
-			 * When there are multiple memberships, remove both the current role
-			 * and the expired role. If this is the only remaining membership
-			 * that the user has, however, then simply switch the current role
-			 * for the expired role. This is to prevent users ending up with no
-			 * role whatsoever.
+			 * When there are multiple Memberships, remove both the current Role
+			 * and the expired Role. If this is the only remaining Membership
+			 * that the User has, however, then simply switch the current Role
+			 * for the expired Role. This is to prevent Users ending up with no
+			 * Role whatsoever.
 			 */
 
-			// Get association rule for this membership type.
+			// Get association rule for this Membership Type.
 			$association_rule = $this->rule_get_by_type( $membership->membership_type_id, $method );
 
 			// Kick out if something went wrong.
@@ -2980,14 +2979,14 @@ class Civi_WP_Member_Sync_Admin {
 				return;
 			}
 
-			// Get roles for this status rule.
+			// Get Roles for this status rule.
 			$current_wp_role = $association_rule['current_wp_role'];
 			$expired_wp_role = $association_rule['expired_wp_role'];
 
-			// Get remaining memberships for this user.
+			// Get remaining Memberships for this User.
 			$memberships = $this->plugin->members->membership_get_by_contact_id( $membership->contact_id );
 
-			// If this user has a remaining membership.
+			// If this User has a remaining Membership.
 			if (
 				$memberships !== false AND
 				$memberships['is_error'] == 0 AND
@@ -2996,36 +2995,36 @@ class Civi_WP_Member_Sync_Admin {
 			) {
 
 				/*
-				 * There's a special case here where the membership being removed
-				 * may cause the user to be left with no role at all if both the
-				 * current and expired roles are removed.
+				 * There's a special case here where the Membership being removed
+				 * may cause the User to be left with no Role at all if both the
+				 * current and expired Roles are removed.
 				 *
-				 * Additionally, roles defined by other rules may be affected by
-				 * removing the roles associated with this membership.
+				 * Additionally, Roles defined by other rules may be affected by
+				 * removing the Roles associated with this Membership.
 				 *
 				 * The logic adopted here is that we still go ahead and remove
-				 * both roles and then perform a rule sync so that the remaining
+				 * both Roles and then perform a rule sync so that the remaining
 				 * rules are applied.
 				 */
 
-				// Remove current role if the user has it.
+				// Remove current Role if the User has it.
 				if ( $this->plugin->users->wp_has_role( $user, $current_wp_role ) ) {
 					$this->plugin->users->wp_role_remove( $user, $current_wp_role );
 				}
 
-				// Remove expired role if the user has it.
+				// Remove expired Role if the User has it.
 				if ( $this->plugin->users->wp_has_role( $user, $expired_wp_role ) ) {
 					$this->plugin->users->wp_role_remove( $user, $expired_wp_role );
 				}
 
-				// Perform sync for this user if there are applicable rules.
+				// Perform sync for this User if there are applicable rules.
 				if ( $this->rule_exists( $memberships ) ) {
 					$this->rule_apply( $user, $memberships );
 				}
 
 			} else {
 
-				// Replace the current role with the expired role.
+				// Replace the current Role with the expired Role.
 				if ( $this->plugin->users->wp_has_role( $user, $current_wp_role ) ) {
 					$this->plugin->users->wp_role_replace( $user, $current_wp_role, $expired_wp_role );
 				}
@@ -3034,19 +3033,19 @@ class Civi_WP_Member_Sync_Admin {
 
 		} else {
 
-			// Construct capability name.
+			// Construct Capability name.
 			$capability = CIVI_WP_MEMBER_SYNC_CAP_PREFIX . $membership->membership_type_id;
 
-			// Remove capability.
+			// Remove Capability.
 			$this->plugin->users->wp_cap_remove( $user, $capability );
 
-			// Remove status capability.
+			// Remove status Capability.
 			$this->plugin->users->wp_cap_remove_status( $user, $capability );
 
 			// Do we have the "Members" plugin?
 			if ( defined( 'MEMBERS_VERSION' ) ) {
 
-				// Remove the custom capability.
+				// Remove the custom Capability.
 				$this->plugin->users->wp_cap_remove( $user, 'restrict_content' );
 
 			}
