@@ -84,8 +84,8 @@ var CiviCRM_WP_Member_Sync_Manual_Sync = CiviCRM_WP_Member_Sync_Manual_Sync || {
 		 *
 		 * @since 0.2.8
 		 *
-		 * @param {String} The identifier for the desired localisation string
-		 * @return {String} The localised string
+		 * @param {String} The identifier for the desired localisation string.
+		 * @return {String} The localised string.
 		 */
 		this.get_localisation = function( identifier ) {
 			return me.localisation[identifier];
@@ -110,8 +110,8 @@ var CiviCRM_WP_Member_Sync_Manual_Sync = CiviCRM_WP_Member_Sync_Manual_Sync || {
 		 *
 		 * @since 0.2.8
 		 *
-		 * @param {String} The identifier for the desired setting
-		 * @return The value of the setting
+		 * @param {String} The identifier for the desired setting.
+		 * @return The value of the setting.
 		 */
 		this.get_setting = function( identifier ) {
 			return me.settings[identifier];
@@ -122,7 +122,7 @@ var CiviCRM_WP_Member_Sync_Manual_Sync = CiviCRM_WP_Member_Sync_Manual_Sync || {
 		 *
 		 * @since 0.2.8
 		 *
-		 * @return {String} The value of the checkbox ('y' or 'n')
+		 * @return {String} The value of the checkbox ('y' or 'n').
 		 */
 		this.get_create_users = function() {
 
@@ -143,7 +143,7 @@ var CiviCRM_WP_Member_Sync_Manual_Sync = CiviCRM_WP_Member_Sync_Manual_Sync || {
 		 *
 		 * @since 0.5
 		 *
-		 * @return {String} The value of the checkbox ('y' or 'n')
+		 * @return {String} The value of the checkbox ('y' or 'n').
 		 */
 		this.get_dry_run = function() {
 
@@ -155,6 +155,48 @@ var CiviCRM_WP_Member_Sync_Manual_Sync = CiviCRM_WP_Member_Sync_Manual_Sync || {
 				return 'y';
 			} else {
 				return 'n';
+			}
+
+		};
+
+		/**
+		 * Getter for retrieving the status of the "From" field.
+		 *
+		 * @since 0.5.1
+		 *
+		 * @return {Integer} The value of the "From" field.
+		 */
+		this.get_from = function() {
+
+			// Get value.
+			var value = $('#civi_wp_member_sync_manual_sync_from').val();
+
+			// Well?
+			if ( value ) {
+				return parseInt( value );
+			} else {
+				return 0;
+			}
+
+		};
+
+		/**
+		 * Getter for retrieving the status of the "To" field.
+		 *
+		 * @since 0.5.1
+		 *
+		 * @return {Integer} The value of the "To" field.
+		 */
+		this.get_to = function() {
+
+			// Get value.
+			var value = $('#civi_wp_member_sync_manual_sync_to').val();
+
+			// Well?
+			if ( value ) {
+				return parseInt( value );
+			} else {
+				return 0;
 			}
 
 		};
@@ -228,24 +270,36 @@ var CiviCRM_WP_Member_Sync_Manual_Sync = CiviCRM_WP_Member_Sync_Manual_Sync || {
 
 			// Declare vars.
 			var button = $('#civi_wp_member_sync_manual_sync_submit'),
-				boxes = $('#civi_wp_member_sync_manual_sync_create, #civi_wp_member_sync_manual_sync_dry_run');
+				boxes = $('#civi_wp_member_sync_manual_sync_create, #civi_wp_member_sync_manual_sync_dry_run'),
+				from_to = $('#civi_wp_member_sync_manual_sync_from, #civi_wp_member_sync_manual_sync_to');
 
 			/**
 			 * Add a click event listener to start sync.
 			 *
-			 * @param {Object} event The event object
+			 * @param {Object} event The event object.
 			 */
 			button.on( 'click', function( event ) {
+
+				// Declare vars.
+				var total, from, to;
 
 				// Prevent form submission.
 				if ( event.preventDefault ) {
 					event.preventDefault();
 				}
 
+				// Get total.
+				total = me.total
+				from = CiviCRM_WP_Member_Sync_Manual_Sync.settings.get_from();
+				to = CiviCRM_WP_Member_Sync_Manual_Sync.settings.get_to();
+				if ( to !== 0 ) {
+					total = to - from;
+				}
+
 				// Initialise progress bar.
 				me.bar.progressbar({
 					value: false,
-					max: me.total
+					max: total
 				});
 
 				// Show Feedback area.
@@ -256,8 +310,8 @@ var CiviCRM_WP_Member_Sync_Manual_Sync = CiviCRM_WP_Member_Sync_Manual_Sync || {
 				// Show progress bar if not already shown.
 				me.bar.show();
 
-				// Initialise progress bar label
-				me.label.html( me.label_init.replace( '{{total}}', me.total ) );
+				// Initialise progress bar label.
+				me.label.html( me.label_init.replace( '{{total}}', total ) );
 
 				// Send.
 				me.send();
@@ -269,9 +323,27 @@ var CiviCRM_WP_Member_Sync_Manual_Sync = CiviCRM_WP_Member_Sync_Manual_Sync || {
 			 *
 			 * @since 0.5
 			 *
-			 * @param {Object} event The event object
+			 * @param {Object} event The event object.
 			 */
 			boxes.on( 'click', function( event ) {
+
+				// Hide the progress bar.
+				me.bar.hide();
+
+				// Clear the table.
+				$('#feedback-results').hide();
+				$('#the-comment-list').empty();
+
+			});
+
+			/**
+			 * Listen for clicks on the number fields.
+			 *
+			 * @since 0.5.1
+			 *
+			 * @param {Object} event The event object.
+			 */
+			from_to.on( 'click', function( event ) {
 
 				// Hide the progress bar.
 				me.bar.hide();
@@ -289,7 +361,7 @@ var CiviCRM_WP_Member_Sync_Manual_Sync = CiviCRM_WP_Member_Sync_Manual_Sync || {
 		 *
 		 * @since 0.2.8
 		 *
-		 * @param {Array} data The data received from the server
+		 * @param {Array} data The data received from the server.
 		 */
 		this.update = function( data ) {
 
@@ -299,7 +371,7 @@ var CiviCRM_WP_Member_Sync_Manual_Sync = CiviCRM_WP_Member_Sync_Manual_Sync || {
 			// Are we still in progress?
 			if ( data.finished == 'false' ) {
 
-				// Get current value of progress bar
+				// Get current value of progress bar.
 				val = me.bar.progressbar( 'value' ) || 0;
 
 				// Update progress bar label.
@@ -307,8 +379,13 @@ var CiviCRM_WP_Member_Sync_Manual_Sync = CiviCRM_WP_Member_Sync_Manual_Sync || {
 					me.label_complete.replace( '{{from}}', data.from ).replace( '{{to}}', data.to )
 				);
 
-				// Get number per batch
+				// Get number per batch.
 				batch_count = parseInt( CiviCRM_WP_Member_Sync_Manual_Sync.settings.get_setting( 'batch_count' ) );
+
+				// Check if there are fewer in the received data.
+				if ( batch_count > ( parseInt( data.to ) - parseInt( data.from ) ) ) {
+					batch_count = val - ( parseInt( data.to ) - parseInt( data.from ) );
+				}
 
 				// Update progress bar.
 				me.bar.progressbar( 'value', val + batch_count );
@@ -344,33 +421,41 @@ var CiviCRM_WP_Member_Sync_Manual_Sync = CiviCRM_WP_Member_Sync_Manual_Sync || {
 		 */
 		this.send = function() {
 
+			// Declare vars.
+			var url, data;
+
+			// URL to post to.
+			url = CiviCRM_WP_Member_Sync_Manual_Sync.settings.get_setting( 'ajax_url' ),
+
+			// Data to send.
+			data = {
+
+				// Token received by WordPress.
+				action: 'sync_memberships',
+
+				// Send "Create Users" flag.
+				civi_wp_member_sync_manual_sync_create: CiviCRM_WP_Member_Sync_Manual_Sync.settings.get_create_users(),
+
+				// Send "Dry Run" flag.
+				civi_wp_member_sync_manual_sync_dry_run: CiviCRM_WP_Member_Sync_Manual_Sync.settings.get_dry_run(),
+
+				// Send "From" and "To" values.
+				civi_wp_member_sync_manual_sync_from: CiviCRM_WP_Member_Sync_Manual_Sync.settings.get_from(),
+				civi_wp_member_sync_manual_sync_to: CiviCRM_WP_Member_Sync_Manual_Sync.settings.get_to()
+
+			};
+
 			// Use jQuery post.
-			$.post(
-
-				// URL to post to
-				CiviCRM_WP_Member_Sync_Manual_Sync.settings.get_setting( 'ajax_url' ),
-
-				{
-
-					// Token received by WordPress.
-					action: 'sync_memberships',
-
-					// Send "Create Users" flag.
-					civi_wp_member_sync_manual_sync_create: CiviCRM_WP_Member_Sync_Manual_Sync.settings.get_create_users(),
-
-					// Send "Dry Run" flag.
-					civi_wp_member_sync_manual_sync_dry_run: CiviCRM_WP_Member_Sync_Manual_Sync.settings.get_dry_run()
-
-				},
+			$.post( url, data,
 
 				// Callback.
-				function( data, textStatus ) {
+				function( response, textStatus ) {
 
 					// If success.
 					if ( textStatus == 'success' ) {
 
 						// Update progress bar.
-						me.update( data );
+						me.update( response );
 
 					} else {
 

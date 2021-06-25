@@ -120,9 +120,6 @@ class Civi_WP_Member_Sync_Members {
 		// Init AJAX return.
 		$data = [];
 
-		// Get batch count.
-		$batch_count = $this->plugin->admin->setting_get_batch_count();
-
 		// Assume not creating Users.
 		$create_users = false;
 
@@ -150,12 +147,42 @@ class Civi_WP_Member_Sync_Members {
 
 			// Start at the beginning.
 			$memberships_offset = 0;
-			add_option( '_civi_wpms_memberships_offset', '0' );
+			$memberships_from = 0;
+
+			// Override if "From" field is populated.
+			if (
+				isset( $_POST['civi_wp_member_sync_manual_sync_from'] ) AND
+				is_numeric( trim( $_POST['civi_wp_member_sync_manual_sync_from'] ) )
+			) {
+				$memberships_from = (int) trim( $_POST['civi_wp_member_sync_manual_sync_from'] );
+				$memberships_offset = $memberships_from;
+			}
+
+			add_option( '_civi_wpms_memberships_offset', (string) $memberships_from );
 
 		} else {
 
 			// Use the existing value.
-			$memberships_offset = intval( get_option( '_civi_wpms_memberships_offset', '0' ) );
+			$memberships_offset = (int) get_option( '_civi_wpms_memberships_offset', '0' );
+
+		}
+
+		// Get batch count.
+		$batch_count = $this->plugin->admin->setting_get_batch_count();
+
+		// If the "To" field is populated.
+		if (
+			isset( $_POST['civi_wp_member_sync_manual_sync_to'] ) AND
+			is_numeric( trim( $_POST['civi_wp_member_sync_manual_sync_to'] ) )
+		) {
+
+			// Grab the "to" value.
+			$memberships_to = (int) trim( $_POST['civi_wp_member_sync_manual_sync_to'] );
+
+			// Update batch count if the end of the default batch is greater than the requested one.
+			if ( $memberships_to > 0 AND $memberships_to < ( $memberships_offset + $batch_count ) ) {
+				$batch_count = $memberships_to - $memberships_offset;
+			}
 
 		}
 
@@ -163,13 +190,13 @@ class Civi_WP_Member_Sync_Members {
 		$memberships = $this->memberships_get( $memberships_offset, $batch_count );
 
 		// If we have Membership details.
-		if ( $memberships !== false ) {
+		if ( $memberships !== false AND $batch_count > 0 ) {
 
 			// Set finished flag.
 			$data['finished'] = 'false';
 
-			// Set from and to flags.
-			$data['from'] = intval( $memberships_offset );
+			// Set "from" and "to" flags.
+			$data['from'] = $memberships_offset;
 			$data['to'] = $data['from'] + $batch_count;
 
 			// Init processed array.
@@ -183,8 +210,6 @@ class Civi_WP_Member_Sync_Members {
 
 				// Get Contact ID.
 				$civi_contact_id = isset( $membership['contact_id'] ) ? $membership['contact_id'] : false;
-
-				// Sanity check.
 				if ( $civi_contact_id === false ) {
 					continue;
 				}

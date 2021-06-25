@@ -37,6 +37,14 @@
 			</tr>
 
 			<tr>
+				<th scope="row"><?php esc_html_e( 'Selected Memberships', 'civicrm-wp-member-sync' ); ?></th>
+				<td>
+					<p><label class="civi_wp_member_sync_manual_sync_label" for="civi_wp_member_sync_manual_sync_from"><?php esc_html_e( 'From:', 'civicrm-wp-member-sync' ); ?></label> <input type="number" class="settings-text-field small-text" name="civi_wp_member_sync_manual_sync_from" id="civi_wp_member_sync_manual_sync_from" value="" /> <label class="civi_wp_member_sync_manual_sync_label" for="civi_wp_member_sync_manual_sync_to"><?php esc_html_e( '&rarr; To:', 'civicrm-wp-member-sync' ); ?></label> <input type="number" class="settings-text-field small-text" name="civi_wp_member_sync_manual_sync_to" id="civi_wp_member_sync_manual_sync_to" value="" /></p>
+					<p class="description"><?php esc_html_e( 'In some situations (e.g. to avoid external API rate limits) you may need the sync process to be limited to a certain "block" of Memberships. Enter starting and ending Membership IDs or leave empty to sync all Memberships.', 'civicrm-wp-member-sync' ); ?></p>
+				</td>
+			</tr>
+
+			<tr>
 				<th scope="row"><?php esc_html_e( 'Dry Run', 'civicrm-wp-member-sync' ); ?></th>
 				<td>
 					<input type="checkbox" class="settings-checkbox" name="civi_wp_member_sync_manual_sync_dry_run" id="civi_wp_member_sync_manual_sync_dry_run" value="1" checked="checked" />
