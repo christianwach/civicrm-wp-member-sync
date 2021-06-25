@@ -1,11 +1,11 @@
-# Copyright (C) 2021 CiviCRM Member Sync
-# This file is distributed under the same license as the CiviCRM Member Sync package.
+# Copyright (C) 2021 CiviCRM WordPress Member Sync
+# This file is distributed under the same license as the CiviCRM WordPress Member Sync package.
 msgid ""
 msgstr ""
-"Project-Id-Version: CiviCRM Member Sync 0.5.1\n"
+"Project-Id-Version: CiviCRM WordPress Member Sync 0.5.1\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/civicrm-wp-member-"
 "sync\n"
-"POT-Creation-Date: 2021-06-25 18:31:15+00:00\n"
+"POT-Creation-Date: 2021-06-25 18:36:04+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -62,8 +62,6 @@ msgstr ""
 msgid "Expiry Group(s)"
 msgstr ""
 
-#. #-#-#-#-#  civicrm-wp-member-sync.pot (CiviCRM Member Sync 0.5.1)  #-#-#-#-#
-#. Plugin Name of the plugin/theme
 #: assets/templates/list_caps.php:17 assets/templates/list_roles.php:17
 #: assets/templates/manual-sync.php:17 assets/templates/migrate.php:17
 #: assets/templates/rule-cap-add.php:17 assets/templates/rule-cap-edit.php:17
@@ -77,7 +75,7 @@ msgstr ""
 #: assets/templates/manual-sync.php:20 assets/templates/migrate.php:20
 #: assets/templates/rule-cap-add.php:20 assets/templates/rule-cap-edit.php:20
 #: assets/templates/rule-role-add.php:20 assets/templates/rule-role-edit.php:20
-#: assets/templates/settings.php:20 civicrm-wp-member-sync.php:333
+#: assets/templates/settings.php:20 civicrm-wp-member-sync.php:335
 #: includes/civi-wp-ms-admin.php:499
 msgid "Settings"
 msgstr ""
@@ -684,6 +682,10 @@ msgstr ""
 
 #: includes/civi-wp-ms-groups.php:684
 msgid "\"Groups\" Group(s)"
+msgstr ""
+
+#. Plugin Name of the plugin/theme
+msgid "CiviCRM WordPress Member Sync"
 msgstr ""
 
 #. Plugin URI of the plugin/theme
