@@ -89,6 +89,11 @@ Code that used the `civi_wp_member_sync_after_insert_user` hook to send User Not
 
 == Changelog ==
 
+= 0.5.1 =
+
+* Introduce "From - To" functionality for Manual Sync
+* Introduce "civi_wp_member_sync_membership_deleted" action
+
 = 0.5 =
 
 * Introduce "Dry Run" functionality
