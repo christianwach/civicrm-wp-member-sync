@@ -24,24 +24,26 @@ if ( ! defined( 'WP_UNINSTALL_PLUGIN' ) ) {
 function civi_wp_member_sync_reset_caps() {
 
 	// Get existing settings.
-	$settings = get_option( 'civi_wp_member_sync_settings', array() );
+	$settings = get_option( 'civi_wp_member_sync_settings', [] );
 
 	// Try network options if we have no data.
 	if ( ! array_key_exists( 'data', $settings ) ) {
 
 		// Get existing network settings.
-		$settings = get_site_option( 'civi_wp_member_sync_settings', array() );
+		$settings = get_site_option( 'civi_wp_member_sync_settings', [] );
 
 	}
 
 	// Bail if we still have no data.
-	if ( ! array_key_exists( 'data', $settings ) ) return;
+	if ( ! array_key_exists( 'data', $settings ) ) {
+		return;
+	}
 
 	// Get 'capabilities' association rules.
 	$rules = $settings['data']['capabilities'];
 
 	// Init Capabilities list.
-	$capabilities = array();
+	$capabilities = [];
 
 	// Sanity check.
 	if ( count( $rules ) > 0 ) {
@@ -74,14 +76,18 @@ function civi_wp_member_sync_reset_caps() {
 	}
 
 	// Get all WordPress Users.
-	$users = get_users( array( 'all_with_meta' => true ) );
+	$users = get_users( [ 'all_with_meta' => true ] );
 
 	// Loop through them.
 	foreach( $users AS $user ) {
 
 		// Skip if we don't have a valid User.
-		if ( ! ( $user instanceof WP_User ) ) continue;
-		if ( ! $user->exists() ) continue;
+		if ( ! ( $user instanceof WP_User ) ) {
+			continue;
+		}
+		if ( ! $user->exists() ) {
+			continue;
+		}
 
 		if ( count( $capabilities ) > 0 ) {
 			foreach( $capabilities AS $capability ) {
@@ -115,6 +121,3 @@ if ( is_multisite() ) {
 	delete_site_option( 'civi_wp_member_sync_settings' );
 
 }
-
-
-
