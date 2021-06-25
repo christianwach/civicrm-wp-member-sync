@@ -23,6 +23,8 @@
 // Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
 
+
+
 // Define Capability prefix.
 if ( ! defined( 'CIVI_WP_MEMBER_SYNC_CAP_PREFIX' ) ) {
 	define( 'CIVI_WP_MEMBER_SYNC_CAP_PREFIX', 'civimember_' );
@@ -175,6 +177,35 @@ class Civi_WP_Member_Sync {
 
 
 
+	/**
+	 * Initialise objects when CiviCRM initialises.
+	 *
+	 * @since 0.1
+	 */
+	public function initialise() {
+
+		/**
+		 * Broadcast that we're up and running.
+		 *
+		 * This action is used internally in order to trigger initialisation.
+		 * There is a specific order to the callbacks:
+		 *
+		 * Civi_WP_Member_Sync_Admin - Priority 1
+		 * Civi_WP_Member_Sync_Users - Priority 3
+		 * Civi_WP_Member_Sync_Schedule - Priority 5
+		 * Civi_WP_Member_Sync_Members - Priority 7
+		 * Civi_WP_Member_Sync_Groups - Priority 10
+		 * Civi_WP_Member_Sync_BuddyPress - Priority 20
+		 *
+		 * @since 0.1
+		 * @since 0.3.9 All CWMS classes hook into this to trigger initialisation.
+		 */
+		do_action( 'civi_wp_member_sync_initialised' );
+
+	}
+
+
+
 	// -------------------------------------------------------------------------
 
 
@@ -202,35 +233,6 @@ class Civi_WP_Member_Sync {
 
 		// Remove scheduled hook.
 		$this->schedule->unschedule();
-
-	}
-
-
-
-	/**
-	 * Initialise objects when CiviCRM initialises.
-	 *
-	 * @since 0.1
-	 */
-	public function initialise() {
-
-		/**
-		 * Broadcast that we're up and running.
-		 *
-		 * This action is used internally in order to trigger initialisation.
-		 * There is a specific order to the callbacks:
-		 *
-		 * Civi_WP_Member_Sync_Admin - Priority 1
-		 * Civi_WP_Member_Sync_Users - Priority 3
-		 * Civi_WP_Member_Sync_Schedule - Priority 5
-		 * Civi_WP_Member_Sync_Members - Priority 7
-		 * Civi_WP_Member_Sync_Groups - Priority 10
-		 * Civi_WP_Member_Sync_BuddyPress - Priority 20
-		 *
-		 * @since 0.1
-		 * @since 0.3.9 All CWMS classes hook into this to trigger initialisation.
-		 */
-		do_action( 'civi_wp_member_sync_initialised' );
 
 	}
 
