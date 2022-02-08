@@ -2915,9 +2915,13 @@ class Civi_WP_Member_Sync_Admin {
 	/**
 	 * Remove WordPress Role or Capability when a Membership is deleted.
 	 *
-	 * This method is only called when a Membership is removed from a User in
-	 * the CiviCRM admin. The Membership details passed to this method will
-	 * therefore only ever be for a single Membership.
+	 * This method is called:
+	 *
+	 * * When a Membership is removed from a User in the CiviCRM admin.
+	 * * When an existing Membership has its Membership Type changed.
+	 *
+	 * The Membership details passed to this method will only ever be for a
+	 * single Membership.
 	 *
 	 * @since 0.1
 	 *
@@ -2928,6 +2932,17 @@ class Civi_WP_Member_Sync_Admin {
 
 		// Get sync method.
 		$method = $this->setting_get_method();
+
+		// Get Association Rule for this Membership Type.
+		$association_rule = $this->rule_get_by_type( $membership->membership_type_id, $method );
+
+		// Bail if there isn't one.
+		if ( $association_rule === false ) {
+			return;
+		}
+
+		// Get remaining Memberships for this Contact.
+		$memberships = $this->plugin->members->membership_get_by_contact_id( $membership->contact_id );
 
 		// Which sync method are we using?
 		if ( $method == 'roles' ) {
@@ -2940,13 +2955,7 @@ class Civi_WP_Member_Sync_Admin {
 			 * Role whatsoever.
 			 */
 
-			// Get association rule for this Membership Type.
-			$association_rule = $this->rule_get_by_type( $membership->membership_type_id, $method );
-
-			// Kick out if something went wrong.
-			if ( $association_rule === false ) {
-				return;
-			}
+			// Bail if something went wrong.
 			if ( empty( $association_rule['current_wp_role'] ) ) {
 				return;
 			}
@@ -2957,9 +2966,6 @@ class Civi_WP_Member_Sync_Admin {
 			// Get Roles for this status rule.
 			$current_wp_role = $association_rule['current_wp_role'];
 			$expired_wp_role = $association_rule['expired_wp_role'];
-
-			// Get remaining Memberships for this User.
-			$memberships = $this->plugin->members->membership_get_by_contact_id( $membership->contact_id );
 
 			// If this User has a remaining Membership.
 			if (
@@ -3006,6 +3012,18 @@ class Civi_WP_Member_Sync_Admin {
 
 			}
 
+			/**
+			 * Fires after undoing a rule for a User when syncing Roles.
+			 *
+			 * @since 0.5.2
+			 *
+			 * @param WP_User $user The WordPress User object.
+			 * @param object $membership The CiviCRM Membership data object.
+			 * @param array $association_rule The rule used to apply the changes.
+			 * @param array $memberships The array of remaining CiviCRM Memberships.
+			 */
+			do_action( 'civi_wp_member_sync_rule_undo_roles', $user, $membership, $association_rule, $memberships );
+
 		} else {
 
 			// Construct Capability name.
@@ -3025,7 +3043,32 @@ class Civi_WP_Member_Sync_Admin {
 
 			}
 
+			/**
+			 * Fires after undoing a rule for a User when syncing Capabilities.
+			 *
+			 * @since 0.5.2
+			 *
+			 * @param WP_User $user The WordPress User object.
+			 * @param object $membership The CiviCRM Membership data object.
+			 * @param array $association_rule The rule used to apply the changes.
+			 * @param array $memberships The array of remaining CiviCRM Memberships.
+			 * @param array $capability The Membership Type Capability removed.
+			 */
+			do_action( 'civi_wp_member_sync_rule_undo_caps', $user, $membership, $association_rule, $memberships, $capability );
+
 		}
+
+		/**
+		 * Fires after the undoing a rule for a User's Membership.
+		 *
+		 * @since 0.5.2
+		 *
+		 * @param WP_User $user The WordPress User object.
+		 * @param object $membership The CiviCRM Membership data object.
+		 * @param str $method The sync method - either 'caps' or 'roles'.
+		 * @param array $memberships The array of remaining CiviCRM Memberships.
+		 */
+		do_action( 'civi_wp_member_sync_rule_undone', $user, $membership, $method, $memberships );
 
 	}
 
