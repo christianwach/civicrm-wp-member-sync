@@ -6,7 +6,7 @@
  * Description: Synchronize CiviCRM Memberships with WordPress User Roles or Capabilities.
  * Author: Christian Wach
  * Author URI: https://haystack.co.uk
- * Version: 0.5.2
+ * Version: 0.5.3a
  * Requires at least: 4.9
  * Requires PHP: 7.1
  * Text Domain: civicrm-wp-member-sync
