@@ -1,15 +1,15 @@
-# Copyright (C) 2021 CiviCRM WordPress Member Sync
+# Copyright (C) 2022 CiviCRM WordPress Member Sync
 # This file is distributed under the same license as the CiviCRM WordPress Member Sync package.
 msgid ""
 msgstr ""
-"Project-Id-Version: CiviCRM WordPress Member Sync 0.5.1\n"
+"Project-Id-Version: CiviCRM WordPress Member Sync 0.5.2\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/civicrm-wp-member-"
 "sync\n"
-"POT-Creation-Date: 2021-06-25 18:36:04+00:00\n"
+"POT-Creation-Date: 2022-02-08 14:46:27+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"PO-Revision-Date: 2021-MO-DA HO:MI+ZONE\n"
+"PO-Revision-Date: 2022-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 
@@ -67,7 +67,7 @@ msgstr ""
 #: assets/templates/rule-cap-add.php:17 assets/templates/rule-cap-edit.php:17
 #: assets/templates/rule-role-add.php:17 assets/templates/rule-role-edit.php:17
 #: assets/templates/settings.php:17 includes/civi-wp-ms-admin.php:471
-#: includes/civi-wp-ms-admin.php:881
+#: includes/civi-wp-ms-admin.php:884
 msgid "CiviCRM Member Sync"
 msgstr ""
 
@@ -75,7 +75,7 @@ msgstr ""
 #: assets/templates/manual-sync.php:20 assets/templates/migrate.php:20
 #: assets/templates/rule-cap-add.php:20 assets/templates/rule-cap-edit.php:20
 #: assets/templates/rule-role-add.php:20 assets/templates/rule-role-edit.php:20
-#: assets/templates/settings.php:20 civicrm-wp-member-sync.php:335
+#: assets/templates/settings.php:20 civicrm-wp-member-sync.php:329
 #: includes/civi-wp-ms-admin.php:499
 msgid "Settings"
 msgstr ""
@@ -489,47 +489,47 @@ msgstr ""
 msgid "Login and Logout"
 msgstr ""
 
-#: assets/templates/settings.php:121
+#: assets/templates/settings.php:122
 msgid ""
 "Synchronize whenever a User logs in or logs out. This action is performed "
 "only on the User logging in or out."
 msgstr ""
 
-#: assets/templates/settings.php:126
+#: assets/templates/settings.php:127
 msgid "CiviCRM Admin"
 msgstr ""
 
-#: assets/templates/settings.php:137
+#: assets/templates/settings.php:139
 msgid "Synchronize when Membership is updated in CiviCRM admin pages."
 msgstr ""
 
-#: assets/templates/settings.php:142
+#: assets/templates/settings.php:144
 msgid "Scheduled Events"
 msgstr ""
 
-#: assets/templates/settings.php:153
+#: assets/templates/settings.php:156
 msgid ""
 "Synchronize using a recurring schedule. This action is performed on all "
 "Users and Contacts."
 msgstr ""
 
-#: assets/templates/settings.php:158
+#: assets/templates/settings.php:161
 msgid "Schedule Interval"
 msgstr ""
 
-#: assets/templates/settings.php:183
+#: assets/templates/settings.php:188
 msgid "Other Settings"
 msgstr ""
 
-#: assets/templates/settings.php:188
+#: assets/templates/settings.php:193
 msgid "Synced Contact Types"
 msgstr ""
 
-#: assets/templates/settings.php:199
+#: assets/templates/settings.php:205
 msgid "Synchronize Individuals only."
 msgstr ""
 
-#: assets/templates/settings.php:200
+#: assets/templates/settings.php:206
 msgid ""
 "In versions of CiviCRM Member Sync prior to 0.3.5, all CiviCRM Memberships "
 "were synchronized to WordPress Users. This meant that Organisations and "
@@ -537,7 +537,7 @@ msgid ""
 "syncing to Individuals only, then check the box below."
 msgstr ""
 
-#: assets/templates/settings.php:208
+#: assets/templates/settings.php:214
 msgid "Save Changes"
 msgstr ""
 
@@ -614,49 +614,49 @@ msgstr ""
 msgid "Association Rule"
 msgstr ""
 
-#: includes/civi-wp-ms-admin.php:673
+#: includes/civi-wp-ms-admin.php:674
 msgid "{{total}} memberships to sync..."
 msgstr ""
 
-#: includes/civi-wp-ms-admin.php:674
+#: includes/civi-wp-ms-admin.php:675
 msgid "Processing memberships {{from}} to {{to}}"
 msgstr ""
 
-#: includes/civi-wp-ms-admin.php:675
+#: includes/civi-wp-ms-admin.php:676
 msgid "Processing memberships {{from}} to {{to}} complete"
 msgstr ""
 
-#: includes/civi-wp-ms-admin.php:676
+#: includes/civi-wp-ms-admin.php:677
 msgid "All done!"
 msgstr ""
 
-#: includes/civi-wp-ms-admin.php:832
+#: includes/civi-wp-ms-admin.php:835
 msgid "Delete this Association Rule?"
 msgstr ""
 
-#: includes/civi-wp-ms-admin.php:833
+#: includes/civi-wp-ms-admin.php:836
 msgid "Delete all Association Rules?"
 msgstr ""
 
-#: includes/civi-wp-ms-admin.php:902
+#: includes/civi-wp-ms-admin.php:905
 msgid ""
 "For further information about using CiviCRM Member Sync, please refer to the "
 "README.md that comes with this plugin."
 msgstr ""
 
-#: includes/civi-wp-ms-admin.php:1674
+#: includes/civi-wp-ms-admin.php:1681
 msgid "You must supply a setting to setting_exists()"
 msgstr ""
 
-#: includes/civi-wp-ms-admin.php:1697
+#: includes/civi-wp-ms-admin.php:1704
 msgid "You must supply a setting to setting_get()"
 msgstr ""
 
-#: includes/civi-wp-ms-admin.php:1719
+#: includes/civi-wp-ms-admin.php:1726
 msgid "You must supply a setting to setting_set()"
 msgstr ""
 
-#: includes/civi-wp-ms-admin.php:2369
+#: includes/civi-wp-ms-admin.php:2376
 msgid "Cheating, eh?"
 msgstr ""
 
