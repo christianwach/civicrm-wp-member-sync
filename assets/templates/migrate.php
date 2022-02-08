@@ -25,7 +25,7 @@ defined( 'ABSPATH' ) || exit;
 	<?php
 
 	// If we've updated, show message.
-	if ( isset( $_GET['updated'] ) AND $_GET['updated'] == 'true' ) {
+	if ( isset( $_GET['updated'] ) && $_GET['updated'] == 'true' ) {
 		echo '<div id="message" class="updated"><p>' . esc_html__( 'Migration complete. You can now deactivate the old plugin.', 'civicrm-wp-member-sync' ) . '</p></div>';
 	}
 

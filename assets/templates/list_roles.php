@@ -60,14 +60,14 @@ defined( 'ABSPATH' ) || exit;
 	}
 
 	// If we've updated, show message (note that this will only display if we have JS turned off).
-	if ( isset( $this->errors ) AND is_array( $this->errors ) ) {
+	if ( isset( $this->errors ) && is_array( $this->errors ) ) {
 
 		// Init messages.
 		$error_messages = [];
 
 		// Construct array of messages based on error code.
-		foreach( $this->errors AS $error_code ) {
-			$error_messages[] = $this->error_strings[$error_code];
+		foreach ( $this->errors as $error_code ) {
+			$error_messages[] = $this->error_strings[ $error_code ];
 		}
 
 		// Show them.
@@ -123,7 +123,7 @@ defined( 'ABSPATH' ) || exit;
 			<?php
 
 			// Loop through our data array, keyed by type ID.
-			foreach( $data AS $key => $item ) {
+			foreach ( $data as $key => $item ) {
 
 				// Construct URLs for this item.
 				$edit_url = $urls['rules'] . '&mode=edit&type_id=' . $key;

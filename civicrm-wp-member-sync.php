@@ -1,26 +1,28 @@
-<?php /*
---------------------------------------------------------------------------------
-Plugin Name: CiviCRM WordPress Member Sync
-Plugin URI: https://github.com/christianwach/civicrm-wp-member-sync
-Description: Synchronize CiviCRM Memberships with WordPress User Roles or Capabilities.
-Author: Christian Wach
-Version: 0.5.2
-Author URI: https://haystack.co.uk
-Text Domain: civicrm-wp-member-sync
-Domain Path: /languages
-Depends: CiviCRM
---------------------------------------------------------------------------------
-
-Thanks to:
-
-Jag Kandasamy <http://www.orangecreative.net> for:
-"Wordpress CiviMember Role Sync Plugin" <https://github.com/jeevajoy/Wordpress-CiviCRM-Member-Role-Sync>
-
-Tadpole Collective <https://tadpole.cc> for their fork:
-"Tadpole CiviMember Role Synchronize" <https://github.com/tadpolecc/civi_member_sync>
-
---------------------------------------------------------------------------------
-*/
+<?php
+/**
+ * Plugin Name: CiviCRM WordPress Member Sync
+ * Plugin URI: https://github.com/christianwach/civicrm-wp-member-sync
+ * GitHub Plugin URI: https://github.com/christianwach/civicrm-wp-member-sync
+ * Description: Synchronize CiviCRM Memberships with WordPress User Roles or Capabilities.
+ * Author: Christian Wach
+ * Author URI: https://haystack.co.uk
+ * Version: 0.5.2
+ * Requires at least: 4.9
+ * Requires PHP: 7.1
+ * Text Domain: civicrm-wp-member-sync
+ * Domain Path: /languages
+ * Depends: CiviCRM
+ *
+ * Thanks to:
+ *
+ * Jag Kandasamy <http://www.orangecreative.net> for:
+ * "Wordpress CiviMember Role Sync Plugin" <https://github.com/jeevajoy/Wordpress-CiviCRM-Member-Role-Sync>
+ *
+ * Tadpole Collective <https://tadpole.cc> for their fork:
+ * "Tadpole CiviMember Role Synchronize" <https://github.com/tadpolecc/civi_member_sync>
+ *
+ * @package Civi_WP_Member_Sync
+ */
 
 // Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
@@ -253,16 +255,9 @@ class Civi_WP_Member_Sync {
 
 		// Load translations.
 		load_plugin_textdomain(
-
-			// Unique name.
-			'civicrm-wp-member-sync',
-
-			// Deprecated argument.
-			false,
-
-			// Relative path to directory containing translation files.
-			dirname( plugin_basename( CIVI_WP_MEMBER_SYNC_PLUGIN_FILE ) ) . '/languages/'
-
+			'civicrm-wp-member-sync', // Unique name.
+			false, // Deprecated argument.
+			dirname( plugin_basename( CIVI_WP_MEMBER_SYNC_PLUGIN_FILE ) ) . '/languages/' // Relative path to files.
 		);
 
 	}
@@ -285,8 +280,10 @@ register_activation_hook( __FILE__, [ $civi_wp_member_sync, 'activate' ] );
 // Plugin deactivation.
 register_deactivation_hook( __FILE__, [ $civi_wp_member_sync, 'deactivate' ] );
 
-// Uninstall uses the 'uninstall.php' method.
-// See: http://codex.wordpress.org/Function_Reference/register_uninstall_hook
+/*
+ * Uninstall uses the 'uninstall.php' method.
+ * @see https://developer.wordpress.org/reference/functions/register_uninstall_hook/
+ */
 
 
 
@@ -322,10 +319,7 @@ function civi_wp_member_sync_plugin_add_settings_link( $links, $file ) {
 	if ( $file == plugin_basename( dirname( __FILE__ ) . '/civicrm-wp-member-sync.php' ) ) {
 
 		// Is this Network Admin? Also check sub-site listings (since WordPress 4.4) and show for network admins.
-		if (
-			is_network_admin() OR
-			( is_super_admin() AND civicrm_wpms()->admin->is_network_activated() )
-		) {
+		if ( is_network_admin() || ( is_super_admin() && civicrm_wpms()->admin->is_network_activated() ) ) {
 			$link = add_query_arg( [ 'page' => 'civi_wp_member_sync_parent' ], network_admin_url( 'settings.php' ) );
 		} else {
 			$link = add_query_arg( [ 'page' => 'civi_wp_member_sync_parent' ], admin_url( 'admin.php' ) );

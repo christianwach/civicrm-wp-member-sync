@@ -44,7 +44,7 @@ class Civi_WP_Member_Sync_Members {
 	 */
 	public function __construct( $plugin ) {
 
-		// Store reference to plugin
+		// Store reference to plugin.
 		$this->plugin = $plugin;
 
 		// Initialise first.
@@ -138,7 +138,7 @@ class Civi_WP_Member_Sync_Members {
 
 		// Override "Create Users" flag if chosen.
 		if (
-			isset( $_POST['civi_wp_member_sync_manual_sync_create'] ) AND
+			isset( $_POST['civi_wp_member_sync_manual_sync_create'] ) &&
 			$_POST['civi_wp_member_sync_manual_sync_create'] == 'y'
 		) {
 			$create_users = true;
@@ -149,7 +149,7 @@ class Civi_WP_Member_Sync_Members {
 
 		// Override "dry run" flag if chosen.
 		if (
-			isset( $_POST['civi_wp_member_sync_manual_sync_dry_run'] ) AND
+			isset( $_POST['civi_wp_member_sync_manual_sync_dry_run'] ) &&
 			$_POST['civi_wp_member_sync_manual_sync_dry_run'] == 'y'
 		) {
 			$dry_run = true;
@@ -164,7 +164,7 @@ class Civi_WP_Member_Sync_Members {
 
 			// Override if "From" field is populated.
 			if (
-				isset( $_POST['civi_wp_member_sync_manual_sync_from'] ) AND
+				isset( $_POST['civi_wp_member_sync_manual_sync_from'] ) &&
 				is_numeric( trim( $_POST['civi_wp_member_sync_manual_sync_from'] ) )
 			) {
 				$memberships_from = (int) trim( $_POST['civi_wp_member_sync_manual_sync_from'] );
@@ -185,7 +185,7 @@ class Civi_WP_Member_Sync_Members {
 
 		// If the "To" field is populated.
 		if (
-			isset( $_POST['civi_wp_member_sync_manual_sync_to'] ) AND
+			isset( $_POST['civi_wp_member_sync_manual_sync_to'] ) &&
 			is_numeric( trim( $_POST['civi_wp_member_sync_manual_sync_to'] ) )
 		) {
 
@@ -193,7 +193,7 @@ class Civi_WP_Member_Sync_Members {
 			$memberships_to = (int) trim( $_POST['civi_wp_member_sync_manual_sync_to'] );
 
 			// Update batch count if the end of the default batch is greater than the requested one.
-			if ( $memberships_to > 0 AND $memberships_to < ( $memberships_offset + $batch_count ) ) {
+			if ( $memberships_to > 0 && $memberships_to < ( $memberships_offset + $batch_count ) ) {
 				$batch_count = $memberships_to - $memberships_offset;
 			}
 
@@ -203,7 +203,7 @@ class Civi_WP_Member_Sync_Members {
 		$memberships = $this->memberships_get( $memberships_offset, $batch_count );
 
 		// If we have Membership details.
-		if ( $memberships !== false AND $batch_count > 0 ) {
+		if ( $memberships !== false && $batch_count > 0 ) {
 
 			// Set finished flag.
 			$data['finished'] = 'false';
@@ -219,7 +219,7 @@ class Civi_WP_Member_Sync_Members {
 			$feedback = [];
 
 			// Loop through Memberships.
-			foreach( $memberships['values'] AS $membership ) {
+			foreach ( $memberships['values'] as $membership ) {
 
 				// Get Contact ID.
 				$civi_contact_id = isset( $membership['contact_id'] ) ? $membership['contact_id'] : false;
@@ -268,7 +268,7 @@ class Civi_WP_Member_Sync_Members {
 				$user = $this->plugin->users->wp_user_get_by_civi_id( $civi_contact_id );
 
 				// If this isn't a Dry Run and we don't have a valid User.
-				if (! ( $user instanceof WP_User ) OR ! $user->exists() ) {
+				if ( ! ( $user instanceof WP_User ) || ! $user->exists() ) {
 
 					// Create a WordPress User if asked to.
 					if ( $create_users ) {
@@ -290,7 +290,7 @@ class Civi_WP_Member_Sync_Members {
 						if ( $user === false ) {
 							continue;
 						}
-						if ( ! ( $user instanceof WP_User ) OR ! $user->exists() ) {
+						if ( ! ( $user instanceof WP_User ) || ! $user->exists() ) {
 							continue;
 						}
 
@@ -362,7 +362,7 @@ class Civi_WP_Member_Sync_Members {
 		$users = get_users( [ 'all_with_meta' => true ] );
 
 		// Loop through all Users.
-		foreach( $users AS $user ) {
+		foreach ( $users as $user ) {
 
 			// Skip if we don't have a valid User.
 			if ( ! ( $user instanceof WP_User ) ) {
@@ -416,7 +416,7 @@ class Civi_WP_Member_Sync_Members {
 		if ( $user === false ) {
 			return false;
 		}
-		if ( ! ( $user instanceof WP_User ) OR ! $user->exists() ) {
+		if ( ! ( $user instanceof WP_User ) || ! $user->exists() ) {
 			return false;
 		}
 
@@ -466,9 +466,9 @@ class Civi_WP_Member_Sync_Members {
 		$user->user_login = $this->plugin->users->unique_username( $user_name, $civi_contact );
 
 		// Add Display Name and First & Last Names.
-		$user->display_name =$civi_contact['display_name'];
-		$user->first_name =$civi_contact['first_name'];
-		$user->last_name =$civi_contact['last_name'];
+		$user->display_name = $civi_contact['display_name'];
+		$user->first_name = $civi_contact['first_name'];
+		$user->last_name = $civi_contact['last_name'];
 
 		// --<
 		return $user;
@@ -499,7 +499,7 @@ class Civi_WP_Member_Sync_Members {
 		$should_be_synced = true;
 
 		// Exclude admins by default.
-		if ( is_super_admin( $user->ID ) OR $user->has_cap( 'delete_users' ) ) {
+		if ( is_super_admin( $user->ID ) || $user->has_cap( 'delete_users' ) ) {
 			$should_be_synced = false;
 		}
 
@@ -595,8 +595,8 @@ class Civi_WP_Member_Sync_Members {
 
 		// Sanity check.
 		if (
-			$membership['is_error'] == 0 AND
-			isset( $membership['values'] ) AND
+			$membership['is_error'] == 0 &&
+			isset( $membership['values'] ) &&
 			count( $membership['values'] ) > 0
 		) {
 
@@ -644,7 +644,7 @@ class Civi_WP_Member_Sync_Members {
 		$previous_membership = null;
 
 		// For edit operations, we first need to check for renewals.
-		if ( $op == 'edit' AND isset( $this->membership_pre ) AND isset( $objectRef->membership_type_id ) ) {
+		if ( $op == 'edit' && isset( $this->membership_pre ) && isset( $objectRef->membership_type_id ) ) {
 
 			// Make sure we're comparing like with like.
 			$previous_type_id = absint( $this->membership_pre['values'][0]['membership_type_id'] );
@@ -686,7 +686,7 @@ class Civi_WP_Member_Sync_Members {
 				if ( $user === false ) {
 					return;
 				}
-				if ( ! ( $user instanceof WP_User ) OR ! $user->exists() ) {
+				if ( ! ( $user instanceof WP_User ) || ! $user->exists() ) {
 					return;
 				}
 
@@ -729,7 +729,7 @@ class Civi_WP_Member_Sync_Members {
 				if ( $user === false ) {
 					return;
 				}
-				if ( ! ( $user instanceof WP_User ) OR ! $user->exists() ) {
+				if ( ! ( $user instanceof WP_User ) || ! $user->exists() ) {
 					return;
 				}
 
@@ -874,7 +874,7 @@ class Civi_WP_Member_Sync_Members {
 			'version' => '3',
 			'sequential' => 1,
 			'status_id.is_current_member' => [
-				'IS NOT NULL' => 1
+				'IS NOT NULL' => 1,
 			],
 			'options' => [
 				'sort' => 'contact_id ASC, status_id.is_current_member ASC, end_date ASC',
@@ -890,7 +890,7 @@ class Civi_WP_Member_Sync_Members {
 				'status_id',
 				'is_test',
 				'is_pay_later',
-				'status_id.is_current_member'
+				'status_id.is_current_member',
 			],
 		];
 
@@ -923,8 +923,8 @@ class Civi_WP_Member_Sync_Members {
 
 		// If we have Membership details.
 		if (
-			$memberships['is_error'] == 0 AND
-			isset( $memberships['values'] ) AND
+			$memberships['is_error'] == 0 &&
+			isset( $memberships['values'] ) &&
 			count( $memberships['values'] ) > 0
 		) {
 
@@ -987,20 +987,20 @@ class Civi_WP_Member_Sync_Members {
 
 		// If Contact is in the Trash.
 		if (
-			$result['is_error'] == 0 AND
-			isset( $result['values'] ) AND
+			$result['is_error'] == 0 &&
+			isset( $result['values'] ) &&
 			count( $result['values'] ) > 0
 		) {
 
 			// Override Membership Statuses.
 			$overrides = [];
-			foreach( $data['values'] AS $membership ) {
+			foreach ( $data['values'] as $membership ) {
 
 				// Check if Membership is already expired.
 				$expired = $this->membership_is_expired( $membership );
 
 				// Maybe overwrite with an expired status.
-				if ( ! empty( $expired ) AND $expired['is_expired'] === false ) {
+				if ( ! empty( $expired ) && $expired['is_expired'] === false ) {
 					$membership['status_id'] = $expired['status_id'];
 					$membership['status_id.is_current_member'] = 0;
 				}
@@ -1096,7 +1096,9 @@ class Civi_WP_Member_Sync_Members {
 		}
 
 		// Pass to centralised method.
-		return $this->memberships_get( $offset = 0, $limit = 0, $civi_contact_id );
+		$offset = 0;
+		$limit = 0;
+		return $this->memberships_get( $offset, $limit, $civi_contact_id );
 
 	}
 
@@ -1180,7 +1182,7 @@ class Civi_WP_Member_Sync_Members {
 		$method = $this->plugin->admin->setting_get_method();
 
 		// Loop through the supplied Memberships.
-		foreach( $memberships['values'] AS $membership ) {
+		foreach ( $memberships['values'] as $membership ) {
 
 			// Continue with next Membership if something went wrong.
 			if ( empty( $membership['membership_type_id'] ) ) {
@@ -1210,7 +1212,7 @@ class Civi_WP_Member_Sync_Members {
 				continue;
 			}
 
-			// Get status rules
+			// Get status rules.
 			$current_rule = $association_rule['current_rule'];
 			$expiry_rule = $association_rule['expiry_rule'];
 
@@ -1229,7 +1231,7 @@ class Civi_WP_Member_Sync_Members {
 				$filter = $membership;
 
 				// Does the User's Membership Status match a current status rule?
-				if ( isset( $status_id ) AND array_search( $status_id, $current_rule ) ) {
+				if ( isset( $status_id ) && array_search( $status_id, $current_rule ) ) {
 					$filter['member_sync'] = 'current';
 				} else {
 					$filter['member_sync'] = 'expired';
@@ -1244,7 +1246,7 @@ class Civi_WP_Member_Sync_Members {
 				$filter = $membership;
 
 				// Does the User's Membership Status match a current status rule?
-				if ( isset( $status_id ) AND array_search( $status_id, $current_rule ) ) {
+				if ( isset( $status_id ) && array_search( $status_id, $current_rule ) ) {
 					$filter['member_sync'] = 'current';
 				} else {
 					$filter['member_sync'] = 'expired';
@@ -1333,8 +1335,8 @@ class Civi_WP_Member_Sync_Members {
 		] );
 
 		// Construct array of types.
-		foreach( $membership_type_details['values'] AS $key => $values ) {
-			$this->membership_types[$values['id']] = $values['name'];
+		foreach ( $membership_type_details['values'] as $key => $values ) {
+			$this->membership_types[ $values['id'] ] = $values['name'];
 		}
 
 		// --<
@@ -1376,8 +1378,8 @@ class Civi_WP_Member_Sync_Members {
 		] );
 
 		// Construct array of status rules.
-		foreach( $membership_status_details['values'] AS $key => $values ) {
-			$this->membership_status_rules[$values['id']] = $values['name'];
+		foreach ( $membership_status_details['values'] as $key => $values ) {
+			$this->membership_status_rules[ $values['id'] ] = $values['name'];
 		}
 
 		// --<
@@ -1444,7 +1446,7 @@ class Civi_WP_Member_Sync_Members {
 		$current_rules = $this->status_rules_get_current_array( $values );
 
 		// If there are some.
-		if ( $current_rules !== false AND is_array( $current_rules ) ) {
+		if ( $current_rules !== false && is_array( $current_rules ) ) {
 
 			// Separate with line break.
 			$status_rules = implode( '<br>', $current_rules );
@@ -1489,7 +1491,7 @@ class Civi_WP_Member_Sync_Members {
 		// Build rules array for this item.
 		if ( ! empty( $current_rule ) ) {
 			if ( is_array( $current_rule ) ) {
-				foreach( $current_rule as $key => $value ) {
+				foreach ( $current_rule as $key => $value ) {
 					$rules_array[] = array_search( $key, $status_rules );
 				}
 			}

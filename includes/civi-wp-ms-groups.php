@@ -230,7 +230,7 @@ class Civi_WP_Member_Sync_Groups {
 
 		// Add items to output array.
 		$json = [];
-		foreach( $groups AS $group ) {
+		foreach ( $groups as $group ) {
 			$json[] = [
 				'id' => $group->group_id,
 				'name' => esc_html( $group->name ),
@@ -238,7 +238,7 @@ class Civi_WP_Member_Sync_Groups {
 		}
 
 		// Send data.
-		echo json_encode( $json );
+		echo wp_json_encode( $json );
 		exit();
 
 	}
@@ -311,14 +311,14 @@ class Civi_WP_Member_Sync_Groups {
 
 		// Remove the User from the expired Groups.
 		if ( ! empty( $association_rule['expiry_groups'] ) ) {
-			foreach( $association_rule['expiry_groups'] AS $group_id ) {
+			foreach ( $association_rule['expiry_groups'] as $group_id ) {
 				$this->group_member_delete( $user->ID, $group_id );
 			}
 		}
 
 		// Add the User to the current Groups.
 		if ( ! empty( $association_rule['current_groups'] ) ) {
-			foreach( $association_rule['current_groups'] AS $group_id ) {
+			foreach ( $association_rule['current_groups'] as $group_id ) {
 				$this->group_member_add( $user->ID, $group_id );
 			}
 		}
@@ -341,14 +341,14 @@ class Civi_WP_Member_Sync_Groups {
 
 		// Remove the User from the current Groups.
 		if ( ! empty( $association_rule['current_groups'] ) ) {
-			foreach( $association_rule['current_groups'] AS $group_id ) {
+			foreach ( $association_rule['current_groups'] as $group_id ) {
 				$this->group_member_delete( $user->ID, $group_id );
 			}
 		}
 
 		// Add the User to the expired Groups.
 		if ( ! empty( $association_rule['expiry_groups'] ) ) {
-			foreach( $association_rule['expiry_groups'] AS $group_id ) {
+			foreach ( $association_rule['expiry_groups'] as $group_id ) {
 				$this->group_member_add( $user->ID, $group_id );
 			}
 		}
@@ -385,11 +385,11 @@ class Civi_WP_Member_Sync_Groups {
 
 		// Maybe log on failure?
 		if ( ! $success ) {
-			$e = new Exception;
+			$e = new Exception();
 			$trace = $e->getTraceAsString();
 			error_log( print_r( [
 				'method' => __METHOD__,
-				'message' => esc_html__( 'Could not add user to group.', 'civicrm-groups-sync' ),
+				'message' => esc_html__( 'Could not add user to group.', 'civicrm-wp-member-sync' ),
 				'user_id' => $user_id,
 				'group_id' => $group_id,
 				'backtrace' => $trace,
@@ -424,11 +424,11 @@ class Civi_WP_Member_Sync_Groups {
 
 		// Maybe log on failure?
 		if ( ! $success ) {
-			$e = new Exception;
+			$e = new Exception();
 			$trace = $e->getTraceAsString();
 			error_log( print_r( [
 				'method' => __METHOD__,
-				'message' => esc_html__( 'Could not delete user from group.', 'civicrm-groups-sync' ),
+				'message' => esc_html__( 'Could not delete user from group.', 'civicrm-wp-member-sync' ),
 				'user_id' => $user_id,
 				'group_id' => $group_id,
 				'backtrace' => $trace,
@@ -463,8 +463,8 @@ class Civi_WP_Member_Sync_Groups {
 
 		// Get the "current" Groups.
 		if (
-			isset( $_POST['cwms_groups_select_current'] ) AND
-			is_array( $_POST['cwms_groups_select_current'] ) AND
+			isset( $_POST['cwms_groups_select_current'] ) &&
+			is_array( $_POST['cwms_groups_select_current'] ) &&
 			! empty( $_POST['cwms_groups_select_current'] )
 		) {
 
@@ -483,8 +483,8 @@ class Civi_WP_Member_Sync_Groups {
 
 		// Get the "expiry" Groups.
 		if (
-			isset( $_POST['cwms_groups_select_expiry'] ) AND
-			is_array( $_POST['cwms_groups_select_expiry'] ) AND
+			isset( $_POST['cwms_groups_select_expiry'] ) &&
+			is_array( $_POST['cwms_groups_select_expiry'] ) &&
 			! empty( $_POST['cwms_groups_select_expiry'] )
 		) {
 
@@ -699,10 +699,10 @@ class Civi_WP_Member_Sync_Groups {
 
 		// Build list.
 		$markup = '&mdash;';
-		if ( $item['flag'] == 'current' AND ! empty( $item['association_rule']['current_groups'] ) ) {
+		if ( $item['flag'] == 'current' && ! empty( $item['association_rule']['current_groups'] ) ) {
 			$markup = $this->markup_get_list_items( $item['association_rule']['current_groups'] );
 		}
-		if ( $item['flag'] == 'expired' AND ! empty( $item['association_rule']['expiry_groups'] ) ) {
+		if ( $item['flag'] == 'expired' && ! empty( $item['association_rule']['expiry_groups'] ) ) {
 			$markup = $this->markup_get_list_items( $item['association_rule']['expiry_groups'] );
 		}
 
@@ -740,7 +740,7 @@ class Civi_WP_Member_Sync_Groups {
 			] );
 
 			// Add options to build array.
-			foreach( $groups AS $group ) {
+			foreach ( $groups as $group ) {
 				$options[] = esc_html( $group->name );
 			}
 
@@ -779,7 +779,7 @@ class Civi_WP_Member_Sync_Groups {
 			] );
 
 			// Add options to build array.
-			foreach( $groups AS $group ) {
+			foreach ( $groups as $group ) {
 				$options[] = '<option value="' . $group->group_id . '" selected="selected">' . esc_html( $group->name ) . '</option>';
 			}
 
@@ -920,7 +920,7 @@ class Civi_WP_Member_Sync_Groups {
 		}
 
 		// Delete the Capability.
-		unset( $current_read_caps[$key] );
+		unset( $current_read_caps[ $key ] );
 
 		// Resave option.
 		Groups_Options::update_option( Groups_Post_Access::READ_POST_CAPABILITIES, $current_read_caps );
@@ -949,10 +949,10 @@ class Civi_WP_Member_Sync_Groups {
 		$rules = $this->plugin->admin->rules_get_by_method( $method );
 
 		// If we get some.
-		if ( $rules !== false AND is_array( $rules ) AND count( $rules ) > 0 ) {
+		if ( $rules !== false && is_array( $rules ) && count( $rules ) > 0 ) {
 
 			// Add Capability to "Groups" plugin if not already present.
-			foreach( $rules AS $rule ) {
+			foreach ( $rules as $rule ) {
 				$this->groups_add_cap( $rule );
 			}
 
@@ -977,16 +977,19 @@ class Civi_WP_Member_Sync_Groups {
 	public function groups_intercept_save_post( $post_id, $post ) {
 
 		// Bail if something went wrong.
-		if ( ! is_object( $post ) OR ! isset( $post->post_type ) ) {
+		if ( ! is_object( $post ) || ! isset( $post->post_type ) ) {
 			return;
 		}
 
 		// Do different things based on the Post Type.
-		switch( $post->post_type ) {
+		switch ( $post->post_type ) {
 
 			case 'post':
 				// Add your default Capabilities.
-				Groups_Post_Access::create( [ 'post_id' => $post_id, 'capability' => 'Premium' ] );
+				Groups_Post_Access::create( [
+					'post_id' => $post_id,
+					'capability' => 'Premium',
+				] );
 				break;
 
 			default:

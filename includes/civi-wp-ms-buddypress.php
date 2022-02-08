@@ -213,7 +213,7 @@ class Civi_WP_Member_Sync_BuddyPress {
 		// Get Groups this User can see for this search.
 		$groups = groups_get_groups( [
 			'user_id' => is_super_admin() ? 0 : bp_loggedin_user_id(),
-			'search_terms' => $_POST['s'],
+			'search_terms' => isset( $_POST['s'] ) ? wp_unslash( $_POST['s'] ) : '',
 			'show_hidden' => true,
 			'populate_extras' => false,
 			'exclude' => $excludes,
@@ -221,7 +221,7 @@ class Civi_WP_Member_Sync_BuddyPress {
 
 		// Add items to output array.
 		$json = [];
-		foreach( $groups['groups'] AS $group ) {
+		foreach ( $groups['groups'] as $group ) {
 			$json[] = [
 				'id' => $group->id,
 				'name' => stripslashes( $group->name ),
@@ -229,7 +229,7 @@ class Civi_WP_Member_Sync_BuddyPress {
 		}
 
 		// Send data.
-		echo json_encode( $json );
+		echo wp_json_encode( $json );
 		exit();
 
 	}
@@ -302,14 +302,14 @@ class Civi_WP_Member_Sync_BuddyPress {
 
 		// Remove the User from the expired Groups.
 		if ( ! empty( $association_rule['expiry_buddypress'] ) ) {
-			foreach( $association_rule['expiry_buddypress'] AS $group_id ) {
+			foreach ( $association_rule['expiry_buddypress'] as $group_id ) {
 				$this->group_member_delete( $user->ID, $group_id );
 			}
 		}
 
 		// Add the User to the current Groups.
 		if ( ! empty( $association_rule['current_buddypress'] ) ) {
-			foreach( $association_rule['current_buddypress'] AS $group_id ) {
+			foreach ( $association_rule['current_buddypress'] as $group_id ) {
 				$this->group_member_add( $user->ID, $group_id );
 			}
 		}
@@ -332,14 +332,14 @@ class Civi_WP_Member_Sync_BuddyPress {
 
 		// Remove the User from the current Groups.
 		if ( ! empty( $association_rule['current_buddypress'] ) ) {
-			foreach( $association_rule['current_buddypress'] AS $group_id ) {
+			foreach ( $association_rule['current_buddypress'] as $group_id ) {
 				$this->group_member_delete( $user->ID, $group_id );
 			}
 		}
 
 		// Add the User to the expired Groups.
 		if ( ! empty( $association_rule['expiry_buddypress'] ) ) {
-			foreach( $association_rule['expiry_buddypress'] AS $group_id ) {
+			foreach ( $association_rule['expiry_buddypress'] as $group_id ) {
 				$this->group_member_add( $user->ID, $group_id );
 			}
 		}
@@ -373,7 +373,7 @@ class Civi_WP_Member_Sync_BuddyPress {
 
 		// Maybe log on failure?
 		if ( ! $success ) {
-			$e = new Exception;
+			$e = new Exception();
 			$trace = $e->getTraceAsString();
 			error_log( print_r( [
 				'method' => __METHOD__,
@@ -454,8 +454,8 @@ class Civi_WP_Member_Sync_BuddyPress {
 
 		// Get the "current" Groups.
 		if (
-			isset( $_POST['cwms_buddypress_select_current'] ) AND
-			is_array( $_POST['cwms_buddypress_select_current'] ) AND
+			isset( $_POST['cwms_buddypress_select_current'] ) &&
+			is_array( $_POST['cwms_buddypress_select_current'] ) &&
 			! empty( $_POST['cwms_buddypress_select_current'] )
 		) {
 
@@ -474,8 +474,8 @@ class Civi_WP_Member_Sync_BuddyPress {
 
 		// Get the "expiry" Groups.
 		if (
-			isset( $_POST['cwms_buddypress_select_expiry'] ) AND
-			is_array( $_POST['cwms_buddypress_select_expiry'] ) AND
+			isset( $_POST['cwms_buddypress_select_expiry'] ) &&
+			is_array( $_POST['cwms_buddypress_select_expiry'] ) &&
 			! empty( $_POST['cwms_buddypress_select_expiry'] )
 		) {
 
@@ -690,10 +690,10 @@ class Civi_WP_Member_Sync_BuddyPress {
 
 		// Build list.
 		$markup = '&mdash;';
-		if ( $item['flag'] == 'current' AND ! empty( $item['association_rule']['current_buddypress'] ) ) {
+		if ( $item['flag'] == 'current' && ! empty( $item['association_rule']['current_buddypress'] ) ) {
 			$markup = $this->markup_get_list_items( $item['association_rule']['current_buddypress'] );
 		}
-		if ( $item['flag'] == 'expired' AND ! empty( $item['association_rule']['expiry_buddypress'] ) ) {
+		if ( $item['flag'] == 'expired' && ! empty( $item['association_rule']['expiry_buddypress'] ) ) {
 			$markup = $this->markup_get_list_items( $item['association_rule']['expiry_buddypress'] );
 		}
 
@@ -731,7 +731,7 @@ class Civi_WP_Member_Sync_BuddyPress {
 			] );
 
 			// Add options to build array.
-			foreach( $groups['groups'] AS $group ) {
+			foreach ( $groups['groups'] as $group ) {
 				$options[] = esc_html( $group->name );
 			}
 
@@ -771,7 +771,7 @@ class Civi_WP_Member_Sync_BuddyPress {
 			] );
 
 			// Add options to build array.
-			foreach( $groups['groups'] AS $group ) {
+			foreach ( $groups['groups'] as $group ) {
 				$options[] = '<option value="' . $group->id . '" selected="selected">' . esc_html( $group->name ) . '</option>';
 			}
 

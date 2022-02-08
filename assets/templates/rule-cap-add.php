@@ -27,14 +27,14 @@ defined( 'ABSPATH' ) || exit;
 	<?php
 
 	// If we've updated, show message (note that this will only display if we have JS turned off).
-	if ( isset( $this->errors ) AND is_array( $this->errors ) ) {
+	if ( isset( $this->errors ) && is_array( $this->errors ) ) {
 
 		// Init messages.
 		$error_messages = [];
 
 		// Construct array of messages based on error code.
-		foreach( $this->errors AS $error_code ) {
-			$error_messages[] = $this->error_strings[$error_code];
+		foreach ( $this->errors as $error_code ) {
+			$error_messages[] = $this->error_strings[ $error_code ];
 		}
 
 		// Show them.
@@ -77,8 +77,8 @@ defined( 'ABSPATH' ) || exit;
 						<?php if ( empty( $multiple ) ) { ?>
 							<option value=""></option>
 						<?php } ?>
-						<?php foreach( $membership_types AS $key => $value ) { ?>
-							<option value="<?php echo $key;?>"><?php echo $value; ?></option>
+						<?php foreach ( $membership_types as $key => $value ) { ?>
+							<option value="<?php echo $key; ?>"><?php echo $value; ?></option>
 						<?php } ?>
 					</select>
 				</td>
@@ -87,7 +87,7 @@ defined( 'ABSPATH' ) || exit;
 			<tr>
 				<th scope="row"><label class="current_label" for="current"><?php esc_html_e( 'Current Status', 'civicrm-wp-member-sync' ); ?> *</label></th>
 				<td>
-				<?php foreach( $status_rules AS $key => $value ) { ?>
+				<?php foreach ( $status_rules as $key => $value ) { ?>
 					<input type="checkbox" class="required-current current-<?php echo $key; ?>" name="<?php echo 'current[' . $key . ']'; ?>" id="<?php echo 'current[' . $key . ']'; ?>" value="<?php echo $key; ?>" />
 					<label for="<?php echo 'current[' . $key . ']'; ?>"><?php echo $value; ?></label><br />
 				<?php } ?>
@@ -110,9 +110,9 @@ defined( 'ABSPATH' ) || exit;
 			<tr>
 				<th scope="row"><label class="expire_label" for="expire"><?php esc_html_e( 'Expire Status', 'civicrm-wp-member-sync' ); ?> *</label></th>
 				<td>
-				<?php foreach( $status_rules AS $key => $value ) { ?>
+				<?php foreach ( $status_rules as $key => $value ) { ?>
 					<input type="checkbox" class="required-expire expire-<?php echo $key; ?>" name="<?php echo 'expire[' . $key . ']'; ?>" id="<?php echo 'expire[' . $key . ']'; ?>" value="<?php echo $key; ?>" />
-					<label for="<?php echo 'expire[' . $key . ']';?>"><?php echo $value; ?></label><br />
+					<label for="<?php echo 'expire[' . $key . ']'; ?>"><?php echo $value; ?></label><br />
 				<?php } ?>
 				</td>
 			</tr>

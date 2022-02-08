@@ -175,8 +175,8 @@ class Civi_WP_Member_Sync_Admin {
 		];
 
 		// Maybe load our Migration utility.
-		if ( defined( 'CIVI_WP_MEMBER_SYNC_MIGRATE' ) AND CIVI_WP_MEMBER_SYNC_MIGRATE ) {
-			require( CIVI_WP_MEMBER_SYNC_PLUGIN_PATH . 'includes/civi-wp-ms-migrate.php' );
+		if ( defined( 'CIVI_WP_MEMBER_SYNC_MIGRATE' ) && CIVI_WP_MEMBER_SYNC_MIGRATE ) {
+			require CIVI_WP_MEMBER_SYNC_PLUGIN_PATH . 'includes/civi-wp-ms-migrate.php';
 			$this->migrate = new Civi_WP_Member_Sync_Migrate( $this );
 		}
 
@@ -242,7 +242,7 @@ class Civi_WP_Member_Sync_Admin {
 
 		// Make sure plugin file is included when outside admin.
 		if ( ! function_exists( 'is_plugin_active_for_network' ) ) {
-			require_once( ABSPATH . '/wp-admin/includes/plugin.php' );
+			require_once ABSPATH . '/wp-admin/includes/plugin.php';
 		}
 
 		// Get path from 'plugins' directory to this plugin.
@@ -374,9 +374,9 @@ class Civi_WP_Member_Sync_Admin {
 	 */
 	public function upgrade_tasks() {
 
-		// If the current version is less than 0.2.7 and we're upgrading to 0.2.7+
+		// If the current version is less than 0.2.7 and we're upgrading to 0.2.7+.
 		if (
-			version_compare( $this->plugin_version, '0.2.7', '<' ) AND
+			version_compare( $this->plugin_version, '0.2.7', '<' ) &&
 			version_compare( CIVI_WP_MEMBER_SYNC_VERSION, '0.2.7', '>=' )
 		) {
 
@@ -452,7 +452,7 @@ class Civi_WP_Member_Sync_Admin {
 	public function admin_menu() {
 
 		// We must be network admin in multisite.
-		if ( is_multisite() AND ! is_super_admin() ) {
+		if ( is_multisite() && ! is_super_admin() ) {
 			return false;
 		}
 
@@ -578,10 +578,10 @@ class Civi_WP_Member_Sync_Admin {
 
 		// Define subpages.
 		$subpages = [
-		 	'civi_wp_member_sync_settings',
-		 	'civi_wp_member_sync_manual_sync',
-		 	'civi_wp_member_sync_list',
-		 	'civi_wp_member_sync_rules',
+			'civi_wp_member_sync_settings',
+			'civi_wp_member_sync_manual_sync',
+			'civi_wp_member_sync_list',
+			'civi_wp_member_sync_rules',
 		];
 
 		// This tweaks the Settings subnav menu to show only one menu item.
@@ -665,7 +665,8 @@ class Civi_WP_Member_Sync_Admin {
 			'civi_wp_member_sync_sync_js',
 			plugins_url( 'assets/js/civi-wp-ms-sync.js', CIVI_WP_MEMBER_SYNC_PLUGIN_FILE ),
 			[ 'jquery', 'jquery-ui-core', 'jquery-ui-progressbar' ],
-			CIVI_WP_MEMBER_SYNC_VERSION // Version.
+			CIVI_WP_MEMBER_SYNC_VERSION, // Version.
+			true // In footer.
 		);
 
 		// Init localisation.
@@ -752,7 +753,8 @@ class Civi_WP_Member_Sync_Admin {
 			'civi_wp_member_sync_rules_js',
 			plugins_url( 'assets/js/civi-wp-ms-rules.js', CIVI_WP_MEMBER_SYNC_PLUGIN_FILE ),
 			$dependencies,
-			CIVI_WP_MEMBER_SYNC_VERSION // Version.
+			CIVI_WP_MEMBER_SYNC_VERSION, // Version.
+			true // In footer.
 		);
 
 		// Set defaults.
@@ -781,8 +783,8 @@ class Civi_WP_Member_Sync_Admin {
 		}
 
 		// Maybe override mode.
-		if ( isset( $_GET['mode'] ) AND $_GET['mode'] == 'edit' ) {
-			if ( isset( $_GET['type_id'] ) AND is_numeric( $_GET['type_id'] ) ) {
+		if ( isset( $_GET['mode'] ) && $_GET['mode'] == 'edit' ) {
+			if ( isset( $_GET['type_id'] ) && is_numeric( $_GET['type_id'] ) ) {
 				$vars['mode'] = 'edit';
 			}
 		}
@@ -823,7 +825,8 @@ class Civi_WP_Member_Sync_Admin {
 			'civi_wp_member_sync_list_js',
 			plugins_url( 'assets/js/civi-wp-ms-list.js', CIVI_WP_MEMBER_SYNC_PLUGIN_FILE ),
 			$dependencies,
-			CIVI_WP_MEMBER_SYNC_VERSION // Version.
+			CIVI_WP_MEMBER_SYNC_VERSION, // Version.
+			true // In footer.
 		);
 
 		// Set defaults.
@@ -935,7 +938,9 @@ class Civi_WP_Member_Sync_Admin {
 		// Register Select2 styles.
 		wp_register_style(
 			$handle,
-			set_url_scheme( 'https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css' )
+			set_url_scheme( 'https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css' ),
+			null,
+			CIVI_WP_MEMBER_SYNC_VERSION // Version.
 		);
 
 		// Enqueue styles.
@@ -979,7 +984,9 @@ class Civi_WP_Member_Sync_Admin {
 		wp_register_script(
 			$handle,
 			set_url_scheme( 'https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js' ),
-			[ 'jquery' ]
+			[ 'jquery' ],
+			CIVI_WP_MEMBER_SYNC_VERSION, // Version.
+			true // In footer.
 		);
 
 		// Enqueue script.
@@ -1019,8 +1026,8 @@ class Civi_WP_Member_Sync_Admin {
 		$urls = $this->page_get_urls();
 
 		// If we have the legacy plugin, include template file and bail.
-		if ( isset( $this->migrate ) AND $this->migrate->legacy_plugin_exists() ) {
-			include( CIVI_WP_MEMBER_SYNC_PLUGIN_PATH . 'assets/templates/migrate.php' );
+		if ( isset( $this->migrate ) && $this->migrate->legacy_plugin_exists() ) {
+			include CIVI_WP_MEMBER_SYNC_PLUGIN_PATH . 'assets/templates/migrate.php';
 			return;
 		}
 
@@ -1104,7 +1111,7 @@ class Civi_WP_Member_Sync_Admin {
 		$all_data = $this->setting_get( 'data' );
 
 		// Get data for this sync method.
-		$data = ( isset( $all_data[$method] ) ) ? $all_data[$method] : [];
+		$data = ( isset( $all_data[ $method ] ) ) ? $all_data[ $method ] : [];
 
 		// Get all Membership Types.
 		$membership_types = $this->plugin->members->types_get_all();
@@ -1154,8 +1161,8 @@ class Civi_WP_Member_Sync_Admin {
 		$mode = 'add';
 
 		// Do we want to populate the form?
-		if ( isset( $_GET['mode'] ) AND $_GET['mode'] == 'edit' ) {
-			if ( isset( $_GET['type_id'] ) AND is_numeric( $_GET['type_id'] ) ) {
+		if ( isset( $_GET['mode'] ) && $_GET['mode'] == 'edit' ) {
+			if ( isset( $_GET['type_id'] ) && is_numeric( $_GET['type_id'] ) ) {
 				$mode = 'edit';
 			}
 		}
@@ -1204,15 +1211,15 @@ class Civi_WP_Member_Sync_Admin {
 		$rules = $this->rules_get_by_method( $method );
 
 		// If we get some.
-		if ( $rules !== false AND is_array( $rules ) AND count( $rules ) > 0 ) {
+		if ( $rules !== false && is_array( $rules ) && count( $rules ) > 0 ) {
 
 			// Get used Membership Type IDs.
 			$type_ids = array_keys( $rules );
 
 			// Loop and remove from Membership_types array.
-			foreach( $type_ids AS $type_id ) {
-				if ( isset( $membership_types[$type_id] ) ) {
-					unset( $membership_types[$type_id] );
+			foreach ( $type_ids as $type_id ) {
+				if ( isset( $membership_types[ $type_id ] ) ) {
+					unset( $membership_types[ $type_id ] );
 				}
 			}
 
@@ -1274,15 +1281,15 @@ class Civi_WP_Member_Sync_Admin {
 		$rules = $this->rules_get_by_method( $method );
 
 		// If we get some.
-		if ( $rules !== false AND is_array( $rules ) AND count( $rules ) > 0 ) {
+		if ( $rules !== false && is_array( $rules ) && count( $rules ) > 0 ) {
 
 			// Get used Membership Type IDs.
 			$type_ids = array_keys( $rules );
 
 			// Loop and remove from membership_types array.
-			foreach( $type_ids AS $type_id ) {
-				if ( isset( $membership_types[$type_id] ) AND $civi_member_type_id != $type_id ) {
-					unset( $membership_types[$type_id] );
+			foreach ( $type_ids as $type_id ) {
+				if ( isset( $membership_types[ $type_id ] ) && $civi_member_type_id != $type_id ) {
+					unset( $membership_types[ $type_id ] );
 				}
 			}
 
@@ -1372,9 +1379,9 @@ class Civi_WP_Member_Sync_Admin {
 	public function network_menu_page_url( $menu_slug, $echo = true ) {
 		global $_parent_pages;
 
-		if ( isset( $_parent_pages[$menu_slug] ) ) {
-			$parent_slug = $_parent_pages[$menu_slug];
-			if ( $parent_slug && ! isset( $_parent_pages[$parent_slug] ) ) {
+		if ( isset( $_parent_pages[ $menu_slug ] ) ) {
+			$parent_slug = $_parent_pages[ $menu_slug ];
+			if ( $parent_slug && ! isset( $_parent_pages[ $parent_slug ] ) ) {
 				$url = network_admin_url( add_query_arg( 'page', $menu_slug, $parent_slug ) );
 			} else {
 				$url = network_admin_url( 'admin.php?page=' . $menu_slug );
@@ -1445,7 +1452,7 @@ class Civi_WP_Member_Sync_Admin {
 			$result = $this->settings_update();
 		}
 
-	 	// Was the "Stop Sync" button pressed?
+		// Was the "Stop Sync" button pressed?
 		if ( isset( $_POST['civi_wp_member_sync_manual_sync_stop'] ) ) {
 			delete_option( '_civi_wpms_memberships_offset' );
 			return;
@@ -1487,8 +1494,8 @@ class Civi_WP_Member_Sync_Admin {
 		}
 
 		// Was a "Delete" link clicked?
-		if ( isset( $_GET['syncrule'] ) AND $_GET['syncrule'] == 'delete' ) {
-			if ( ! empty( $_GET['type_id'] ) AND is_numeric( $_GET['type_id'] ) ) {
+		if ( isset( $_GET['syncrule'] ) && $_GET['syncrule'] == 'delete' ) {
+			if ( ! empty( $_GET['type_id'] ) && is_numeric( $_GET['type_id'] ) ) {
 				$result = $this->rule_delete();
 			}
 		}
@@ -1589,7 +1596,7 @@ class Civi_WP_Member_Sync_Admin {
 		$this->setting_set( 'schedule', ( $settings_schedule ? 1 : 0 ) );
 
 		// Is the schedule being deactivated?
-		if ( $existing_schedule == 1 AND $settings_schedule === 0 ) {
+		if ( $existing_schedule == 1 && $settings_schedule === 0 ) {
 
 			// Clear current scheduled event.
 			$this->plugin->schedule->unschedule();
@@ -1606,7 +1613,7 @@ class Civi_WP_Member_Sync_Admin {
 			$settings_interval = esc_sql( trim( $_POST['civi_wp_member_sync_settings_interval'] ) );
 
 			// Is the schedule active and has the interval changed?
-			if ( $settings_schedule AND $settings_interval != $existing_interval ) {
+			if ( $settings_schedule && $settings_interval != $existing_interval ) {
 
 				// Clear current scheduled event.
 				$this->plugin->schedule->unschedule();
@@ -1698,7 +1705,7 @@ class Civi_WP_Member_Sync_Admin {
 		}
 
 		// Get setting.
-		return ( array_key_exists( $setting_name, $this->settings ) ) ? $this->settings[$setting_name] : $default;
+		return ( array_key_exists( $setting_name, $this->settings ) ) ? $this->settings[ $setting_name ] : $default;
 
 	}
 
@@ -1720,7 +1727,7 @@ class Civi_WP_Member_Sync_Admin {
 		}
 
 		// Set setting.
-		$this->settings[$setting_name] = $value;
+		$this->settings[ $setting_name ] = $value;
 
 	}
 
@@ -1874,7 +1881,7 @@ class Civi_WP_Member_Sync_Admin {
 		$method = ( $method == 'roles' ) ? 'roles' : 'capabilities';
 
 		// Get subset by method.
-		$subset = ( isset( $data[$method] ) ) ? $data[$method] : false;
+		$subset = ( isset( $data[ $method ] ) ) ? $data[ $method ] : false;
 
 		// --<
 		return $subset;
@@ -1897,20 +1904,20 @@ class Civi_WP_Member_Sync_Admin {
 		$data = $this->setting_get( 'data' );
 
 		// Get subset by method.
-		$subset = ( isset( $data[$method] ) ) ? $data[$method] : false;
+		$subset = ( isset( $data[ $method ] ) ) ? $data[ $method ] : false;
 		if ( ! $subset ) {
 			return;
 		}
 
 		// Loop through them.
-		foreach( $subset AS $type_id => $rule ) {
+		foreach ( $subset as $type_id => $rule ) {
 
 			/**
 			 * Broadcast that we're deleting an association rule. This creates two
 			 * actions, depending on the sync method:
 			 *
-			 * civi_wp_member_sync_rule_delete_roles
-			 * civi_wp_member_sync_rule_delete_capabilities
+			 * * civi_wp_member_sync_rule_delete_roles
+			 * * civi_wp_member_sync_rule_delete_capabilities
 			 *
 			 * @param array $rule The association rule we're going to delete.
 			 */
@@ -1919,7 +1926,7 @@ class Civi_WP_Member_Sync_Admin {
 		}
 
 		// Update data.
-		$data[$method] = [];
+		$data[ $method ] = [];
 
 		// Overwrite data.
 		$this->setting_set( 'data', $data );
@@ -1956,10 +1963,10 @@ class Civi_WP_Member_Sync_Admin {
 		$method = ( $method == 'roles' ) ? 'roles' : 'capabilities';
 
 		// Get subset by method.
-		$subset = ( isset( $data[$method] ) ) ? $data[$method] : false;
+		$subset = ( isset( $data[ $method ] ) ) ? $data[ $method ] : false;
 
 		// Get data for this type_id.
-		$rule = ( isset( $subset[$type_id] ) ) ? $subset[$type_id] : false;
+		$rule = ( isset( $subset[ $type_id ] ) ) ? $subset[ $type_id ] : false;
 
 		// --<
 		return $rule;
@@ -1985,7 +1992,7 @@ class Civi_WP_Member_Sync_Admin {
 
 		// Test our hidden "mode" element.
 		if (
-			isset( $_POST['civi_wp_member_sync_rules_mode'] ) AND
+			isset( $_POST['civi_wp_member_sync_rules_mode'] ) &&
 			$_POST['civi_wp_member_sync_rules_mode'] == 'edit'
 		) {
 			$mode = 'edit';
@@ -1999,7 +2006,7 @@ class Civi_WP_Member_Sync_Admin {
 
 		// Test our hidden "multiple" element.
 		if (
-			isset( $_POST['civi_wp_member_sync_rules_multiple'] ) AND
+			isset( $_POST['civi_wp_member_sync_rules_multiple'] ) &&
 			trim( $_POST['civi_wp_member_sync_rules_multiple'] ) == 'yes'
 		) {
 			$multiple = true;
@@ -2012,9 +2019,9 @@ class Civi_WP_Member_Sync_Admin {
 		if ( $multiple === true ) {
 
 			// Check and sanitise CiviCRM Membership Types.
-			if(
-				isset( $_POST['civi_member_type_id'] ) AND
-				! empty( $_POST['civi_member_type_id'] ) AND
+			if (
+				isset( $_POST['civi_member_type_id'] ) &&
+				! empty( $_POST['civi_member_type_id'] ) &&
 				is_array( $_POST['civi_member_type_id'] )
 			) {
 
@@ -2036,9 +2043,9 @@ class Civi_WP_Member_Sync_Admin {
 		} else {
 
 			// Check and sanitise CiviCRM Membership Type.
-			if(
-				isset( $_POST['civi_member_type_id'] ) AND
-				! empty( $_POST['civi_member_type_id'] ) AND
+			if (
+				isset( $_POST['civi_member_type_id'] ) &&
+				! empty( $_POST['civi_member_type_id'] ) &&
 				is_numeric( $_POST['civi_member_type_id'] )
 			) {
 				$civi_member_type_id = absint( $_POST['civi_member_type_id'] );
@@ -2050,8 +2057,8 @@ class Civi_WP_Member_Sync_Admin {
 
 		// Check and sanitise Current Status.
 		if (
-			isset( $_POST['current'] ) AND
-			is_array( $_POST['current'] ) AND
+			isset( $_POST['current'] ) &&
+			is_array( $_POST['current'] ) &&
 			! empty( $_POST['current'] )
 		) {
 
@@ -2072,8 +2079,8 @@ class Civi_WP_Member_Sync_Admin {
 
 		// Check and sanitise Expire Status.
 		if (
-			isset( $_POST['expire'] ) AND
-			is_array( $_POST['expire'] ) AND
+			isset( $_POST['expire'] ) &&
+			is_array( $_POST['expire'] ) &&
 			! empty( $_POST['expire'] )
 		) {
 
@@ -2096,7 +2103,7 @@ class Civi_WP_Member_Sync_Admin {
 		$current_expire_clash = false;
 
 		// Do we have both arrays?
-		if ( isset( $current_rule ) AND isset( $expiry_rule ) ) {
+		if ( isset( $current_rule ) && isset( $expiry_rule ) ) {
 
 			// Check 'current' array against 'expire' array.
 			$intersect = array_intersect_assoc( $current_rule, $expiry_rule );
@@ -2110,8 +2117,8 @@ class Civi_WP_Member_Sync_Admin {
 		if ( $method == 'roles' ) {
 
 			// Check and sanitise WordPress Role.
-			if(
-				isset( $_POST['current_wp_role'] ) AND
+			if (
+				isset( $_POST['current_wp_role'] ) &&
 				! empty( $_POST['current_wp_role'] )
 			) {
 				$current_wp_role = esc_sql( trim( $_POST['current_wp_role'] ) );
@@ -2121,7 +2128,7 @@ class Civi_WP_Member_Sync_Admin {
 
 			// Check and sanitise Expiry Role.
 			if (
-				isset( $_POST['expire_assign_wp_role'] ) AND
+				isset( $_POST['expire_assign_wp_role'] ) &&
 				! empty( $_POST['expire_assign_wp_role'] )
 			) {
 				$expired_wp_role = esc_sql( trim( $_POST['expire_assign_wp_role'] ) );
@@ -2132,13 +2139,13 @@ class Civi_WP_Member_Sync_Admin {
 		}
 
 		// How did we do?
-		if ( $current_expire_clash === false AND empty( $this->errors ) ) {
+		if ( $current_expire_clash === false && empty( $this->errors ) ) {
 
 			// Depending on the "multiple" flag, create rules.
 			if ( $multiple === true ) {
 
 				// Save each rule in turn.
-				foreach( $civi_member_type_ids AS $civi_member_type_id ) {
+				foreach ( $civi_member_type_ids as $civi_member_type_id ) {
 
 					// Which sync method are we using?
 					if ( $method == 'roles' ) {
@@ -2163,7 +2170,7 @@ class Civi_WP_Member_Sync_Admin {
 						$rule_data = [
 							'current_rule' => $current_rule,
 							'expiry_rule' => $expiry_rule,
-							'civi_member_type_id' =>  $civi_member_type_id,
+							'civi_member_type_id' => $civi_member_type_id,
 						];
 
 						// Get formatted array.
@@ -2201,7 +2208,7 @@ class Civi_WP_Member_Sync_Admin {
 					$rule_data = [
 						'current_rule' => $current_rule,
 						'expiry_rule' => $expiry_rule,
-						'civi_member_type_id' =>  $civi_member_type_id,
+						'civi_member_type_id' => $civi_member_type_id,
 					];
 
 					// Get formatted array.
@@ -2321,7 +2328,7 @@ class Civi_WP_Member_Sync_Admin {
 		do_action( 'civi_wp_member_sync_rule_' . $mode . '_' . $method, $rule );
 
 		// Insert/overwrite item in data array.
-		$data[$method][$civi_member_type_id] = $rule;
+		$data[ $method ][ $civi_member_type_id ] = $rule;
 
 		// Overwrite data.
 		$this->setting_set( 'data', $data );
@@ -2362,7 +2369,7 @@ class Civi_WP_Member_Sync_Admin {
 
 		// Check nonce.
 		if (
-			! isset( $_GET['civi_wp_member_sync_delete_nonce'] ) OR
+			! isset( $_GET['civi_wp_member_sync_delete_nonce'] ) ||
 			! wp_verify_nonce( $_GET['civi_wp_member_sync_delete_nonce'], 'civi_wp_member_sync_delete_link' )
 		) {
 
@@ -2384,11 +2391,11 @@ class Civi_WP_Member_Sync_Admin {
 		$data = $this->setting_get( 'data' );
 
 		// Get subset by method.
-		$subset = ( isset( $data[$method] ) ) ? $data[$method] : false;
+		$subset = ( isset( $data[ $method ] ) ) ? $data[ $method ] : false;
 		if ( ! $subset ) {
 			return;
 		}
-		if ( ! isset( $subset[$type_id] ) ) {
+		if ( ! isset( $subset[ $type_id ] ) ) {
 			return;
 		}
 
@@ -2396,18 +2403,18 @@ class Civi_WP_Member_Sync_Admin {
 		 * Broadcast that we're deleting an association rule. This creates two
 		 * actions, depending on the sync method:
 		 *
-		 * civi_wp_member_sync_rule_delete_roles
-		 * civi_wp_member_sync_rule_delete_capabilities
+		 * * civi_wp_member_sync_rule_delete_roles
+		 * * civi_wp_member_sync_rule_delete_capabilities
 		 *
 		 * @param array The association rule we're going to delete.
 		 */
-		do_action( 'civi_wp_member_sync_rule_delete_' . $method, $subset[$type_id] );
+		do_action( 'civi_wp_member_sync_rule_delete_' . $method, $subset[ $type_id ] );
 
 		// Delete it.
-		unset( $subset[$type_id] );
+		unset( $subset[ $type_id ] );
 
 		// Update data.
-		$data[$method] = $subset;
+		$data[ $method ] = $subset;
 
 		// Overwrite data.
 		$this->setting_set( 'data', $data );
@@ -2461,7 +2468,7 @@ class Civi_WP_Member_Sync_Admin {
 		$method = $this->setting_get_method();
 
 		// Loop through the supplied Memberships.
-		foreach( $memberships['values'] AS $membership ) {
+		foreach ( $memberships['values'] as $membership ) {
 
 			// Continue with next Membership if something went wrong.
 			if ( empty( $membership['membership_type_id'] ) ) {
@@ -2569,7 +2576,7 @@ class Civi_WP_Member_Sync_Admin {
 		$method = $this->setting_get_method();
 
 		// Loop through the supplied Memberships.
-		foreach( $memberships['values'] AS $membership ) {
+		foreach ( $memberships['values'] as $membership ) {
 
 			// Continue if something went wrong.
 			if ( ! isset( $membership['membership_type_id'] ) ) {
@@ -2598,7 +2605,7 @@ class Civi_WP_Member_Sync_Admin {
 			// Which sync method are we using?
 			if ( $method == 'roles' ) {
 
-				// SYNC ROLES
+				// SYNC ROLES.
 
 				// Continue if something went wrong.
 				if ( empty( $association_rule['current_wp_role'] ) ) {
@@ -2664,7 +2671,7 @@ class Civi_WP_Member_Sync_Admin {
 
 			} else {
 
-				// SYNC CAPABILITY
+				// SYNC CAPABILITY.
 
 				// Construct Membership Type Capability name.
 				$capability = CIVI_WP_MEMBER_SYNC_CAP_PREFIX . $membership_type_id;
@@ -2810,7 +2817,7 @@ class Civi_WP_Member_Sync_Admin {
 		$method = $this->setting_get_method();
 
 		// Loop through the supplied Memberships.
-		foreach( $memberships['values'] AS $membership ) {
+		foreach ( $memberships['values'] as $membership ) {
 
 			// Continue if something went wrong.
 			if ( ! isset( $membership['membership_type_id'] ) ) {
@@ -2839,7 +2846,7 @@ class Civi_WP_Member_Sync_Admin {
 			// Which sync method are we using?
 			if ( $method == 'roles' ) {
 
-				// SYNC ROLES
+				// SYNC ROLES.
 
 				// Continue if something went wrong.
 				if ( empty( $association_rule['current_wp_role'] ) ) {
@@ -2858,7 +2865,7 @@ class Civi_WP_Member_Sync_Admin {
 
 			} else {
 
-				// SYNC CAPABILITY
+				// SYNC CAPABILITY.
 
 				// Does the User's Membership Status match a current status rule?
 				if ( isset( $status_id ) && array_search( $status_id, $current_rule ) ) {
@@ -2969,9 +2976,9 @@ class Civi_WP_Member_Sync_Admin {
 
 			// If this User has a remaining Membership.
 			if (
-				$memberships !== false AND
-				$memberships['is_error'] == 0 AND
-				isset( $memberships['values'] ) AND
+				$memberships !== false &&
+				$memberships['is_error'] == 0 &&
+				isset( $memberships['values'] ) &&
 				count( $memberships['values'] ) > 0
 			) {
 
@@ -3214,7 +3221,7 @@ class Civi_WP_Member_Sync_Admin {
 			return $urls['settings'];
 		}
 
-		// Fallback
+		// Fallback.
 		return '';
 
 	}

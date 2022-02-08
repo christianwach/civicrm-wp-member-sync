@@ -196,7 +196,7 @@ class Civi_WP_Member_Sync_Admin_CAU {
 
 		// Build the list of User IDs with that Membership Type.
 		$user_ids = [];
-		foreach( $ufmatch AS $item ) {
+		foreach ( $ufmatch as $item ) {
 			if ( in_array( $item['contact_id'], $contact_ids ) ) {
 				$user_ids[] = $item['uf_id'];
 			}
@@ -254,7 +254,7 @@ class Civi_WP_Member_Sync_Admin_CAU {
 
 		// Build the list of User IDs with that Membership Type.
 		$user_ids = [];
-		foreach( $ufmatch AS $item ) {
+		foreach ( $ufmatch as $item ) {
 			if ( in_array( $item['contact_id'], $contact_ids ) ) {
 				$user_ids[] = $item['uf_id'];
 			}
@@ -313,7 +313,7 @@ class Civi_WP_Member_Sync_Admin_CAU {
 		// Build the lists of User IDs with and without Membership.
 		$member_user_ids = [];
 		$non_member_user_ids = [];
-		foreach( $ufmatch AS $item ) {
+		foreach ( $ufmatch as $item ) {
 			if ( in_array( $item['contact_id'], $contact_ids ) ) {
 				$member_user_ids[] = $item['uf_id'];
 			} else {
@@ -359,11 +359,11 @@ class Civi_WP_Member_Sync_Admin_CAU {
 
 		// Strip out just the Contact IDs that are shown.
 		$this->query_ids = [];
-		foreach( $args['ufmatch_all'] AS $ufmatch ) {
+		foreach ( $args['ufmatch_all'] as $ufmatch ) {
 			if ( ! in_array( $ufmatch['uf_id'], $user_ids ) ) {
 				continue;
 			}
-			$this->query_ids[$ufmatch['uf_id']] = $ufmatch['contact_id'];
+			$this->query_ids[ $ufmatch['uf_id'] ] = $ufmatch['contact_id'];
 		}
 
 		// Query for the Memberships of these Contacts.
@@ -426,7 +426,7 @@ class Civi_WP_Member_Sync_Admin_CAU {
 
 				// Build the list of User IDs with Membership.
 				$member_ids = [];
-				foreach( $this->ufmatch AS $item ) {
+				foreach ( $this->ufmatch as $item ) {
 					if ( ! in_array( $item['contact_id'], $diff ) ) {
 						$member_ids[] = $item['uf_id'];
 					}
@@ -492,7 +492,7 @@ class Civi_WP_Member_Sync_Admin_CAU {
 		}
 
 		// Get the Contact ID for this User.
-		$contact_id = ! empty( $this->query_ids[$user->ID] ) ? $this->query_ids[$user->ID] : false;
+		$contact_id = ! empty( $this->query_ids[ $user->ID ] ) ? $this->query_ids[ $user->ID ] : false;
 		if ( $contact_id === false ) {
 			return $retval;
 		}
@@ -505,7 +505,7 @@ class Civi_WP_Member_Sync_Admin_CAU {
 
 		// Process them.
 		$names = [];
-		foreach( $memberships AS $membership ) {
+		foreach ( $memberships as $membership ) {
 
 			// Get Membership name.
 			$name = $this->plugin->members->membership_name_get_by_id( $membership['membership_type_id'] );
@@ -573,7 +573,7 @@ class Civi_WP_Member_Sync_Admin_CAU {
 		}
 
 		// Get the Contact ID for this User.
-		$contact_id = ! empty( $this->query_ids[$user->ID] ) ? $this->query_ids[$user->ID] : false;
+		$contact_id = ! empty( $this->query_ids[ $user->ID ] ) ? $this->query_ids[ $user->ID ] : false;
 		if ( $contact_id === false ) {
 			return $retval;
 		}
@@ -586,7 +586,7 @@ class Civi_WP_Member_Sync_Admin_CAU {
 
 		// Process them.
 		$names = [];
-		foreach( $memberships AS $membership ) {
+		foreach ( $memberships as $membership ) {
 
 			// Get Membership name.
 			$name = $this->plugin->members->status_name_get_by_id( $membership['status_id'] );

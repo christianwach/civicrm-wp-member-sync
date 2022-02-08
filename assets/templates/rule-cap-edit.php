@@ -27,14 +27,14 @@ defined( 'ABSPATH' ) || exit;
 	<?php
 
 	// If we've updated, show message (note that this will only display if we have JS turned off).
-	if ( isset( $this->errors ) AND is_array( $this->errors ) ) {
+	if ( isset( $this->errors ) && is_array( $this->errors ) ) {
 
 		// Init messages.
 		$error_messages = [];
 
 		// Construct array of messages based on error code.
-		foreach( $this->errors AS $error_code ) {
-			$error_messages[] = $this->error_strings[$error_code];
+		foreach ( $this->errors as $error_code ) {
+			$error_messages[] = $this->error_strings[ $error_code ];
 		}
 
 		// Show them.
@@ -63,9 +63,9 @@ defined( 'ABSPATH' ) || exit;
 
 					/*
 					// Round we go...
-					foreach( $membership_types AS $key => $value ) {
+					foreach ( $membership_types as $key => $value ) {
 
-						if ( isset( $civi_member_type_id ) AND $key == $civi_member_type_id ) {
+						if ( isset( $civi_member_type_id ) && $key == $civi_member_type_id ) {
 							echo '<p>' . $value . '</p>';
 							break;
 						}
@@ -74,19 +74,19 @@ defined( 'ABSPATH' ) || exit;
 
 					} else {
 					*/
-						?>
+					?>
 						<select name="civi_member_type_id" id="civi_member_type_id" class ="required required-type">
 							<?php
 
 							// Round we go...
-							foreach( $membership_types AS $key => $value ) {
+							foreach ( $membership_types as $key => $value ) {
 
 								$selected = '';
-								if ( isset( $civi_member_type_id ) AND $key == $civi_member_type_id ) {
+								if ( isset( $civi_member_type_id ) && $key == $civi_member_type_id ) {
 									$selected = ' selected="selected"';
 								}
 
-								?><option value="<?php echo $key;?>"<?php echo $selected; ?>><?php echo $value; ?></option><?php
+								?><option value="<?php echo $key; ?>"<?php echo $selected; ?>><?php echo $value; ?></option><?php
 
 							}
 
@@ -96,7 +96,7 @@ defined( 'ABSPATH' ) || exit;
 
 					//}
 
-					?>
+						?>
 				</td>
 			</tr>
 
@@ -105,10 +105,10 @@ defined( 'ABSPATH' ) || exit;
 				<td>
 				<?php
 
-				foreach( $status_rules AS $key => $value ) {
+				foreach ( $status_rules as $key => $value ) {
 
 					$checked = '';
-					if ( isset( $current_rule ) AND ! empty( $current_rule ) ) {
+					if ( isset( $current_rule ) && ! empty( $current_rule ) ) {
 						if ( array_search( $key, $current_rule ) ) {
 							$checked = ' checked="checked"';
 						}
@@ -144,10 +144,10 @@ defined( 'ABSPATH' ) || exit;
 				<td>
 				<?php
 
-				foreach( $status_rules AS $key => $value ) {
+				foreach ( $status_rules as $key => $value ) {
 
 					$checked = '';
-					if ( isset( $expiry_rule ) AND ! empty( $expiry_rule ) ) {
+					if ( isset( $expiry_rule ) && ! empty( $expiry_rule ) ) {
 						if ( array_search( $key, $expiry_rule ) ) {
 							$checked = ' checked="checked"';
 						}

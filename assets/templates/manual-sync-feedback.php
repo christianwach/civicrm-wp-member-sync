@@ -12,7 +12,7 @@
 defined( 'ABSPATH' ) || exit;
 
 ?><!-- assets/templates/manual-sync-feedback.php -->
-<?php foreach( $result AS $item ) : ?>
+<?php foreach ( $result as $item ) : ?>
 	<tr>
 		<?php if ( $item['is_new'] ) : ?>
 			<td><span class="dashicons dashicons-yes-alt"></span></td>

@@ -45,7 +45,7 @@ defined( 'ABSPATH' ) || exit;
 		echo '<div id="message" class="updated"><p>';
 
 		// Switch message based on result.
-		switch( $_GET['syncrule'] ) {
+		switch ( $_GET['syncrule'] ) {
 			case 'edit':
 				esc_html_e( 'Association Rule updated.', 'civicrm-wp-member-sync' );
 				break;
@@ -64,14 +64,14 @@ defined( 'ABSPATH' ) || exit;
 	}
 
 	// If we've updated, show message (note that this will only display if we have JS turned off).
-	if ( isset( $this->errors ) AND is_array( $this->errors ) ) {
+	if ( isset( $this->errors ) && is_array( $this->errors ) ) {
 
 		// Init messages.
 		$error_messages = [];
 
 		// Construct array of messages based on error code.
-		foreach( $this->errors AS $error_code ) {
-			$error_messages[] = $this->error_strings[$error_code];
+		foreach ( $this->errors as $error_code ) {
+			$error_messages[] = $this->error_strings[ $error_code ];
 		}
 
 		// Show them.
@@ -126,7 +126,7 @@ defined( 'ABSPATH' ) || exit;
 			<?php
 
 			// Loop through our data array, keyed by type ID.
-			foreach( $data AS $key => $item ) {
+			foreach ( $data as $key => $item ) {
 
 				// Construct URLs for this item.
 				$edit_url = $urls['rules'] . '&mode=edit&type_id=' . $key;
@@ -144,7 +144,7 @@ defined( 'ABSPATH' ) || exit;
 						</strong>
 						<div class="row-actions">
 							<span class="edit"><a href="<?php echo $edit_url; ?>"><?php esc_html_e( 'Edit', 'civicrm-wp-member-sync' ); ?></a> | </span>
-							<span class="delete"><a href="<?php echo $delete_url; ?>" class="submitdelete"><?php esc_html_e( 'Delete', 'civicrm-wp-member-sync' );?></a></span>
+							<span class="delete"><a href="<?php echo $delete_url; ?>" class="submitdelete"><?php esc_html_e( 'Delete', 'civicrm-wp-member-sync' ); ?></a></span>
 						</div>
 					</td>
 					<td><?php echo $this->plugin->members->status_rules_get_current( $item['current_rule'] ); ?></td>
@@ -161,7 +161,7 @@ defined( 'ABSPATH' ) || exit;
 					do_action( 'civi_wp_member_sync_list_caps_td_after_current', $key, $item );
 
 					?>
-					<td><?php echo $this->plugin->members->status_rules_get_current( $item['expiry_rule'] );?></td>
+					<td><?php echo $this->plugin->members->status_rules_get_current( $item['expiry_rule'] ); ?></td>
 					<?php
 
 					/**

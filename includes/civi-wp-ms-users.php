@@ -122,10 +122,10 @@ class Civi_WP_Member_Sync_Users {
 		$filtered_roles = array_keys( $this->role_names );
 
 		// Roles is still an array.
-		foreach ( $user->roles AS $role ) {
+		foreach ( $user->roles as $role ) {
 
 			// Return the first valid one.
-			if ( $role AND in_array( $role, $filtered_roles ) ) {
+			if ( $role && in_array( $role, $filtered_roles ) ) {
 				return $role;
 			}
 
@@ -170,10 +170,10 @@ class Civi_WP_Member_Sync_Users {
 		$filtered_roles = array_keys( $this->role_names );
 
 		// Check all User Roles.
-		foreach( $user->roles AS $role ) {
+		foreach ( $user->roles as $role ) {
 
 			// Add Role to return array if it's a "blog" Role.
-			if ( $role AND in_array( $role, $filtered_roles ) ) {
+			if ( $role && in_array( $role, $filtered_roles ) ) {
 				$user_roles[] = $role;
 			}
 
@@ -325,7 +325,7 @@ class Civi_WP_Member_Sync_Users {
 		}
 
 		// Get value by key.
-		$role_name = isset( $this->role_names[$key] ) ? $this->role_names[$key] : false;
+		$role_name = isset( $this->role_names[ $key ] ) ? $this->role_names[ $key ] : false;
 
 		// --<
 		return $role_name;
@@ -365,10 +365,10 @@ class Civi_WP_Member_Sync_Users {
 
 			// Sanity check.
 			if ( ! empty( $bbp_roles ) ) {
-				foreach( $bbp_roles AS $bbp_role => $bbp_role_data ) {
+				foreach ( $bbp_roles as $bbp_role => $bbp_role_data ) {
 
 					// Add to Roles array.
-					$role_names[$bbp_role] = $bbp_role_data['name'];
+					$role_names[ $bbp_role ] = $bbp_role_data['name'];
 
 				}
 			}
@@ -500,7 +500,7 @@ class Civi_WP_Member_Sync_Users {
 		$status_rule_ids = array_keys( $status_rules );
 
 		// Loop through them.
-		foreach( $status_rule_ids AS $status_id ) {
+		foreach ( $status_rule_ids as $status_id ) {
 
 			// Construct Membership Status Capability name.
 			$capability_status = $capability . '_' . $status_id;
@@ -649,7 +649,7 @@ class Civi_WP_Member_Sync_Users {
 		}
 
 		// Bail if we don't get a valid Contact ID.
-		if ( empty( $contact_id ) OR ! is_numeric( $contact_id ) ) {
+		if ( empty( $contact_id ) || ! is_numeric( $contact_id ) ) {
 			return false;
 		}
 
@@ -730,7 +730,7 @@ class Civi_WP_Member_Sync_Users {
 			$types = absint( $this->plugin->admin->setting_get( 'types' ) );
 
 			// If chosen, bail if this Contact is not an Individual.
-			if ( $types AND $civi_contact['contact_type'] != 'Individual' ) {
+			if ( $types && $civi_contact['contact_type'] != 'Individual' ) {
 				return;
 			}
 
@@ -765,7 +765,7 @@ class Civi_WP_Member_Sync_Users {
 	public function wp_create_user( $civi_contact ) {
 
 		// Bail if no email address.
-		if ( ! isset( $civi_contact['email'] ) OR empty( $civi_contact['email'] ) ) {
+		if ( ! isset( $civi_contact['email'] ) || empty( $civi_contact['email'] ) ) {
 			return false;
 		}
 
@@ -793,13 +793,12 @@ class Civi_WP_Member_Sync_Users {
 		$user_id = username_exists( $user_name );
 
 		// If not, check against email address.
-		if ( ! $user_id AND email_exists( $civi_contact['email'] ) == false ) {
+		if ( ! $user_id && email_exists( $civi_contact['email'] ) == false ) {
 
 			// Generate a random password.
-			$random_password = wp_generate_password(
-				$length = 12,
-				$include_standard_special_chars = false
-			);
+			$length = 12;
+			$include_standard_special_chars = false;
+			$random_password = wp_generate_password( $length, $include_standard_special_chars );
 
 			// Remove filters.
 			$this->remove_filters();
@@ -823,7 +822,7 @@ class Civi_WP_Member_Sync_Users {
 			] );
 
 			// Create a UF Match record if the User was successfully created.
-			if ( ! is_wp_error( $user_id ) AND isset( $civi_contact['contact_id'] ) ) {
+			if ( ! is_wp_error( $user_id ) && isset( $civi_contact['contact_id'] ) ) {
 				$this->ufmatch_create( $civi_contact['contact_id'], $user_id, $civi_contact['email'] );
 			}
 
@@ -862,7 +861,7 @@ class Civi_WP_Member_Sync_Users {
 		}
 
 		// Sanity check.
-		if ( is_numeric( $user_id ) AND $user_id ) {
+		if ( is_numeric( $user_id ) && $user_id ) {
 
 			// Get the WordPress User object.
 			$user = get_user_by( 'id', $user_id );
@@ -943,7 +942,7 @@ class Civi_WP_Member_Sync_Users {
 		}
 
 		// Sanity checks.
-		if ( ! is_numeric( $contact_id ) OR ! is_numeric( $user_id ) ) {
+		if ( ! is_numeric( $contact_id ) || ! is_numeric( $user_id ) ) {
 			return false;
 		}
 
@@ -964,8 +963,8 @@ class Civi_WP_Member_Sync_Users {
 		$result = civicrm_api( 'UFMatch', 'create', $params );
 
 		// Log and bail on failure.
-		if ( isset( $result['is_error'] ) AND $result['is_error'] == '1' ) {
-			$e = new \Exception;
+		if ( isset( $result['is_error'] ) && $result['is_error'] == '1' ) {
+			$e = new \Exception();
 			$trace = $e->getTraceAsString();
 			error_log( print_r( [
 				'method' => __METHOD__,

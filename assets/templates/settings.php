@@ -25,7 +25,7 @@ defined( 'ABSPATH' ) || exit;
 	<?php
 
 	// If we've updated, show message.
-	if ( $this->is_network_activated() AND isset( $_GET['updated'] ) AND $_GET['updated'] == 'true' ) {
+	if ( $this->is_network_activated() && isset( $_GET['updated'] ) && $_GET['updated'] == 'true' ) {
 		echo '<div id="setting-error-settings_updated" class="updated settings-error notice is-dismissible">' .
 				'<p><strong>' . esc_html__( 'Settings saved.', 'civicrm-wp-member-sync' ) . '</strong></p>' .
 				'<button type="button" class="notice-dismiss">' .
@@ -53,7 +53,7 @@ defined( 'ABSPATH' ) || exit;
 						<?php
 
 						$selected = '';
-						if ( ! isset( $method ) OR $method == 'capabilities' ) {
+						if ( ! isset( $method ) || $method == 'capabilities' ) {
 							$selected = ' selected="selected"';
 						}
 
@@ -62,7 +62,7 @@ defined( 'ABSPATH' ) || exit;
 						<?php
 
 						$selected = '';
-						if ( isset( $method ) AND $method == 'roles' ) {
+						if ( isset( $method ) && $method == 'roles' ) {
 							$selected = ' selected="selected"';
 						}
 
@@ -88,7 +88,7 @@ defined( 'ABSPATH' ) || exit;
 			</div>
 		<?php endif; ?>
 
-		<?php if ( $cau_present === true AND $cau_version_ok === false ) : ?>
+		<?php if ( $cau_present === true && $cau_version_ok === false ) : ?>
 			<div class="notice notice-warning inline">
 				<p><strong><?php esc_html_e( 'Important Fix', 'civicrm-wp-member-sync' ); ?></strong></p>
 				<p><?php _e( 'In order to sync Contacts in CiviCRM that have been &#8220;soft deleted&#8221; (moved to the Trash but not fully deleted) you will need to upgrade <a href="https://wordpress.org/plugins/civicrm-admin-utilities/">CiviCRM Admin Utilities</a> to version 0.6.8 or higher. When you have done this, make sure the checkbox labelled <em>&#8217;Check this to fix the Contact &#8220;soft delete&#8221; process&#8216;</em> is checked so that Contacts that have been &#8220;soft deleted&#8221; continue to have their matching WordPress User&#8216;s status updated.', 'civicrm-wp-member-sync' ); ?></p>
@@ -96,7 +96,7 @@ defined( 'ABSPATH' ) || exit;
 			</div>
 		<?php endif; ?>
 
-		<?php if ( $cau_present === true AND $cau_version_ok === true AND $cau_configured === false ) : ?>
+		<?php if ( $cau_present === true && $cau_version_ok === true && $cau_configured === false ) : ?>
 			<div class="notice notice-warning inline">
 				<p><strong><?php esc_html_e( 'Important Fix', 'civicrm-wp-member-sync' ); ?></strong></p>
 				<p><?php echo sprintf( __( 'In order to sync Contacts in CiviCRM that have been &#8220;soft deleted&#8221; (moved to the Trash but not fully deleted) you will need to visit the CiviCRM Admin Utilities <a href="%s">Settings page</a> and make sure the checkbox labelled <em>&#8217;Check this to fix the Contact &#8220;soft delete&#8221; process&#8216;</em> is checked so that Contacts which have been &#8220;soft deleted&#8221; continue to have their matching WordPress User&#8216;s status updated.', 'civicrm-wp-member-sync' ), $cau_link ); ?></p>
@@ -113,11 +113,12 @@ defined( 'ABSPATH' ) || exit;
 
 					// Checked by default.
 					$checked = ' checked="checked"';
-					if ( isset( $login ) AND $login === 0 ) {
+					if ( isset( $login ) && $login === 0 ) {
 						$checked = '';
 					}
 
-					?><input type="checkbox" class="settings-checkbox" name="civi_wp_member_sync_settings_login" id="civi_wp_member_sync_settings_login" value="1"<?php echo $checked; ?> />
+					?>
+					<input type="checkbox" class="settings-checkbox" name="civi_wp_member_sync_settings_login" id="civi_wp_member_sync_settings_login" value="1"<?php echo $checked; ?> />
 					<label class="civi_wp_member_sync_settings_label" for="civi_wp_member_sync_settings_login"><?php esc_html_e( 'Synchronize whenever a User logs in or logs out. This action is performed only on the User logging in or out.', 'civicrm-wp-member-sync' ); ?></label>
 				</td>
 			</tr>
@@ -129,11 +130,12 @@ defined( 'ABSPATH' ) || exit;
 
 					// Checked by default.
 					$checked = ' checked="checked"';
-					if ( isset( $civicrm ) AND $civicrm === 0 ) {
+					if ( isset( $civicrm ) && $civicrm === 0 ) {
 						$checked = '';
 					}
 
-					?><input type="checkbox" class="settings-checkbox" name="civi_wp_member_sync_settings_civicrm" id="civi_wp_member_sync_settings_civicrm" value="1"<?php echo $checked; ?> />
+					?>
+					<input type="checkbox" class="settings-checkbox" name="civi_wp_member_sync_settings_civicrm" id="civi_wp_member_sync_settings_civicrm" value="1"<?php echo $checked; ?> />
 					<label class="civi_wp_member_sync_settings_label" for="civi_wp_member_sync_settings_civicrm"><?php esc_html_e( 'Synchronize when Membership is updated in CiviCRM admin pages.', 'civicrm-wp-member-sync' ); ?></label>
 				</td>
 			</tr>
@@ -145,11 +147,12 @@ defined( 'ABSPATH' ) || exit;
 
 					// Checked by default.
 					$checked = ' checked="checked"';
-					if ( isset( $schedule ) AND $schedule === 0 ) {
+					if ( isset( $schedule ) && $schedule === 0 ) {
 						$checked = '';
 					}
 
-					?><input type="checkbox" class="settings-checkbox" name="civi_wp_member_sync_settings_schedule" id="civi_wp_member_sync_settings_schedule" value="1"<?php echo $checked; ?> />
+					?>
+					<input type="checkbox" class="settings-checkbox" name="civi_wp_member_sync_settings_schedule" id="civi_wp_member_sync_settings_schedule" value="1"<?php echo $checked; ?> />
 					<label class="civi_wp_member_sync_settings_label" for="civi_wp_member_sync_settings_schedule"><?php esc_html_e( 'Synchronize using a recurring schedule. This action is performed on all Users and Contacts.', 'civicrm-wp-member-sync' ); ?></label>
 				</td>
 			</tr>
@@ -160,14 +163,16 @@ defined( 'ABSPATH' ) || exit;
 					<select class="settings-select" name="civi_wp_member_sync_settings_interval" id ="civi_wp_member_sync_settings_interval">
 						<?php
 
-						foreach( $schedules AS $key => $value ) {
+						foreach ( $schedules as $key => $value ) {
 
 							$selected = '';
-							if ( isset( $interval ) AND $key == $interval ) {
+							if ( isset( $interval ) && $key == $interval ) {
 								$selected = ' selected="selected"';
 							}
 
-							?><option value="<?php echo $key; ?>"<?php echo $selected; ?>><?php echo $value['display']; ?></option><?php
+							?>
+							<option value="<?php echo $key; ?>"<?php echo $selected; ?>><?php echo $value['display']; ?></option>
+							<?php
 
 						}
 
@@ -191,11 +196,12 @@ defined( 'ABSPATH' ) || exit;
 
 					// Unchecked by default.
 					$checked = '';
-					if ( isset( $types ) AND $types === 1 ) {
+					if ( isset( $types ) && $types === 1 ) {
 						$checked = ' checked="checked"';
 					}
 
-					?><input type="checkbox" class="settings-checkbox" name="civi_wp_member_sync_settings_types" id="civi_wp_member_sync_settings_types" value="1"<?php echo $checked; ?> />
+					?>
+					<input type="checkbox" class="settings-checkbox" name="civi_wp_member_sync_settings_types" id="civi_wp_member_sync_settings_types" value="1"<?php echo $checked; ?> />
 					<label class="civi_wp_member_sync_settings_label" for="civi_wp_member_sync_settings_types"><?php esc_html_e( 'Synchronize Individuals only.', 'civicrm-wp-member-sync' ); ?></label>
 					<p class="description"><?php esc_html_e( 'In versions of CiviCRM Member Sync prior to 0.3.5, all CiviCRM Memberships were synchronized to WordPress Users. This meant that Organisations and Households also had corresponding WordPress Users. If you want to restrict syncing to Individuals only, then check the box below.', 'civicrm-wp-member-sync' ); ?></p>
 				</td>

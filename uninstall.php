@@ -47,14 +47,14 @@ function civi_wp_member_sync_reset_caps() {
 
 	// Sanity check.
 	if ( count( $rules ) > 0 ) {
-		foreach( $rules AS $rule ) {
+		foreach ( $rules as $rule ) {
 
 			// Add base Capability.
 			$capabilities[] = $rule['capability'];
 
 			// Add current rule caps.
 			if ( count( $rule['current_rule'] ) > 0 ) {
-				foreach( $rule['current_rule'] AS $status ) {
+				foreach ( $rule['current_rule'] as $status ) {
 
 					// Add status Capability.
 					$capabilities[] = $rule['capability'] . '_' . $status;
@@ -64,7 +64,7 @@ function civi_wp_member_sync_reset_caps() {
 
 			// Add expired rule caps.
 			if ( count( $rule['expiry_rule'] ) > 0 ) {
-				foreach( $rule['expiry_rule'] AS $status ) {
+				foreach ( $rule['expiry_rule'] as $status ) {
 
 					// Add status Capability.
 					$capabilities[] = $rule['capability'] . '_' . $status;
@@ -79,7 +79,7 @@ function civi_wp_member_sync_reset_caps() {
 	$users = get_users( [ 'all_with_meta' => true ] );
 
 	// Loop through them.
-	foreach( $users AS $user ) {
+	foreach ( $users as $user ) {
 
 		// Skip if we don't have a valid User.
 		if ( ! ( $user instanceof WP_User ) ) {
@@ -90,7 +90,7 @@ function civi_wp_member_sync_reset_caps() {
 		}
 
 		if ( count( $capabilities ) > 0 ) {
-			foreach( $capabilities AS $capability ) {
+			foreach ( $capabilities as $capability ) {
 
 				// Remove Capability if they have it.
 				if ( $user->has_cap( $capability ) ) {
