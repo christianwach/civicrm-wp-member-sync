@@ -78,7 +78,7 @@ defined( 'ABSPATH' ) || exit;
 
 		<h3><?php esc_html_e( 'Synchronization Events', 'civicrm-wp-member-sync' ); ?></h3>
 
-		<p><?php esc_html_e( 'Select which events CiviCRM Member Sync will use to trigger synchronization of CiviCRM Memberships and WordPress Users. If you choose User login/logout, you will have to run "Manual Synchronize" after you create a new rule for it to be applied to all Users and Contacts. Leave the default settings if you are unsure which methods to use.', 'civicrm-wp-member-sync' ); ?></p>
+		<p><?php esc_html_e( 'The most common trigger for synchronization of CiviCRM Memberships and WordPress Users is when CiviCRM cron runs. If you want to enable additional events that CiviCRM Member Sync will use to trigger synchronization, select them below. If you choose User login/logout, you will have to run "Manual Synchronize" after you create a new rule for it to be applied to all Users and Contacts. Leave the default settings if you are unsure which methods to use.', 'civicrm-wp-member-sync' ); ?></p>
 
 		<?php if ( $cau_present === false ) : ?>
 			<div class="notice notice-warning inline">
@@ -154,6 +154,7 @@ defined( 'ABSPATH' ) || exit;
 					?>
 					<input type="checkbox" class="settings-checkbox" name="civi_wp_member_sync_settings_schedule" id="civi_wp_member_sync_settings_schedule" value="1"<?php echo $checked; ?> />
 					<label class="civi_wp_member_sync_settings_label" for="civi_wp_member_sync_settings_schedule"><?php esc_html_e( 'Synchronize using a recurring schedule. This action is performed on all Users and Contacts.', 'civicrm-wp-member-sync' ); ?></label>
+					<p class="description"><?php esc_html_e( 'This action can be very processor intensive if you have a lot of Users and Contacts. It is not recommended to have this switched on unless you have a good reason for doing so. Please note that this action is likely to be removed in future versions.', 'civicrm-wp-member-sync' ); ?></p>
 				</td>
 			</tr>
 

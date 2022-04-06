@@ -1526,10 +1526,10 @@ class Civi_WP_Member_Sync_Admin {
 		// Set default method.
 		$settings['method'] = 'capabilities';
 
-		// Switch all sync settings on by default.
+		// Set initial sync settings.
 		$settings['login'] = 1;
 		$settings['civicrm'] = 1;
-		$settings['schedule'] = 1;
+		$settings['schedule'] = 0;
 
 		// Set default schedule interval.
 		$settings['interval'] = 'daily';
