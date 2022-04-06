@@ -919,18 +919,24 @@ class Civi_WP_Member_Sync_Members {
 		}
 
 		// Get details of CiviCRM Memberships.
-		$memberships = civicrm_api( 'Membership', 'get', $params );
+		$result = civicrm_api( 'Membership', 'get', $params );
 
-		// If we have Membership details.
-		if (
-			$memberships['is_error'] == 0 &&
-			isset( $memberships['values'] ) &&
-			count( $memberships['values'] ) > 0
-		) {
+		// Log and bail on error.
+		if ( ! empty( $result['is_error'] ) ) {
+			$e = new \Exception();
+			$trace = $e->getTraceAsString();
+			error_log( print_r( [
+				'method' => __METHOD__,
+				'params' => $params,
+				'result' => $result,
+				'backtrace' => $trace,
+			], true ) );
+			return $data;
+		}
 
-			// Override default with CiviCRM API data.
-			$data = $memberships;
-
+		// Override default if we have Memberships.
+		if ( ! empty( $result['values'] ) ) {
+			$data = $result;
 		}
 
 		/**
@@ -945,7 +951,7 @@ class Civi_WP_Member_Sync_Members {
 		 *
 		 * @param bool|array $data The array of Membership data returned by the CiviCRM API.
 		 * @param array $params The params used to query the CiviCRM API.
-		 * @param int $contact_id The numerical CiviCRM Contact ID.
+		 * @param int|array $contact_id The query params for the CiviCRM Contact ID.
 		 * @return bool|array $data The array of Membership data returned by the CiviCRM API.
 		 */
 		$data = apply_filters( 'civi_wp_member_sync_memberships_get', $data, $params, $contact_id );
@@ -964,7 +970,7 @@ class Civi_WP_Member_Sync_Members {
 	 *
 	 * @param bool|array $data The existing array of Membership data returned by the CiviCRM API.
 	 * @param array $params The params used to query the CiviCRM API.
-	 * @param int $contact_id The numerical CiviCRM Contact ID.
+	 * @param int|array $contact_id The query params for the CiviCRM Contact ID.
 	 * @return bool|array $data The modified array of Membership data returned by the CiviCRM API.
 	 */
 	public function membership_override( $data, $params, $contact_id ) {
@@ -973,47 +979,72 @@ class Civi_WP_Member_Sync_Members {
 		if ( $data === false ) {
 			return $data;
 		}
-		if ( $contact_id === 0 ) {
+
+		// Build query.
+		$query = [
+			'version' => 3,
+			'sequential' => 1,
+			'is_deleted' => 1,
+			'options' => [
+				'limit' => 0,
+			],
+		];
+
+		// Only search Contacts if specified.
+		if ( ! empty( $contact_id ) ) {
+			$query['id'] = $contact_id;
+		}
+
+		// Get data assuming Contact(s) is/are in the Trash.
+		$result = civicrm_api( 'Contact', 'get', $query );
+
+		// Log and bail on error.
+		if ( ! empty( $result['is_error'] ) ) {
+			$e = new \Exception();
+			$trace = $e->getTraceAsString();
+			error_log( print_r( [
+				'method' => __METHOD__,
+				'contact_id' => $contact_id,
+				'result' => $result,
+				'backtrace' => $trace,
+			], true ) );
 			return $data;
 		}
 
-		// Get data assuming Contact is in the Trash.
-		$result = civicrm_api( 'Contact', 'get', [
-			'version' => 3,
-			'sequential' => 1,
-			'id' => $contact_id,
-			'is_deleted' => 1,
-		] );
+		// Bail quietly when there are no results.
+		if ( empty( $result['values'] ) ) {
+			return $data;
+		}
 
-		// If Contact is in the Trash.
-		if (
-			$result['is_error'] == 0 &&
-			isset( $result['values'] ) &&
-			count( $result['values'] ) > 0
-		) {
+		// Extract the Contact IDs.
+		$contact_ids = wp_list_pluck( $result['values'], 'contact_id' );
 
-			// Override Membership Statuses.
-			$overrides = [];
-			foreach ( $data['values'] as $membership ) {
+		// Override Membership Statuses.
+		$overrides = [];
+		foreach ( $data['values'] as $membership ) {
 
-				// Check if Membership is already expired.
-				$expired = $this->membership_is_expired( $membership );
-
-				// Maybe overwrite with an expired status.
-				if ( ! empty( $expired ) && $expired['is_expired'] === false ) {
-					$membership['status_id'] = $expired['status_id'];
-					$membership['status_id.is_current_member'] = 0;
-				}
-
-				// Always populate overrides.
+			// Skip checks if this Membership doesn't refer to a Contact in Trash.
+			if ( ! in_array( $membership['contact_id'], $contact_ids ) ) {
 				$overrides[] = $membership;
-
+				continue;
 			}
 
-			// Overwrite values array.
-			$data['values'] = $overrides;
+			// Check if Membership is already expired.
+			$expired = $this->membership_is_expired( $membership );
+
+			// Maybe overwrite with an expired status.
+			if ( ! empty( $expired ) && $expired['is_expired'] === false ) {
+				$membership['status_id'] = $expired['status_id'];
+				$membership['status_id.is_current_member'] = 0;
+			}
+
+			// Always populate overrides.
+			$overrides[] = $membership;
 
 		}
+
+		// Overwrite values array.
+		$data['values'] = $overrides;
 
 		// --<
 		return $data;
@@ -1066,7 +1097,7 @@ class Civi_WP_Member_Sync_Members {
 		$expiry_rule = $association_rule['expiry_rule'];
 
 		// Always add an expired Status ID.
-		$expired['status_id'] = array_pop( $expiry_rule );
+		$expired['status_id'] = array_shift( $expiry_rule );
 
 		// Does the Membership Status match a current status rule?
 		if ( array_search( $status_id, $current_rule ) ) {
