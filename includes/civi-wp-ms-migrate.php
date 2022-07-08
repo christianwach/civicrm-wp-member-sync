@@ -126,7 +126,7 @@ class Civi_WP_Member_Sync_Migrate {
 
 		// Get tabular data.
 		$table_name = $wpdb->prefix . 'civi_member_sync';
-		$select = $wpdb->get_results( $wpdb->prepare( 'SELECT * FROM %s', $table_name ) );
+		$select = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM $table_name" ) );
 
 		// Did we get any?
 		if ( ! empty( $select ) ) {
@@ -175,10 +175,10 @@ class Civi_WP_Member_Sync_Migrate {
 		$table_name = $wpdb->prefix . $table_name;
 
 		// Drop our custom table.
-		$wpdb->query( $wpdb->prepare( 'DROP TABLE IF EXISTS %s', $table_name ) );
+		$wpdb->query( $wpdb->prepare( "DROP TABLE IF EXISTS $table_name" ) );
 
 		// Check if we were successful.
-		if ( $table_name === $wpdb->get_var( $wpdb->prepare( 'SHOW TABLES LIKE %s', $table_name ) ) ) {
+		if ( $table_name === $wpdb->get_var( $wpdb->prepare( "SHOW TABLES LIKE $table_name" ) ) ) {
 			return false;
 		}
 

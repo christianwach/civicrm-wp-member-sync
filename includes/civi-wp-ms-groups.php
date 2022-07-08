@@ -226,7 +226,7 @@ class Civi_WP_Member_Sync_Groups {
 		// Do query.
 		$group_table = _groups_get_tablename( 'group' );
 		$like = '%' . $wpdb->esc_like( $search ) . '%';
-		$groups = $wpdb->get_results( $wpdb->prepare( 'SELECT * FROM %s WHERE name LIKE %s %s', $group_table, $like, $and ) );
+		$groups = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM $group_table WHERE name LIKE %s $and;", $like ) );
 
 		// Add items to output array.
 		foreach ( $groups as $group ) {
