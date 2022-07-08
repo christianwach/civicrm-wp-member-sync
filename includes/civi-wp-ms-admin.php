@@ -1938,7 +1938,7 @@ class Civi_WP_Member_Sync_Admin {
 
 		// Check and sanitise Current Status.
 		$current_rule = filter_input( INPUT_POST, 'current', FILTER_DEFAULT, FILTER_REQUIRE_ARRAY );
-		if ( ! empty( $current ) ) {
+		if ( ! empty( $current_rule ) ) {
 
 			// Sanitise array contents.
 			array_walk(
@@ -2099,6 +2099,7 @@ class Civi_WP_Member_Sync_Admin {
 			}
 
 			// Sad face.
+			// TODO: Redirect to originating screen.
 			return false;
 
 		}
