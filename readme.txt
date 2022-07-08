@@ -3,7 +3,7 @@ Contributors: needle, cuny-academic-commons
 Donate link: https://www.paypal.me/interactivist
 Tags: civicrm, member, membership, sync
 Requires at least: 4.9
-Tested up to: 5.9
+Tested up to: 6.0
 Requires PHP: 7.1
 Stable tag: 0.5.3a
 License: GPLv2 or later
