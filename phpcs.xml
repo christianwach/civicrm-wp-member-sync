@@ -41,6 +41,7 @@
 		<exclude name="Squiz.Commenting.InlineComment.SpacingAfterAtFunctionEnd" />
 		<exclude name="Generic.WhiteSpace.ScopeIndent.Incorrect" />
 		<exclude name="WordPress.Security.EscapeOutput.OutputNotEscaped" />
+		<exclude name="Squiz.Commenting.BlockComment.HasEmptyLineBefore" />
 
 		<!-- Remove when error logging has been moved to a function -->
 		<exclude name="WordPress.PHP.DevelopmentFunctions.error_log_error_log" />
