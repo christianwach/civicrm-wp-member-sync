@@ -28,13 +28,13 @@ defined( 'ABSPATH' ) || exit;
 
 	<h3><?php esc_html_e( 'All Association Rules', 'civicrm-wp-member-sync' ); ?><?php
 
-		// If we don't have all our Membership Types populated.
-		if ( ! $have_all_types ) {
+	// If we don't have all our Membership Types populated.
+	if ( ! $have_all_types ) {
 
-			// Show the 'Add New' button.
-			?> <a class="add-new-h2" href="<?php echo $urls['rules']; ?>"><?php esc_html_e( 'Add New', 'civicrm-wp-member-sync' ); ?></a><?php
+		// Show the 'Add New' button.
+		?> <a class="add-new-h2" href="<?php echo $urls['rules']; ?>"><?php esc_html_e( 'Add New', 'civicrm-wp-member-sync' ); ?></a><?php
 
-		}
+	}
 
 	?></h3>
 
@@ -177,16 +177,16 @@ defined( 'ABSPATH' ) || exit;
 					?>
 					<td><?php
 
-						// Show custom Capability for this rule.
-						echo CIVI_WP_MEMBER_SYNC_CAP_PREFIX . $key;
+					// Show custom Capability for this rule.
+					echo CIVI_WP_MEMBER_SYNC_CAP_PREFIX . $key;
 
-						// Is the Members plugin active?
-						if ( defined( 'MEMBERS_VERSION' ) ) {
+					// Is the Members plugin active?
+					if ( defined( 'MEMBERS_VERSION' ) ) {
 
-							// Show the custom Capability.
-							echo '<br>restrict_content';
+						// Show the custom Capability.
+						echo '<br>restrict_content';
 
-						}
+					}
 
 					?></td>
 					<?php
@@ -228,6 +228,3 @@ defined( 'ABSPATH' ) || exit;
 	<?php endif; ?>
 
 </div><!-- /.wrap -->
-
-
-

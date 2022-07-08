@@ -11,8 +11,6 @@
 // Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
 
-
-
 /**
  * Admin class.
  *
@@ -150,8 +148,6 @@ class Civi_WP_Member_Sync_Admin {
 	 */
 	public $select2 = false;
 
-
-
 	/**
 	 * Constructor.
 	 *
@@ -185,8 +181,6 @@ class Civi_WP_Member_Sync_Admin {
 
 	}
 
-
-
 	/**
 	 * Perform activation tasks.
 	 *
@@ -204,8 +198,6 @@ class Civi_WP_Member_Sync_Admin {
 
 	}
 
-
-
 	/**
 	 * Perform deactivation tasks.
 	 *
@@ -216,8 +208,6 @@ class Civi_WP_Member_Sync_Admin {
 		// We delete our options in uninstall.php.
 
 	}
-
-
 
 	/**
 	 * Test if this plugin is network activated.
@@ -256,8 +246,6 @@ class Civi_WP_Member_Sync_Admin {
 
 	}
 
-
-
 	/**
 	 * Initialise this object.
 	 *
@@ -286,8 +274,6 @@ class Civi_WP_Member_Sync_Admin {
 
 	}
 
-
-
 	/**
 	 * Initialise settings.
 	 *
@@ -314,8 +300,6 @@ class Civi_WP_Member_Sync_Admin {
 
 	}
 
-
-
 	/**
 	 * Include files.
 	 *
@@ -328,8 +312,6 @@ class Civi_WP_Member_Sync_Admin {
 
 	}
 
-
-
 	/**
 	 * Set up this plugin's objects.
 	 *
@@ -341,8 +323,6 @@ class Civi_WP_Member_Sync_Admin {
 		$this->cau = new Civi_WP_Member_Sync_Admin_CAU( $this );
 
 	}
-
-
 
 	/**
 	 * Register hooks.
@@ -364,8 +344,6 @@ class Civi_WP_Member_Sync_Admin {
 		}
 
 	}
-
-
 
 	/**
 	 * Perform upgrade tasks.
@@ -403,8 +381,6 @@ class Civi_WP_Member_Sync_Admin {
 
 	}
 
-
-
 	/**
 	 * Utility to do stuff when a settings upgrade is required.
 	 *
@@ -424,8 +400,6 @@ class Civi_WP_Member_Sync_Admin {
 
 	}
 
-
-
 	/**
 	 * Store the plugin version.
 	 *
@@ -438,11 +412,7 @@ class Civi_WP_Member_Sync_Admin {
 
 	}
 
-
-
 	// -------------------------------------------------------------------------
-
-
 
 	/**
 	 * Add this plugin's Settings Page to the WordPress admin menu.
@@ -561,8 +531,6 @@ class Civi_WP_Member_Sync_Admin {
 
 	}
 
-
-
 	/**
 	 * Tell WordPress to highlight the plugin's menu item, regardless of which
 	 * actual admin screen we are on.
@@ -586,13 +554,13 @@ class Civi_WP_Member_Sync_Admin {
 
 		// This tweaks the Settings subnav menu to show only one menu item.
 		if ( in_array( $plugin_page, $subpages ) ) {
+			// phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited
 			$plugin_page = 'civi_wp_member_sync_parent';
+			// phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited
 			$submenu_file = 'civi_wp_member_sync_parent';
 		}
 
 	}
-
-
 
 	/**
 	 * Initialise plugin help.
@@ -608,8 +576,6 @@ class Civi_WP_Member_Sync_Admin {
 		$this->admin_help( $screen );
 
 	}
-
-
 
 	/**
 	 * Enqueue common stylesheet for this plugin's admin pages.
@@ -631,8 +597,6 @@ class Civi_WP_Member_Sync_Admin {
 
 	}
 
-
-
 	/**
 	 * Enqueue stylesheet for this plugin's "Manual Sync" page.
 	 *
@@ -650,8 +614,6 @@ class Civi_WP_Member_Sync_Admin {
 		);
 
 	}
-
-
 
 	/**
 	 * Enqueue required scripts on the Manual Sync page.
@@ -699,8 +661,6 @@ class Civi_WP_Member_Sync_Admin {
 
 	}
 
-
-
 	/**
 	 * Enqueue stylesheets for this plugin's "Add Rule" and "Edit Rule" page.
 	 *
@@ -725,8 +685,6 @@ class Civi_WP_Member_Sync_Admin {
 		$this->admin_css( $dependencies );
 
 	}
-
-
 
 	/**
 	 * Enqueue required scripts on the Add Rule and Edit Rule pages.
@@ -760,6 +718,7 @@ class Civi_WP_Member_Sync_Admin {
 		// Set defaults.
 		$vars = [
 			'ajax_url' => admin_url( 'admin-ajax.php' ),
+			'ajax_nonce' => wp_create_nonce( 'cwms_ajax_nonce' ),
 			'method' => $this->setting_get_method(),
 			'mode' => 'add',
 			'select2' => 'no',
@@ -797,8 +756,6 @@ class Civi_WP_Member_Sync_Admin {
 		);
 
 	}
-
-
 
 	/**
 	 * Enqueue required scripts on the List Rules page.
@@ -845,8 +802,6 @@ class Civi_WP_Member_Sync_Admin {
 
 	}
 
-
-
 	/**
 	 * Adds help copy to admin page in WP3.3+.
 	 *
@@ -890,8 +845,6 @@ class Civi_WP_Member_Sync_Admin {
 
 	}
 
-
-
 	/**
 	 * Get help text.
 	 *
@@ -909,11 +862,7 @@ class Civi_WP_Member_Sync_Admin {
 
 	}
 
-
-
 	// -------------------------------------------------------------------------
-
-
 
 	/**
 	 * Filter CSS dependencies on the "Add Rule" and "Edit Rule" pages.
@@ -957,8 +906,6 @@ class Civi_WP_Member_Sync_Admin {
 		return $dependencies;
 
 	}
-
-
 
 	/**
 	 * Filter script dependencies on the "Add Rule" and "Edit Rule" pages.
@@ -1004,11 +951,7 @@ class Civi_WP_Member_Sync_Admin {
 
 	}
 
-
-
 	// -------------------------------------------------------------------------
-
-
 
 	/**
 	 * Show settings page.
@@ -1065,8 +1008,6 @@ class Civi_WP_Member_Sync_Admin {
 
 	}
 
-
-
 	/**
 	 * Show manual sync page.
 	 *
@@ -1086,8 +1027,6 @@ class Civi_WP_Member_Sync_Admin {
 		include CIVI_WP_MEMBER_SYNC_PLUGIN_PATH . 'assets/templates/manual-sync.php';
 
 	}
-
-
 
 	/**
 	 * Show rules list page.
@@ -1143,8 +1082,6 @@ class Civi_WP_Member_Sync_Admin {
 
 	}
 
-
-
 	/**
 	 * Decide whether to show add or edit page.
 	 *
@@ -1185,8 +1122,6 @@ class Civi_WP_Member_Sync_Admin {
 		}
 
 	}
-
-
 
 	/**
 	 * Show add rule page.
@@ -1246,8 +1181,6 @@ class Civi_WP_Member_Sync_Admin {
 
 	}
 
-
-
 	/**
 	 * Show edit rule page.
 	 *
@@ -1268,7 +1201,8 @@ class Civi_WP_Member_Sync_Admin {
 		$method = $this->setting_get_method();
 
 		// Get requested Membership Type ID.
-		$civi_member_type_id = absint( $_GET['type_id'] );
+		// TODO: Protect against malformed or missing Type ID.
+		$civi_member_type_id = isset( $_GET['type_id'] ) ? (int) wp_unslash( $_GET['type_id'] ) : 0;
 
 		// Get rule by type.
 		$selected_rule = $this->rule_get_by_type( $civi_member_type_id, $method );
@@ -1317,11 +1251,7 @@ class Civi_WP_Member_Sync_Admin {
 
 	}
 
-
-
 	// -------------------------------------------------------------------------
-
-
 
 	/**
 	 * Get admin page URLs.
@@ -1364,8 +1294,6 @@ class Civi_WP_Member_Sync_Admin {
 
 	}
 
-
-
 	/**
 	 * Get the url to access a particular menu page based on the slug it was registered with.
 	 * If the slug hasn't been registered properly no url will be returned.
@@ -1401,8 +1329,6 @@ class Civi_WP_Member_Sync_Admin {
 
 	}
 
-
-
 	/**
 	 * Get the URL for the form action.
 	 *
@@ -1413,10 +1339,12 @@ class Civi_WP_Member_Sync_Admin {
 	public function admin_form_url_get() {
 
 		// Sanitise admin page url.
-		$target_url = $_SERVER['REQUEST_URI'];
-		$url_array = explode( '&', $target_url );
-		if ( $url_array ) {
-			$target_url = htmlentities( $url_array[0] . '&updated=true' );
+		$target_url = isset( $_SERVER['REQUEST_URI'] ) ? wp_unslash( $_SERVER['REQUEST_URI'] ) : '';
+		if ( ! empty( $target_url ) ) {
+			$url_array = explode( '&', $target_url );
+			if ( $url_array ) {
+				$target_url = htmlentities( $url_array[0] . '&updated=true' );
+			}
 		}
 
 		// --<
@@ -1424,11 +1352,7 @@ class Civi_WP_Member_Sync_Admin {
 
 	}
 
-
-
 	// -------------------------------------------------------------------------
-
-
 
 	/**
 	 * Route settings updates to relevant methods.
@@ -1505,8 +1429,6 @@ class Civi_WP_Member_Sync_Admin {
 
 	}
 
-
-
 	/**
 	 * Get default plugin settings.
 	 *
@@ -1549,8 +1471,6 @@ class Civi_WP_Member_Sync_Admin {
 
 	}
 
-
-
 	/**
 	 * Update plugin settings.
 	 *
@@ -1564,13 +1484,13 @@ class Civi_WP_Member_Sync_Admin {
 		// Synchronization method.
 		$settings_method = 'capabilities';
 		if ( isset( $_POST['civi_wp_member_sync_settings_method'] ) ) {
-			$settings_method = trim( $_POST['civi_wp_member_sync_settings_method'] );
+			$settings_method = trim( wp_unslash( $_POST['civi_wp_member_sync_settings_method'] ) );
 		}
 		$this->setting_set( 'method', $settings_method );
 
 		// Login/logout sync enabled.
 		if ( isset( $_POST['civi_wp_member_sync_settings_login'] ) ) {
-			$settings_login = absint( $_POST['civi_wp_member_sync_settings_login'] );
+			$settings_login = (int) wp_unslash( $_POST['civi_wp_member_sync_settings_login'] );
 		} else {
 			$settings_login = 0;
 		}
@@ -1578,7 +1498,7 @@ class Civi_WP_Member_Sync_Admin {
 
 		// CiviCRM sync enabled.
 		if ( isset( $_POST['civi_wp_member_sync_settings_civicrm'] ) ) {
-			$settings_civicrm = absint( $_POST['civi_wp_member_sync_settings_civicrm'] );
+			$settings_civicrm = (int) wp_unslash( $_POST['civi_wp_member_sync_settings_civicrm'] );
 		} else {
 			$settings_civicrm = 0;
 		}
@@ -1589,7 +1509,7 @@ class Civi_WP_Member_Sync_Admin {
 
 		// Schedule sync enabled.
 		if ( isset( $_POST['civi_wp_member_sync_settings_schedule'] ) ) {
-			$settings_schedule = absint( $_POST['civi_wp_member_sync_settings_schedule'] );
+			$settings_schedule = (int) wp_unslash( $_POST['civi_wp_member_sync_settings_schedule'] );
 		} else {
 			$settings_schedule = 0;
 		}
@@ -1610,7 +1530,7 @@ class Civi_WP_Member_Sync_Admin {
 			$existing_interval = $this->setting_get( 'interval' );
 
 			// Get value passed in.
-			$settings_interval = esc_sql( trim( $_POST['civi_wp_member_sync_settings_interval'] ) );
+			$settings_interval = esc_sql( trim( wp_unslash( $_POST['civi_wp_member_sync_settings_interval'] ) ) );
 
 			// Is the schedule active and has the interval changed?
 			if ( $settings_schedule && $settings_interval != $existing_interval ) {
@@ -1630,7 +1550,7 @@ class Civi_WP_Member_Sync_Admin {
 
 		// Sync restricted to Individuals?
 		if ( isset( $_POST['civi_wp_member_sync_settings_types'] ) ) {
-			$settings_types = absint( $_POST['civi_wp_member_sync_settings_types'] );
+			$settings_types = (int) wp_unslash( $_POST['civi_wp_member_sync_settings_types'] );
 		} else {
 			$settings_types = 0;
 		}
@@ -1643,12 +1563,10 @@ class Civi_WP_Member_Sync_Admin {
 		$urls = $this->page_get_urls();
 
 		// Redirect to settings page with message.
-		wp_redirect( $urls['settings'] . '&updated=true' );
-		die();
+		wp_safe_redirect( $urls['settings'] . '&updated=true' );
+		exit();
 
 	}
-
-
 
 	/**
 	 * Save the plugin's settings array.
@@ -1663,8 +1581,6 @@ class Civi_WP_Member_Sync_Admin {
 		return $this->option_save( 'civi_wp_member_sync_settings', $this->settings );
 
 	}
-
-
 
 	/**
 	 * Check whether a specified setting exists.
@@ -1685,8 +1601,6 @@ class Civi_WP_Member_Sync_Admin {
 		return array_key_exists( $setting_name, $this->settings );
 
 	}
-
-
 
 	/**
 	 * Return a value for a specified setting.
@@ -1709,8 +1623,6 @@ class Civi_WP_Member_Sync_Admin {
 
 	}
 
-
-
 	/**
 	 * Set a value for a specified setting.
 	 *
@@ -1731,8 +1643,6 @@ class Civi_WP_Member_Sync_Admin {
 
 	}
 
-
-
 	/**
 	 * Return the value for the 'method' setting.
 	 *
@@ -1752,8 +1662,6 @@ class Civi_WP_Member_Sync_Admin {
 		return $method;
 
 	}
-
-
 
 	/**
 	 * Return the value for the batch count.
@@ -1788,11 +1696,7 @@ class Civi_WP_Member_Sync_Admin {
 
 	}
 
-
-
 	// -------------------------------------------------------------------------
-
-
 
 	/**
 	 * Get a WordPress option.
@@ -1817,8 +1721,6 @@ class Civi_WP_Member_Sync_Admin {
 
 	}
 
-
-
 	/**
 	 * Save a WordPress option.
 	 *
@@ -1838,8 +1740,6 @@ class Civi_WP_Member_Sync_Admin {
 
 	}
 
-
-
 	/**
 	 * Delete a WordPress option.
 	 *
@@ -1858,11 +1758,7 @@ class Civi_WP_Member_Sync_Admin {
 
 	}
 
-
-
 	// -------------------------------------------------------------------------
-
-
 
 	/**
 	 * Get all association rules by method.
@@ -1887,8 +1783,6 @@ class Civi_WP_Member_Sync_Admin {
 		return $subset;
 
 	}
-
-
 
 	/**
 	 * Clear all association rules for the current method.
@@ -1938,12 +1832,10 @@ class Civi_WP_Member_Sync_Admin {
 		$urls = $this->page_get_urls();
 
 		// Redirect to list page with message.
-		wp_redirect( $urls['list'] . '&syncrule=delete-all' );
-		die();
+		wp_safe_redirect( $urls['list'] . '&syncrule=delete-all' );
+		exit();
 
 	}
-
-
 
 	/**
 	 * Get an association rule by Membership Type ID.
@@ -1972,8 +1864,6 @@ class Civi_WP_Member_Sync_Admin {
 		return $rule;
 
 	}
-
-
 
 	/**
 	 * Update (or add) a Membership rule.
@@ -2006,8 +1896,8 @@ class Civi_WP_Member_Sync_Admin {
 
 		// Test our hidden "multiple" element.
 		if (
-			isset( $_POST['civi_wp_member_sync_rules_multiple'] ) &&
-			trim( $_POST['civi_wp_member_sync_rules_multiple'] ) == 'yes'
+			! empty( $_POST['civi_wp_member_sync_rules_multiple'] ) &&
+			'yes' === trim( wp_unslash( $_POST['civi_wp_member_sync_rules_multiple'] ) )
 		) {
 			$multiple = true;
 		}
@@ -2019,20 +1909,14 @@ class Civi_WP_Member_Sync_Admin {
 		if ( $multiple === true ) {
 
 			// Check and sanitise CiviCRM Membership Types.
-			if (
-				isset( $_POST['civi_member_type_id'] ) &&
-				! empty( $_POST['civi_member_type_id'] ) &&
-				is_array( $_POST['civi_member_type_id'] )
-			) {
-
-				// Grab array from POST.
-				$civi_member_type_ids = $_POST['civi_member_type_id'];
+			$civi_member_type_ids = filter_input( INPUT_POST, 'civi_member_type_id', FILTER_DEFAULT, FILTER_REQUIRE_ARRAY );
+			if ( ! empty( $civi_member_type_ids ) ) {
 
 				// Sanitise array contents.
 				array_walk(
 					$civi_member_type_ids,
 					function( &$item ) {
-						$item = intval( trim( $item ) );
+						$item = (int) trim( $item );
 					}
 				);
 
@@ -2043,12 +1927,9 @@ class Civi_WP_Member_Sync_Admin {
 		} else {
 
 			// Check and sanitise CiviCRM Membership Type.
-			if (
-				isset( $_POST['civi_member_type_id'] ) &&
-				! empty( $_POST['civi_member_type_id'] ) &&
-				is_numeric( $_POST['civi_member_type_id'] )
-			) {
-				$civi_member_type_id = absint( $_POST['civi_member_type_id'] );
+			$civi_member_type_id = filter_input( INPUT_POST, 'civi_member_type_id' );
+			if ( ! empty( $civi_member_type_id ) && is_numeric( $civi_member_type_id ) ) {
+				$civi_member_type_id = (int) $civi_member_type_id;
 			} else {
 				$this->errors[] = 'type';
 			}
@@ -2056,14 +1937,8 @@ class Civi_WP_Member_Sync_Admin {
 		}
 
 		// Check and sanitise Current Status.
-		if (
-			isset( $_POST['current'] ) &&
-			is_array( $_POST['current'] ) &&
-			! empty( $_POST['current'] )
-		) {
-
-			// Grab array from POST.
-			$current_rule = $_POST['current'];
+		$current_rule = filter_input( INPUT_POST, 'current', FILTER_DEFAULT, FILTER_REQUIRE_ARRAY );
+		if ( ! empty( $current ) ) {
 
 			// Sanitise array contents.
 			array_walk(
@@ -2078,14 +1953,8 @@ class Civi_WP_Member_Sync_Admin {
 		}
 
 		// Check and sanitise Expire Status.
-		if (
-			isset( $_POST['expire'] ) &&
-			is_array( $_POST['expire'] ) &&
-			! empty( $_POST['expire'] )
-		) {
-
-			// Grab array from POST.
-			$expiry_rule = $_POST['expire'];
+		$expiry_rule = filter_input( INPUT_POST, 'expire', FILTER_DEFAULT, FILTER_REQUIRE_ARRAY );
+		if ( ! empty( $expiry_rule ) ) {
 
 			// Sanitise array contents.
 			array_walk(
@@ -2117,21 +1986,15 @@ class Civi_WP_Member_Sync_Admin {
 		if ( $method == 'roles' ) {
 
 			// Check and sanitise WordPress Role.
-			if (
-				isset( $_POST['current_wp_role'] ) &&
-				! empty( $_POST['current_wp_role'] )
-			) {
-				$current_wp_role = esc_sql( trim( $_POST['current_wp_role'] ) );
+			if ( ! empty( $_POST['current_wp_role'] ) ) {
+				$current_wp_role = esc_sql( trim( wp_unslash( $_POST['current_wp_role'] ) ) );
 			} else {
 				$this->errors[] = 'current-role';
 			}
 
 			// Check and sanitise Expiry Role.
-			if (
-				isset( $_POST['expire_assign_wp_role'] ) &&
-				! empty( $_POST['expire_assign_wp_role'] )
-			) {
-				$expired_wp_role = esc_sql( trim( $_POST['expire_assign_wp_role'] ) );
+			if ( ! empty( $_POST['expire_assign_wp_role'] ) ) {
+				$expired_wp_role = esc_sql( trim( wp_unslash( $_POST['expire_assign_wp_role'] ) ) );
 			} else {
 				$this->errors[] = 'expire-role';
 			}
@@ -2225,8 +2088,8 @@ class Civi_WP_Member_Sync_Admin {
 			$urls = $this->page_get_urls();
 
 			// Redirect to list page.
-			wp_redirect( $urls['list'] . '&syncrule=' . $mode );
-			die();
+			wp_safe_redirect( $urls['list'] . '&syncrule=' . $mode );
+			exit();
 
 		} else {
 
@@ -2241,8 +2104,6 @@ class Civi_WP_Member_Sync_Admin {
 		}
 
 	}
-
-
 
 	/**
 	 * Create a Membership rule array.
@@ -2281,8 +2142,6 @@ class Civi_WP_Member_Sync_Admin {
 		return $rule;
 
 	}
-
-
 
 	/**
 	 * Save a Membership rule.
@@ -2356,8 +2215,6 @@ class Civi_WP_Member_Sync_Admin {
 
 	}
 
-
-
 	/**
 	 * Delete a Membership rule.
 	 *
@@ -2368,20 +2225,18 @@ class Civi_WP_Member_Sync_Admin {
 	public function rule_delete() {
 
 		// Check nonce.
-		if (
-			! isset( $_GET['civi_wp_member_sync_delete_nonce'] ) ||
-			! wp_verify_nonce( $_GET['civi_wp_member_sync_delete_nonce'], 'civi_wp_member_sync_delete_link' )
-		) {
-
+		$nonce = filter_input( INPUT_GET, 'civi_wp_member_sync_delete_nonce' );
+		if ( empty( $nonce ) || ! wp_verify_nonce( $nonce, 'civi_wp_member_sync_delete_link' ) ) {
 			wp_die( esc_html__( 'Cheating, eh?', 'civicrm-wp-member-sync' ) );
 			exit();
-
 		}
 
-		// Get Membership Type.
-		$type_id = absint( $_GET['type_id'] );
+		// Get Membership Type ID.
+		$type_id = filter_input( INPUT_GET, 'type_id' );
 		if ( empty( $type_id ) ) {
 			return;
+		} else {
+			$type_id = (int) trim( wp_unslash( $type_id ) );
 		}
 
 		// Get method.
@@ -2426,12 +2281,10 @@ class Civi_WP_Member_Sync_Admin {
 		$urls = $this->page_get_urls();
 
 		// Redirect to list page with message.
-		wp_redirect( $urls['list'] . '&syncrule=delete' );
-		die();
+		wp_safe_redirect( $urls['list'] . '&syncrule=delete' );
+		exit();
 
 	}
-
-
 
 	/**
 	 * Check if there is at least one rule applied to a set of Memberships.
@@ -2523,8 +2376,6 @@ class Civi_WP_Member_Sync_Admin {
 		return $has_rule;
 
 	}
-
-
 
 	/**
 	 * Manage WordPress Roles or Capabilities based on the status of a User's Memberships.
@@ -2783,8 +2634,6 @@ class Civi_WP_Member_Sync_Admin {
 
 	}
 
-
-
 	/**
 	 * Simulate the application of "rule_apply".
 	 *
@@ -2916,8 +2765,6 @@ class Civi_WP_Member_Sync_Admin {
 		return $result;
 
 	}
-
-
 
 	/**
 	 * Remove WordPress Role or Capability when a Membership is deleted.
@@ -3079,11 +2926,7 @@ class Civi_WP_Member_Sync_Admin {
 
 	}
 
-
-
 	// -------------------------------------------------------------------------
-
-
 
 	/**
 	 * Get a CiviCRM admin link.
@@ -3120,11 +2963,7 @@ class Civi_WP_Member_Sync_Admin {
 
 	}
 
-
-
 	// -------------------------------------------------------------------------
-
-
 
 	/**
 	 * Check if CiviCRM Admin Utilities has been installed and activated.
@@ -3144,8 +2983,6 @@ class Civi_WP_Member_Sync_Admin {
 		return true;
 
 	}
-
-
 
 	/**
 	 * Check if the CiviCRM Admin Utilities version meets the requirements.
@@ -3171,8 +3008,6 @@ class Civi_WP_Member_Sync_Admin {
 
 	}
 
-
-
 	/**
 	 * Check if CiviCRM Admin Utilities has been properly configured.
 	 *
@@ -3196,8 +3031,6 @@ class Civi_WP_Member_Sync_Admin {
 		return true;
 
 	}
-
-
 
 	/**
 	 * Get the link to the CiviCRM Admin Utilities "Settings" page.
@@ -3226,6 +3059,4 @@ class Civi_WP_Member_Sync_Admin {
 
 	}
 
-
-
-} // Class ends.
+}

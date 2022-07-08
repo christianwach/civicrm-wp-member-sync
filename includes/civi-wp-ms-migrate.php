@@ -11,8 +11,6 @@
 // Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
 
-
-
 /**
  * Migrate class.
  *
@@ -40,8 +38,6 @@ class Civi_WP_Member_Sync_Migrate {
 	 */
 	public $plugin;
 
-
-
 	/**
 	 * Constructor.
 	 *
@@ -56,11 +52,7 @@ class Civi_WP_Member_Sync_Migrate {
 
 	}
 
-
-
 	// -------------------------------------------------------------------------
-
-
 
 	/**
 	 * Check for legacy 'civi_member_sync' plugin.
@@ -71,9 +63,10 @@ class Civi_WP_Member_Sync_Migrate {
 	 */
 	public function legacy_plugin_exists() {
 
-		// Disable.
+		// Disabled.
 		return false;
 
+		/*
 		// Grab default data to test for the default array.
 		$data = $this->plugin->setting_get( 'data' );
 
@@ -92,10 +85,9 @@ class Civi_WP_Member_Sync_Migrate {
 
 		// Not present.
 		return false;
+		*/
 
 	}
-
-
 
 	/**
 	 * Migrate from 'civi_member_sync' to this plugin.
@@ -119,8 +111,6 @@ class Civi_WP_Member_Sync_Migrate {
 
 	}
 
-
-
 	/**
 	 * Migrate 'civi_member_sync' data to our plugin settings.
 	 *
@@ -136,7 +126,7 @@ class Civi_WP_Member_Sync_Migrate {
 
 		// Get tabular data.
 		$table_name = $wpdb->prefix . 'civi_member_sync';
-		$select = $wpdb->get_results( "SELECT * FROM $table_name" );
+		$select = $wpdb->get_results( $wpdb->prepare( 'SELECT * FROM %s', $table_name ) );
 
 		// Did we get any?
 		if ( ! empty( $select ) ) {
@@ -168,8 +158,6 @@ class Civi_WP_Member_Sync_Migrate {
 
 	}
 
-
-
 	/**
 	 * Remove previous 'civi_member_sync' database tables.
 	 *
@@ -187,10 +175,10 @@ class Civi_WP_Member_Sync_Migrate {
 		$table_name = $wpdb->prefix . $table_name;
 
 		// Drop our custom table.
-		$wpdb->query( "DROP TABLE IF EXISTS $table_name" );
+		$wpdb->query( $wpdb->prepare( 'DROP TABLE IF EXISTS %s', $table_name ) );
 
 		// Check if we were successful.
-		if ( $wpdb->get_var( "SHOW TABLES LIKE '$table_name'" ) == $table_name ) {
+		if ( $table_name === $wpdb->get_var( $wpdb->prepare( 'SHOW TABLES LIKE %s', $table_name ) ) ) {
 			return false;
 		}
 
@@ -199,6 +187,4 @@ class Civi_WP_Member_Sync_Migrate {
 
 	}
 
-
-
-} // Class ends.
+}

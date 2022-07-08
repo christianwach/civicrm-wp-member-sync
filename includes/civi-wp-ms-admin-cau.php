@@ -11,8 +11,6 @@
 // Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
 
-
-
 /**
  * Admin CAU compatibility class.
  *
@@ -80,8 +78,6 @@ class Civi_WP_Member_Sync_Admin_CAU {
 	 */
 	public $query_memberships = [];
 
-
-
 	/**
 	 * Constructor.
 	 *
@@ -100,8 +96,6 @@ class Civi_WP_Member_Sync_Admin_CAU {
 
 	}
 
-
-
 	/**
 	 * Initialise this object.
 	 *
@@ -113,8 +107,6 @@ class Civi_WP_Member_Sync_Admin_CAU {
 		$this->register_hooks();
 
 	}
-
-
 
 	/**
 	 * Register hooks.
@@ -148,8 +140,6 @@ class Civi_WP_Member_Sync_Admin_CAU {
 		}
 
 	}
-
-
 
 	/**
 	 * Filter the CiviCRM Admin Utilities "Manage Users" table to include Users
@@ -210,8 +200,6 @@ class Civi_WP_Member_Sync_Admin_CAU {
 
 	}
 
-
-
 	/**
 	 * Filter the CiviCRM Admin Utilities "Manage Users" table to include Users
 	 * of a specified Membership Status.
@@ -268,8 +256,6 @@ class Civi_WP_Member_Sync_Admin_CAU {
 
 	}
 
-
-
 	/**
 	 * Filter the CiviCRM Admin Utilities "Manage Users" table to include Users
 	 * with or without a Membership.
@@ -293,7 +279,8 @@ class Civi_WP_Member_Sync_Admin_CAU {
 		}
 
 		// Get the views param.
-		$member_status = $_REQUEST['user_status'];
+		// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+		$member_status = trim( wp_unslash( $_REQUEST['user_status'] ) );
 		if ( ! in_array( $member_status, [ 'members', 'non_members' ] ) ) {
 			return $args;
 		}
@@ -332,8 +319,6 @@ class Civi_WP_Member_Sync_Admin_CAU {
 		return $args;
 
 	}
-
-
 
 	/**
 	 * Add Membership Type column to the CiviCRM Admin Utilities "Manage Users" table.
@@ -376,8 +361,6 @@ class Civi_WP_Member_Sync_Admin_CAU {
 		}
 
 	}
-
-
 
 	/**
 	 * Add views to the CiviCRM Admin Utilities "Manage Users" table.
@@ -443,14 +426,13 @@ class Civi_WP_Member_Sync_Admin_CAU {
 		}
 
 		// Get the views param if present.
-		$user_status = isset( $_REQUEST['user_status'] ) ? $_REQUEST['user_status'] : '';
+		// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+		$user_status = isset( $_REQUEST['user_status'] ) ? trim( wp_unslash( $_REQUEST['user_status'] ) ) : '';
 
 		// Include views template.
 		include CIVI_WP_MEMBER_SYNC_PLUGIN_PATH . 'assets/templates/cau-user-views.php';
 
 	}
-
-
 
 	/**
 	 * Add Membership Type column to the CiviCRM Admin Utilities "Manage Users" table.
@@ -469,8 +451,6 @@ class Civi_WP_Member_Sync_Admin_CAU {
 		return $columns;
 
 	}
-
-
 
 	/**
 	 * Return Membership Type for display.
@@ -533,8 +513,6 @@ class Civi_WP_Member_Sync_Admin_CAU {
 
 	}
 
-
-
 	/**
 	 * Add Membership Status column to the CiviCRM Admin Utilities "Manage Users" table.
 	 *
@@ -552,8 +530,6 @@ class Civi_WP_Member_Sync_Admin_CAU {
 		return $columns;
 
 	}
-
-
 
 	/**
 	 * Return Membership Status for display.
@@ -614,6 +590,4 @@ class Civi_WP_Member_Sync_Admin_CAU {
 
 	}
 
-
-
-} // Class ends.
+}

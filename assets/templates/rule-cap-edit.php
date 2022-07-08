@@ -60,7 +60,6 @@ defined( 'ABSPATH' ) || exit;
 				<th scope="row"><label class="civi_member_type_id_label" for="civi_member_type_id"><?php esc_html_e( 'CiviMember Membership Type', 'civicrm-wp-member-sync' ); ?> *</label></th>
 				<td>
 					<?php
-
 					/*
 					// Round we go...
 					foreach ( $membership_types as $key => $value ) {
@@ -154,7 +153,7 @@ defined( 'ABSPATH' ) || exit;
 					}
 
 					?><input type="checkbox" class="required-expire expire-<?php echo $key; ?>" name="<?php echo 'expire[' . $key . ']'; ?>" id="<?php echo 'expire[' . $key . ']'; ?>" value="<?php echo $key; ?>"<?php echo $checked; ?> />
-					<label for="<?php echo 'expire[' . $key . ']';?>"><?php echo $value; ?></label><br />
+					<label for="<?php echo 'expire[' . $key . ']'; ?>"><?php echo $value; ?></label><br />
 					<?php
 
 				}
@@ -186,6 +185,3 @@ defined( 'ABSPATH' ) || exit;
 	</form>
 
 </div><!-- /.wrap -->
-
-
-

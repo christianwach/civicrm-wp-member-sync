@@ -11,8 +11,6 @@
 // Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
 
-
-
 /**
  * Schedule class.
  *
@@ -31,8 +29,6 @@ class Civi_WP_Member_Sync_Schedule {
 	 */
 	public $plugin;
 
-
-
 	/**
 	 * Constructor.
 	 *
@@ -49,8 +45,6 @@ class Civi_WP_Member_Sync_Schedule {
 		add_action( 'civi_wp_member_sync_initialised', [ $this, 'initialise' ], 5 );
 
 	}
-
-
 
 	/**
 	 * Initialise this object.
@@ -80,11 +74,7 @@ class Civi_WP_Member_Sync_Schedule {
 
 	}
 
-
-
 	// -------------------------------------------------------------------------
-
-
 
 	/**
 	 * Set up our scheduled event.
@@ -109,8 +99,6 @@ class Civi_WP_Member_Sync_Schedule {
 
 	}
 
-
-
 	/**
 	 * Clear our scheduled event.
 	 *
@@ -132,8 +120,6 @@ class Civi_WP_Member_Sync_Schedule {
 
 	}
 
-
-
 	/**
 	 * Called when a scheduled event is triggered.
 	 *
@@ -146,11 +132,7 @@ class Civi_WP_Member_Sync_Schedule {
 
 	}
 
-
-
 	// -------------------------------------------------------------------------
-
-
 
 	/**
 	 * Get schedule intervals.
@@ -166,11 +148,7 @@ class Civi_WP_Member_Sync_Schedule {
 
 	}
 
-
-
 	// -------------------------------------------------------------------------
-
-
 
 	/**
 	 * Clear our legacy_scheduled event.
@@ -192,6 +170,4 @@ class Civi_WP_Member_Sync_Schedule {
 
 	}
 
-
-
-} // Class ends.
+}

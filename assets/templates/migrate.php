@@ -46,6 +46,3 @@ defined( 'ABSPATH' ) || exit;
 	</form>
 
 </div><!-- /.wrap -->
-
-
-

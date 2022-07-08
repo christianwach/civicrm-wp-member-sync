@@ -11,6 +11,7 @@
 var cwms_method = 'roles',
 	cwms_mode = 'add',
 	cwms_ajax_url = '',
+	cwms_ajax_nonce = '',
 	cwms_select2 = 'no',
 	cwms_groups = 'no',
 	cwms_buddypress = 'no';
@@ -22,6 +23,7 @@ if ( 'undefined' !== typeof CiviCRM_WP_Member_Sync_Rules ) {
 	cwms_method = CiviCRM_WP_Member_Sync_Rules.method;
 	cwms_mode = CiviCRM_WP_Member_Sync_Rules.mode;
 	cwms_ajax_url = CiviCRM_WP_Member_Sync_Rules.ajax_url;
+	cwms_ajax_nonce = CiviCRM_WP_Member_Sync_Rules.ajax_nonce;
 	cwms_select2 = CiviCRM_WP_Member_Sync_Rules.select2;
 	cwms_groups = CiviCRM_WP_Member_Sync_Rules.groups;
 	cwms_buddypress = CiviCRM_WP_Member_Sync_Rules.buddypress;
@@ -231,6 +233,7 @@ jQuery(document).ready( function($) {
 						action: 'civi_wp_member_sync_get_groups',
 						exclude: cwms_groups_get_excludes( params, this ),
 						page: params.page,
+						_ajax_nonce: cwms_ajax_nonce
 					};
 				},
 				processResults: function( data, page ) {
@@ -334,6 +337,7 @@ jQuery(document).ready( function($) {
 						action: 'civi_wp_member_sync_get_bp_groups',
 						exclude: cwms_buddypress_get_excludes( params, this ),
 						page: params.page,
+						_ajax_nonce: cwms_ajax_nonce
 					};
 				},
 				processResults: function( data, page ) {

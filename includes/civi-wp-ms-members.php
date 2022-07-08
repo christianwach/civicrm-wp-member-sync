@@ -11,8 +11,6 @@
 // Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
 
-
-
 /**
  * Membership class.
  *
@@ -33,8 +31,6 @@ class Civi_WP_Member_Sync_Members {
 	 */
 	public $plugin;
 
-
-
 	/**
 	 * Constructor.
 	 *
@@ -52,11 +48,7 @@ class Civi_WP_Member_Sync_Members {
 
 	}
 
-
-
 	// -------------------------------------------------------------------------
-
-
 
 	/**
 	 * Initialise this object.
@@ -112,11 +104,7 @@ class Civi_WP_Member_Sync_Members {
 
 	}
 
-
-
 	// -------------------------------------------------------------------------
-
-
 
 	/**
 	 * Sync Membership rules for all CiviCRM Memberships.
@@ -148,10 +136,8 @@ class Civi_WP_Member_Sync_Members {
 		$dry_run = false;
 
 		// Override "dry run" flag if chosen.
-		if (
-			isset( $_POST['civi_wp_member_sync_manual_sync_dry_run'] ) &&
-			$_POST['civi_wp_member_sync_manual_sync_dry_run'] == 'y'
-		) {
+		$manual_sync_dry_run = filter_input( INPUT_POST, 'civi_wp_member_sync_manual_sync_dry_run' );
+		if ( ! empty( $manual_sync_dry_run ) && 'y' === trim( wp_unslash( $manual_sync_dry_run ) ) ) {
 			$dry_run = true;
 		}
 
@@ -163,11 +149,9 @@ class Civi_WP_Member_Sync_Members {
 			$memberships_from = 0;
 
 			// Override if "From" field is populated.
-			if (
-				isset( $_POST['civi_wp_member_sync_manual_sync_from'] ) &&
-				is_numeric( trim( $_POST['civi_wp_member_sync_manual_sync_from'] ) )
-			) {
-				$memberships_from = (int) trim( $_POST['civi_wp_member_sync_manual_sync_from'] );
+			$manual_sync_from = filter_input( INPUT_POST, 'civi_wp_member_sync_manual_sync_from' );
+			if ( ! empty( $manual_sync_from ) && is_numeric( trim( wp_unslash( $manual_sync_from ) ) ) ) {
+				$memberships_from = (int) trim( wp_unslash( $manual_sync_from ) );
 				$memberships_offset = $memberships_from;
 			}
 
@@ -184,13 +168,11 @@ class Civi_WP_Member_Sync_Members {
 		$batch_count = $this->plugin->admin->setting_get_batch_count();
 
 		// If the "To" field is populated.
-		if (
-			isset( $_POST['civi_wp_member_sync_manual_sync_to'] ) &&
-			is_numeric( trim( $_POST['civi_wp_member_sync_manual_sync_to'] ) )
-		) {
+		$manual_sync_to = filter_input( INPUT_POST, 'civi_wp_member_sync_manual_sync_to' );
+		if ( ! empty( $manual_sync_to ) && is_numeric( trim( wp_unslash( $manual_sync_to ) ) ) ) {
 
 			// Grab the "to" value.
-			$memberships_to = (int) trim( $_POST['civi_wp_member_sync_manual_sync_to'] );
+			$memberships_to = (int) trim( wp_unslash( $manual_sync_to ) );
 
 			// Update batch count if the end of the default batch is greater than the requested one.
 			if ( $memberships_to > 0 && $memberships_to < ( $memberships_offset + $batch_count ) ) {
@@ -339,8 +321,6 @@ class Civi_WP_Member_Sync_Members {
 
 	}
 
-
-
 	/**
 	 * Sync all Membership rules for existing WordPress Users.
 	 *
@@ -379,8 +359,6 @@ class Civi_WP_Member_Sync_Members {
 
 	}
 
-
-
 	/**
 	 * Check User's Membership record during logout.
 	 *
@@ -396,8 +374,6 @@ class Civi_WP_Member_Sync_Members {
 		$this->sync_to_user( $user_login, $user );
 
 	}
-
-
 
 	/**
 	 * Maybe create a WordPress User.
@@ -433,8 +409,6 @@ class Civi_WP_Member_Sync_Members {
 		return $user;
 
 	}
-
-
 
 	/**
 	 * Prepare a dummy WordPress User for the Simulate process.
@@ -475,8 +449,6 @@ class Civi_WP_Member_Sync_Members {
 
 	}
 
-
-
 	/**
 	 * Check if a User's Membership should by synced.
 	 *
@@ -516,8 +488,6 @@ class Civi_WP_Member_Sync_Members {
 
 	}
 
-
-
 	/**
 	 * Sync a User's Role based on their Membership record.
 	 *
@@ -553,8 +523,6 @@ class Civi_WP_Member_Sync_Members {
 		$this->plugin->admin->rule_apply( $user, $memberships );
 
 	}
-
-
 
 	/**
 	 * Inspect a CiviCRM Membership prior to it being updated.
@@ -606,8 +574,6 @@ class Civi_WP_Member_Sync_Members {
 		}
 
 	}
-
-
 
 	/**
 	 * Update a WordPress User when a CiviCRM Membership is updated.
@@ -759,8 +725,6 @@ class Civi_WP_Member_Sync_Members {
 
 	}
 
-
-
 	/**
 	 * Update a WordPress User when a CiviCRM Membership is deleted.
 	 *
@@ -816,8 +780,6 @@ class Civi_WP_Member_Sync_Members {
 
 	}
 
-
-
 	/**
 	 * Update a WordPress User Role when a CiviCRM Membership is added.
 	 *
@@ -834,8 +796,6 @@ class Civi_WP_Member_Sync_Members {
 		}
 
 	}
-
-
 
 	/**
 	 * Get Membership records.
@@ -961,8 +921,6 @@ class Civi_WP_Member_Sync_Members {
 
 	}
 
-
-
 	/**
 	 * Filter Membership data where a Contact is in the Trash.
 	 *
@@ -1051,8 +1009,6 @@ class Civi_WP_Member_Sync_Members {
 
 	}
 
-
-
 	/**
 	 * Check if a Membership is expired.
 	 *
@@ -1133,8 +1089,6 @@ class Civi_WP_Member_Sync_Members {
 
 	}
 
-
-
 	/**
 	 * Get name of CiviCRM Membership Type by ID.
 	 *
@@ -1175,8 +1129,6 @@ class Civi_WP_Member_Sync_Members {
 		return $name;
 
 	}
-
-
 
 	/**
 	 * Filter the Memberships to return only those for which a rule exists.
@@ -1298,8 +1250,6 @@ class Civi_WP_Member_Sync_Members {
 
 	}
 
-
-
 	/**
 	 * Retrieve the number of Memberships.
 	 *
@@ -1331,8 +1281,6 @@ class Civi_WP_Member_Sync_Members {
 		return $membership_count;
 
 	}
-
-
 
 	/**
 	 * Get Membership Types.
@@ -1375,8 +1323,6 @@ class Civi_WP_Member_Sync_Members {
 
 	}
 
-
-
 	/**
 	 * Get Membership Status rules.
 	 *
@@ -1418,8 +1364,6 @@ class Civi_WP_Member_Sync_Members {
 
 	}
 
-
-
 	/**
 	 * Get name of CiviCRM Membership Status by ID.
 	 *
@@ -1458,8 +1402,6 @@ class Civi_WP_Member_Sync_Members {
 
 	}
 
-
-
 	/**
 	 * Get Role/Membership names.
 	 *
@@ -1488,8 +1430,6 @@ class Civi_WP_Member_Sync_Members {
 		return $status_rules;
 
 	}
-
-
 
 	/**
 	 * Get Membership Status rules for a particular item.
@@ -1533,6 +1473,4 @@ class Civi_WP_Member_Sync_Members {
 
 	}
 
-
-
-} // Class ends.
+}

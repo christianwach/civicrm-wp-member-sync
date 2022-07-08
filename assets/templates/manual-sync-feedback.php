@@ -19,7 +19,17 @@ defined( 'ABSPATH' ) || exit;
 		<?php else : ?>
 			<td><span class="dashicons dashicons-no"></span></td>
 		<?php endif; ?>
-		<td class="comment column-comment column-primary"><strong><?php if ( ! empty( $item['link'] ) ) : ?><a href="<?php echo $item['link']; ?>"><?php endif; ?><?php echo $item['display_name']; ?><?php if ( ! empty( $item['link'] ) ) : ?></a><?php endif; ?></strong></td>
+		<td class="comment column-comment column-primary">
+			<strong>
+				<?php if ( ! empty( $item['link'] ) ) : ?>
+					<a href="<?php echo $item['link']; ?>">
+				<?php endif; ?>
+				<?php echo $item['display_name']; ?>
+				<?php if ( ! empty( $item['link'] ) ) : ?>
+					</a>
+				<?php endif; ?>
+			</strong>
+		</td>
 		<td><?php echo $item['username']; ?></td>
 		<td><?php echo $item['membership_name']; ?></td>
 		<td><?php echo $item['membership_status']; ?></td>

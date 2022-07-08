@@ -11,8 +11,6 @@
 // Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
 
-
-
 /**
  * Users class.
  *
@@ -33,8 +31,6 @@ class Civi_WP_Member_Sync_Users {
 	 */
 	public $plugin;
 
-
-
 	/**
 	 * Constructor.
 	 *
@@ -52,8 +48,6 @@ class Civi_WP_Member_Sync_Users {
 
 	}
 
-
-
 	/**
 	 * Initialise this object.
 	 *
@@ -63,11 +57,7 @@ class Civi_WP_Member_Sync_Users {
 
 	}
 
-
-
 	// -------------------------------------------------------------------------
-
-
 
 	/**
 	 * Check if a WordPress User has a particular Role.
@@ -92,8 +82,6 @@ class Civi_WP_Member_Sync_Users {
 		return $has_role;
 
 	}
-
-
 
 	/**
 	 * Get primary WordPress User Role.
@@ -135,8 +123,6 @@ class Civi_WP_Member_Sync_Users {
 		return false;
 
 	}
-
-
 
 	/**
 	 * Get all current Roles for a WordPress User.
@@ -184,8 +170,6 @@ class Civi_WP_Member_Sync_Users {
 
 	}
 
-
-
 	/**
 	 * Add a Role to a WordPress User.
 	 *
@@ -219,8 +203,6 @@ class Civi_WP_Member_Sync_Users {
 
 	}
 
-
-
 	/**
 	 * Remove a Role from a WordPress User.
 	 *
@@ -253,8 +235,6 @@ class Civi_WP_Member_Sync_Users {
 		do_action( 'civi_wp_member_sync_remove_role', $user, $role );
 
 	}
-
-
 
 	/**
 	 * Replace a WordPress User Role.
@@ -300,11 +280,7 @@ class Civi_WP_Member_Sync_Users {
 
 	}
 
-
-
 	// -------------------------------------------------------------------------
-
-
 
 	/**
 	 * Get a WordPress Role name by Role key.
@@ -332,8 +308,6 @@ class Civi_WP_Member_Sync_Users {
 
 	}
 
-
-
 	/**
 	 * Get all WordPress Role names.
 	 *
@@ -343,13 +317,8 @@ class Civi_WP_Member_Sync_Users {
 	 */
 	public function wp_role_names_get_all() {
 
-		// Access Roles global.
-		global $wp_roles;
-
-		// Load Roles if not set.
-		if ( ! isset( $wp_roles ) ) {
-			$wp_roles = new WP_Roles();
-		}
+		// Access Roles.
+		$wp_roles = wp_roles();
 
 		// Get names.
 		$role_names = $wp_roles->get_names();
@@ -360,16 +329,12 @@ class Civi_WP_Member_Sync_Users {
 			// Get bbPress-filtered Roles.
 			$bbp_roles = bbp_get_blog_roles();
 
-			// Init Roles.
-			$role_names = [];
-
-			// Sanity check.
+			// Maybe remove from Roles array.
 			if ( ! empty( $bbp_roles ) ) {
 				foreach ( $bbp_roles as $bbp_role => $bbp_role_data ) {
-
-					// Add to Roles array.
-					$role_names[ $bbp_role ] = $bbp_role_data['name'];
-
+					if ( isset( $role_names[ $bbp_role ] ) ) {
+						unset( $role_names[ $bbp_role ] );
+					}
 				}
 			}
 
@@ -380,11 +345,7 @@ class Civi_WP_Member_Sync_Users {
 
 	}
 
-
-
 	// -------------------------------------------------------------------------
-
-
 
 	/**
 	 * Add a Capability to a WordPress User.
@@ -424,8 +385,6 @@ class Civi_WP_Member_Sync_Users {
 
 	}
 
-
-
 	/**
 	 * Remove a Capability from a WordPress User.
 	 *
@@ -463,8 +422,6 @@ class Civi_WP_Member_Sync_Users {
 		}
 
 	}
-
-
 
 	/**
 	 * Clear all status Capabilities from a WordPress User, since we don't necessarily
@@ -512,11 +469,7 @@ class Civi_WP_Member_Sync_Users {
 
 	}
 
-
-
 	// -------------------------------------------------------------------------
-
-
 
 	/**
 	 * Get a WordPress User for a CiviCRM Contact ID.
@@ -549,8 +502,6 @@ class Civi_WP_Member_Sync_Users {
 		return $user;
 
 	}
-
-
 
 	/**
 	 * Get a CiviCRM Contact ID for a WordPress User object.
@@ -600,8 +551,6 @@ class Civi_WP_Member_Sync_Users {
 
 	}
 
-
-
 	/**
 	 * Get a CiviCRM Contact ID for a WordPress User ID.
 	 *
@@ -630,8 +579,6 @@ class Civi_WP_Member_Sync_Users {
 		return $contact_id;
 
 	}
-
-
 
 	/**
 	 * Get CiviCRM Contact data by Contact ID.
@@ -691,11 +638,7 @@ class Civi_WP_Member_Sync_Users {
 
 	}
 
-
-
 	// -------------------------------------------------------------------------
-
-
 
 	/**
 	 * Create a WordPress User for a given CiviCRM Contact ID.
@@ -751,8 +694,6 @@ class Civi_WP_Member_Sync_Users {
 		}
 
 	}
-
-
 
 	/**
 	 * Creates a WordPress User given a CiviCRM Contact.
@@ -879,8 +820,6 @@ class Civi_WP_Member_Sync_Users {
 
 	}
 
-
-
 	/**
 	 * Generate a unique username for a WordPress User.
 	 *
@@ -918,8 +857,6 @@ class Civi_WP_Member_Sync_Users {
 		return $new_username;
 
 	}
-
-
 
 	/**
 	 * Create a link between a WordPress User and a CiviCRM Contact.
@@ -980,8 +917,6 @@ class Civi_WP_Member_Sync_Users {
 
 	}
 
-
-
 	/**
 	 * Remove filters (that we know of) that will interfere with creating a WordPress User.
 	 *
@@ -1022,8 +957,6 @@ class Civi_WP_Member_Sync_Users {
 		do_action( 'civi_wp_member_sync_remove_filters' );
 
 	}
-
-
 
 	/**
 	 * Add filters (that we know of) after creating a WordPress User.
@@ -1066,6 +999,4 @@ class Civi_WP_Member_Sync_Users {
 
 	}
 
-
-
-} // Class ends.
+}

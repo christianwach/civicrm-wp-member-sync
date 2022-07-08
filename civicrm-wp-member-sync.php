@@ -50,8 +50,10 @@ if ( ! defined( 'CIVI_WP_MEMBER_SYNC_PLUGIN_PATH' ) ) {
 	define( 'CIVI_WP_MEMBER_SYNC_PLUGIN_PATH', plugin_dir_path( CIVI_WP_MEMBER_SYNC_PLUGIN_FILE ) );
 }
 
-// Migrate flag for developers (see civi-wp-ms-migrate.php)
-//define( 'CIVI_WP_MEMBER_SYNC_MIGRATE', true );
+/*
+// Migrate flag for developers - see "civi-wp-ms-migrate.php".
+define( 'CIVI_WP_MEMBER_SYNC_MIGRATE', true );
+*/
 
 
 
@@ -118,8 +120,6 @@ class Civi_WP_Member_Sync {
 	 */
 	public $buddypress;
 
-
-
 	/**
 	 * Initialise this object.
 	 *
@@ -141,8 +141,6 @@ class Civi_WP_Member_Sync {
 
 	}
 
-
-
 	/**
 	 * Include files.
 	 *
@@ -160,8 +158,6 @@ class Civi_WP_Member_Sync {
 
 	}
 
-
-
 	/**
 	 * Set up this plugin's objects.
 	 *
@@ -178,8 +174,6 @@ class Civi_WP_Member_Sync {
 		$this->buddypress = new Civi_WP_Member_Sync_BuddyPress( $this );
 
 	}
-
-
 
 	/**
 	 * Initialise objects when CiviCRM initialises.
@@ -208,11 +202,7 @@ class Civi_WP_Member_Sync {
 
 	}
 
-
-
 	// -------------------------------------------------------------------------
-
-
 
 	/**
 	 * Perform plugin activation tasks.
@@ -226,8 +216,6 @@ class Civi_WP_Member_Sync {
 
 	}
 
-
-
 	/**
 	 * Perform plugin deactivation tasks.
 	 *
@@ -240,11 +228,7 @@ class Civi_WP_Member_Sync {
 
 	}
 
-
-
 	// -------------------------------------------------------------------------
-
-
 
 	/**
 	 * Load translations.
@@ -254,6 +238,7 @@ class Civi_WP_Member_Sync {
 	public function translation() {
 
 		// Load translations.
+		// phpcs:ignore WordPress.WP.DeprecatedParameters.Load_plugin_textdomainParam2Found
 		load_plugin_textdomain(
 			'civicrm-wp-member-sync', // Unique name.
 			false, // Deprecated argument.
@@ -262,28 +247,7 @@ class Civi_WP_Member_Sync {
 
 	}
 
-
-
-} // Class ends.
-
-
-
-// Declare as global for external reference.
-global $civi_wp_member_sync;
-
-// Init plugin.
-$civi_wp_member_sync = new Civi_WP_Member_Sync();
-
-// Plugin activation.
-register_activation_hook( __FILE__, [ $civi_wp_member_sync, 'activate' ] );
-
-// Plugin deactivation.
-register_deactivation_hook( __FILE__, [ $civi_wp_member_sync, 'deactivate' ] );
-
-/*
- * Uninstall uses the 'uninstall.php' method.
- * @see https://developer.wordpress.org/reference/functions/register_uninstall_hook/
- */
+}
 
 
 
@@ -296,11 +260,30 @@ register_deactivation_hook( __FILE__, [ $civi_wp_member_sync, 'deactivate' ] );
  */
 function civicrm_wpms() {
 
-	// Return reference.
+	// Maybe bootstrap plugin.
 	global $civi_wp_member_sync;
+	if ( ! isset( $civi_wp_member_sync ) ) {
+		$civi_wp_member_sync = new Civi_WP_Member_Sync();
+	}
+
+	// --<
 	return $civi_wp_member_sync;
 
 }
+
+// Init plugin.
+civicrm_wpms();
+
+// Plugin activation.
+register_activation_hook( __FILE__, [ civicrm_wpms(), 'activate' ] );
+
+// Plugin deactivation.
+register_deactivation_hook( __FILE__, [ civicrm_wpms(), 'deactivate' ] );
+
+/*
+ * Uninstall uses the 'uninstall.php' method.
+ * @see https://developer.wordpress.org/reference/functions/register_uninstall_hook/
+ */
 
 
 

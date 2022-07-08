@@ -27,11 +27,11 @@ defined( 'ABSPATH' ) || exit;
 	// If we've updated, show message.
 	if ( $this->is_network_activated() && isset( $_GET['updated'] ) && $_GET['updated'] == 'true' ) {
 		echo '<div id="setting-error-settings_updated" class="updated settings-error notice is-dismissible">' .
-				'<p><strong>' . esc_html__( 'Settings saved.', 'civicrm-wp-member-sync' ) . '</strong></p>' .
-				'<button type="button" class="notice-dismiss">' .
-					'<span class="screen-reader-text">' . esc_html__( 'Dismiss this notice.', 'civicrm-wp-member-sync' ) . '</span>' .
-				'</button>' .
-			 '</div>';
+			'<p><strong>' . esc_html__( 'Settings saved.', 'civicrm-wp-member-sync' ) . '</strong></p>' .
+			'<button type="button" class="notice-dismiss">' .
+				'<span class="screen-reader-text">' . esc_html__( 'Dismiss this notice.', 'civicrm-wp-member-sync' ) . '</span>' .
+			'</button>' .
+		'</div>';
 	}
 
 	?>
@@ -217,6 +217,3 @@ defined( 'ABSPATH' ) || exit;
 	</form>
 
 </div><!-- /.wrap -->
-
-
-

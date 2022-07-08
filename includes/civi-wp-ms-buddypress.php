@@ -11,8 +11,6 @@
 // Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
 
-
-
 /**
  * BuddyPress compatibility class.
  *
@@ -42,8 +40,6 @@ class Civi_WP_Member_Sync_BuddyPress {
 	 */
 	public $enabled = false;
 
-
-
 	/**
 	 * Constructor.
 	 *
@@ -61,8 +57,6 @@ class Civi_WP_Member_Sync_BuddyPress {
 
 	}
 
-
-
 	/**
 	 * Initialise this object.
 	 *
@@ -74,8 +68,6 @@ class Civi_WP_Member_Sync_BuddyPress {
 		add_action( 'init', [ $this, 'register_hooks' ] );
 
 	}
-
-
 
 	/**
 	 * Test if BuddyPress plugin is active.
@@ -104,8 +96,6 @@ class Civi_WP_Member_Sync_BuddyPress {
 
 	}
 
-
-
 	/**
 	 * Getter for the "enabled" flag.
 	 *
@@ -120,11 +110,7 @@ class Civi_WP_Member_Sync_BuddyPress {
 
 	}
 
-
-
 	// -------------------------------------------------------------------------
-
-
 
 	/**
 	 * Register BuddyPress plugin hooks if it's present.
@@ -182,11 +168,7 @@ class Civi_WP_Member_Sync_BuddyPress {
 
 	}
 
-
-
 	// -------------------------------------------------------------------------
-
-
 
 	/**
 	 * Search for BuddyPress Groups on the "Add Rule" and "Edit Rule" pages.
@@ -201,8 +183,20 @@ class Civi_WP_Member_Sync_BuddyPress {
 		// Go direct.
 		global $wpdb;
 
+		// Since this is an AJAX request, check security.
+		$result = check_ajax_referer( 'cwms_ajax_nonce', false, false );
+		if ( $result === false ) {
+			wp_send_json( $json );
+		}
+
+		// Grab search string.
+		$search = isset( $_POST['s'] ) ? trim( wp_unslash( $_POST['s'] ) ) : '';
+		if ( empty( $search ) ) {
+			wp_send_json( $json );
+		}
+
 		// Grab comma-separated excludes.
-		$exclude = isset( $_POST['exclude'] ) ? trim( $_POST['exclude'] ) : '';
+		$exclude = isset( $_POST['exclude'] ) ? trim( wp_unslash( $_POST['exclude'] ) ) : '';
 
 		// Parse excludes.
 		$excludes = [];
@@ -213,7 +207,7 @@ class Civi_WP_Member_Sync_BuddyPress {
 		// Get Groups this User can see for this search.
 		$groups = groups_get_groups( [
 			'user_id' => is_super_admin() ? 0 : bp_loggedin_user_id(),
-			'search_terms' => isset( $_POST['s'] ) ? wp_unslash( $_POST['s'] ) : '',
+			'search_terms' => $search,
 			'show_hidden' => true,
 			'populate_extras' => false,
 			'exclude' => $excludes,
@@ -229,16 +223,11 @@ class Civi_WP_Member_Sync_BuddyPress {
 		}
 
 		// Send data.
-		echo wp_json_encode( $json );
-		exit();
+		wp_send_json( $json );
 
 	}
 
-
-
 	// -------------------------------------------------------------------------
-
-
 
 	/**
 	 * Intercept Rule Apply when method is "capabilities" and Membership is "current".
@@ -262,8 +251,6 @@ class Civi_WP_Member_Sync_BuddyPress {
 
 	}
 
-
-
 	/**
 	 * Intercept Rule Apply when method is "capabilities" and Membership is "expired".
 	 *
@@ -285,8 +272,6 @@ class Civi_WP_Member_Sync_BuddyPress {
 		$this->rule_apply_expired( $user, $membership_type_id, $status_id, $association_rule );
 
 	}
-
-
 
 	/**
 	 * Intercept Rule Apply when Membership is "current".
@@ -316,8 +301,6 @@ class Civi_WP_Member_Sync_BuddyPress {
 
 	}
 
-
-
 	/**
 	 * Intercept Rule Apply when Membership is "expired".
 	 *
@@ -346,11 +329,7 @@ class Civi_WP_Member_Sync_BuddyPress {
 
 	}
 
-
-
 	// -------------------------------------------------------------------------
-
-
 
 	/**
 	 * Add a WordPress User to a BuddyPress Group.
@@ -377,7 +356,7 @@ class Civi_WP_Member_Sync_BuddyPress {
 			$trace = $e->getTraceAsString();
 			error_log( print_r( [
 				'method' => __METHOD__,
-				'message' => esc_html__( 'Could not add user to group.', 'civicrm-groups-sync' ),
+				'message' => esc_html__( 'Could not add user to group.', 'civicrm-wp-member-sync' ),
 				'user_id' => $user_id,
 				'group_id' => $group_id,
 				'backtrace' => $trace,
@@ -388,8 +367,6 @@ class Civi_WP_Member_Sync_BuddyPress {
 		return $success;
 
 	}
-
-
 
 	/**
 	 * Delete a WordPress User from a BuddyPress Group.
@@ -431,11 +408,7 @@ class Civi_WP_Member_Sync_BuddyPress {
 
 	}
 
-
-
 	// -------------------------------------------------------------------------
-
-
 
 	/**
 	 * Amend the association rule that is about to be saved.
@@ -449,44 +422,29 @@ class Civi_WP_Member_Sync_BuddyPress {
 	 */
 	public function rule_pre_save( $rule, $data, $mode, $method ) {
 
-		// Init "current" Groups.
-		$current = [];
-
 		// Get the "current" Groups.
-		if (
-			isset( $_POST['cwms_buddypress_select_current'] ) &&
-			is_array( $_POST['cwms_buddypress_select_current'] ) &&
-			! empty( $_POST['cwms_buddypress_select_current'] )
-		) {
-
-			// Grab array of Group IDs.
-			$current = $_POST['cwms_buddypress_select_current'];
+		$current = filter_input( INPUT_POST, 'cwms_buddypress_select_current', FILTER_DEFAULT, FILTER_REQUIRE_ARRAY );
+		if ( ! empty( $current ) ) {
 
 			// Sanitise array items.
 			array_walk( $current, function( &$item ) {
 				$item = absint( trim( $item ) );
 			});
 
+		} else {
+			$current = [];
 		}
 
-		// Init "expiry" Groups.
-		$expiry = [];
-
 		// Get the "expiry" Groups.
-		if (
-			isset( $_POST['cwms_buddypress_select_expiry'] ) &&
-			is_array( $_POST['cwms_buddypress_select_expiry'] ) &&
-			! empty( $_POST['cwms_buddypress_select_expiry'] )
-		) {
-
-			// Grab array of Group IDs.
-			$expiry = $_POST['cwms_buddypress_select_expiry'];
-
+		$expiry = filter_input( INPUT_POST, 'cwms_buddypress_select_expiry', FILTER_DEFAULT, FILTER_REQUIRE_ARRAY );
+		if ( ! empty( $expiry ) ) {
 			// Sanitise array items.
 			array_walk( $expiry, function( &$item ) {
 				$item = absint( trim( $item ) );
 			});
 
+		} else {
+			$expiry = [];
 		}
 
 		// Add to the rule.
@@ -498,11 +456,7 @@ class Civi_WP_Member_Sync_BuddyPress {
 
 	}
 
-
-
 	// -------------------------------------------------------------------------
-
-
 
 	/**
 	 * Show the Current Group header.
@@ -515,8 +469,6 @@ class Civi_WP_Member_Sync_BuddyPress {
 		echo '<th>' . esc_html__( 'Current BuddyPress Group(s)', 'civicrm-wp-member-sync' ) . '</th>';
 
 	}
-
-
 
 	/**
 	 * Show the Current BuddyPress Groups.
@@ -539,8 +491,6 @@ class Civi_WP_Member_Sync_BuddyPress {
 
 	}
 
-
-
 	/**
 	 * Show the Current Group.
 	 *
@@ -554,8 +504,6 @@ class Civi_WP_Member_Sync_BuddyPress {
 		include CIVI_WP_MEMBER_SYNC_PLUGIN_PATH . 'assets/templates/buddypress-add-current.php';
 
 	}
-
-
 
 	/**
 	 * Show the Current Group.
@@ -578,11 +526,7 @@ class Civi_WP_Member_Sync_BuddyPress {
 
 	}
 
-
-
 	// -------------------------------------------------------------------------
-
-
 
 	/**
 	 * Show the Expired Group header.
@@ -595,8 +539,6 @@ class Civi_WP_Member_Sync_BuddyPress {
 		echo '<th>' . esc_html__( 'Expiry BuddyPress Group(s)', 'civicrm-wp-member-sync' ) . '</th>';
 
 	}
-
-
 
 	/**
 	 * Show the Expired BuddyPress Groups.
@@ -619,8 +561,6 @@ class Civi_WP_Member_Sync_BuddyPress {
 
 	}
 
-
-
 	/**
 	 * Show the Expired Group.
 	 *
@@ -634,8 +574,6 @@ class Civi_WP_Member_Sync_BuddyPress {
 		include CIVI_WP_MEMBER_SYNC_PLUGIN_PATH . 'assets/templates/buddypress-add-expiry.php';
 
 	}
-
-
 
 	/**
 	 * Show the Expired Group.
@@ -658,11 +596,7 @@ class Civi_WP_Member_Sync_BuddyPress {
 
 	}
 
-
-
 	// -------------------------------------------------------------------------
-
-
 
 	/**
 	 * Show the Simulate header.
@@ -675,8 +609,6 @@ class Civi_WP_Member_Sync_BuddyPress {
 		echo '<th>' . esc_html__( 'BuddyPress Group(s)', 'civicrm-wp-member-sync' ) . '</th>';
 
 	}
-
-
 
 	/**
 	 * Show the Groups.
@@ -702,11 +634,7 @@ class Civi_WP_Member_Sync_BuddyPress {
 
 	}
 
-
-
 	// -------------------------------------------------------------------------
-
-
 
 	/**
 	 * Get the markup for a pseudo-list generated from a list of Groups data.
@@ -744,8 +672,6 @@ class Civi_WP_Member_Sync_BuddyPress {
 		return $options_html;
 
 	}
-
-
 
 	/**
 	 * Get the markup for options generated from a list of Groups data.
@@ -785,6 +711,4 @@ class Civi_WP_Member_Sync_BuddyPress {
 
 	}
 
-
-
-} // Class ends.
+}

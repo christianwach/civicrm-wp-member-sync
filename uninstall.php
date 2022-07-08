@@ -16,8 +16,6 @@ if ( ! defined( 'WP_UNINSTALL_PLUGIN' ) ) {
 	exit();
 }
 
-
-
 /**
  * We need to remove all Capabilities granted to Users via this plugin.
  */
@@ -106,8 +104,6 @@ function civi_wp_member_sync_reset_caps() {
 
 // Remove Capabilities from Users.
 civi_wp_member_sync_reset_caps();
-
-
 
 // Delete standalone options.
 delete_option( 'civi_wp_member_sync_version' );

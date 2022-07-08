@@ -44,13 +44,15 @@ defined( 'ABSPATH' ) || exit;
 
 	?>
 
-	<p><?php
+	<p>
+	<?php
 	if ( empty( $multiple ) ) {
 		esc_html_e( 'Choose a CiviMember Membership Type and select the Current and Expired Statuses for it. All statuses must be allocated as either Current or Expired.', 'civicrm-wp-member-sync' );
 	} else {
 		esc_html_e( 'Choose one or more CiviMember Membership Types and select the Current and Expired Statuses for them. All statuses must be allocated as either Current or Expired.', 'civicrm-wp-member-sync' );
 	}
-	?></p>
+	?>
+	</p>
 
 	<p><?php esc_html_e( 'Current Status adds a Membership Capability to the WordPress User, while Expired Status removes the Membership Capability from the WordPress User. This Capability will be of the form "civimember_ID", where "ID" is the numeric ID of the Membership Type. So, for Membership Type 2, the Capability will be "civimember_2". If you have the "Members" plugin active, then the "restrict_content" Capability will also be added.', 'civicrm-wp-member-sync' ); ?></p>
 
@@ -73,7 +75,7 @@ defined( 'ABSPATH' ) || exit;
 					?> *</label>
 				</th>
 				<td>
-					<select name="civi_member_type_id<?php if ( ! empty( $multiple ) ) { echo '[]'; } ?>" id="civi_member_type_id" class ="required required-type"<?php echo $multiple; ?>>
+					<select name="civi_member_type_id<?php echo empty( $multiple ) ? '[]' : ''; ?>" id="civi_member_type_id" class ="required required-type"<?php echo $multiple; ?>>
 						<?php if ( empty( $multiple ) ) { ?>
 							<option value=""></option>
 						<?php } ?>
@@ -145,6 +147,3 @@ defined( 'ABSPATH' ) || exit;
 	</form>
 
 </div><!-- /.wrap -->
-
-
-

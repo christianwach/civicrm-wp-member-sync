@@ -11,8 +11,6 @@
 // Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
 
-
-
 /**
  * "Groups" compatibility class.
  *
@@ -50,8 +48,6 @@ class Civi_WP_Member_Sync_Groups {
 	 */
 	public $enabled = false;
 
-
-
 	/**
 	 * Constructor.
 	 *
@@ -69,8 +65,6 @@ class Civi_WP_Member_Sync_Groups {
 
 	}
 
-
-
 	/**
 	 * Initialise this object.
 	 *
@@ -82,8 +76,6 @@ class Civi_WP_Member_Sync_Groups {
 		add_action( 'init', [ $this, 'register_hooks' ] );
 
 	}
-
-
 
 	/**
 	 * Getter for the "enabled" flag.
@@ -99,11 +91,7 @@ class Civi_WP_Member_Sync_Groups {
 
 	}
 
-
-
 	// -------------------------------------------------------------------------
-
-
 
 	/**
 	 * Register "Groups" plugin hooks if it's present.
@@ -130,8 +118,10 @@ class Civi_WP_Member_Sync_Groups {
 		// Hook into manual sync process, before sync.
 		add_action( 'civi_wp_member_sync_pre_sync_all', [ $this, 'groups_pre_sync' ] );
 
-		// Hook into save post and auto-restrict. (DISABLED)
-		//add_action( 'save_post', [ $this, 'groups_intercept_save_post' ], 1, 2 );
+		/*
+		// Hook into save post and auto-restrict.
+		add_action( 'save_post', [ $this, 'groups_intercept_save_post' ], 1, 2 );
+		*/
 
 		// Bail if "Groups" is not version 2.8.0 or greater.
 		if ( version_compare( GROUPS_CORE_VERSION, '2.8.0', '<' ) ) {
@@ -185,11 +175,7 @@ class Civi_WP_Member_Sync_Groups {
 
 	}
 
-
-
 	// -------------------------------------------------------------------------
-
-
 
 	/**
 	 * Search for Groups on the "Add Rule" and "Edit Rule" pages.
@@ -204,8 +190,23 @@ class Civi_WP_Member_Sync_Groups {
 		// Go direct.
 		global $wpdb;
 
+		// Init data array.
+		$json = [];
+
+		// Since this is an AJAX request, check security.
+		$result = check_ajax_referer( 'cwms_ajax_nonce', false, false );
+		if ( $result === false ) {
+			wp_send_json( $json );
+		}
+
+		// Grab search string.
+		$search = isset( $_POST['s'] ) ? trim( wp_unslash( $_POST['s'] ) ) : '';
+		if ( empty( $search ) ) {
+			wp_send_json( $json );
+		}
+
 		// Grab comma-separated excludes.
-		$exclude = isset( $_POST['exclude'] ) ? trim( $_POST['exclude'] ) : '';
+		$exclude = isset( $_POST['exclude'] ) ? trim( wp_unslash( $_POST['exclude'] ) ) : '';
 
 		// Parse excludes.
 		$excludes = [];
@@ -224,12 +225,10 @@ class Civi_WP_Member_Sync_Groups {
 
 		// Do query.
 		$group_table = _groups_get_tablename( 'group' );
-		$like = '%' . $wpdb->esc_like( trim( $_POST['s'] ) ) . '%';
-		$sql = $wpdb->prepare( "SELECT * FROM $group_table WHERE name LIKE %s $and", $like );
-		$groups = $wpdb->get_results( $sql );
+		$like = '%' . $wpdb->esc_like( $search ) . '%';
+		$groups = $wpdb->get_results( $wpdb->prepare( 'SELECT * FROM %s WHERE name LIKE %s %s', $group_table, $like, $and ) );
 
 		// Add items to output array.
-		$json = [];
 		foreach ( $groups as $group ) {
 			$json[] = [
 				'id' => $group->group_id,
@@ -238,16 +237,11 @@ class Civi_WP_Member_Sync_Groups {
 		}
 
 		// Send data.
-		echo wp_json_encode( $json );
-		exit();
+		wp_send_json( $json );
 
 	}
 
-
-
 	// -------------------------------------------------------------------------
-
-
 
 	/**
 	 * Intercept Rule Apply when method is "capabilities" and Membership is "current".
@@ -271,8 +265,6 @@ class Civi_WP_Member_Sync_Groups {
 
 	}
 
-
-
 	/**
 	 * Intercept Rule Apply when method is "capabilities" and Membership is "expired".
 	 *
@@ -294,8 +286,6 @@ class Civi_WP_Member_Sync_Groups {
 		$this->rule_apply_expired( $user, $membership_type_id, $status_id, $association_rule );
 
 	}
-
-
 
 	/**
 	 * Intercept Rule Apply when Membership is "current".
@@ -325,8 +315,6 @@ class Civi_WP_Member_Sync_Groups {
 
 	}
 
-
-
 	/**
 	 * Intercept Rule Apply when Membership is "expired".
 	 *
@@ -355,11 +343,7 @@ class Civi_WP_Member_Sync_Groups {
 
 	}
 
-
-
 	// -------------------------------------------------------------------------
-
-
 
 	/**
 	 * Add a WordPress User to a "Groups" Group.
@@ -401,8 +385,6 @@ class Civi_WP_Member_Sync_Groups {
 
 	}
 
-
-
 	/**
 	 * Delete a WordPress User from a "Groups" Group.
 	 *
@@ -440,11 +422,7 @@ class Civi_WP_Member_Sync_Groups {
 
 	}
 
-
-
 	// -------------------------------------------------------------------------
-
-
 
 	/**
 	 * Amend the association rule that is about to be saved.
@@ -458,44 +436,30 @@ class Civi_WP_Member_Sync_Groups {
 	 */
 	public function rule_pre_save( $rule, $data, $mode, $method ) {
 
-		// Init "current" Groups.
-		$current = [];
-
 		// Get the "current" Groups.
-		if (
-			isset( $_POST['cwms_groups_select_current'] ) &&
-			is_array( $_POST['cwms_groups_select_current'] ) &&
-			! empty( $_POST['cwms_groups_select_current'] )
-		) {
-
-			// Grab array of Group IDs.
-			$current = $_POST['cwms_groups_select_current'];
+		$current = filter_input( INPUT_POST, 'cwms_groups_select_current', FILTER_DEFAULT, FILTER_REQUIRE_ARRAY );
+		if ( ! empty( $current ) ) {
 
 			// Sanitise array items.
 			array_walk( $current, function( &$item ) {
 				$item = absint( trim( $item ) );
 			});
 
+		} else {
+			$current = [];
 		}
 
-		// Init "expiry" Groups.
-		$expiry = [];
-
 		// Get the "expiry" Groups.
-		if (
-			isset( $_POST['cwms_groups_select_expiry'] ) &&
-			is_array( $_POST['cwms_groups_select_expiry'] ) &&
-			! empty( $_POST['cwms_groups_select_expiry'] )
-		) {
-
-			// Grab array of Group IDs.
-			$expiry = $_POST['cwms_groups_select_expiry'];
+		$expiry = filter_input( INPUT_POST, 'cwms_groups_select_expiry', FILTER_DEFAULT, FILTER_REQUIRE_ARRAY );
+		if ( ! empty( $expiry ) ) {
 
 			// Sanitise array items.
 			array_walk( $expiry, function( &$item ) {
 				$item = absint( trim( $item ) );
 			});
 
+		} else {
+			$expiry = [];
 		}
 
 		// Add to the rule.
@@ -507,11 +471,7 @@ class Civi_WP_Member_Sync_Groups {
 
 	}
 
-
-
 	// -------------------------------------------------------------------------
-
-
 
 	/**
 	 * Show the Current Group header.
@@ -524,8 +484,6 @@ class Civi_WP_Member_Sync_Groups {
 		echo '<th>' . esc_html__( 'Current "Groups" Group(s)', 'civicrm-wp-member-sync' ) . '</th>';
 
 	}
-
-
 
 	/**
 	 * Show the Current Groups.
@@ -548,8 +506,6 @@ class Civi_WP_Member_Sync_Groups {
 
 	}
 
-
-
 	/**
 	 * Show the Current Group.
 	 *
@@ -563,8 +519,6 @@ class Civi_WP_Member_Sync_Groups {
 		include CIVI_WP_MEMBER_SYNC_PLUGIN_PATH . 'assets/templates/groups-add-current.php';
 
 	}
-
-
 
 	/**
 	 * Show the Current Group.
@@ -587,11 +541,7 @@ class Civi_WP_Member_Sync_Groups {
 
 	}
 
-
-
 	// -------------------------------------------------------------------------
-
-
 
 	/**
 	 * Show the Expired Group header.
@@ -604,8 +554,6 @@ class Civi_WP_Member_Sync_Groups {
 		echo '<th>' . esc_html__( 'Expiry "Groups" Group(s)', 'civicrm-wp-member-sync' ) . '</th>';
 
 	}
-
-
 
 	/**
 	 * Show the Expired Groups.
@@ -628,8 +576,6 @@ class Civi_WP_Member_Sync_Groups {
 
 	}
 
-
-
 	/**
 	 * Show the Expired Group.
 	 *
@@ -643,8 +589,6 @@ class Civi_WP_Member_Sync_Groups {
 		include CIVI_WP_MEMBER_SYNC_PLUGIN_PATH . 'assets/templates/groups-add-expiry.php';
 
 	}
-
-
 
 	/**
 	 * Show the Expired Group.
@@ -667,11 +611,7 @@ class Civi_WP_Member_Sync_Groups {
 
 	}
 
-
-
 	// -------------------------------------------------------------------------
-
-
 
 	/**
 	 * Show the Simulate header.
@@ -684,8 +624,6 @@ class Civi_WP_Member_Sync_Groups {
 		echo '<th>' . esc_html__( '"Groups" Group(s)', 'civicrm-wp-member-sync' ) . '</th>';
 
 	}
-
-
 
 	/**
 	 * Show the Groups.
@@ -711,11 +649,7 @@ class Civi_WP_Member_Sync_Groups {
 
 	}
 
-
-
 	// -------------------------------------------------------------------------
-
-
 
 	/**
 	 * Get the markup for a pseudo-list generated from a list of Groups data.
@@ -754,8 +688,6 @@ class Civi_WP_Member_Sync_Groups {
 
 	}
 
-
-
 	/**
 	 * Get the markup for options generated from a list of Groups data.
 	 *
@@ -793,11 +725,7 @@ class Civi_WP_Member_Sync_Groups {
 
 	}
 
-
-
 	// -------------------------------------------------------------------------
-
-
 
 	/**
 	 * When an association rule is created, add Capability to "Groups" plugin.
@@ -823,8 +751,6 @@ class Civi_WP_Member_Sync_Groups {
 
 	}
 
-
-
 	/**
 	 * When an association rule is edited, edit Capability in "Groups" plugin.
 	 *
@@ -839,8 +765,6 @@ class Civi_WP_Member_Sync_Groups {
 		$this->groups_add_cap( $data );
 
 	}
-
-
 
 	/**
 	 * When an association rule is deleted, delete Capability from "Groups" plugin.
@@ -865,8 +789,6 @@ class Civi_WP_Member_Sync_Groups {
 		$capability_id = Groups_Capability::delete( $capability->capability_id );
 
 	}
-
-
 
 	/**
 	 * Add "read post" Capability to "Groups" plugin.
@@ -894,8 +816,6 @@ class Civi_WP_Member_Sync_Groups {
 		Groups_Options::update_option( Groups_Post_Access::READ_POST_CAPABILITIES, $current_read_caps );
 
 	}
-
-
 
 	/**
 	 * Delete "read post" Capability from "Groups" plugin.
@@ -927,8 +847,6 @@ class Civi_WP_Member_Sync_Groups {
 
 	}
 
-
-
 	/**
 	 * Before a manual sync, make sure "Groups" plugin is in sync.
 	 *
@@ -959,8 +877,6 @@ class Civi_WP_Member_Sync_Groups {
 		}
 
 	}
-
-
 
 	/**
 	 * Auto-restrict a Post based on the Post Type.
@@ -999,6 +915,4 @@ class Civi_WP_Member_Sync_Groups {
 
 	}
 
-
-
-} // Class ends.
+}
