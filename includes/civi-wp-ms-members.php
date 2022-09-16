@@ -127,7 +127,8 @@ class Civi_WP_Member_Sync_Members {
 		// Override "Create Users" flag if chosen.
 		if (
 			isset( $_POST['civi_wp_member_sync_manual_sync_create'] ) &&
-			$_POST['civi_wp_member_sync_manual_sync_create'] == 'y'
+			// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+			'y' === trim( wp_unslash( $_POST['civi_wp_member_sync_manual_sync_create'] ) )
 		) {
 			$create_users = true;
 		}

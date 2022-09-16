@@ -126,6 +126,7 @@ class Civi_WP_Member_Sync_Migrate {
 
 		// Get tabular data.
 		$table_name = $wpdb->prefix . 'civi_member_sync';
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 		$select = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM $table_name" ) );
 
 		// Did we get any?
@@ -175,9 +176,11 @@ class Civi_WP_Member_Sync_Migrate {
 		$table_name = $wpdb->prefix . $table_name;
 
 		// Drop our custom table.
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 		$wpdb->query( $wpdb->prepare( "DROP TABLE IF EXISTS $table_name" ) );
 
 		// Check if we were successful.
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 		if ( $table_name === $wpdb->get_var( $wpdb->prepare( "SHOW TABLES LIKE $table_name" ) ) ) {
 			return false;
 		}

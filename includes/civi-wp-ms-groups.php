@@ -200,12 +200,14 @@ class Civi_WP_Member_Sync_Groups {
 		}
 
 		// Grab search string.
+		// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 		$search = isset( $_POST['s'] ) ? trim( wp_unslash( $_POST['s'] ) ) : '';
 		if ( empty( $search ) ) {
 			wp_send_json( $json );
 		}
 
 		// Grab comma-separated excludes.
+		// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 		$exclude = isset( $_POST['exclude'] ) ? trim( wp_unslash( $_POST['exclude'] ) ) : '';
 
 		// Parse excludes.
@@ -226,6 +228,7 @@ class Civi_WP_Member_Sync_Groups {
 		// Do query.
 		$group_table = _groups_get_tablename( 'group' );
 		$like = '%' . $wpdb->esc_like( $search ) . '%';
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 		$groups = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM $group_table WHERE name LIKE %s $and;", $like ) );
 
 		// Add items to output array.
