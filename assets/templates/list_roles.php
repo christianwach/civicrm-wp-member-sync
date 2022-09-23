@@ -36,12 +36,19 @@ defined( 'ABSPATH' ) || exit;
 
 	<?php
 
+	// Get sync rule.
+	$sync_rule = '';
+	$sync_rule_raw = filter_input( INPUT_GET, 'syncrule' );
+	if ( ! empty( $sync_rule_raw ) ) {
+		$sync_rule = trim( wp_unslash( $sync_rule_raw ) );
+	}
+
 	// If we've updated, show message.
-	if ( isset( $_GET['syncrule'] ) ) {
+	if ( ! empty( $sync_rule ) ) {
 		echo '<div id="message" class="updated"><p>';
 
 		// Switch message based on result.
-		switch ( $_GET['syncrule'] ) {
+		switch ( $sync_rule ) {
 			case 'edit':
 				esc_html_e( 'Association Rule updated.', 'civicrm-wp-member-sync' );
 				break;

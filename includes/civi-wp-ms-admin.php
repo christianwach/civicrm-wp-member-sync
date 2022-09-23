@@ -741,13 +741,28 @@ class Civi_WP_Member_Sync_Admin {
 			$vars['buddypress'] = 'yes';
 		}
 
+		// Get mode query var.
+		$mode = '';
+		$mode_raw = filter_input( INPUT_GET, 'mode' );
+		if ( ! empty( $mode_raw ) ) {
+			$mode = trim( wp_unslash( $mode_raw ) );
+		}
+
 		// Maybe override mode.
-		// phpcs:ignore WordPress.Security.NonceVerification.Recommended, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
-		if ( isset( $_GET['mode'] ) && 'edit' === trim( wp_unslash( $_GET['mode'] ) ) ) {
-			// phpcs:ignore WordPress.Security.NonceVerification.Recommended
-			if ( isset( $_GET['type_id'] ) && is_numeric( $_GET['type_id'] ) ) {
+		if ( $mode === 'edit' ) {
+
+			// Get Type ID query var.
+			$type_id = 0;
+			$type_id_raw = filter_input( INPUT_GET, 'type_id' );
+			if ( ! empty( $type_id_raw ) ) {
+				$type_id = (int) trim( wp_unslash( $type_id_raw ) );
+			}
+
+			// We need a Type ID for edit mode.
+			if ( ! empty( $type_id ) && is_numeric( $type_id ) ) {
 				$vars['mode'] = 'edit';
 			}
+
 		}
 
 		// Localize our script.
@@ -1096,24 +1111,38 @@ class Civi_WP_Member_Sync_Admin {
 			return;
 		}
 
-		/*
-		// Bail if mode is missing.
+		// Get mode query var.
+		$mode = '';
 		$mode_raw = filter_input( INPUT_GET, 'mode' );
-		if ( empty( $mode_raw ) ) {
+		if ( ! empty( $mode_raw ) ) {
+			$mode = trim( wp_unslash( $mode_raw ) );
+		}
+
+		// Bail if mode is missing.
+		if ( empty( $mode ) ) {
 			return;
 		}
-		*/
 
-		// Default mode.
-		$mode = 'add';
+		// Bail if mode is not one of our values.
+		if ( $mode !== 'add' && $mode !== 'edit' ) {
+			return;
+		}
 
-		// Do we want to populate the form?
-		// phpcs:ignore WordPress.Security.NonceVerification.Recommended, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
-		if ( isset( $_GET['mode'] ) && 'edit' === trim( wp_unslash( $_GET['mode'] ) ) ) {
-			// phpcs:ignore WordPress.Security.NonceVerification.Recommended
-			if ( isset( $_GET['type_id'] ) && is_numeric( $_GET['type_id'] ) ) {
-				$mode = 'edit';
+		// Are we populating the form?
+		if ( $mode === 'edit' ) {
+
+			// Get Type ID query var.
+			$type_id = 0;
+			$type_id_raw = filter_input( INPUT_GET, 'type_id' );
+			if ( ! empty( $type_id_raw ) ) {
+				$type_id = (int) trim( wp_unslash( $type_id_raw ) );
 			}
+
+			// Bail if there's no Type ID.
+			if ( empty( $type_id ) || ! is_numeric( $type_id ) ) {
+				return;
+			}
+
 		}
 
 		/**
@@ -1214,8 +1243,11 @@ class Civi_WP_Member_Sync_Admin {
 
 		// Get requested Membership Type ID.
 		// TODO: Protect against malformed or missing Type ID.
-		// phpcs:ignore WordPress.Security.NonceVerification.Recommended, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
-		$civi_member_type_id = isset( $_GET['type_id'] ) ? (int) wp_unslash( $_GET['type_id'] ) : 0;
+		$civi_member_type_id = 0;
+		$type_id_raw = filter_input( INPUT_GET, 'type_id' );
+		if ( ! empty( $type_id_raw ) ) {
+			$civi_member_type_id = (int) trim( wp_unslash( $type_id_raw ) );
+		}
 
 		// Get rule by type.
 		$selected_rule = $this->rule_get_by_type( $civi_member_type_id, $method );
@@ -1381,23 +1413,27 @@ class Civi_WP_Member_Sync_Admin {
 		$result = false;
 
 		// Was the "Migrate" form submitted?
-		if ( isset( $_POST['civi_wp_member_sync_migrate_submit'] ) ) {
+		$migrate_submit = filter_input( INPUT_POST, 'civi_wp_member_sync_migrate_submit' );
+		if ( ! empty( $migrate_submit ) ) {
 			$result = $this->migrate->legacy_migrate();
 		}
 
 		// Was the "Settings" form submitted?
-		if ( isset( $_POST['civi_wp_member_sync_settings_submit'] ) ) {
+		$settings_submit = filter_input( INPUT_POST, 'civi_wp_member_sync_settings_submit' );
+		if ( ! empty( $settings_submit ) ) {
 			$result = $this->settings_update();
 		}
 
 		// Was the "Stop Sync" button pressed?
-		if ( isset( $_POST['civi_wp_member_sync_manual_sync_stop'] ) ) {
+		$manual_sync_stop = filter_input( INPUT_POST, 'civi_wp_member_sync_manual_sync_stop' );
+		if ( ! empty( $manual_sync_stop ) ) {
 			delete_option( '_civi_wpms_memberships_offset' );
 			return;
 		}
 
 		// Was the "Manual Sync" form submitted?
-		if ( isset( $_POST['civi_wp_member_sync_manual_sync_submit'] ) ) {
+		$manual_sync_submit = filter_input( INPUT_POST, 'civi_wp_member_sync_manual_sync_submit' );
+		if ( ! empty( $manual_sync_submit ) ) {
 
 			// Check that we trust the source of the request.
 			check_admin_referer( 'civi_wp_member_sync_manual_sync_action', 'civi_wp_member_sync_nonce' );
@@ -1422,20 +1458,39 @@ class Civi_WP_Member_Sync_Admin {
 		}
 
 		// Was the "Rule" form submitted?
-		if ( isset( $_POST['civi_wp_member_sync_rules_submit'] ) ) {
+		$rules_submit = filter_input( INPUT_POST, 'civi_wp_member_sync_rules_submit' );
+		if ( ! empty( $rules_submit ) ) {
 			$result = $this->rule_update();
 		}
 
 		// Was the "Clear Association Rules" form submitted?
-		if ( isset( $_POST['civi_wp_member_sync_clear_submit'] ) ) {
+		$clear_submit = filter_input( INPUT_POST, 'civi_wp_member_sync_clear_submit' );
+		if ( ! empty( $clear_submit ) ) {
 			$result = $this->rules_clear();
 		}
 
+		// Get sync rule.
+		$sync_rule = '';
+		$sync_rule_raw = filter_input( INPUT_GET, 'syncrule' );
+		if ( ! empty( $sync_rule_raw ) ) {
+			$sync_rule = trim( wp_unslash( $sync_rule_raw ) );
+		}
+
 		// Was a "Delete" link clicked?
-		if ( isset( $_GET['syncrule'] ) && $_GET['syncrule'] == 'delete' ) {
-			if ( ! empty( $_GET['type_id'] ) && is_numeric( $_GET['type_id'] ) ) {
+		if ( $sync_rule === 'delete' ) {
+
+			// Get Type ID query var.
+			$type_id = 0;
+			$type_id_raw = filter_input( INPUT_GET, 'type_id' );
+			if ( ! empty( $type_id_raw ) ) {
+				$type_id = (int) trim( wp_unslash( $type_id_raw ) );
+			}
+
+			// Maybe delete rule.
+			if ( ! empty( $type_id ) && is_numeric( $type_id ) ) {
 				$result = $this->rule_delete();
 			}
+
 		}
 
 		// --<
@@ -1497,27 +1552,25 @@ class Civi_WP_Member_Sync_Admin {
 
 		// Synchronization method.
 		$settings_method = 'capabilities';
-		if ( isset( $_POST['civi_wp_member_sync_settings_method'] ) ) {
-			// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
-			$settings_method = trim( wp_unslash( $_POST['civi_wp_member_sync_settings_method'] ) );
+		$settings_method_raw = filter_input( INPUT_POST, 'civi_wp_member_sync_settings_method' );
+		if ( ! empty( $settings_method_raw ) ) {
+			$settings_method = trim( wp_unslash( $settings_method_raw ) );
 		}
 		$this->setting_set( 'method', $settings_method );
 
 		// Login/logout sync enabled.
-		if ( isset( $_POST['civi_wp_member_sync_settings_login'] ) ) {
-			// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
-			$settings_login = (int) wp_unslash( $_POST['civi_wp_member_sync_settings_login'] );
-		} else {
-			$settings_login = 0;
+		$settings_login = 0;
+		$settings_login_raw = filter_input( INPUT_POST, 'civi_wp_member_sync_settings_login' );
+		if ( ! empty( $settings_login_raw ) ) {
+			$settings_login = (int) trim( wp_unslash( $settings_login_raw ) );
 		}
 		$this->setting_set( 'login', ( $settings_login ? 1 : 0 ) );
 
 		// CiviCRM sync enabled.
-		if ( isset( $_POST['civi_wp_member_sync_settings_civicrm'] ) ) {
-			// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
-			$settings_civicrm = (int) wp_unslash( $_POST['civi_wp_member_sync_settings_civicrm'] );
-		} else {
-			$settings_civicrm = 0;
+		$settings_civicrm = 0;
+		$settings_civicrm_raw = filter_input( INPUT_POST, 'civi_wp_member_sync_settings_civicrm' );
+		if ( ! empty( $settings_civicrm_raw ) ) {
+			$settings_civicrm = (int) trim( wp_unslash( $settings_civicrm_raw ) );
 		}
 		$this->setting_set( 'civicrm', ( $settings_civicrm ? 1 : 0 ) );
 
@@ -1525,11 +1578,10 @@ class Civi_WP_Member_Sync_Admin {
 		$existing_schedule = $this->setting_get( 'schedule' );
 
 		// Schedule sync enabled.
-		if ( isset( $_POST['civi_wp_member_sync_settings_schedule'] ) ) {
-			// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
-			$settings_schedule = (int) wp_unslash( $_POST['civi_wp_member_sync_settings_schedule'] );
-		} else {
-			$settings_schedule = 0;
+		$settings_schedule = 0;
+		$settings_schedule_raw = filter_input( INPUT_POST, 'civi_wp_member_sync_settings_schedule' );
+		if ( ! empty( $settings_schedule_raw ) ) {
+			$settings_schedule = (int) trim( wp_unslash( $settings_schedule_raw ) );
 		}
 		$this->setting_set( 'schedule', ( $settings_schedule ? 1 : 0 ) );
 
@@ -1542,15 +1594,14 @@ class Civi_WP_Member_Sync_Admin {
 		}
 
 		// Schedule interval.
-		// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
-		if ( isset( $_POST['civi_wp_member_sync_settings_interval'] ) ) {
+		$settings_interval_raw = filter_input( INPUT_POST, 'civi_wp_member_sync_settings_interval' );
+		if ( ! empty( $settings_interval_raw ) ) {
 
 			// Get existing interval.
 			$existing_interval = $this->setting_get( 'interval' );
 
 			// Get value passed in.
-			// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
-			$settings_interval = esc_sql( trim( wp_unslash( $_POST['civi_wp_member_sync_settings_interval'] ) ) );
+			$settings_interval = esc_sql( trim( wp_unslash( $settings_interval_raw ) ) );
 
 			// Is the schedule active and has the interval changed?
 			if ( $settings_schedule && $settings_interval != $existing_interval ) {
@@ -1569,11 +1620,10 @@ class Civi_WP_Member_Sync_Admin {
 		}
 
 		// Sync restricted to Individuals?
-		if ( isset( $_POST['civi_wp_member_sync_settings_types'] ) ) {
-			// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
-			$settings_types = (int) wp_unslash( $_POST['civi_wp_member_sync_settings_types'] );
-		} else {
-			$settings_types = 0;
+		$settings_types = 0;
+		$settings_types_raw = filter_input( INPUT_POST, 'civi_wp_member_sync_settings_types' );
+		if ( ! empty( $settings_types_raw ) ) {
+			$settings_types = (int) wp_unslash( $settings_types_raw );
 		}
 		$this->setting_set( 'types', ( $settings_types ? 1 : 0 ) );
 
@@ -1902,10 +1952,13 @@ class Civi_WP_Member_Sync_Admin {
 		$mode = 'add';
 
 		// Test our hidden "mode" element.
-		if (
-			isset( $_POST['civi_wp_member_sync_rules_mode'] ) &&
-			$_POST['civi_wp_member_sync_rules_mode'] == 'edit'
-		) {
+		$rules_mode_raw = filter_input( INPUT_POST, 'civi_wp_member_sync_rules_mode' );
+		if ( ! empty( $rules_mode_raw ) ) {
+			$rules_mode = trim( wp_unslash( $rules_mode_raw ) );
+		}
+
+		// Maybe apply edit mode.
+		if ( ! empty( $rules_mode ) && $rules_mode === 'edit' ) {
 			$mode = 'edit';
 		}
 
@@ -1916,11 +1969,14 @@ class Civi_WP_Member_Sync_Admin {
 		$multiple = false;
 
 		// Test our hidden "multiple" element.
-		if (
-			! empty( $_POST['civi_wp_member_sync_rules_multiple'] ) &&
-			// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
-			'yes' === trim( wp_unslash( $_POST['civi_wp_member_sync_rules_multiple'] ) )
-		) {
+		$rules_multiple = '';
+		$rules_multiple_raw = filter_input( INPUT_POST, 'civi_wp_member_sync_rules_multiple' );
+		if ( ! empty( $rules_multiple_raw ) ) {
+			$rules_multiple = trim( wp_unslash( $rules_multiple_raw ) );
+		}
+
+		// Maybe apply multiple mode.
+		if ( ! empty( $rules_multiple ) && $rules_multiple === 'yes' ) {
 			$multiple = true;
 		}
 
@@ -1951,7 +2007,7 @@ class Civi_WP_Member_Sync_Admin {
 			// Check and sanitise CiviCRM Membership Type.
 			$civi_member_type_id = filter_input( INPUT_POST, 'civi_member_type_id' );
 			if ( ! empty( $civi_member_type_id ) && is_numeric( $civi_member_type_id ) ) {
-				$civi_member_type_id = (int) $civi_member_type_id;
+				$civi_member_type_id = (int) trim( wp_unslash( $civi_member_type_id ) );
 			} else {
 				$this->errors[] = 'type';
 			}
@@ -2008,18 +2064,24 @@ class Civi_WP_Member_Sync_Admin {
 		if ( $method == 'roles' ) {
 
 			// Check and sanitise WordPress Role.
-			if ( ! empty( $_POST['current_wp_role'] ) ) {
-			// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
-				$current_wp_role = esc_sql( trim( wp_unslash( $_POST['current_wp_role'] ) ) );
-			} else {
+			$current_wp_role = '';
+			$current_wp_role_raw = filter_input( INPUT_POST, 'current_wp_role' );
+			if ( ! empty( $current_wp_role_raw ) ) {
+				$current_wp_role = esc_sql( trim( wp_unslash( $current_wp_role_raw ) ) );
+			}
+
+			if ( empty( $current_wp_role ) ) {
 				$this->errors[] = 'current-role';
 			}
 
 			// Check and sanitise Expiry Role.
-			if ( ! empty( $_POST['expire_assign_wp_role'] ) ) {
-			// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
-				$expired_wp_role = esc_sql( trim( wp_unslash( $_POST['expire_assign_wp_role'] ) ) );
-			} else {
+			$expired_wp_role = '';
+			$expired_wp_role_raw = filter_input( INPUT_POST, 'expire_assign_wp_role' );
+			if ( ! empty( $expired_wp_role_raw ) ) {
+				$expired_wp_role = esc_sql( trim( wp_unslash( $expired_wp_role_raw ) ) );
+			}
+
+			if ( empty( $expired_wp_role ) ) {
 				$this->errors[] = 'expire-role';
 			}
 

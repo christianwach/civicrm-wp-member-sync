@@ -24,8 +24,15 @@ defined( 'ABSPATH' ) || exit;
 
 	<?php
 
+	// Get updated query var.
+	$updated = '';
+	$updated_raw = filter_input( INPUT_GET, 'updated' );
+	if ( ! empty( $updated_raw ) ) {
+		$updated = trim( wp_unslash( $updated_raw ) );
+	}
+
 	// If we've updated, show message.
-	if ( isset( $_GET['updated'] ) && $_GET['updated'] == 'true' ) {
+	if ( $updated === 'true' ) {
 		echo '<div id="message" class="updated"><p>' . esc_html__( 'Migration complete. You can now deactivate the old plugin.', 'civicrm-wp-member-sync' ) . '</p></div>';
 	}
 

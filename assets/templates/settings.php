@@ -24,8 +24,15 @@ defined( 'ABSPATH' ) || exit;
 
 	<?php
 
+	// Get updated query var.
+	$updated = '';
+	$updated_raw = filter_input( INPUT_GET, 'updated' );
+	if ( ! empty( $updated_raw ) ) {
+		$updated = trim( wp_unslash( $updated_raw ) );
+	}
+
 	// If we've updated, show message.
-	if ( $this->is_network_activated() && isset( $_GET['updated'] ) && $_GET['updated'] == 'true' ) {
+	if ( $this->is_network_activated() && $updated === 'true' ) {
 		echo '<div id="setting-error-settings_updated" class="updated settings-error notice is-dismissible">' .
 			'<p><strong>' . esc_html__( 'Settings saved.', 'civicrm-wp-member-sync' ) . '</strong></p>' .
 			'<button type="button" class="notice-dismiss">' .

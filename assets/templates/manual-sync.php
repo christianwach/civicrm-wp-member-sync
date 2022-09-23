@@ -24,8 +24,15 @@ defined( 'ABSPATH' ) || exit;
 
 	<?php
 
+	// Get updated query var.
+	$updated = '';
+	$updated_raw = filter_input( INPUT_GET, 'updated' );
+	if ( ! empty( $updated_raw ) ) {
+		$updated = trim( wp_unslash( $updated_raw ) );
+	}
+
 	// If we've updated, show message.
-	if ( isset( $_GET['updated'] ) ) {
+	if ( ! empty( $updated ) ) {
 		echo '<div id="message" class="updated"><p>' . esc_html__( 'Sync completed.', 'civicrm-wp-member-sync' ) . '</p></div>';
 	}
 

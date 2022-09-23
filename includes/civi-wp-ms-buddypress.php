@@ -190,15 +190,23 @@ class Civi_WP_Member_Sync_BuddyPress {
 		}
 
 		// Grab search string.
-		// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
-		$search = isset( $_POST['s'] ) ? trim( wp_unslash( $_POST['s'] ) ) : '';
+		$search = '';
+		$search_raw = filter_input( INPUT_POST, 's' );
+		if ( ! empty( $search_raw ) ) {
+			$search = trim( wp_unslash( $search_raw ) );
+		}
+
+		// Bail if there's no search string.
 		if ( empty( $search ) ) {
 			wp_send_json( $json );
 		}
 
 		// Grab comma-separated excludes.
-		// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
-		$exclude = isset( $_POST['exclude'] ) ? trim( wp_unslash( $_POST['exclude'] ) ) : '';
+		$exclude = '';
+		$exclude_raw = filter_input( INPUT_POST, 'exclude' );
+		if ( ! empty( $exclude_raw ) ) {
+			$exclude = trim( wp_unslash( $exclude_raw ) );
+		}
 
 		// Parse excludes.
 		$excludes = [];
