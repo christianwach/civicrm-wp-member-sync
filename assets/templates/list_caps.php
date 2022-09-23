@@ -26,17 +26,12 @@ defined( 'ABSPATH' ) || exit;
 
 	<p><?php esc_html_e( 'An additional Membership Status Capability will also be added to the WordPress User that is tied to the status of their Membership. This Capability will be of the form "civimember_ID_NUM", where "ID" is the numeric ID of the Membership Type and "NUM" is the numeric ID of the Membership Status. So, for Membership Type 2 with Membership Status 4, the Capability will be "civimember_2_4".', 'civicrm-wp-member-sync' ); ?></p>
 
-	<h3><?php esc_html_e( 'All Association Rules', 'civicrm-wp-member-sync' ); ?><?php
-
-	// If we don't have all our Membership Types populated.
-	if ( ! $have_all_types ) {
-
-		// Show the 'Add New' button.
-		?> <a class="add-new-h2" href="<?php echo $urls['rules']; ?>"><?php esc_html_e( 'Add New', 'civicrm-wp-member-sync' ); ?></a><?php
-
-	}
-
-	?></h3>
+	<h3>
+		<?php esc_html_e( 'All Association Rules', 'civicrm-wp-member-sync' ); ?>
+		<?php if ( ! $have_all_types ) : ?>
+			<a class="add-new-h2" href="<?php echo $urls['rules']; ?>"><?php esc_html_e( 'Add New', 'civicrm-wp-member-sync' ); ?></a>
+		<?php endif; ?>
+	</h3>
 
 	<?php
 
@@ -182,20 +177,22 @@ defined( 'ABSPATH' ) || exit;
 					do_action( 'civi_wp_member_sync_list_caps_td_after_expiry', $key, $item );
 
 					?>
-					<td><?php
+					<td>
+						<?php
 
-					// Show custom Capability for this rule.
-					echo CIVI_WP_MEMBER_SYNC_CAP_PREFIX . $key;
+						// Show custom Capability for this rule.
+						echo CIVI_WP_MEMBER_SYNC_CAP_PREFIX . $key;
 
-					// Is the Members plugin active?
-					if ( defined( 'MEMBERS_VERSION' ) ) {
+						// Is the Members plugin active?
+						if ( defined( 'MEMBERS_VERSION' ) ) {
 
-						// Show the custom Capability.
-						echo '<br>restrict_content';
+							// Show the custom Capability.
+							echo '<br>restrict_content';
 
-					}
+						}
 
-					?></td>
+						?>
+					</td>
 					<?php
 
 					/**
