@@ -15,9 +15,9 @@ defined( 'ABSPATH' ) || exit;
 <?php foreach ( $result as $item ) : ?>
 	<tr>
 		<?php if ( $item['is_new'] ) : ?>
-			<td><span class="dashicons dashicons-yes-alt"></span></td>
+			<td><span class="dashicons dashicons-yes-alt" title="<?php esc_html_e( 'User created', 'civicrm-wp-member-sync' ); ?>"></span></td>
 		<?php else : ?>
-			<td><span class="dashicons dashicons-no"></span></td>
+			<td><span class="dashicons dashicons-no" title="<?php esc_html_e( 'User exists', 'civicrm-wp-member-sync' ); ?>"></span></td>
 		<?php endif; ?>
 		<td class="comment column-comment column-primary">
 			<strong>
