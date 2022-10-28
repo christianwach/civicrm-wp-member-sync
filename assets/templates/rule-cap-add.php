@@ -75,7 +75,7 @@ defined( 'ABSPATH' ) || exit;
 					?> *</label>
 				</th>
 				<td>
-					<select name="civi_member_type_id<?php echo empty( $multiple ) ? '[]' : ''; ?>" id="civi_member_type_id" class ="required required-type"<?php echo $multiple; ?>>
+					<select name="civi_member_type_id<?php echo empty( $multiple ) ? '' : '[]'; ?>" id="civi_member_type_id" class ="required required-type"<?php echo $multiple; ?>>
 						<?php if ( empty( $multiple ) ) { ?>
 							<option value=""></option>
 						<?php } ?>

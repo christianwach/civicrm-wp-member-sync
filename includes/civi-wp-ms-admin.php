@@ -1112,7 +1112,7 @@ class Civi_WP_Member_Sync_Admin {
 		}
 
 		// Get mode query var.
-		$mode = '';
+		$mode = 'add';
 		$mode_raw = filter_input( INPUT_GET, 'mode' );
 		if ( ! empty( $mode_raw ) ) {
 			$mode = trim( wp_unslash( $mode_raw ) );
