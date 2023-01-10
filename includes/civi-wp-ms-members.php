@@ -441,6 +441,7 @@ class Civi_WP_Member_Sync_Members {
 
 		// Create username from display name.
 		$user_name = sanitize_title( sanitize_user( $civi_contact['display_name'] ) );
+		$user_name = apply_filters( 'civi_wp_member_sync_new_username', $user_name, $civi_contact );
 		$user->user_login = $this->plugin->users->unique_username( $user_name, $civi_contact );
 
 		// Add Display Name and First & Last Names.
