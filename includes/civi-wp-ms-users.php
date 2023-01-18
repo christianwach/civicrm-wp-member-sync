@@ -323,18 +323,17 @@ class Civi_WP_Member_Sync_Users {
 		// Get names.
 		$role_names = $wp_roles->get_names();
 
-		// If we have bbPress active, filter out its custom Roles.
+		// If we have bbPress active, use its Role data.
 		if ( function_exists( 'bbp_get_blog_roles' ) ) {
 
-			// Get bbPress-filtered Roles.
+			// Get bbPress-filtered Roles array.
 			$bbp_roles = bbp_get_blog_roles();
 
-			// Maybe remove from Roles array.
+			// Rebuild with bbPress Role data.
 			if ( ! empty( $bbp_roles ) ) {
+				$role_names = [];
 				foreach ( $bbp_roles as $bbp_role => $bbp_role_data ) {
-					if ( isset( $role_names[ $bbp_role ] ) ) {
-						unset( $role_names[ $bbp_role ] );
-					}
+					$role_names[ $bbp_role ] = $bbp_role_data['name'];
 				}
 			}
 
