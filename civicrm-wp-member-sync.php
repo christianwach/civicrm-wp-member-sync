@@ -1,6 +1,6 @@
 <?php
 /**
- * Plugin Name: CiviCRM WordPress Member Sync
+ * Plugin Name: CiviCRM Member Sync
  * Plugin URI: https://github.com/christianwach/civicrm-wp-member-sync
  * GitHub Plugin URI: https://github.com/christianwach/civicrm-wp-member-sync
  * Description: Synchronize CiviCRM Memberships with WordPress User Roles or Capabilities.
