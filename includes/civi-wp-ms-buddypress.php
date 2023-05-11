@@ -183,6 +183,9 @@ class Civi_WP_Member_Sync_BuddyPress {
 		// Go direct.
 		global $wpdb;
 
+		// Init data array.
+		$json = [];
+
 		// Since this is an AJAX request, check security.
 		$result = check_ajax_referer( 'cwms_ajax_nonce', false, false );
 		if ( $result === false ) {
