@@ -160,16 +160,6 @@ class Civi_WP_Member_Sync_Admin {
 		// Store reference to plugin.
 		$this->plugin = $plugin;
 
-		// Define errors.
-		$this->error_strings = [
-			'type'           => esc_html__( 'Please select a CiviCRM Membership Type', 'civicrm-wp-member-sync' ),
-			'current-role'   => esc_html__( 'Please select a WordPress Current Role', 'civicrm-wp-member-sync' ),
-			'current-status' => esc_html__( 'Please select a Current Status', 'civicrm-wp-member-sync' ),
-			'expire-status'  => esc_html__( 'Please select an Expire Status', 'civicrm-wp-member-sync' ),
-			'expire-role'    => esc_html__( 'Please select a WordPress Expiry Role', 'civicrm-wp-member-sync' ),
-			'clash-status'   => esc_html__( 'You can not have the same Status Rule registered as both "Current" and "Expired"', 'civicrm-wp-member-sync' ),
-		];
-
 		// Maybe load our Migration utility.
 		if ( defined( 'CIVI_WP_MEMBER_SYNC_MIGRATE' ) && CIVI_WP_MEMBER_SYNC_MIGRATE ) {
 			require CIVI_WP_MEMBER_SYNC_PLUGIN_PATH . 'includes/civi-wp-ms-migrate.php';
@@ -409,6 +399,34 @@ class Civi_WP_Member_Sync_Admin {
 
 		// Store version.
 		$this->option_save( 'civi_wp_member_sync_version', CIVI_WP_MEMBER_SYNC_VERSION );
+
+	}
+
+	/**
+	 * Builds the error strings for admin screens.
+	 *
+	 * @since 0.5.5
+	 */
+	public function error_strings_build() {
+
+		// Define error strings.
+		$this->error_strings = [
+			'type'           => esc_html__( 'Please select a CiviCRM Membership Type', 'civicrm-wp-member-sync' ),
+			'current-role'   => esc_html__( 'Please select a WordPress Current Role', 'civicrm-wp-member-sync' ),
+			'current-status' => esc_html__( 'Please select a Current Status', 'civicrm-wp-member-sync' ),
+			'expire-status'  => esc_html__( 'Please select an Expire Status', 'civicrm-wp-member-sync' ),
+			'expire-role'    => esc_html__( 'Please select a WordPress Expiry Role', 'civicrm-wp-member-sync' ),
+			'clash-status'   => esc_html__( 'You can not have the same Status Rule registered as both "Current" and "Expired"', 'civicrm-wp-member-sync' ),
+		];
+
+		/**
+		 * Allows error strings to be filtered.
+		 *
+		 * @since 0.3.9
+		 *
+		 * @param array $error_strings The existing array of error strings.
+		 */
+		$this->error_strings = apply_filters( 'civi_wp_member_sync_error_strings', $this->error_strings );
 
 	}
 
@@ -1017,6 +1035,9 @@ class Civi_WP_Member_Sync_Admin {
 		// Get Settings page link.
 		$cau_link = $this->cau_page_get_url();
 
+		// Build error strings for admin screens.
+		$this->error_strings_build();
+
 		// Include template file.
 		include CIVI_WP_MEMBER_SYNC_PLUGIN_PATH . 'assets/templates/settings.php';
 
@@ -1036,6 +1057,9 @@ class Civi_WP_Member_Sync_Admin {
 
 		// Get admin page URLs.
 		$urls = $this->page_get_urls();
+
+		// Build error strings for admin screens.
+		$this->error_strings_build();
 
 		// Include template file.
 		include CIVI_WP_MEMBER_SYNC_PLUGIN_PATH . 'assets/templates/manual-sync.php';
@@ -1077,14 +1101,8 @@ class Civi_WP_Member_Sync_Admin {
 			$have_all_types = true;
 		}
 
-		/**
-		 * Allows error strings to be filtered.
-		 *
-		 * @since 0.3.9
-		 *
-		 * @param array $error_strings The existing array of error strings.
-		 */
-		$this->error_strings = apply_filters( 'civi_wp_member_sync_error_strings', $this->error_strings );
+		// Build error strings for admin screens.
+		$this->error_strings_build();
 
 		// Include per method.
 		if ( 'roles' === $method ) {
@@ -1141,14 +1159,8 @@ class Civi_WP_Member_Sync_Admin {
 
 		}
 
-		/**
-		 * Allows error strings to be filtered.
-		 *
-		 * @since 0.3.9
-		 *
-		 * @param array $error_strings The existing array of error strings.
-		 */
-		$this->error_strings = apply_filters( 'civi_wp_member_sync_error_strings', $this->error_strings );
+		// Build error strings for admin screens.
+		$this->error_strings_build();
 
 		// Route by mode.
 		if ( 'add' === $mode ) {
@@ -1196,8 +1208,8 @@ class Civi_WP_Member_Sync_Admin {
 
 		}
 
-		// Convert select to multi-select.
-		$multiple = ' multiple="multiple" style="min-width: 240px;"';
+		// Build error strings for admin screens.
+		$this->error_strings_build();
 
 		// Well?
 		if ( 'roles' === $method ) {
@@ -1268,6 +1280,9 @@ class Civi_WP_Member_Sync_Admin {
 			}
 
 		}
+
+		// Build error strings for admin screens.
+		$this->error_strings_build();
 
 		// Do we need Roles?
 		if ( 'roles' === $method ) {
@@ -1361,6 +1376,7 @@ class Civi_WP_Member_Sync_Admin {
 		$url = esc_url( $url );
 
 		if ( $echo ) {
+			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 			echo $url;
 		}
 

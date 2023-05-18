@@ -34,7 +34,7 @@ defined( 'ABSPATH' ) || exit;
 
 		// Construct array of messages based on error code.
 		foreach ( $this->errors as $error_code ) {
-			$error_messages[] = $this->error_strings[ $error_code ];
+			$error_messages[] = esc_html( $this->error_strings[ $error_code ] );
 		}
 
 		// Show them.
@@ -85,7 +85,7 @@ defined( 'ABSPATH' ) || exit;
 									$selected = ' selected="selected"';
 								}
 
-								?><option value="<?php echo $key; ?>"<?php echo $selected; ?>><?php echo $value; ?></option><?php
+								?><option value="<?php echo esc_attr( $key ); ?>"<?php echo $selected; ?>><?php echo esc_html( $value ); ?></option><?php
 
 							}
 
@@ -113,8 +113,8 @@ defined( 'ABSPATH' ) || exit;
 						}
 					}
 
-					?><input type="checkbox" class="required-current current-<?php echo $key; ?>" name="<?php echo 'current[' . $key . ']'; ?>" id="<?php echo 'current[' . $key . ']'; ?>" value="<?php echo $key; ?>"<?php echo $checked; ?> />
-					<label for="<?php echo 'current[' . $key . ']'; ?>"><?php echo $value; ?></label><br />
+					?><input type="checkbox" class="required-current current-<?php echo esc_attr( $key ); ?>" name="<?php echo esc_attr( 'current[' . $key . ']' ); ?>" id="<?php echo esc_attr( 'current[' . $key . ']' ); ?>" value="<?php echo esc_attr( $key ); ?>"<?php echo $checked; ?> />
+					<label for="<?php echo esc_attr( 'current[' . $key . ']' ); ?>"><?php echo esc_html( $value ); ?></label><br />
 					<?php
 
 				}
@@ -152,8 +152,8 @@ defined( 'ABSPATH' ) || exit;
 						}
 					}
 
-					?><input type="checkbox" class="required-expire expire-<?php echo $key; ?>" name="<?php echo 'expire[' . $key . ']'; ?>" id="<?php echo 'expire[' . $key . ']'; ?>" value="<?php echo $key; ?>"<?php echo $checked; ?> />
-					<label for="<?php echo 'expire[' . $key . ']'; ?>"><?php echo $value; ?></label><br />
+					?><input type="checkbox" class="required-expire expire-<?php echo esc_attr( $key ); ?>" name="<?php echo esc_attr( 'expire[' . $key . ']' ); ?>" id="<?php echo esc_attr( 'expire[' . $key . ']' ); ?>" value="<?php echo esc_attr( $key ); ?>"<?php echo $checked; ?> />
+					<label for="<?php echo esc_attr( 'expire[' . $key . ']' ); ?>"><?php echo esc_html( $value ); ?></label><br />
 					<?php
 
 				}

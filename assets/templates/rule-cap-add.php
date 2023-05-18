@@ -34,7 +34,7 @@ defined( 'ABSPATH' ) || exit;
 
 		// Construct array of messages based on error code.
 		foreach ( $this->errors as $error_code ) {
-			$error_messages[] = $this->error_strings[ $error_code ];
+			$error_messages[] = esc_html( $this->error_strings[ $error_code ] );
 		}
 
 		// Show them.
@@ -44,15 +44,7 @@ defined( 'ABSPATH' ) || exit;
 
 	?>
 
-	<p>
-	<?php
-	if ( empty( $multiple ) ) {
-		esc_html_e( 'Choose a CiviMember Membership Type and select the Current and Expired Statuses for it. All statuses must be allocated as either Current or Expired.', 'civicrm-wp-member-sync' );
-	} else {
-		esc_html_e( 'Choose one or more CiviMember Membership Types and select the Current and Expired Statuses for them. All statuses must be allocated as either Current or Expired.', 'civicrm-wp-member-sync' );
-	}
-	?>
-	</p>
+	<p><?php esc_html_e( 'Choose one or more CiviMember Membership Types and select the Current and Expired Statuses for them. All statuses must be allocated as either Current or Expired.', 'civicrm-wp-member-sync' ); ?></p>
 
 	<p><?php esc_html_e( 'Current Status adds a Membership Capability to the WordPress User, while Expired Status removes the Membership Capability from the WordPress User. This Capability will be of the form "civimember_ID", where "ID" is the numeric ID of the Membership Type. So, for Membership Type 2, the Capability will be "civimember_2". If you have the "Members" plugin active, then the "restrict_content" Capability will also be added.', 'civicrm-wp-member-sync' ); ?></p>
 
@@ -66,21 +58,12 @@ defined( 'ABSPATH' ) || exit;
 
 			<tr class="form-field form-required">
 				<th scope="row">
-					<label class="civi_member_type_id_label" for="civi_member_type_id"><?php
-					if ( empty( $multiple ) ) {
-						esc_html_e( 'Select a CiviMember Membership Type', 'civicrm-wp-member-sync' );
-					} else {
-						esc_html_e( 'Select CiviMember Membership Type(s)', 'civicrm-wp-member-sync' );
-					}
-					?> *</label>
+					<label class="civi_member_type_id_label" for="civi_member_type_id"><?php esc_html_e( 'Select CiviMember Membership Type(s)', 'civicrm-wp-member-sync' ); ?> *</label>
 				</th>
 				<td>
-					<select name="civi_member_type_id<?php echo empty( $multiple ) ? '' : '[]'; ?>" id="civi_member_type_id" class ="required required-type"<?php echo $multiple; ?>>
-						<?php if ( empty( $multiple ) ) { ?>
-							<option value=""></option>
-						<?php } ?>
+					<select name="civi_member_type_id[]" id="civi_member_type_id" class ="required required-type" multiple="multiple" style="min-width: 240px;">
 						<?php foreach ( $membership_types as $key => $value ) { ?>
-							<option value="<?php echo $key; ?>"><?php echo $value; ?></option>
+							<option value="<?php echo esc_attr( $key ); ?>"><?php echo esc_html( $value ); ?></option>
 						<?php } ?>
 					</select>
 				</td>
@@ -90,8 +73,8 @@ defined( 'ABSPATH' ) || exit;
 				<th scope="row"><label class="current_label" for="current"><?php esc_html_e( 'Current Status', 'civicrm-wp-member-sync' ); ?> *</label></th>
 				<td>
 				<?php foreach ( $status_rules as $key => $value ) { ?>
-					<input type="checkbox" class="required-current current-<?php echo $key; ?>" name="<?php echo 'current[' . $key . ']'; ?>" id="<?php echo 'current[' . $key . ']'; ?>" value="<?php echo $key; ?>" />
-					<label for="<?php echo 'current[' . $key . ']'; ?>"><?php echo $value; ?></label><br />
+					<input type="checkbox" class="required-current current-<?php echo esc_attr( $key ); ?>" name="<?php echo esc_attr( 'current[' . $key . ']' ); ?>" id="<?php echo esc_attr( 'current[' . $key . ']' ); ?>" value="<?php echo esc_attr( $key ); ?>" />
+					<label for="<?php echo esc_attr( 'current[' . $key . ']' ); ?>"><?php echo esc_html( $value ); ?></label><br />
 				<?php } ?>
 				</td>
 			</tr>
@@ -113,8 +96,8 @@ defined( 'ABSPATH' ) || exit;
 				<th scope="row"><label class="expire_label" for="expire"><?php esc_html_e( 'Expire Status', 'civicrm-wp-member-sync' ); ?> *</label></th>
 				<td>
 				<?php foreach ( $status_rules as $key => $value ) { ?>
-					<input type="checkbox" class="required-expire expire-<?php echo $key; ?>" name="<?php echo 'expire[' . $key . ']'; ?>" id="<?php echo 'expire[' . $key . ']'; ?>" value="<?php echo $key; ?>" />
-					<label for="<?php echo 'expire[' . $key . ']'; ?>"><?php echo $value; ?></label><br />
+					<input type="checkbox" class="required-expire expire-<?php echo esc_attr( $key ); ?>" name="<?php echo esc_attr( 'expire[' . $key . ']' ); ?>" id="<?php echo esc_attr( 'expire[' . $key . ']' ); ?>" value="<?php echo esc_attr( $key ); ?>" />
+					<label for="<?php echo esc_attr( 'expire[' . $key . ']' ); ?>"><?php echo esc_html( $value ); ?></label><br />
 				<?php } ?>
 				</td>
 			</tr>
@@ -136,11 +119,7 @@ defined( 'ABSPATH' ) || exit;
 
 		<input type="hidden" id="civi_wp_member_sync_rules_mode" name="civi_wp_member_sync_rules_mode" value="add" />
 
-		<?php if ( empty( $multiple ) ) { ?>
-			<input type="hidden" id="civi_wp_member_sync_rules_multiple" name="civi_wp_member_sync_rules_multiple" value="no" />
-		<?php } else { ?>
-			<input type="hidden" id="civi_wp_member_sync_rules_multiple" name="civi_wp_member_sync_rules_multiple" value="yes" />
-		<?php } ?>
+		<input type="hidden" id="civi_wp_member_sync_rules_multiple" name="civi_wp_member_sync_rules_multiple" value="yes" />
 
 		<p class="submit"><input class="button-primary" type="submit" id="civi_wp_member_sync_rules_submit" name="civi_wp_member_sync_rules_submit" value="<?php esc_attr_e( 'Add Association Rule', 'civicrm-wp-member-sync' ); ?>" /></p>
 

@@ -142,14 +142,14 @@ defined( 'ABSPATH' ) || exit;
 				<tr>
 					<td class="comment column-comment has-row-actions column-primary">
 						<strong>
-							<a href="<?php echo $edit_url; ?>"><?php echo $this->plugin->members->membership_name_get_by_id( $key ); ?></a>
+							<a href="<?php echo $edit_url; ?>"><?php echo esc_html( $this->plugin->members->membership_name_get_by_id( $key ) ); ?></a>
 						</strong>
 						<div class="row-actions">
 							<span class="edit"><a href="<?php echo $edit_url; ?>"><?php esc_html_e( 'Edit', 'civicrm-wp-member-sync' ); ?></a> | </span>
 							<span class="delete"><a href="<?php echo $delete_url; ?>" class="submitdelete"><?php esc_html_e( 'Delete', 'civicrm-wp-member-sync' ); ?></a></span>
 						</div>
 					</td>
-					<td><?php echo $this->plugin->members->status_rules_get_current( $item['current_rule'] ); ?></td>
+					<td><?php echo esc_html( $this->plugin->members->status_rules_get_current( $item['current_rule'] ) ); ?></td>
 					<?php
 
 					/**
@@ -163,7 +163,7 @@ defined( 'ABSPATH' ) || exit;
 					do_action( 'civi_wp_member_sync_list_caps_td_after_current', $key, $item );
 
 					?>
-					<td><?php echo $this->plugin->members->status_rules_get_current( $item['expiry_rule'] ); ?></td>
+					<td><?php echo esc_html( $this->plugin->members->status_rules_get_current( $item['expiry_rule'] ) ); ?></td>
 					<?php
 
 					/**
@@ -181,7 +181,7 @@ defined( 'ABSPATH' ) || exit;
 						<?php
 
 						// Show custom Capability for this rule.
-						echo CIVI_WP_MEMBER_SYNC_CAP_PREFIX . $key;
+						echo esc_html( CIVI_WP_MEMBER_SYNC_CAP_PREFIX . $key );
 
 						// Is the Members plugin active?
 						if ( defined( 'MEMBERS_VERSION' ) ) {

@@ -500,6 +500,7 @@ class Civi_WP_Member_Sync_BuddyPress {
 		}
 
 		// Echo markup.
+		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		echo '<td>' . $markup . '</td>';
 
 	}
@@ -570,6 +571,7 @@ class Civi_WP_Member_Sync_BuddyPress {
 		}
 
 		// Echo markup.
+		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		echo '<td>' . $markup . '</td>';
 
 	}
@@ -643,6 +645,7 @@ class Civi_WP_Member_Sync_BuddyPress {
 		}
 
 		// Echo markup.
+		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		echo '<td>' . $markup . '</td>';
 
 	}
@@ -711,7 +714,7 @@ class Civi_WP_Member_Sync_BuddyPress {
 
 			// Add options to build array.
 			foreach ( $groups['groups'] as $group ) {
-				$options[] = '<option value="' . $group->id . '" selected="selected">' . esc_html( $group->name ) . '</option>';
+				$options[] = '<option value="' . esc_attr( $group->id ) . '" selected="selected">' . esc_html( $group->name ) . '</option>';
 			}
 
 			// Construct markup.

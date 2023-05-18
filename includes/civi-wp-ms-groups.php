@@ -513,6 +513,7 @@ class Civi_WP_Member_Sync_Groups {
 		}
 
 		// Echo markup.
+		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		echo '<td>' . $markup . '</td>';
 
 	}
@@ -583,6 +584,7 @@ class Civi_WP_Member_Sync_Groups {
 		}
 
 		// Echo markup.
+		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		echo '<td>' . $markup . '</td>';
 
 	}
@@ -656,6 +658,7 @@ class Civi_WP_Member_Sync_Groups {
 		}
 
 		// Echo markup.
+		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		echo '<td>' . $markup . '</td>';
 
 	}
@@ -723,7 +726,7 @@ class Civi_WP_Member_Sync_Groups {
 
 			// Add options to build array.
 			foreach ( $groups as $group ) {
-				$options[] = '<option value="' . $group->group_id . '" selected="selected">' . esc_html( $group->name ) . '</option>';
+				$options[] = '<option value="' . esc_attr( $group->group_id ) . '" selected="selected">' . esc_html( $group->name ) . '</option>';
 			}
 
 			// Construct markup.

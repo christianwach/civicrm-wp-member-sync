@@ -22,17 +22,17 @@ defined( 'ABSPATH' ) || exit;
 		<td class="comment column-comment column-primary">
 			<strong>
 				<?php if ( ! empty( $item['link'] ) ) : ?>
-					<a href="<?php echo $item['link']; ?>">
+					<a href="<?php echo esc_url( $item['link'] ); ?>">
 				<?php endif; ?>
-				<?php echo $item['display_name']; ?>
+				<?php echo esc_html( $item['display_name'] ); ?>
 				<?php if ( ! empty( $item['link'] ) ) : ?>
 					</a>
 				<?php endif; ?>
 			</strong>
 		</td>
-		<td><?php echo $item['username']; ?></td>
-		<td><?php echo $item['membership_name']; ?></td>
-		<td><?php echo $item['membership_status']; ?></td>
+		<td><?php echo esc_html( $item['username'] ); ?></td>
+		<td><?php echo esc_html( $item['membership_name'] ); ?></td>
+		<td><?php echo esc_html( $item['membership_status'] ); ?></td>
 		<?php
 
 		/**

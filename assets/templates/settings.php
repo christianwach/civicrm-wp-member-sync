@@ -146,7 +146,18 @@ defined( 'ABSPATH' ) || exit;
 
 					?>
 				</p>
-				<p><?php echo sprintf( __( 'Note that this fix only applies to Contacts which have been &#8220;soft deleted&#8221; <em>after</em> CiviCRM Admin Utilities has been properly configured.', 'civicrm-wp-member-sync' ), $cau_link ); ?></p>
+				<p>
+					<?php
+
+					echo sprintf(
+						/* translators: 1: Opening em tag, 2: Closing em tag */
+						__( 'Note that this fix only applies to Contacts which have been &#8220;soft deleted&#8221; %1$safter%2$s CiviCRM Admin Utilities has been properly configured.', 'civicrm-wp-member-sync' ),
+						'<em>',
+						'</em>'
+					);
+
+					?>
+				</p>
 			</div>
 		<?php endif; ?>
 
@@ -218,7 +229,7 @@ defined( 'ABSPATH' ) || exit;
 							}
 
 							?>
-							<option value="<?php echo $key; ?>"<?php echo $selected; ?>><?php echo $value['display']; ?></option>
+							<option value="<?php echo esc_attr( $key ); ?>"<?php echo $selected; ?>><?php echo esc_html( $value['display'] ); ?></option>
 							<?php
 
 						}
