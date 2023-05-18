@@ -1484,6 +1484,11 @@ class Civi_WP_Member_Sync_Members {
 		// If there are some.
 		if ( false !== $current_rules && is_array( $current_rules ) ) {
 
+			// Sanitise array items.
+			array_walk( $current_rules, function( &$item ) {
+				$item = esc_html( trim( $item ) );
+			});
+
 			// Separate with line break.
 			$status_rules = implode( '<br>', $current_rules );
 
