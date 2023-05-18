@@ -127,7 +127,7 @@ defined( 'ABSPATH' ) || exit;
 			<?php
 
 			/**
-			 * Allow extra rows to be added.
+			 * Allows extra rows to be added.
 			 *
 			 * @since 0.3.9
 			 *
@@ -165,7 +165,7 @@ defined( 'ABSPATH' ) || exit;
 			<?php
 
 			/**
-			 * Allow extra rows to be added.
+			 * Allows extra rows to be added.
 			 *
 			 * @since 0.3.9
 			 *

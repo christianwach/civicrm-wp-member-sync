@@ -194,7 +194,7 @@ class Civi_WP_Member_Sync_Users {
 		$user->add_role( $role );
 
 		/**
-		 * Let other plugins know that a Role has been added to a User.
+		 * Fires when a Role has been added to a User.
 		 *
 		 * @param WP_User $user The WordPress User object.
 		 * @param string $role The new Role added to the User.
@@ -227,7 +227,7 @@ class Civi_WP_Member_Sync_Users {
 		$user->remove_role( $role );
 
 		/**
-		 * Let other plugins know that a Role has been removed from a User.
+		 * Fires when a Role has been removed from a User.
 		 *
 		 * @param WP_User $user The WordPress User object.
 		 * @param string $role The Role removed from the User.
@@ -270,7 +270,7 @@ class Civi_WP_Member_Sync_Users {
 		$user->add_role( $new_role );
 
 		/**
-		 * Let other plugins know that a User's Role has been changed.
+		 * Fires when a User's Role has been changed.
 		 *
 		 * @param object $user The WordPress User object.
 		 * @param string $new_role The new Role that the User has.
@@ -373,7 +373,7 @@ class Civi_WP_Member_Sync_Users {
 			$user->add_cap( $capability );
 
 			/**
-			 * Let other plugins know that a Capability has been added to a User.
+			 * Fires when a Capability has been added to a User.
 			 *
 			 * @param object $user The WordPress User object.
 			 * @param string $capability The name of the Capability.
@@ -411,7 +411,7 @@ class Civi_WP_Member_Sync_Users {
 			$user->remove_cap( $capability );
 
 			/**
-			 * Let other plugins know that a Capability has been removed from a User.
+			 * Fires when a Capability has been removed from a User.
 			 *
 			 * @param object $user The WordPress User object.
 			 * @param string $capability The name of the Capability.
@@ -748,7 +748,7 @@ class Civi_WP_Member_Sync_Users {
 			$this->remove_filters();
 
 			/**
-			 * Let other plugins know that we're about to insert a User.
+			 * Fires just before inserting a User.
 			 *
 			 * @since 0.1
 			 *
@@ -771,7 +771,7 @@ class Civi_WP_Member_Sync_Users {
 			}
 
 			/**
-			 * Broadcast that we've inserted a User.
+			 * Fires just after a User has been inserted.
 			 *
 			 * This action fires before the hooks are re-added which can be useful
 			 * if callbacks perform actions that in some way update the WordPress
@@ -790,7 +790,7 @@ class Civi_WP_Member_Sync_Users {
 			$this->add_filters();
 
 			/**
-			 * Let other plugins know that we've inserted a User.
+			 * Fires after a User has been inserted and filters have been restored.
 			 *
 			 * @since 0.1
 			 *
@@ -953,7 +953,7 @@ class Civi_WP_Member_Sync_Users {
 		}
 
 		/**
-		 * Let other plugins know that we're removing User actions.
+		 * Fires when User actions have been removed.
 		 *
 		 * @since 0.1
 		 */
@@ -994,7 +994,7 @@ class Civi_WP_Member_Sync_Users {
 		}
 
 		/**
-		 * Let other plugins know that we're adding User actions.
+		 * Fires when User actions have been added.
 		 *
 		 * @since 0.1
 		 */

@@ -266,7 +266,7 @@ class Civi_WP_Member_Sync_Admin {
 		$this->register_hooks();
 
 		/**
-		 * Broadcast that this class is now loaded.
+		 * Fires when this class is loaded.
 		 *
 		 * @since 0.5
 		 */
@@ -1434,7 +1434,7 @@ class Civi_WP_Member_Sync_Admin {
 			check_admin_referer( 'civi_wp_member_sync_manual_sync_action', 'civi_wp_member_sync_nonce' );
 
 			/**
-			 * Let other plugins know that we're about to sync all Users.
+			 * Fires just before syncing all Users.
 			 *
 			 * @since 0.1
 			 */
@@ -1444,7 +1444,7 @@ class Civi_WP_Member_Sync_Admin {
 			$result = $this->plugin->members->sync_all_civicrm_memberships();
 
 			/**
-			 * Let other plugins know that we've synced all Users.
+			 * Fires just after syncing all Users.
 			 *
 			 * @since 0.1
 			 */
@@ -1856,11 +1856,12 @@ class Civi_WP_Member_Sync_Admin {
 		foreach ( $subset as $type_id => $rule ) {
 
 			/**
-			 * Broadcast that we're deleting an association rule. This creates two
-			 * actions, depending on the sync method:
+			 * Fires just before deleting an association rule.
 			 *
-			 * * civi_wp_member_sync_rule_delete_roles
-			 * * civi_wp_member_sync_rule_delete_capabilities
+			 * This creates two actions, depending on the sync method:
+			 *
+			 * * `civi_wp_member_sync_rule_delete_roles`
+			 * * `civi_wp_member_sync_rule_delete_capabilities`
 			 *
 			 * @param array $rule The association rule we're going to delete.
 			 */
@@ -2236,14 +2237,14 @@ class Civi_WP_Member_Sync_Admin {
 		$rule = apply_filters( 'civi_wp_member_sync_rule_pre_save', $rule, $data, $mode, $method );
 
 		/**
-		 * Broadcast our association rule before it is saved.
+		 * Fires just before an association rule is saved.
 		 *
 		 * This creates four possible actions:
 		 *
-		 * civi_wp_member_sync_rule_add_roles
-		 * civi_wp_member_sync_rule_add_capabilities
-		 * civi_wp_member_sync_rule_edit_roles
-		 * civi_wp_member_sync_rule_edit_capabilities
+		 * * `civi_wp_member_sync_rule_add_roles`
+		 * * `civi_wp_member_sync_rule_add_capabilities`
+		 * * `civi_wp_member_sync_rule_edit_roles`
+		 * * `civi_wp_member_sync_rule_edit_capabilities`
 		 *
 		 * @since 0.2.3
 		 *
@@ -2261,14 +2262,14 @@ class Civi_WP_Member_Sync_Admin {
 		$this->settings_save();
 
 		/**
-		 * Broadcast that we have saved our association rule.
+		 * Fires just after an association rule has been saved.
 		 *
 		 * This creates four possible actions:
 		 *
-		 * civi_wp_member_sync_rule_add_roles_saved
-		 * civi_wp_member_sync_rule_add_capabilities_saved
-		 * civi_wp_member_sync_rule_edit_roles_saved
-		 * civi_wp_member_sync_rule_edit_capabilities_saved
+		 * * `civi_wp_member_sync_rule_add_roles_saved`
+		 * * `civi_wp_member_sync_rule_add_capabilities_saved`
+		 * * `civi_wp_member_sync_rule_edit_roles_saved`
+		 * * `civi_wp_member_sync_rule_edit_capabilities_saved`
 		 *
 		 * @since 0.3.9
 		 *
@@ -2320,11 +2321,12 @@ class Civi_WP_Member_Sync_Admin {
 		}
 
 		/**
-		 * Broadcast that we're deleting an association rule. This creates two
-		 * actions, depending on the sync method:
+		 * Fires just before deleting an association rule.
 		 *
-		 * * civi_wp_member_sync_rule_delete_roles
-		 * * civi_wp_member_sync_rule_delete_capabilities
+		 * This creates two actions, depending on the sync method:
+		 *
+		 * * `civi_wp_member_sync_rule_delete_roles`
+		 * * `civi_wp_member_sync_rule_delete_capabilities`
 		 *
 		 * @param array The association rule we're going to delete.
 		 */
@@ -2573,8 +2575,8 @@ class Civi_WP_Member_Sync_Admin {
 				 *
 				 * This creates two possible actions:
 				 *
-				 * civi_wp_member_sync_rule_apply_roles_current
-				 * civi_wp_member_sync_rule_apply_roles_expired
+				 * * `civi_wp_member_sync_rule_apply_roles_current`
+				 * * `civi_wp_member_sync_rule_apply_roles_expired`
 				 *
 				 * @since 0.3.2
 				 *
@@ -2638,8 +2640,8 @@ class Civi_WP_Member_Sync_Admin {
 				 *
 				 * This creates two possible actions:
 				 *
-				 * civi_wp_member_sync_rule_apply_caps_current
-				 * civi_wp_member_sync_rule_apply_caps_expired
+				 * * `civi_wp_member_sync_rule_apply_caps_current`
+				 * * `civi_wp_member_sync_rule_apply_caps_expired`
 				 *
 				 * The status Capability can be derived from the combination of
 				 * $capability and $status_id and is therefore not needed when

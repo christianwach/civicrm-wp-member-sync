@@ -98,7 +98,7 @@ defined( 'ABSPATH' ) || exit;
 							<?php
 
 							/**
-							 * Allow extra columns to be added after "Status".
+							 * Allows extra columns to be added after "Status".
 							 *
 							 * @since 0.5
 							 */

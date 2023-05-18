@@ -404,7 +404,7 @@ class Civi_WP_Member_Sync_BuddyPress {
 		$member = new BP_Groups_Member( $user_id, $group_id );
 
 		/**
-		 * Trigger BuddyPress action.
+		 * Fires the BuddyPress action.
 		 *
 		 * @since 0.4.7
 		 *

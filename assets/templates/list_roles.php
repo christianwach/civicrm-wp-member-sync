@@ -94,7 +94,7 @@ defined( 'ABSPATH' ) || exit;
 				<?php
 
 				/**
-				 * Allow extra columns to be added after "Current WP Role".
+				 * Allows extra columns to be added after "Current WP Role".
 				 *
 				 * @since 0.4
 				 */
@@ -106,7 +106,7 @@ defined( 'ABSPATH' ) || exit;
 				<?php
 
 				/**
-				 * Allow extra columns to be added after "Expiry WP Role".
+				 * Allows extra columns to be added after "Expiry WP Role".
 				 *
 				 * @since 0.4
 				 */
@@ -116,7 +116,7 @@ defined( 'ABSPATH' ) || exit;
 				<?php
 
 				/**
-				 * Allow extra columns to be added.
+				 * Allows extra columns to be added.
 				 *
 				 * @since 0.3.9
 				 */
@@ -156,7 +156,7 @@ defined( 'ABSPATH' ) || exit;
 					<?php
 
 					/**
-					 * Allow extra columns to be added after "Current WP Role".
+					 * Allows extra columns to be added after "Current WP Role".
 					 *
 					 * @since 0.4
 					 *
@@ -171,7 +171,7 @@ defined( 'ABSPATH' ) || exit;
 					<?php
 
 					/**
-					 * Allow extra columns to be added after "Expired WP Role".
+					 * Allows extra columns to be added after "Expired WP Role".
 					 *
 					 * @since 0.4
 					 *
@@ -184,7 +184,7 @@ defined( 'ABSPATH' ) || exit;
 					<?php
 
 					/**
-					 * Allow extra columns to be added.
+					 * Allows extra columns to be added.
 					 *
 					 * @since 0.3.9
 					 *

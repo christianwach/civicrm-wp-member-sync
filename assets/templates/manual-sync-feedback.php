@@ -36,7 +36,7 @@ defined( 'ABSPATH' ) || exit;
 		<?php
 
 		/**
-		 * Allow extra fields to be added after "Status".
+		 * Allows extra fields to be added after "Status".
 		 *
 		 * @since 0.5
 		 */

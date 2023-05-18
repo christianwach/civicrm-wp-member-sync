@@ -92,7 +92,7 @@ defined( 'ABSPATH' ) || exit;
 				<?php
 
 				/**
-				 * Allow extra columns to be added after "Current Codes".
+				 * Allows extra columns to be added after "Current Codes".
 				 *
 				 * @since 0.4
 				 */
@@ -103,7 +103,7 @@ defined( 'ABSPATH' ) || exit;
 				<?php
 
 				/**
-				 * Allow extra columns to be added after "Expired Codes".
+				 * Allows extra columns to be added after "Expired Codes".
 				 *
 				 * @since 0.4
 				 */
@@ -114,7 +114,7 @@ defined( 'ABSPATH' ) || exit;
 				<?php
 
 				/**
-				 * Allow extra columns to be added.
+				 * Allows extra columns to be added.
 				 *
 				 * @since 0.3.9
 				 */
@@ -153,7 +153,7 @@ defined( 'ABSPATH' ) || exit;
 					<?php
 
 					/**
-					 * Allow extra columns to be added after "Current Codes".
+					 * Allows extra columns to be added after "Current Codes".
 					 *
 					 * @since 0.4
 					 *
@@ -167,7 +167,7 @@ defined( 'ABSPATH' ) || exit;
 					<?php
 
 					/**
-					 * Allow extra columns to be added after "Expired Codes".
+					 * Allows extra columns to be added after "Expired Codes".
 					 *
 					 * @since 0.4
 					 *
@@ -196,7 +196,7 @@ defined( 'ABSPATH' ) || exit;
 					<?php
 
 					/**
-					 * Allow extra columns to be added.
+					 * Allows extra columns to be added.
 					 *
 					 * @since 0.3.9
 					 *

@@ -740,7 +740,7 @@ class Civi_WP_Member_Sync_Members {
 		$this->plugin->admin->rule_apply( $user, $memberships );
 
 		/**
-		 * Broadcast the Membership update.
+		 * Fires when a WordPress User has been updated by a CiviCRM Membership update.
 		 *
 		 * @since 0.3.4
 		 *
@@ -797,7 +797,7 @@ class Civi_WP_Member_Sync_Members {
 		$this->plugin->admin->rule_undo( $user, $objectRef );
 
 		/**
-		 * Broadcast that a Membership has been deleted.
+		 * Fires when a Membership has been deleted.
 		 *
 		 * @since 0.5.1
 		 *
