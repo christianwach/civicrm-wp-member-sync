@@ -599,23 +599,30 @@ class Civi_WP_Member_Sync_Users {
 			return false;
 		}
 
-		// Get all Contact data.
+		// Build params.
 		$params = [
 			'version'    => 3,
 			'contact_id' => $contact_id,
 		];
 
-		// Use API.
-		$contact_data = civicrm_api( 'contact', 'get', $params );
+		// Call CiviCRM API.
+		$result = civicrm_api( 'Contact', 'get', $params );
 
-		// Bail if we get any errors.
-		if ( 1 === (int) $contact_data['is_error'] ) {
+		// Log and bail on failure.
+		if ( ! empty( $result['is_error'] ) ) {
+			$e = new \Exception();
+			$trace = $e->getTraceAsString();
+			error_log( print_r( [
+				'method'    => __METHOD__,
+				'params'    => $params,
+				'result'    => $result,
+				'backtrace' => $trace,
+			], true ) );
 			return false;
 		}
-		if ( ! isset( $contact_data['values'] ) ) {
-			return false;
-		}
-		if ( count( $contact_data['values'] ) === 0 ) {
+
+		// Bail if there is no Contact.
+		if ( empty( $contact_data['values'] ) ) {
 			return false;
 		}
 
@@ -899,7 +906,7 @@ class Civi_WP_Member_Sync_Users {
 		$result = civicrm_api( 'UFMatch', 'create', $params );
 
 		// Log and bail on failure.
-		if ( isset( $result['is_error'] ) && 1 === (int) $result['is_error'] ) {
+		if ( ! empty( $result['is_error'] ) ) {
 			$e = new \Exception();
 			$trace = $e->getTraceAsString();
 			error_log( print_r( [

@@ -550,34 +550,46 @@ class Civi_WP_Member_Sync_Members {
 	 */
 	public function membership_pre_update( $op, $objectName, $objectId, $objectRef ) {
 
-		// Target our object type.
-		if ( 'Membership' !== $objectName ) {
-			return;
-		}
-
 		// Only process edit operations.
 		if ( 'edit' !== $op ) {
 			return;
 		}
 
-		// Get details of CiviCRM Membership.
-		$membership = civicrm_api( 'Membership', 'get', [
+		// Target our object type.
+		if ( 'Membership' !== $objectName ) {
+			return;
+		}
+
+		// Build params.
+		$params = [
 			'version'    => 3,
 			'sequential' => 1,
 			'id'         => $objectId,
-		] );
+		];
 
-		// Sanity check.
-		if (
-			0 === (int) $membership['is_error'] &&
-			isset( $membership['values'] ) &&
-			count( $membership['values'] ) > 0
-		) {
+		// Get full CiviCRM Membership data.
+		$result = civicrm_api( 'Membership', 'get', $params );
 
-			// Store in property for later inspection.
-			$this->membership_pre = $membership;
-
+		// Log and bail on error.
+		if ( ! empty( $result['is_error'] ) ) {
+			$e = new \Exception();
+			$trace = $e->getTraceAsString();
+			error_log( print_r( [
+				'method'    => __METHOD__,
+				'params'    => $params,
+				'result'    => $result,
+				'backtrace' => $trace,
+			], true ) );
+			return;
 		}
+
+		// Bail if none found.
+		if ( empty( $result['values'] ) ) {
+			return;
+		}
+
+		// Store in property for later inspection.
+		$this->membership_pre = $result;
 
 	}
 
@@ -970,6 +982,7 @@ class Civi_WP_Member_Sync_Members {
 				'method'     => __METHOD__,
 				'contact_id' => $contact_id,
 				'result'     => $result,
+				'query'     => $query,
 				'backtrace'  => $trace,
 			], true ) );
 			return $data;
@@ -1270,13 +1283,16 @@ class Civi_WP_Member_Sync_Members {
 			return 0;
 		}
 
-		// Get all CiviCRM Memberships.
-		$membership_count = civicrm_api( 'Membership', 'getcount', [
+		// Build params.
+		$params = [
 			'version' => 3,
 			'options' => [
 				'limit' => 0,
 			],
-		] );
+		];
+
+		// Get all CiviCRM Memberships.
+		$membership_count = civicrm_api( 'Membership', 'getcount', $params );
 
 		// Sanity check in case of error.
 		if ( ! is_numeric( $membership_count ) ) {
@@ -1284,7 +1300,7 @@ class Civi_WP_Member_Sync_Members {
 		}
 
 		// --<
-		return $membership_count;
+		return (int) $membership_count;
 
 	}
 
@@ -1302,25 +1318,41 @@ class Civi_WP_Member_Sync_Members {
 			return $this->membership_types;
 		}
 
-		// Init return.
-		$this->membership_types = [];
-
 		// Return empty array if no CiviCRM.
 		if ( ! civi_wp()->initialize() ) {
 			return [];
 		}
 
-		// Get all Membership Type details.
-		$membership_type_details = civicrm_api( 'MembershipType', 'get', [
+		// Build params.
+		$params = [
 			'version'    => 3,
 			'sequential' => 1,
 			'options'    => [
 				'limit' => 0,
 			],
-		] );
+		];
+
+		// Get all Membership Type details.
+		$result = civicrm_api( 'MembershipType', 'get', $params );
+
+		// Log and bail on error.
+		if ( ! empty( $result['is_error'] ) ) {
+			$e = new \Exception();
+			$trace = $e->getTraceAsString();
+			error_log( print_r( [
+				'method'    => __METHOD__,
+				'params'    => $params,
+				'result'    => $result,
+				'backtrace' => $trace,
+			], true ) );
+			return [];
+		}
+
+		// Init return.
+		$this->membership_types = [];
 
 		// Construct array of types.
-		foreach ( $membership_type_details['values'] as $key => $values ) {
+		foreach ( $result['values'] as $key => $values ) {
 			$this->membership_types[ $values['id'] ] = $values['name'];
 		}
 
@@ -1343,25 +1375,41 @@ class Civi_WP_Member_Sync_Members {
 			return $this->membership_status_rules;
 		}
 
-		// Init return.
-		$this->membership_status_rules = [];
-
 		// Return empty array if no CiviCRM.
 		if ( ! civi_wp()->initialize() ) {
 			return [];
 		}
 
-		// Get all Membership Status details.
-		$membership_status_details = civicrm_api( 'MembershipStatus', 'get', [
+		// Build params.
+		$params = [
 			'version'    => 3,
 			'sequential' => 1,
 			'options'    => [
 				'limit' => 0,
 			],
-		] );
+		];
+
+		// Get all Membership Status details.
+		$result = civicrm_api( 'MembershipStatus', 'get', $params );
+
+		// Log and bail on error.
+		if ( ! empty( $result['is_error'] ) ) {
+			$e = new \Exception();
+			$trace = $e->getTraceAsString();
+			error_log( print_r( [
+				'method'    => __METHOD__,
+				'params'    => $params,
+				'result'    => $result,
+				'backtrace' => $trace,
+			], true ) );
+			return [];
+		}
+
+		// Init return.
+		$this->membership_status_rules = [];
 
 		// Construct array of status rules.
-		foreach ( $membership_status_details['values'] as $key => $values ) {
+		foreach ( $result['values'] as $key => $values ) {
 			$this->membership_status_rules[ $values['id'] ] = $values['name'];
 		}
 
