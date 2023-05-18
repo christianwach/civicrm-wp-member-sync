@@ -630,12 +630,11 @@ class Civi_WP_Member_Sync_Users {
 		$contact = array_shift( $contact_data['values'] );
 
 		/**
-		 * Filter the retrieved Contact data.
+		 * Filters the retrieved Contact data.
 		 *
 		 * @since 0.4.3
 		 *
 		 * @param array $contact The retrieved Contact data.
-		 * @return array $contact The modified Contact data.
 		 */
 		$contact = apply_filters( 'civi_wp_member_sync_contact_retrieved', $contact );
 
@@ -657,13 +656,12 @@ class Civi_WP_Member_Sync_Users {
 	public function wp_user_create_from_contact_id( $civi_contact_id ) {
 
 		/**
-		 * Let other plugins override whether a User should be created.
+		 * Lets other plugins override whether a User should be created.
 		 *
 		 * @since 0.2
 		 *
 		 * @param bool True - Users should be created by default.
 		 * @param int $civi_contact_id The numeric ID of the CiviCRM Contact.
-		 * @return bool True if Users should be created, false otherwise.
 		 */
 		if ( true === apply_filters( 'civi_wp_member_sync_auto_create_wp_user', true, $civi_contact_id ) ) {
 
@@ -726,13 +724,12 @@ class Civi_WP_Member_Sync_Users {
 		$user_name = $this->unique_username( $user_name, $civi_contact );
 
 		/**
-		 * Let plugins override the username.
+		 * Lets plugins override the username.
 		 *
 		 * @since 0.1
 		 *
 		 * @param str $user_name The previously-generated WordPress username.
 		 * @param array $civi_contact The CiviCRM Contact data.
-		 * @return str $user_name The modified WordPress username.
 		 */
 		$user_name = apply_filters( 'civi_wp_member_sync_new_username', $user_name, $civi_contact );
 

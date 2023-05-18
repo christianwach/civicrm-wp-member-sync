@@ -442,7 +442,18 @@ class Civi_WP_Member_Sync_Members {
 		// Create username from display name.
 		$user_name = sanitize_title( sanitize_user( $civi_contact['display_name'] ) );
 		$user_name = $this->plugin->users->unique_username( $user_name, $civi_contact );
+
+		/**
+		 * Filters the generated username.
+		 *
+		 * @since 0.5.5
+		 *
+		 * @param str $user_name The generated username.
+		 * @param array $civi_contact The array of CiviCRM Contact data.
+		 */
 		$user_name = apply_filters( 'civi_wp_member_sync_new_username', $user_name, $civi_contact );
+
+		// Apply to User object.
 		$user->user_login = $user_name;
 
 		// Add Display Name and First & Last Names.
@@ -482,13 +493,12 @@ class Civi_WP_Member_Sync_Members {
 		}
 
 		/**
-		 * Let other plugins override whether a User should be synced.
+		 * Lets other plugins override whether a User should be synced.
 		 *
 		 * @since 0.2
 		 *
 		 * @param bool $should_be_synced True if the User should be synced, false otherwise.
 		 * @param object $user The WordPress User object.
-		 * @return bool $should_be_synced The modified value of the sync flag.
 		 */
 		return apply_filters( 'civi_wp_member_sync_user_should_be_synced', $should_be_synced, $user );
 
@@ -918,7 +928,7 @@ class Civi_WP_Member_Sync_Members {
 		}
 
 		/**
-		 * Allow Membership data to be filtered.
+		 * Allows Membership data to be filtered.
 		 *
 		 * Use this filter to amend Membership data for a CiviCRM Contact.
 		 *
@@ -930,7 +940,6 @@ class Civi_WP_Member_Sync_Members {
 		 * @param bool|array $data The array of Membership data returned by the CiviCRM API.
 		 * @param array $params The params used to query the CiviCRM API.
 		 * @param int|array $contact_id The query params for the CiviCRM Contact ID.
-		 * @return bool|array $data The array of Membership data returned by the CiviCRM API.
 		 */
 		$data = apply_filters( 'civi_wp_member_sync_memberships_get', $data, $params, $contact_id );
 

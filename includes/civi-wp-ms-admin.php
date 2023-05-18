@@ -672,12 +672,11 @@ class Civi_WP_Member_Sync_Admin {
 		$dependencies = [];
 
 		/**
-		 * Allow CSS dependencies to be injected.
+		 * Allows CSS dependencies to be injected.
 		 *
 		 * @since 0.4
 		 *
 		 * @param array $dependencies The existing dependencies.
-		 * @return array $dependencies The modified dependencies.
 		 */
 		$dependencies = apply_filters( 'civi_wp_member_sync_rules_css_dependencies', $dependencies );
 
@@ -697,12 +696,11 @@ class Civi_WP_Member_Sync_Admin {
 		$dependencies = [ 'jquery', 'jquery-form' ];
 
 		/**
-		 * Filter dependencies.
+		 * Filters the Javascript dependencies for the Rules screen.
 		 *
 		 * @since 0.4
 		 *
 		 * @param array $dependencies The existing dependencies.
-		 * @return array $dependencies The modified dependencies.
 		 */
 		$dependencies = apply_filters( 'civi_wp_member_sync_rules_js_dependencies', $dependencies );
 
@@ -785,12 +783,11 @@ class Civi_WP_Member_Sync_Admin {
 		$dependencies = [ 'jquery', 'jquery-form' ];
 
 		/**
-		 * Filter dependencies.
+		 * Filters the Javascript dependencies for the List screen.
 		 *
 		 * @since 0.4.2
 		 *
 		 * @param array $dependencies The existing dependencies.
-		 * @return array $dependencies The modified dependencies.
 		 */
 		$dependencies = apply_filters( 'civi_wp_member_sync_list_js_dependencies', $dependencies );
 
@@ -1081,12 +1078,11 @@ class Civi_WP_Member_Sync_Admin {
 		}
 
 		/**
-		 * Allow error strings to be filtered.
+		 * Allows error strings to be filtered.
 		 *
 		 * @since 0.3.9
 		 *
 		 * @param array $error_strings The existing array of error strings.
-		 * @return array $error_strings The modified array of error strings.
 		 */
 		$this->error_strings = apply_filters( 'civi_wp_member_sync_error_strings', $this->error_strings );
 
@@ -1146,12 +1142,11 @@ class Civi_WP_Member_Sync_Admin {
 		}
 
 		/**
-		 * Allow error strings to be filtered.
+		 * Allows error strings to be filtered.
 		 *
 		 * @since 0.3.9
 		 *
 		 * @param array $error_strings The existing array of error strings.
-		 * @return array $error_strings The modified array of error strings.
 		 */
 		$this->error_strings = apply_filters( 'civi_wp_member_sync_error_strings', $this->error_strings );
 
@@ -1529,12 +1524,11 @@ class Civi_WP_Member_Sync_Admin {
 		$settings['types'] = 1;
 
 		/**
-		 * Allow settings to be filtered.
+		 * Allows the plugin settings to be filtered.
 		 *
 		 * @since 0.1
 		 *
 		 * @param array $settings The default settings for this plugin
-		 * @return array $settings The modified default settings for this plugin
 		 */
 		return apply_filters( 'civi_wp_member_sync_default_settings', $settings );
 
@@ -1734,7 +1728,7 @@ class Civi_WP_Member_Sync_Admin {
 		$count = $this->batch_count;
 
 		/**
-		 * Filter the batch count.
+		 * Filters the batch count.
 		 *
 		 * Overriding this value allows the batch process to be controlled such
 		 * that installs with large numbers of Memberships running on faster
@@ -1743,7 +1737,6 @@ class Civi_WP_Member_Sync_Admin {
 		 * @since 0.3.7
 		 *
 		 * @param int $count The default number of Memberships to process per batch.
-		 * @param int $count The modified number of Memberships to process per batch.
 		 */
 		$count = apply_filters( 'civi_wp_member_sync_get_batch_count', $count );
 
