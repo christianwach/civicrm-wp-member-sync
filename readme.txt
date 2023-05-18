@@ -90,6 +90,11 @@ Code that used the `civi_wp_member_sync_after_insert_user` hook to send User Not
 
 == Changelog ==
 
+= 0.5.5 =
+
+* Apply username filter when performing dry run
+* Misc codestyle improvements
+
 = 0.5.4 =
 
 * Fix loading of "Add Rule" screens
