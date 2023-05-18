@@ -991,7 +991,7 @@ class Civi_WP_Member_Sync_Members {
 				'method'     => __METHOD__,
 				'contact_id' => $contact_id,
 				'result'     => $result,
-				'query'     => $query,
+				'query'      => $query,
 				'backtrace'  => $trace,
 			], true ) );
 			return $data;

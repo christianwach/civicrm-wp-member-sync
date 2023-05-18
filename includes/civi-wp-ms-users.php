@@ -622,12 +622,12 @@ class Civi_WP_Member_Sync_Users {
 		}
 
 		// Bail if there is no Contact.
-		if ( empty( $contact_data['values'] ) ) {
+		if ( empty( $result['values'] ) ) {
 			return false;
 		}
 
 		// Get Contact.
-		$contact = array_shift( $contact_data['values'] );
+		$contact = array_shift( $result['values'] );
 
 		/**
 		 * Filters the retrieved Contact data.
