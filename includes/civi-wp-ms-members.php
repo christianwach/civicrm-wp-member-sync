@@ -562,7 +562,7 @@ class Civi_WP_Member_Sync_Members {
 
 		// Get details of CiviCRM Membership.
 		$membership = civicrm_api( 'Membership', 'get', [
-			'version'    => '3',
+			'version'    => 3,
 			'sequential' => 1,
 			'id'         => $objectId,
 		] );
@@ -837,7 +837,7 @@ class Civi_WP_Member_Sync_Members {
 
 		// Configure API query params.
 		$params = [
-			'version'                     => '3',
+			'version'                     => 3,
 			'sequential'                  => 1,
 			'status_id.is_current_member' => [
 				'IS NOT NULL' => 1,
@@ -1272,9 +1272,9 @@ class Civi_WP_Member_Sync_Members {
 
 		// Get all CiviCRM Memberships.
 		$membership_count = civicrm_api( 'Membership', 'getcount', [
-			'version' => '3',
+			'version' => 3,
 			'options' => [
-				'limit' => '0',
+				'limit' => 0,
 			],
 		] );
 
@@ -1312,10 +1312,10 @@ class Civi_WP_Member_Sync_Members {
 
 		// Get all Membership Type details.
 		$membership_type_details = civicrm_api( 'MembershipType', 'get', [
-			'version'    => '3',
-			'sequential' => '1',
+			'version'    => 3,
+			'sequential' => 1,
 			'options'    => [
-				'limit' => '0',
+				'limit' => 0,
 			],
 		] );
 
@@ -1353,10 +1353,10 @@ class Civi_WP_Member_Sync_Members {
 
 		// Get all Membership Status details.
 		$membership_status_details = civicrm_api( 'MembershipStatus', 'get', [
-			'version'    => '3',
-			'sequential' => '1',
+			'version'    => 3,
+			'sequential' => 1,
 			'options'    => [
-				'limit' => '0',
+				'limit' => 0,
 			],
 		] );
 
