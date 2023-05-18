@@ -122,7 +122,6 @@ defined( 'ABSPATH' ) || exit;
 				<th scope="row"><label class="current_wp_role_label" for="current_wp_role"><?php esc_html_e( 'Select a WordPress Current Role', 'civicrm-wp-member-sync' ); ?> *</label></th>
 				<td>
 					<select name="current_wp_role" id="current_wp_role" class="required required-role">
-						<option value=""></option>
 						<?php
 
 						foreach ( $roles as $key => $value ) {
@@ -183,7 +182,6 @@ defined( 'ABSPATH' ) || exit;
 				<th scope="row"><label class="expire_assign_wp_role_label" for="expire_assign_wp_role"><?php esc_html_e( 'Select a WordPress Expiry Role', 'civicrm-wp-member-sync' ); ?> *</label></th>
 				<td>
 					<select name="expire_assign_wp_role" id ="expire_assign_wp_role" class ="required required-role">
-						<option value=""></option>
 						<?php
 
 						foreach ( $roles as $key => $value ) {
