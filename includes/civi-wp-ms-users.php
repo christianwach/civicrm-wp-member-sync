@@ -601,7 +601,7 @@ class Civi_WP_Member_Sync_Users {
 
 		// Get all Contact data.
 		$params = [
-			'version' => 3,
+			'version'    => 3,
 			'contact_id' => $contact_id,
 		];
 
@@ -755,10 +755,10 @@ class Civi_WP_Member_Sync_Users {
 			// Create the User.
 			$user_id = wp_insert_user( [
 				'user_login' => $user_name,
-				'user_pass' => $random_password,
+				'user_pass'  => $random_password,
 				'user_email' => $civi_contact['email'],
 				'first_name' => $civi_contact['first_name'],
-				'last_name' => $civi_contact['last_name'],
+				'last_name'  => $civi_contact['last_name'],
 			] );
 
 			// Create a UF Match record if the User was successfully created.
@@ -884,9 +884,9 @@ class Civi_WP_Member_Sync_Users {
 
 		// Construct params.
 		$params = [
-			'version' => 3,
-			'uf_id' => $user_id,
-			'uf_name' => $username,
+			'version'    => 3,
+			'uf_id'      => $user_id,
+			'uf_name'    => $username,
 			'contact_id' => $contact_id,
 		];
 
@@ -903,9 +903,9 @@ class Civi_WP_Member_Sync_Users {
 			$e = new \Exception();
 			$trace = $e->getTraceAsString();
 			error_log( print_r( [
-				'method' => __METHOD__,
-				'params' => $params,
-				'result' => $result,
+				'method'    => __METHOD__,
+				'params'    => $params,
+				'result'    => $result,
 				'backtrace' => $trace,
 			], true ) );
 			return false;

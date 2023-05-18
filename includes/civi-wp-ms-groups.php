@@ -242,7 +242,7 @@ class Civi_WP_Member_Sync_Groups {
 		// Add items to output array.
 		foreach ( $groups as $group ) {
 			$json[] = [
-				'id' => $group->group_id,
+				'id'   => $group->group_id,
 				'name' => esc_html( $group->name ),
 			];
 		}
@@ -383,10 +383,10 @@ class Civi_WP_Member_Sync_Groups {
 			$e = new Exception();
 			$trace = $e->getTraceAsString();
 			error_log( print_r( [
-				'method' => __METHOD__,
-				'message' => esc_html__( 'Could not add user to group.', 'civicrm-wp-member-sync' ),
-				'user_id' => $user_id,
-				'group_id' => $group_id,
+				'method'    => __METHOD__,
+				'message'   => esc_html__( 'Could not add user to group.', 'civicrm-wp-member-sync' ),
+				'user_id'   => $user_id,
+				'group_id'  => $group_id,
 				'backtrace' => $trace,
 			], true ) );
 		}
@@ -420,10 +420,10 @@ class Civi_WP_Member_Sync_Groups {
 			$e = new Exception();
 			$trace = $e->getTraceAsString();
 			error_log( print_r( [
-				'method' => __METHOD__,
-				'message' => esc_html__( 'Could not delete user from group.', 'civicrm-wp-member-sync' ),
-				'user_id' => $user_id,
-				'group_id' => $group_id,
+				'method'    => __METHOD__,
+				'message'   => esc_html__( 'Could not delete user from group.', 'civicrm-wp-member-sync' ),
+				'user_id'   => $user_id,
+				'group_id'  => $group_id,
 				'backtrace' => $trace,
 			], true ) );
 		}
@@ -680,8 +680,8 @@ class Civi_WP_Member_Sync_Groups {
 			// Get the Groups.
 			$groups = Groups_Group::get_groups( [
 				'order_by' => 'name',
-				'order' => 'ASC',
-				'include' => $group_ids,
+				'order'    => 'ASC',
+				'include'  => $group_ids,
 			] );
 
 			// Add options to build array.
@@ -717,8 +717,8 @@ class Civi_WP_Member_Sync_Groups {
 			// Get the Groups.
 			$groups = Groups_Group::get_groups( [
 				'order_by' => 'name',
-				'order' => 'ASC',
-				'include' => $group_ids,
+				'order'    => 'ASC',
+				'include'  => $group_ids,
 			] );
 
 			// Add options to build array.
@@ -914,7 +914,7 @@ class Civi_WP_Member_Sync_Groups {
 			case 'post':
 				// Add your default Capabilities.
 				Groups_Post_Access::create( [
-					'post_id' => $post_id,
+					'post_id'    => $post_id,
 					'capability' => 'Premium',
 				] );
 				break;

@@ -141,9 +141,9 @@ class Civi_WP_Member_Sync_Migrate {
 
 				// Add to Roles data array, keyed by civi_member_type_id.
 				$data['roles'][ $item->civi_mem_type ] = [
-					'current_rule' => $current_rule,
+					'current_rule'    => $current_rule,
 					'current_wp_role' => $item->wp_role,
-					'expiry_rule' => $expiry_rule,
+					'expiry_rule'     => $expiry_rule,
 					'expired_wp_role' => $item->expire_wp_role,
 				];
 

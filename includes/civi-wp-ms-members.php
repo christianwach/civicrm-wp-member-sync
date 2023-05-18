@@ -562,9 +562,9 @@ class Civi_WP_Member_Sync_Members {
 
 		// Get details of CiviCRM Membership.
 		$membership = civicrm_api( 'Membership', 'get', [
-			'version' => '3',
+			'version'    => '3',
 			'sequential' => 1,
-			'id' => $objectId,
+			'id'         => $objectId,
 		] );
 
 		// Sanity check.
@@ -837,15 +837,15 @@ class Civi_WP_Member_Sync_Members {
 
 		// Configure API query params.
 		$params = [
-			'version' => '3',
-			'sequential' => 1,
+			'version'                     => '3',
+			'sequential'                  => 1,
 			'status_id.is_current_member' => [
 				'IS NOT NULL' => 1,
 			],
-			'options' => [
+			'options'                     => [
 				'sort' => 'contact_id ASC, status_id.is_current_member ASC, end_date ASC',
 			],
-			'return' => [
+			'return'                      => [
 				'id',
 				'contact_id',
 				'membership_type_id',
@@ -892,9 +892,9 @@ class Civi_WP_Member_Sync_Members {
 			$e = new \Exception();
 			$trace = $e->getTraceAsString();
 			error_log( print_r( [
-				'method' => __METHOD__,
-				'params' => $params,
-				'result' => $result,
+				'method'    => __METHOD__,
+				'params'    => $params,
+				'result'    => $result,
 				'backtrace' => $trace,
 			], true ) );
 			return $data;
@@ -946,10 +946,10 @@ class Civi_WP_Member_Sync_Members {
 
 		// Build query.
 		$query = [
-			'version' => 3,
+			'version'    => 3,
 			'sequential' => 1,
 			'is_deleted' => 1,
-			'options' => [
+			'options'    => [
 				'limit' => 0,
 			],
 		];
@@ -967,10 +967,10 @@ class Civi_WP_Member_Sync_Members {
 			$e = new \Exception();
 			$trace = $e->getTraceAsString();
 			error_log( print_r( [
-				'method' => __METHOD__,
+				'method'     => __METHOD__,
 				'contact_id' => $contact_id,
-				'result' => $result,
-				'backtrace' => $trace,
+				'result'     => $result,
+				'backtrace'  => $trace,
 			], true ) );
 			return $data;
 		}
@@ -1149,9 +1149,9 @@ class Civi_WP_Member_Sync_Members {
 		// Init filtered array.
 		$filtered = [
 			'is_error' => 0,
-			'count' => 0,
-			'version' => 3,
-			'values' => [],
+			'count'    => 0,
+			'version'  => 3,
+			'values'   => [],
 		];
 
 		// Kick out if no CiviCRM.
@@ -1312,9 +1312,9 @@ class Civi_WP_Member_Sync_Members {
 
 		// Get all Membership Type details.
 		$membership_type_details = civicrm_api( 'MembershipType', 'get', [
-			'version' => '3',
+			'version'    => '3',
 			'sequential' => '1',
-			'options' => [
+			'options'    => [
 				'limit' => '0',
 			],
 		] );
@@ -1353,9 +1353,9 @@ class Civi_WP_Member_Sync_Members {
 
 		// Get all Membership Status details.
 		$membership_status_details = civicrm_api( 'MembershipStatus', 'get', [
-			'version' => '3',
+			'version'    => '3',
 			'sequential' => '1',
-			'options' => [
+			'options'    => [
 				'limit' => '0',
 			],
 		] );

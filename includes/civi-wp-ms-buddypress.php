@@ -219,18 +219,18 @@ class Civi_WP_Member_Sync_BuddyPress {
 
 		// Get Groups this User can see for this search.
 		$groups = groups_get_groups( [
-			'user_id' => is_super_admin() ? 0 : bp_loggedin_user_id(),
-			'search_terms' => $search,
-			'show_hidden' => true,
+			'user_id'         => is_super_admin() ? 0 : bp_loggedin_user_id(),
+			'search_terms'    => $search,
+			'show_hidden'     => true,
 			'populate_extras' => false,
-			'exclude' => $excludes,
+			'exclude'         => $excludes,
 		] );
 
 		// Add items to output array.
 		$json = [];
 		foreach ( $groups['groups'] as $group ) {
 			$json[] = [
-				'id' => $group->id,
+				'id'   => $group->id,
 				'name' => stripslashes( $group->name ),
 			];
 		}
@@ -368,10 +368,10 @@ class Civi_WP_Member_Sync_BuddyPress {
 			$e = new Exception();
 			$trace = $e->getTraceAsString();
 			error_log( print_r( [
-				'method' => __METHOD__,
-				'message' => esc_html__( 'Could not add user to group.', 'civicrm-wp-member-sync' ),
-				'user_id' => $user_id,
-				'group_id' => $group_id,
+				'method'    => __METHOD__,
+				'message'   => esc_html__( 'Could not add user to group.', 'civicrm-wp-member-sync' ),
+				'user_id'   => $user_id,
+				'group_id'  => $group_id,
 				'backtrace' => $trace,
 			], true ) );
 		}
@@ -667,8 +667,8 @@ class Civi_WP_Member_Sync_BuddyPress {
 			// Get the Groups.
 			$groups = groups_get_groups( [
 				'order_by' => 'name',
-				'order' => 'ASC',
-				'include' => $group_ids,
+				'order'    => 'ASC',
+				'include'  => $group_ids,
 			] );
 
 			// Add options to build array.
@@ -703,10 +703,10 @@ class Civi_WP_Member_Sync_BuddyPress {
 
 			// Get the Groups.
 			$groups = groups_get_groups( [
-				'order_by' => 'name',
-				'order' => 'ASC',
+				'order_by'    => 'name',
+				'order'       => 'ASC',
 				'show_hidden' => true,
-				'include' => $group_ids,
+				'include'     => $group_ids,
 			] );
 
 			// Add options to build array.

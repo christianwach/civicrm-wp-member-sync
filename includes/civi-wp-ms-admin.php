@@ -162,12 +162,12 @@ class Civi_WP_Member_Sync_Admin {
 
 		// Define errors.
 		$this->error_strings = [
-			'type' => esc_html__( 'Please select a CiviCRM Membership Type', 'civicrm-wp-member-sync' ),
-			'current-role' => esc_html__( 'Please select a WordPress Current Role', 'civicrm-wp-member-sync' ),
+			'type'           => esc_html__( 'Please select a CiviCRM Membership Type', 'civicrm-wp-member-sync' ),
+			'current-role'   => esc_html__( 'Please select a WordPress Current Role', 'civicrm-wp-member-sync' ),
 			'current-status' => esc_html__( 'Please select a Current Status', 'civicrm-wp-member-sync' ),
-			'expire-status' => esc_html__( 'Please select an Expire Status', 'civicrm-wp-member-sync' ),
-			'expire-role' => esc_html__( 'Please select a WordPress Expiry Role', 'civicrm-wp-member-sync' ),
-			'clash-status' => esc_html__( 'You can not have the same Status Rule registered as both "Current" and "Expired"', 'civicrm-wp-member-sync' ),
+			'expire-status'  => esc_html__( 'Please select an Expire Status', 'civicrm-wp-member-sync' ),
+			'expire-role'    => esc_html__( 'Please select a WordPress Expiry Role', 'civicrm-wp-member-sync' ),
+			'clash-status'   => esc_html__( 'You can not have the same Status Rule registered as both "Current" and "Expired"', 'civicrm-wp-member-sync' ),
 		];
 
 		// Maybe load our Migration utility.
@@ -633,23 +633,23 @@ class Civi_WP_Member_Sync_Admin {
 
 		// Init localisation.
 		$localisation = [
-			'total' => esc_html__( '{{total}} memberships to sync...', 'civicrm-wp-member-sync' ),
-			'current' => esc_html__( 'Processing memberships {{from}} to {{to}}', 'civicrm-wp-member-sync' ),
+			'total'    => esc_html__( '{{total}} memberships to sync...', 'civicrm-wp-member-sync' ),
+			'current'  => esc_html__( 'Processing memberships {{from}} to {{to}}', 'civicrm-wp-member-sync' ),
 			'complete' => esc_html__( 'Processing memberships {{from}} to {{to}} complete', 'civicrm-wp-member-sync' ),
-			'done' => esc_html__( 'All done!', 'civicrm-wp-member-sync' ),
+			'done'     => esc_html__( 'All done!', 'civicrm-wp-member-sync' ),
 		];
 
 		// Init settings.
 		$settings = [
-			'ajax_url' => admin_url( 'admin-ajax.php' ),
+			'ajax_url'          => admin_url( 'admin-ajax.php' ),
 			'total_memberships' => $this->plugin->members->memberships_get_count(),
-			'batch_count' => $this->setting_get_batch_count(),
+			'batch_count'       => $this->setting_get_batch_count(),
 		];
 
 		// Localisation array.
 		$vars = [
 			'localisation' => $localisation,
-			'settings' => $settings,
+			'settings'     => $settings,
 		];
 
 		// Localise the WordPress way.
@@ -717,12 +717,12 @@ class Civi_WP_Member_Sync_Admin {
 
 		// Set defaults.
 		$vars = [
-			'ajax_url' => admin_url( 'admin-ajax.php' ),
+			'ajax_url'   => admin_url( 'admin-ajax.php' ),
 			'ajax_nonce' => wp_create_nonce( 'cwms_ajax_nonce' ),
-			'method' => $this->setting_get_method(),
-			'mode' => 'add',
-			'select2' => 'no',
-			'groups' => 'no',
+			'method'     => $this->setting_get_method(),
+			'mode'       => 'add',
+			'select2'    => 'no',
+			'groups'     => 'no',
 			'buddypress' => 'no',
 		];
 
@@ -805,8 +805,8 @@ class Civi_WP_Member_Sync_Admin {
 
 		// Set defaults.
 		$vars = [
-			'method' => $this->setting_get_method(),
-			'dialog_text' => esc_html__( 'Delete this Association Rule?', 'civicrm-wp-member-sync' ),
+			'method'          => $this->setting_get_method(),
+			'dialog_text'     => esc_html__( 'Delete this Association Rule?', 'civicrm-wp-member-sync' ),
 			'dialog_text_all' => esc_html__( 'Delete all Association Rules?', 'civicrm-wp-member-sync' ),
 		];
 
@@ -2086,9 +2086,9 @@ class Civi_WP_Member_Sync_Admin {
 
 						// Combine rule data into array.
 						$rule_data = [
-							'current_rule' => $current_rule,
+							'current_rule'    => $current_rule,
 							'current_wp_role' => $current_wp_role,
-							'expiry_rule' => $expiry_rule,
+							'expiry_rule'     => $expiry_rule,
 							'expired_wp_role' => $expired_wp_role,
 						];
 
@@ -2102,8 +2102,8 @@ class Civi_WP_Member_Sync_Admin {
 
 						// Combine rule data into array.
 						$rule_data = [
-							'current_rule' => $current_rule,
-							'expiry_rule' => $expiry_rule,
+							'current_rule'        => $current_rule,
+							'expiry_rule'         => $expiry_rule,
 							'civi_member_type_id' => $civi_member_type_id,
 						];
 
@@ -2124,9 +2124,9 @@ class Civi_WP_Member_Sync_Admin {
 
 					// Combine rule data into array.
 					$rule_data = [
-						'current_rule' => $current_rule,
+						'current_rule'    => $current_rule,
 						'current_wp_role' => $current_wp_role,
-						'expiry_rule' => $expiry_rule,
+						'expiry_rule'     => $expiry_rule,
 						'expired_wp_role' => $expired_wp_role,
 					];
 
@@ -2140,8 +2140,8 @@ class Civi_WP_Member_Sync_Admin {
 
 					// Combine rule data into array.
 					$rule_data = [
-						'current_rule' => $current_rule,
-						'expiry_rule' => $expiry_rule,
+						'current_rule'        => $current_rule,
+						'expiry_rule'         => $expiry_rule,
 						'civi_member_type_id' => $civi_member_type_id,
 					];
 
@@ -2193,9 +2193,9 @@ class Civi_WP_Member_Sync_Admin {
 
 			// Construct Role rule.
 			$rule = [
-				'current_rule' => $params['current_rule'],
+				'current_rule'    => $params['current_rule'],
 				'current_wp_role' => $params['current_wp_role'],
-				'expiry_rule' => $params['expiry_rule'],
+				'expiry_rule'     => $params['expiry_rule'],
 				'expired_wp_role' => $params['expired_wp_role'],
 			];
 
@@ -2204,8 +2204,8 @@ class Civi_WP_Member_Sync_Admin {
 			// Construct Capability rule.
 			$rule = [
 				'current_rule' => $params['current_rule'],
-				'expiry_rule' => $params['expiry_rule'],
-				'capability' => CIVI_WP_MEMBER_SYNC_CAP_PREFIX . $params['civi_member_type_id'],
+				'expiry_rule'  => $params['expiry_rule'],
+				'capability'   => CIVI_WP_MEMBER_SYNC_CAP_PREFIX . $params['civi_member_type_id'],
 			];
 
 		}
@@ -2667,16 +2667,16 @@ class Civi_WP_Member_Sync_Admin {
 
 			// Gather data.
 			$user_data = [
-				'is_new' => empty( $user->user_is_new ) ? false : true,
-				'display_name' => $user->display_name,
-				'link' => '',
-				'username' => $user->user_login,
+				'is_new'             => empty( $user->user_is_new ) ? false : true,
+				'display_name'       => $user->display_name,
+				'link'               => '',
+				'username'           => $user->user_login,
 				'membership_type_id' => $membership_type_id,
-				'status_id' => $status_id,
-				'membership_name' => $this->plugin->members->membership_name_get_by_id( $membership_type_id ),
-				'membership_status' => $this->plugin->members->status_name_get_by_id( $status_id ),
-				'flag' => $flag,
-				'association_rule' => $association_rule,
+				'status_id'          => $status_id,
+				'membership_name'    => $this->plugin->members->membership_name_get_by_id( $membership_type_id ),
+				'membership_status'  => $this->plugin->members->status_name_get_by_id( $status_id ),
+				'flag'               => $flag,
+				'association_rule'   => $association_rule,
 			];
 
 			// Check with CiviCRM that this Contact can be viewed.
@@ -2799,16 +2799,16 @@ class Civi_WP_Member_Sync_Admin {
 
 			// Gather data.
 			$user_data = [
-				'is_new' => ( PHP_INT_MAX === $user->ID ),
-				'display_name' => $user->display_name,
-				'link' => '',
-				'username' => $user->user_login,
+				'is_new'             => ( PHP_INT_MAX === $user->ID ),
+				'display_name'       => $user->display_name,
+				'link'               => '',
+				'username'           => $user->user_login,
 				'membership_type_id' => $membership_type_id,
-				'status_id' => $status_id,
-				'membership_name' => $this->plugin->members->membership_name_get_by_id( $membership_type_id ),
-				'membership_status' => $this->plugin->members->status_name_get_by_id( $status_id ),
-				'flag' => $flag,
-				'association_rule' => $association_rule,
+				'status_id'          => $status_id,
+				'membership_name'    => $this->plugin->members->membership_name_get_by_id( $membership_type_id ),
+				'membership_status'  => $this->plugin->members->status_name_get_by_id( $status_id ),
+				'flag'               => $flag,
+				'association_rule'   => $association_rule,
 			];
 
 			// Check with CiviCRM that this Contact can be viewed.

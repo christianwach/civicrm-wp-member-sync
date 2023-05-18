@@ -17,8 +17,7 @@
 		<!-- I prefer my control structures -->
 		<exclude name="WordPress.WhiteSpace.ControlStructureSpacing.BlankLineAfterEnd" />
 
-		<!-- Not a fan of arrow or equals alignment -->
-		<exclude name="WordPress.Arrays.MultipleStatementAlignment.DoubleArrowNotAligned" />
+		<!-- Not a fan of equals alignment -->
 		<exclude name="Generic.Formatting.MultipleStatementAlignment.NotSameWarning" />
 
 		<!-- PSR4 -->
