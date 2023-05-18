@@ -2,14 +2,14 @@
 # This file is distributed under the same license as the CiviCRM Member Sync plugin.
 msgid ""
 msgstr ""
-"Project-Id-Version: CiviCRM Member Sync 0.5.5a\n"
+"Project-Id-Version: CiviCRM Member Sync 0.6.0a\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/civicrm-wp-member-sync\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2023-05-18T16:25:07+00:00\n"
+"POT-Creation-Date: 2023-05-18T19:23:00+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.7.1\n"
 "X-Domain: civicrm-wp-member-sync\n"
@@ -334,9 +334,9 @@ msgid "Migrate Data Now"
 msgstr ""
 
 #: assets/templates/rule-cap-add.php:25
-#: assets/templates/rule-cap-add.php:124
+#: assets/templates/rule-cap-add.php:123
 #: assets/templates/rule-role-add.php:25
-#: assets/templates/rule-role-add.php:144
+#: assets/templates/rule-role-add.php:143
 msgid "Add Association Rule"
 msgstr ""
 
