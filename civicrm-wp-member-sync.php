@@ -15,7 +15,7 @@
  *
  * Thanks to:
  *
- * Jag Kandasamy <http://www.orangecreative.net> for:
+ * Jag Kandasamy <https://github.com/jeevajoy> for:
  * "Wordpress CiviMember Role Sync Plugin" <https://github.com/jeevajoy/Wordpress-CiviCRM-Member-Role-Sync>
  *
  * Tadpole Collective <https://tadpole.cc> for their fork:
