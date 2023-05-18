@@ -1346,7 +1346,7 @@ class Civi_WP_Member_Sync_Admin {
 	 * @since 0.1
 	 *
 	 * @param string $menu_slug The slug name to refer to this menu by (should be unique for this menu).
-	 * @param bool $echo Whether or not to echo the url - default is true.
+	 * @param bool   $echo Whether or not to echo the url - default is true.
 	 * @return string $url The URL.
 	 */
 	public function network_menu_page_url( $menu_slug, $echo = true ) {
@@ -1673,7 +1673,7 @@ class Civi_WP_Member_Sync_Admin {
 	 *
 	 * @since 0.1
 	 *
-	 * @param str $setting_name The name of the setting.
+	 * @param str   $setting_name The name of the setting.
 	 * @param mixed $default The default return value if no value exists.
 	 * @return mixed $setting The value of the setting.
 	 */
@@ -1689,7 +1689,7 @@ class Civi_WP_Member_Sync_Admin {
 	 *
 	 * @since 0.1
 	 *
-	 * @param str $setting_name The name of the setting.
+	 * @param str   $setting_name The name of the setting.
 	 * @param mixed $value The value to set.
 	 */
 	public function setting_set( $setting_name, $value = '' ) {
@@ -1760,7 +1760,7 @@ class Civi_WP_Member_Sync_Admin {
 	 * @since 0.2.7
 	 *
 	 * @param string $key The option name.
-	 * @param mixed $default The default option value if none exists.
+	 * @param mixed  $default The default option value if none exists.
 	 * @return mixed $value The option value.
 	 */
 	public function option_get( $key, $default = null ) {
@@ -1783,7 +1783,7 @@ class Civi_WP_Member_Sync_Admin {
 	 * @since 0.2.7
 	 *
 	 * @param string $key The option name.
-	 * @param mixed $value The value to save.
+	 * @param mixed  $value The value to save.
 	 */
 	public function option_save( $key, $value ) {
 
@@ -1898,7 +1898,7 @@ class Civi_WP_Member_Sync_Admin {
 	 *
 	 * @since 0.1
 	 *
-	 * @param int $type_id The numeric ID of the CiviCRM Membership Type.
+	 * @param int    $type_id The numeric ID of the CiviCRM Membership Type.
 	 * @param string $method The sync method (either 'roles' or 'capabilities').
 	 * @return mixed $rule Array if successful, boolean false otherwise.
 	 */
@@ -2182,7 +2182,7 @@ class Civi_WP_Member_Sync_Admin {
 	 *
 	 * @since 0.4.2
 	 *
-	 * @param str $method The sync method.
+	 * @param str   $method The sync method.
 	 * @param array $params The params to build the array from.
 	 * @return array $rule The constructed rule array.
 	 */
@@ -2221,9 +2221,9 @@ class Civi_WP_Member_Sync_Admin {
 	 * @since 0.4.2
 	 *
 	 * @param array $rule The new or updated association rule.
-	 * @param str $mode The mode ('add' or 'edit').
-	 * @param str $method The sync method.
-	 * @param int $civi_member_type_id The numeric ID of the Membership Type.
+	 * @param str   $mode The mode ('add' or 'edit').
+	 * @param str   $method The sync method.
+	 * @param int   $civi_member_type_id The numeric ID of the Membership Type.
 	 */
 	public function rule_save( $rule, $mode, $method, $civi_member_type_id ) {
 
@@ -2472,7 +2472,7 @@ class Civi_WP_Member_Sync_Admin {
 	 * @since 0.1
 	 *
 	 * @param WP_User $user WP_User object of the User in question.
-	 * @param array $memberships The Memberships of the WordPress User in question.
+	 * @param array   $memberships The Memberships of the WordPress User in question.
 	 * @return array $result Results of applying the rule.
 	 */
 	public function rule_apply( $user, $memberships = false ) {
@@ -2716,7 +2716,7 @@ class Civi_WP_Member_Sync_Admin {
 	 * @since 0.5
 	 *
 	 * @param WP_User $user WP_User object of the User in question.
-	 * @param array $memberships The Memberships of the WordPress User in question.
+	 * @param array   $memberships The Memberships of the WordPress User in question.
 	 * @return array $result Results of applying the rule.
 	 */
 	public function rule_simulate( $user, $memberships = false ) {
@@ -2852,7 +2852,7 @@ class Civi_WP_Member_Sync_Admin {
 	 * @since 0.1
 	 *
 	 * @param WP_User $user WP_User object of the User in question.
-	 * @param object $membership The Membership details of the WordPress User in question.
+	 * @param object  $membership The Membership details of the WordPress User in question.
 	 */
 	public function rule_undo( $user, $membership = false ) {
 

@@ -65,7 +65,7 @@ class Civi_WP_Member_Sync_Users {
 	 * @since 0.2.8
 	 *
 	 * @param WP_User $user WP_User object.
-	 * @param string $role WordPress Role key.
+	 * @param string  $role WordPress Role key.
 	 * @return bool $has_role True if this User has the supplied Role, false otherwise.
 	 */
 	public function wp_has_role( $user, $role ) {
@@ -176,7 +176,7 @@ class Civi_WP_Member_Sync_Users {
 	 * @since 0.2.8
 	 *
 	 * @param WP_User $user WordPress User object.
-	 * @param string $role WordPress Role key.
+	 * @param string  $role WordPress Role key.
 	 */
 	public function wp_role_add( $user, $role ) {
 
@@ -209,7 +209,7 @@ class Civi_WP_Member_Sync_Users {
 	 * @since 0.2.8
 	 *
 	 * @param WP_User $user WordPress User object.
-	 * @param string $role WordPress Role key.
+	 * @param string  $role WordPress Role key.
 	 */
 	public function wp_role_remove( $user, $role ) {
 
@@ -242,8 +242,8 @@ class Civi_WP_Member_Sync_Users {
 	 * @since 0.1
 	 *
 	 * @param WP_User $user WordPress User object.
-	 * @param string $old_role Old WordPress Role key.
-	 * @param string $new_role New WordPress Role key.
+	 * @param string  $old_role Old WordPress Role key.
+	 * @param string  $new_role New WordPress Role key.
 	 */
 	public function wp_role_replace( $user, $old_role, $new_role ) {
 
@@ -352,7 +352,7 @@ class Civi_WP_Member_Sync_Users {
 	 * @since 0.1
 	 *
 	 * @param WP_User $user WP_User object.
-	 * @param string $capability Capability name.
+	 * @param string  $capability Capability name.
 	 */
 	public function wp_cap_add( $user, $capability ) {
 
@@ -390,7 +390,7 @@ class Civi_WP_Member_Sync_Users {
 	 * @since 0.1
 	 *
 	 * @param WP_User $user WP_User object.
-	 * @param string $capability Capability name.
+	 * @param string  $capability Capability name.
 	 */
 	public function wp_cap_remove( $user, $capability ) {
 
@@ -429,7 +429,7 @@ class Civi_WP_Member_Sync_Users {
 	 * @since 0.1
 	 *
 	 * @param WP_User $user WP_User object.
-	 * @param string $capability Capability name.
+	 * @param string  $capability Capability name.
 	 */
 	public function wp_cap_remove_status( $user, $capability ) {
 
@@ -824,7 +824,7 @@ class Civi_WP_Member_Sync_Users {
 	 *
 	 * @since 0.3.7
 	 *
-	 * @param str $username The previously-generated WordPress username.
+	 * @param str   $username The previously-generated WordPress username.
 	 * @param array $civi_contact The CiviCRM Contact data.
 	 * @return str $new_username The modified WordPress username.
 	 */
@@ -866,7 +866,7 @@ class Civi_WP_Member_Sync_Users {
 	 *
 	 * @param integer $contact_id The numeric ID of the CiviCRM Contact.
 	 * @param integer $user_id The numeric ID of the WordPress User.
-	 * @param str $username The WordPress username.
+	 * @param str     $username The WordPress username.
 	 * @param integer $domain_id The CiviCRM Domain ID (defaults to current Domain ID).
 	 * @return array|bool The UFMatch data on success, or false on failure.
 	 */

@@ -373,7 +373,7 @@ class Civi_WP_Member_Sync_Admin_CAU {
 	 * @since 0.5
 	 *
 	 * @param string $url_base The current URL base for view.
-	 * @param CAU_Single_Users_List_Table $table The table object.
+	 * @param object $table The table object.
 	 */
 	public function views_add( $url_base, $table ) {
 
@@ -464,8 +464,8 @@ class Civi_WP_Member_Sync_Admin_CAU {
 	 *
 	 * @since 0.5
 	 *
-	 * @param string $retval The markup to display.
-	 * @param string $column_name The table column name.
+	 * @param string  $retval The markup to display.
+	 * @param string  $column_name The table column name.
 	 * @param WP_User $user The WordPress User object.
 	 * @return string Membership Type as a link to filter all Users.
 	 */
@@ -541,8 +541,8 @@ class Civi_WP_Member_Sync_Admin_CAU {
 	 *
 	 * @since 0.5
 	 *
-	 * @param string $retval The markup to display.
-	 * @param string $column_name The table column name.
+	 * @param string  $retval The markup to display.
+	 * @param string  $column_name The table column name.
 	 * @param WP_User $user The WordPress User object.
 	 * @return string The Membership Status.
 	 */

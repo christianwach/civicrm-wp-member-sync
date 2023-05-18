@@ -293,7 +293,7 @@ register_deactivation_hook( __FILE__, [ civicrm_wpms(), 'deactivate' ] );
  * @since 0.1
  *
  * @param array $links The existing list of plugin links.
- * @param str $file The name of the plugin file.
+ * @param str   $file The name of the plugin file.
  * @return array $links The amended list of plugin links.
  */
 function civi_wp_member_sync_plugin_add_settings_link( $links, $file ) {

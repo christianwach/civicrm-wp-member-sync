@@ -14,9 +14,6 @@
 		<!-- I prefer slash-delimited Hooks -->
 		<exclude name="WordPress.NamingConventions.ValidHookName.UseUnderscores" />
 
-		<!-- Ignore docblock formatting -->
-		<exclude name="Squiz.Commenting.FunctionComment.SpacingAfterParamType" />
-
 		<!-- I prefer my control structures -->
 		<exclude name="WordPress.WhiteSpace.ControlStructureSpacing.BlankLineAfterEnd" />
 

@@ -499,7 +499,7 @@ class Civi_WP_Member_Sync_Members {
 	 *
 	 * @since 0.1
 	 *
-	 * @param string $user_login Logged in User's username.
+	 * @param string  $user_login Logged in User's username.
 	 * @param WP_User $user WP_User object of the logged-in User.
 	 */
 	public function sync_to_user( $user_login, $user ) {
@@ -543,10 +543,10 @@ class Civi_WP_Member_Sync_Members {
 	 *
 	 * @since 0.1
 	 *
-	 * @param string $op the type of database operation.
-	 * @param string $objectName the type of object.
+	 * @param string  $op the type of database operation.
+	 * @param string  $objectName the type of object.
 	 * @param integer $objectId the ID of the object.
-	 * @param object $objectRef the object.
+	 * @param object  $objectRef the object.
 	 */
 	public function membership_pre_update( $op, $objectName, $objectId, $objectRef ) {
 
@@ -590,10 +590,10 @@ class Civi_WP_Member_Sync_Members {
 	 *
 	 * @since 0.1
 	 *
-	 * @param string $op The type of database operation.
-	 * @param string $objectName The type of object.
+	 * @param string  $op The type of database operation.
+	 * @param string  $objectName The type of object.
 	 * @param integer $objectId The ID of the object.
-	 * @param object $objectRef The object.
+	 * @param object  $objectRef The object.
 	 */
 	public function membership_updated( $op, $objectName, $objectId, $objectRef ) {
 
@@ -736,10 +736,10 @@ class Civi_WP_Member_Sync_Members {
 	 *
 	 * @since 0.3
 	 *
-	 * @param string $op the type of database operation.
-	 * @param string $objectName the type of object.
+	 * @param string  $op the type of database operation.
+	 * @param string  $objectName the type of object.
 	 * @param integer $objectId the ID of the object.
-	 * @param object $objectRef the object.
+	 * @param object  $objectRef the object.
 	 */
 	public function membership_deleted( $op, $objectName, $objectId, $objectRef ) {
 
@@ -933,8 +933,8 @@ class Civi_WP_Member_Sync_Members {
 	 * @since 0.4.1
 	 *
 	 * @param bool|array $data The existing array of Membership data returned by the CiviCRM API.
-	 * @param array $params The params used to query the CiviCRM API.
-	 * @param int|array $contact_id The query params for the CiviCRM Contact ID.
+	 * @param array      $params The params used to query the CiviCRM API.
+	 * @param int|array  $contact_id The query params for the CiviCRM Contact ID.
 	 * @return bool|array $data The modified array of Membership data returned by the CiviCRM API.
 	 */
 	public function membership_override( $data, $params, $contact_id ) {

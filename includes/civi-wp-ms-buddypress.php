@@ -252,10 +252,10 @@ class Civi_WP_Member_Sync_BuddyPress {
 	 * @since 0.4.7
 	 *
 	 * @param WP_User $user The WordPress User object.
-	 * @param int $membership_type_id The ID of the CiviCRM Membership Type.
-	 * @param int $status_id The ID of the CiviCRM Membership Status.
-	 * @param array $capability The Membership Type Capability added or removed.
-	 * @param array $association_rule The rule used to apply the changes.
+	 * @param int     $membership_type_id The ID of the CiviCRM Membership Type.
+	 * @param int     $status_id The ID of the CiviCRM Membership Status.
+	 * @param array   $capability The Membership Type Capability added or removed.
+	 * @param array   $association_rule The rule used to apply the changes.
 	 */
 	public function rule_apply_caps_current( $user, $membership_type_id, $status_id, $capability, $association_rule ) {
 
@@ -274,10 +274,10 @@ class Civi_WP_Member_Sync_BuddyPress {
 	 * @since 0.4.7
 	 *
 	 * @param WP_User $user The WordPress User object.
-	 * @param int $membership_type_id The ID of the CiviCRM Membership Type.
-	 * @param int $status_id The ID of the CiviCRM Membership Status.
-	 * @param array $capability The Membership Type Capability added or removed.
-	 * @param array $association_rule The rule used to apply the changes.
+	 * @param int     $membership_type_id The ID of the CiviCRM Membership Type.
+	 * @param int     $status_id The ID of the CiviCRM Membership Status.
+	 * @param array   $capability The Membership Type Capability added or removed.
+	 * @param array   $association_rule The rule used to apply the changes.
 	 */
 	public function rule_apply_caps_expired( $user, $membership_type_id, $status_id, $capability, $association_rule ) {
 
@@ -292,9 +292,9 @@ class Civi_WP_Member_Sync_BuddyPress {
 	 * @since 0.4.7
 	 *
 	 * @param WP_User $user The WordPress User object.
-	 * @param int $membership_type_id The ID of the CiviCRM Membership Type.
-	 * @param int $status_id The ID of the CiviCRM Membership Status.
-	 * @param array $association_rule The rule used to apply the changes.
+	 * @param int     $membership_type_id The ID of the CiviCRM Membership Type.
+	 * @param int     $status_id The ID of the CiviCRM Membership Status.
+	 * @param array   $association_rule The rule used to apply the changes.
 	 */
 	public function rule_apply_current( $user, $membership_type_id, $status_id, $association_rule ) {
 
@@ -320,9 +320,9 @@ class Civi_WP_Member_Sync_BuddyPress {
 	 * @since 0.4.7
 	 *
 	 * @param WP_User $user The WordPress User object.
-	 * @param int $membership_type_id The ID of the CiviCRM Membership Type.
-	 * @param int $status_id The ID of the CiviCRM Membership Status.
-	 * @param array $association_rule The rule used to apply the changes.
+	 * @param int     $membership_type_id The ID of the CiviCRM Membership Type.
+	 * @param int     $status_id The ID of the CiviCRM Membership Status.
+	 * @param array   $association_rule The rule used to apply the changes.
 	 */
 	public function rule_apply_expired( $user, $membership_type_id, $status_id, $association_rule ) {
 
@@ -430,8 +430,8 @@ class Civi_WP_Member_Sync_BuddyPress {
 	 *
 	 * @param array $rule The new or updated association rule.
 	 * @param array $data The complete set of association rule.
-	 * @param str $mode The mode ('add' or 'edit').
-	 * @param str $method The sync method.
+	 * @param str   $mode The mode ('add' or 'edit').
+	 * @param str   $method The sync method.
 	 */
 	public function rule_pre_save( $rule, $data, $mode, $method ) {
 
@@ -488,7 +488,7 @@ class Civi_WP_Member_Sync_BuddyPress {
 	 *
 	 * @since 0.4.7
 	 *
-	 * @param int $key The current key (type ID).
+	 * @param int   $key The current key (type ID).
 	 * @param array $item The current item.
 	 */
 	public function list_current_row( $key, $item ) {
@@ -558,7 +558,7 @@ class Civi_WP_Member_Sync_BuddyPress {
 	 *
 	 * @since 0.4.7
 	 *
-	 * @param int $key The current key (type ID).
+	 * @param int   $key The current key (type ID).
 	 * @param array $item The current item.
 	 */
 	public function list_expiry_row( $key, $item ) {
@@ -628,7 +628,7 @@ class Civi_WP_Member_Sync_BuddyPress {
 	 *
 	 * @since 0.5
 	 *
-	 * @param int $key The current key (type ID).
+	 * @param int   $key The current key (type ID).
 	 * @param array $item The current item.
 	 */
 	public function simulate_row( $key, $item ) {
