@@ -71,7 +71,7 @@ class Civi_WP_Member_Sync {
 	 *
 	 * @since 0.1
 	 * @access public
-	 * @var object $user The Users utilities object.
+	 * @var object
 	 */
 	public $users;
 
@@ -80,25 +80,25 @@ class Civi_WP_Member_Sync {
 	 *
 	 * @since 0.1
 	 * @access public
-	 * @var object $schedule The Scheduled Events utilities object.
+	 * @var object
 	 */
 	public $schedule;
 
 	/**
-	 * Admin utilities object.
+	 * Admin object.
 	 *
 	 * @since 0.1
 	 * @access public
-	 * @var object $admin The Admin utilities object.
+	 * @var object
 	 */
 	public $admin;
 
 	/**
-	 * CiviCRM Membership utilities object.
+	 * CiviCRM Membership object.
 	 *
 	 * @since 0.1
 	 * @access public
-	 * @var object $members The CiviCRM Membership utilities object.
+	 * @var object
 	 */
 	public $members;
 
@@ -107,7 +107,7 @@ class Civi_WP_Member_Sync {
 	 *
 	 * @since 0.3.9
 	 * @access public
-	 * @var object $groups The "Groups" compatibility object.
+	 * @var object
 	 */
 	public $groups;
 
@@ -116,7 +116,7 @@ class Civi_WP_Member_Sync {
 	 *
 	 * @since 0.4.7
 	 * @access public
-	 * @var object $buddypress The BuddyPress compatibility object.
+	 * @var object
 	 */
 	public $buddypress;
 

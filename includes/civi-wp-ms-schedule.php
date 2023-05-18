@@ -21,11 +21,11 @@ defined( 'ABSPATH' ) || exit;
 class Civi_WP_Member_Sync_Schedule {
 
 	/**
-	 * Plugin (calling) object.
+	 * Plugin object.
 	 *
 	 * @since 0.1
 	 * @access public
-	 * @var object $plugin The plugin object.
+	 * @var object
 	 */
 	public $plugin;
 

@@ -23,11 +23,11 @@ defined( 'ABSPATH' ) || exit;
 class Civi_WP_Member_Sync_Admin_CAU {
 
 	/**
-	 * Plugin (calling) object.
+	 * Plugin object.
 	 *
 	 * @since 0.5
 	 * @access public
-	 * @var object $plugin The plugin object.
+	 * @var object
 	 */
 	public $plugin;
 
@@ -36,7 +36,7 @@ class Civi_WP_Member_Sync_Admin_CAU {
 	 *
 	 * @since 0.5
 	 * @access public
-	 * @var object $admin The admin object.
+	 * @var object
 	 */
 	public $admin;
 
@@ -49,7 +49,7 @@ class Civi_WP_Member_Sync_Admin_CAU {
 	 *
 	 * @since 0.5
 	 * @access public
-	 * @var array $ufmatch The UFMatch array.
+	 * @var array
 	 */
 	public $ufmatch = [];
 
@@ -62,7 +62,7 @@ class Civi_WP_Member_Sync_Admin_CAU {
 	 *
 	 * @since 0.5
 	 * @access public
-	 * @var array $query_ids The Query IDs array.
+	 * @var array
 	 */
 	public $query_ids = [];
 
@@ -74,7 +74,7 @@ class Civi_WP_Member_Sync_Admin_CAU {
 	 *
 	 * @since 0.5
 	 * @access public
-	 * @var array $query_memberships The Queried Memberships array.
+	 * @var array
 	 */
 	public $query_memberships = [];
 

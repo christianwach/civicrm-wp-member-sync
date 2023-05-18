@@ -23,11 +23,11 @@ defined( 'ABSPATH' ) || exit;
 class Civi_WP_Member_Sync_Admin {
 
 	/**
-	 * Plugin (calling) object.
+	 * Plugin object.
 	 *
 	 * @since 0.1
 	 * @access public
-	 * @var object $plugin The plugin object.
+	 * @var object
 	 */
 	public $plugin;
 
@@ -36,7 +36,7 @@ class Civi_WP_Member_Sync_Admin {
 	 *
 	 * @since 0.5
 	 * @access public
-	 * @var object $cau The CiviCRM Admin Utilities compatibility object.
+	 * @var object
 	 */
 	public $cau;
 
@@ -45,7 +45,7 @@ class Civi_WP_Member_Sync_Admin {
 	 *
 	 * @since 0.1
 	 * @access public
-	 * @var object $migrate The migration object.
+	 * @var object
 	 */
 	public $migrate;
 
@@ -54,7 +54,7 @@ class Civi_WP_Member_Sync_Admin {
 	 *
 	 * @since 0.1
 	 * @access public
-	 * @var str $parent_page The parent page.
+	 * @var string
 	 */
 	public $parent_page;
 
@@ -63,7 +63,7 @@ class Civi_WP_Member_Sync_Admin {
 	 *
 	 * @since 0.1
 	 * @access public
-	 * @var str $settings_page The settings page.
+	 * @var string
 	 */
 	public $settings_page;
 
@@ -72,7 +72,7 @@ class Civi_WP_Member_Sync_Admin {
 	 *
 	 * @since 0.1
 	 * @access public
-	 * @var str $sync_page The manual sync page.
+	 * @var string
 	 */
 	public $sync_page;
 
@@ -81,7 +81,7 @@ class Civi_WP_Member_Sync_Admin {
 	 *
 	 * @since 0.1
 	 * @access public
-	 * @var str $rules_list_page The list rules page.
+	 * @var string
 	 */
 	public $rules_list_page;
 
@@ -90,7 +90,7 @@ class Civi_WP_Member_Sync_Admin {
 	 *
 	 * @since 0.1
 	 * @access public
-	 * @var str $rules_list_page The add/edit rules page.
+	 * @var string
 	 */
 	public $rule_add_edit_page;
 
@@ -99,7 +99,7 @@ class Civi_WP_Member_Sync_Admin {
 	 *
 	 * @since 0.1
 	 * @access public
-	 * @var str $plugin_version The plugin version. (numeric string)
+	 * @var string
 	 */
 	public $plugin_version;
 
@@ -108,7 +108,7 @@ class Civi_WP_Member_Sync_Admin {
 	 *
 	 * @since 0.1
 	 * @access public
-	 * @var array $settings The plugin settings.
+	 * @var array
 	 */
 	public $settings = [];
 
@@ -117,7 +117,7 @@ class Civi_WP_Member_Sync_Admin {
 	 *
 	 * @since 0.1
 	 * @access public
-	 * @var array $error_strings The form error messages.
+	 * @var array
 	 */
 	public $error_strings;
 
@@ -126,7 +126,7 @@ class Civi_WP_Member_Sync_Admin {
 	 *
 	 * @since 0.1
 	 * @access public
-	 * @var array $error_strings The errors in current form submission.
+	 * @var array
 	 */
 	public $errors;
 
@@ -135,16 +135,18 @@ class Civi_WP_Member_Sync_Admin {
 	 *
 	 * @since 0.3.7
 	 * @access public
-	 * @var int $batch_count The number of Memberships to process per batch.
+	 * @var integer
 	 */
 	public $batch_count = 25;
 
 	/**
 	 * Select2 Javascript flag.
 	 *
+	 * True if Select2 library is enqueued, false otherwise.
+	 *
 	 * @since 0.4.2
 	 * @access public
-	 * @var bool $multiple True if Select2 library is enqueued, false otherwise.
+	 * @var bool
 	 */
 	public $select2 = false;
 

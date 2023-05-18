@@ -23,20 +23,22 @@ defined( 'ABSPATH' ) || exit;
 class Civi_WP_Member_Sync_BuddyPress {
 
 	/**
-	 * Plugin (calling) object.
+	 * Plugin object.
 	 *
 	 * @since 0.4.7
 	 * @access public
-	 * @var object $plugin The plugin object.
+	 * @var object
 	 */
 	public $plugin;
 
 	/**
 	 * BuddyPress plugin enabled flag.
 	 *
+	 * True if BuddyPress is enabled, false otherwise.
+	 *
 	 * @since 0.4.7
 	 * @access public
-	 * @var object $enabled True if BuddyPress is enabled, false otherwise.
+	 * @var bool
 	 */
 	public $enabled = false;
 

@@ -31,20 +31,22 @@ defined( 'ABSPATH' ) || exit;
 class Civi_WP_Member_Sync_Groups {
 
 	/**
-	 * Plugin (calling) object.
+	 * Plugin object.
 	 *
 	 * @since 0.3.9
 	 * @access public
-	 * @var object $plugin The plugin object.
+	 * @var object
 	 */
 	public $plugin;
 
 	/**
 	 * "Groups" plugin enabled flag.
 	 *
+	 * True if "Groups" is enabled, false otherwise.
+	 *
 	 * @since 0.4.2
 	 * @access public
-	 * @var object $enabled True if "Groups" is enabled, false otherwise.
+	 * @var bool
 	 */
 	public $enabled = false;
 
