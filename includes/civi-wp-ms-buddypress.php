@@ -443,7 +443,7 @@ class Civi_WP_Member_Sync_BuddyPress {
 
 			// Sanitise array items.
 			array_walk( $current, function( &$item ) {
-				$item = absint( trim( $item ) );
+				$item = (int) trim( $item );
 			});
 
 		} else {
@@ -455,7 +455,7 @@ class Civi_WP_Member_Sync_BuddyPress {
 		if ( ! empty( $expiry ) ) {
 			// Sanitise array items.
 			array_walk( $expiry, function( &$item ) {
-				$item = absint( trim( $item ) );
+				$item = (int) trim( $item );
 			});
 
 		} else {

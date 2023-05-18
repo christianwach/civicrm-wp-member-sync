@@ -1015,15 +1015,15 @@ class Civi_WP_Member_Sync_Admin {
 		$schedules = $this->plugin->schedule->intervals_get();
 
 		// Get our sync settings.
-		$login = absint( $this->setting_get( 'login' ) );
-		$civicrm = absint( $this->setting_get( 'civicrm' ) );
-		$schedule = absint( $this->setting_get( 'schedule' ) );
+		$login = (int) $this->setting_get( 'login' );
+		$civicrm = (int) $this->setting_get( 'civicrm' );
+		$schedule = (int) $this->setting_get( 'schedule' );
 
 		// Get our interval setting.
 		$interval = $this->setting_get( 'interval' );
 
 		// Get our types setting.
-		$types = absint( $this->setting_get( 'types' ) );
+		$types = (int) $this->setting_get( 'types' );
 
 		// Check if CiviCRM Admin Utilities has been installed.
 		$cau_present = $this->cau_activated();
@@ -2019,7 +2019,7 @@ class Civi_WP_Member_Sync_Admin {
 			array_walk(
 				$current_rule,
 				function( &$item ) {
-					$item = intval( trim( $item ) );
+					$item = (int) trim( $item );
 				}
 			);
 
@@ -2035,7 +2035,7 @@ class Civi_WP_Member_Sync_Admin {
 			array_walk(
 				$expiry_rule,
 				function( &$item ) {
-					$item = intval( trim( $item ) );
+					$item = (int) trim( $item );
 				}
 			);
 

@@ -58,7 +58,7 @@ class Civi_WP_Member_Sync_Members {
 	public function initialise() {
 
 		// Get our login/logout sync setting.
-		$login = absint( $this->plugin->admin->setting_get( 'login' ) );
+		$login = (int) $this->plugin->admin->setting_get( 'login' );
 
 		// Add hooks if set.
 		if ( 1 === $login ) {
@@ -72,7 +72,7 @@ class Civi_WP_Member_Sync_Members {
 		}
 
 		// Get our CiviCRM sync setting.
-		$civicrm = absint( $this->plugin->admin->setting_get( 'civicrm' ) );
+		$civicrm = (int) $this->plugin->admin->setting_get( 'civicrm' );
 
 		// Add hooks if set.
 		if ( 1 === $civicrm ) {
@@ -641,8 +641,8 @@ class Civi_WP_Member_Sync_Members {
 		if ( 'edit' === $op && isset( $this->membership_pre ) && isset( $objectRef->membership_type_id ) ) {
 
 			// Make sure we're comparing like with like.
-			$previous_type_id = absint( $this->membership_pre['values'][0]['membership_type_id'] );
-			$current_type_id = absint( $objectRef->membership_type_id );
+			$previous_type_id = (int) $this->membership_pre['values'][0]['membership_type_id'];
+			$current_type_id = (int) $objectRef->membership_type_id;
 
 			// Do we have different CiviCRM Membership Types?
 			if ( $previous_type_id !== $current_type_id ) {

@@ -54,7 +54,7 @@ class Civi_WP_Member_Sync_Schedule {
 	public function initialise() {
 
 		// Get our schedule sync setting.
-		$schedule = absint( $this->plugin->admin->setting_get( 'schedule' ) );
+		$schedule = (int) $this->plugin->admin->setting_get( 'schedule' );
 
 		// Add schedule if set.
 		if ( 1 === $schedule ) {

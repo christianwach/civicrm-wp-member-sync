@@ -455,7 +455,7 @@ class Civi_WP_Member_Sync_Groups {
 
 			// Sanitise array items.
 			array_walk( $current, function( &$item ) {
-				$item = absint( trim( $item ) );
+				$item = (int) trim( $item );
 			});
 
 		} else {
@@ -468,7 +468,7 @@ class Civi_WP_Member_Sync_Groups {
 
 			// Sanitise array items.
 			array_walk( $expiry, function( &$item ) {
-				$item = absint( trim( $item ) );
+				$item = (int) trim( $item );
 			});
 
 		} else {

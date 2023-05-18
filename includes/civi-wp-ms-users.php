@@ -674,7 +674,7 @@ class Civi_WP_Member_Sync_Users {
 			}
 
 			// Get types setting.
-			$types = absint( $this->plugin->admin->setting_get( 'types' ) );
+			$types = (int) $this->plugin->admin->setting_get( 'types' );
 
 			// If chosen, bail if this Contact is not an Individual.
 			if ( $types && 'Individual' !== $civi_contact['contact_type'] ) {
