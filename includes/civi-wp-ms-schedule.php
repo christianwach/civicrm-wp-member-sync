@@ -57,7 +57,7 @@ class Civi_WP_Member_Sync_Schedule {
 		$schedule = absint( $this->plugin->admin->setting_get( 'schedule' ) );
 
 		// Add schedule if set.
-		if ( $schedule === 1 ) {
+		if ( 1 === $schedule ) {
 
 			// Get our interval setting.
 			$interval = $this->plugin->admin->setting_get( 'interval' );
@@ -110,7 +110,7 @@ class Civi_WP_Member_Sync_Schedule {
 		$timestamp = wp_next_scheduled( 'civi_wp_member_sync_refresh' );
 
 		// Unschedule it if we get one.
-		if ( $timestamp !== false ) {
+		if ( false !== $timestamp ) {
 			wp_unschedule_event( $timestamp, 'civi_wp_member_sync_refresh' );
 		}
 
@@ -161,7 +161,7 @@ class Civi_WP_Member_Sync_Schedule {
 		$timestamp = wp_next_scheduled( 'civi_member_sync_refresh' );
 
 		// Unschedule it if we get one.
-		if ( $timestamp !== false ) {
+		if ( false !== $timestamp ) {
 			wp_unschedule_event( $timestamp, 'civi_member_sync_refresh' );
 		}
 

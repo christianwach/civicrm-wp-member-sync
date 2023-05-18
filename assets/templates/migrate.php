@@ -32,7 +32,7 @@ defined( 'ABSPATH' ) || exit;
 	}
 
 	// If we've updated, show message.
-	if ( $updated === 'true' ) {
+	if ( 'true' === $updated ) {
 		echo '<div id="message" class="updated"><p>' . esc_html__( 'Migration complete. You can now deactivate the old plugin.', 'civicrm-wp-member-sync' ) . '</p></div>';
 	}
 

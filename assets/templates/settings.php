@@ -32,7 +32,7 @@ defined( 'ABSPATH' ) || exit;
 	}
 
 	// If we've updated, show message.
-	if ( $this->is_network_activated() && $updated === 'true' ) {
+	if ( $this->is_network_activated() && 'true' === $updated ) {
 		echo '<div id="setting-error-settings_updated" class="updated settings-error notice is-dismissible">' .
 			'<p><strong>' . esc_html__( 'Settings saved.', 'civicrm-wp-member-sync' ) . '</strong></p>' .
 			'<button type="button" class="notice-dismiss">' .
@@ -60,7 +60,7 @@ defined( 'ABSPATH' ) || exit;
 						<?php
 
 						$selected = '';
-						if ( ! isset( $method ) || $method == 'capabilities' ) {
+						if ( ! isset( $method ) || 'capabilities' === $method ) {
 							$selected = ' selected="selected"';
 						}
 
@@ -69,7 +69,7 @@ defined( 'ABSPATH' ) || exit;
 						<?php
 
 						$selected = '';
-						if ( isset( $method ) && $method == 'roles' ) {
+						if ( isset( $method ) && 'roles' === $method ) {
 							$selected = ' selected="selected"';
 						}
 
@@ -87,7 +87,7 @@ defined( 'ABSPATH' ) || exit;
 
 		<p><?php esc_html_e( 'The most common trigger for synchronization of CiviCRM Memberships and WordPress Users is when CiviCRM cron runs. If you want to enable additional events that CiviCRM Member Sync will use to trigger synchronization, select them below. If you choose User login/logout, you will have to run "Manual Synchronize" after you create a new rule for it to be applied to all Users and Contacts. Leave the default settings if you are unsure which methods to use.', 'civicrm-wp-member-sync' ); ?></p>
 
-		<?php if ( $cau_present === false ) : ?>
+		<?php if ( false === $cau_present ) : ?>
 			<div class="notice notice-warning inline">
 				<p><strong><?php esc_html_e( 'Important Fix', 'civicrm-wp-member-sync' ); ?></strong></p>
 				<p>
@@ -108,7 +108,7 @@ defined( 'ABSPATH' ) || exit;
 			</div>
 		<?php endif; ?>
 
-		<?php if ( $cau_present === true && $cau_version_ok === false ) : ?>
+		<?php if ( true === $cau_present && false === $cau_version_ok ) : ?>
 			<div class="notice notice-warning inline">
 				<p><strong><?php esc_html_e( 'Important Fix', 'civicrm-wp-member-sync' ); ?></strong></p>
 				<p>
@@ -129,7 +129,7 @@ defined( 'ABSPATH' ) || exit;
 			</div>
 		<?php endif; ?>
 
-		<?php if ( $cau_present === true && $cau_version_ok === true && $cau_configured === false ) : ?>
+		<?php if ( true === $cau_present && true === $cau_version_ok && false === $cau_configured ) : ?>
 			<div class="notice notice-warning inline">
 				<p><strong><?php esc_html_e( 'Important Fix', 'civicrm-wp-member-sync' ); ?></strong></p>
 				<p>
@@ -159,7 +159,7 @@ defined( 'ABSPATH' ) || exit;
 
 					// Checked by default.
 					$checked = ' checked="checked"';
-					if ( isset( $login ) && $login === 0 ) {
+					if ( isset( $login ) && 0 === $login ) {
 						$checked = '';
 					}
 
@@ -176,7 +176,7 @@ defined( 'ABSPATH' ) || exit;
 
 					// Checked by default.
 					$checked = ' checked="checked"';
-					if ( isset( $civicrm ) && $civicrm === 0 ) {
+					if ( isset( $civicrm ) && 0 === $civicrm ) {
 						$checked = '';
 					}
 
@@ -193,7 +193,7 @@ defined( 'ABSPATH' ) || exit;
 
 					// Checked by default.
 					$checked = ' checked="checked"';
-					if ( isset( $schedule ) && $schedule === 0 ) {
+					if ( isset( $schedule ) && 0 === $schedule ) {
 						$checked = '';
 					}
 
@@ -243,7 +243,7 @@ defined( 'ABSPATH' ) || exit;
 
 					// Unchecked by default.
 					$checked = '';
-					if ( isset( $types ) && $types === 1 ) {
+					if ( isset( $types ) && 1 === $types ) {
 						$checked = ' checked="checked"';
 					}
 

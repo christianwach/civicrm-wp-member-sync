@@ -17,9 +17,6 @@
 		<!-- Ignore docblock formatting -->
 		<exclude name="Squiz.Commenting.FunctionComment.SpacingAfterParamType" />
 
-		<!-- Yoda? Really? -->
-		<exclude name="WordPress.PHP.YodaConditions.NotYoda" />
-
 		<!-- I prefer my control structures -->
 		<exclude name="WordPress.WhiteSpace.ControlStructureSpacing.BlankLineAfterEnd" />
 

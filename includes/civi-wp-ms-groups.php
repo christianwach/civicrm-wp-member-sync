@@ -195,7 +195,7 @@ class Civi_WP_Member_Sync_Groups {
 
 		// Since this is an AJAX request, check security.
 		$result = check_ajax_referer( 'cwms_ajax_nonce', false, false );
-		if ( $result === false ) {
+		if ( false === $result ) {
 			wp_send_json( $json );
 		}
 
@@ -648,10 +648,10 @@ class Civi_WP_Member_Sync_Groups {
 
 		// Build list.
 		$markup = '&mdash;';
-		if ( $item['flag'] == 'current' && ! empty( $item['association_rule']['current_groups'] ) ) {
+		if ( 'current' === $item['flag'] && ! empty( $item['association_rule']['current_groups'] ) ) {
 			$markup = $this->markup_get_list_items( $item['association_rule']['current_groups'] );
 		}
-		if ( $item['flag'] == 'expired' && ! empty( $item['association_rule']['expiry_groups'] ) ) {
+		if ( 'expired' === $item['flag'] && ! empty( $item['association_rule']['expiry_groups'] ) ) {
 			$markup = $this->markup_get_list_items( $item['association_rule']['expiry_groups'] );
 		}
 
@@ -846,7 +846,7 @@ class Civi_WP_Member_Sync_Groups {
 
 		// Get key if Capability is present.
 		$key = array_search( $capability, $current_read_caps );
-		if ( $key === false ) {
+		if ( false === $key ) {
 			return;
 		}
 
@@ -870,7 +870,7 @@ class Civi_WP_Member_Sync_Groups {
 		$method = $this->plugin->admin->setting_get_method();
 
 		// Bail if we're not syncing Capabilities.
-		if ( $method != 'capabilities' ) {
+		if ( 'capabilities' !== $method ) {
 			return;
 		}
 
@@ -878,7 +878,7 @@ class Civi_WP_Member_Sync_Groups {
 		$rules = $this->plugin->admin->rules_get_by_method( $method );
 
 		// If we get some.
-		if ( $rules !== false && is_array( $rules ) && count( $rules ) > 0 ) {
+		if ( false !== $rules && is_array( $rules ) && count( $rules ) > 0 ) {
 
 			// Add Capability to "Groups" plugin if not already present.
 			foreach ( $rules as $rule ) {

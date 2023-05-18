@@ -299,19 +299,19 @@ register_deactivation_hook( __FILE__, [ civicrm_wpms(), 'deactivate' ] );
 function civi_wp_member_sync_plugin_add_settings_link( $links, $file ) {
 
 	// Maybe add settings link.
-	if ( $file == plugin_basename( dirname( __FILE__ ) . '/civicrm-wp-member-sync.php' ) ) {
-
-		// Is this Network Admin? Also check sub-site listings (since WordPress 4.4) and show for network admins.
-		if ( is_network_admin() || ( is_super_admin() && civicrm_wpms()->admin->is_network_activated() ) ) {
-			$link = add_query_arg( [ 'page' => 'civi_wp_member_sync_parent' ], network_admin_url( 'settings.php' ) );
-		} else {
-			$link = add_query_arg( [ 'page' => 'civi_wp_member_sync_parent' ], admin_url( 'admin.php' ) );
-		}
-
-		// Add settings link.
-		$links[] = '<a href="' . esc_url( $link ) . '">' . esc_html__( 'Settings', 'civicrm-wp-member-sync' ) . '</a>';
-
+	if ( plugin_basename( dirname( __FILE__ ) . '/civicrm-wp-member-sync.php' ) !== $file ) {
+		return $links;
 	}
+
+	// Is this Network Admin? Also check sub-site listings (since WordPress 4.4) and show for network admins.
+	if ( is_network_admin() || ( is_super_admin() && civicrm_wpms()->admin->is_network_activated() ) ) {
+		$link = add_query_arg( [ 'page' => 'civi_wp_member_sync_parent' ], network_admin_url( 'settings.php' ) );
+	} else {
+		$link = add_query_arg( [ 'page' => 'civi_wp_member_sync_parent' ], admin_url( 'admin.php' ) );
+	}
+
+	// Add settings link.
+	$links[] = '<a href="' . esc_url( $link ) . '">' . esc_html__( 'Settings', 'civicrm-wp-member-sync' ) . '</a>';
 
 	// --<
 	return $links;

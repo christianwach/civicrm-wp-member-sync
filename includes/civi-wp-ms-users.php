@@ -609,7 +609,7 @@ class Civi_WP_Member_Sync_Users {
 		$contact_data = civicrm_api( 'contact', 'get', $params );
 
 		// Bail if we get any errors.
-		if ( $contact_data['is_error'] == 1 ) {
+		if ( 1 === (int) $contact_data['is_error'] ) {
 			return false;
 		}
 		if ( ! isset( $contact_data['values'] ) ) {
@@ -664,7 +664,7 @@ class Civi_WP_Member_Sync_Users {
 			$civi_contact = $this->civi_get_contact_by_contact_id( $civi_contact_id );
 
 			// Bail if something goes wrong.
-			if ( $civi_contact === false ) {
+			if ( false === $civi_contact ) {
 				return false;
 			}
 
@@ -672,7 +672,7 @@ class Civi_WP_Member_Sync_Users {
 			$types = absint( $this->plugin->admin->setting_get( 'types' ) );
 
 			// If chosen, bail if this Contact is not an Individual.
-			if ( $types && $civi_contact['contact_type'] != 'Individual' ) {
+			if ( $types && 'Individual' !== $civi_contact['contact_type'] ) {
 				return;
 			}
 
@@ -899,7 +899,7 @@ class Civi_WP_Member_Sync_Users {
 		$result = civicrm_api( 'UFMatch', 'create', $params );
 
 		// Log and bail on failure.
-		if ( isset( $result['is_error'] ) && $result['is_error'] == '1' ) {
+		if ( isset( $result['is_error'] ) && 1 === (int) $result['is_error'] ) {
 			$e = new \Exception();
 			$trace = $e->getTraceAsString();
 			error_log( print_r( [

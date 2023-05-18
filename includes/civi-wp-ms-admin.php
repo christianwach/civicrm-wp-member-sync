@@ -288,7 +288,7 @@ class Civi_WP_Member_Sync_Admin {
 		$this->upgrade_tasks();
 
 		// Upgrade version if needed.
-		if ( $this->plugin_version != CIVI_WP_MEMBER_SYNC_VERSION ) {
+		if ( CIVI_WP_MEMBER_SYNC_VERSION !== $this->plugin_version ) {
 			$this->store_version();
 		}
 
@@ -749,7 +749,7 @@ class Civi_WP_Member_Sync_Admin {
 		}
 
 		// Maybe override mode.
-		if ( $mode === 'edit' ) {
+		if ( 'edit' === $mode ) {
 
 			// Get Type ID query var.
 			$type_id = 0;
@@ -1091,7 +1091,7 @@ class Civi_WP_Member_Sync_Admin {
 		$this->error_strings = apply_filters( 'civi_wp_member_sync_error_strings', $this->error_strings );
 
 		// Include per method.
-		if ( $method == 'roles' ) {
+		if ( 'roles' === $method ) {
 			include CIVI_WP_MEMBER_SYNC_PLUGIN_PATH . 'assets/templates/list_roles.php';
 		} else {
 			include CIVI_WP_MEMBER_SYNC_PLUGIN_PATH . 'assets/templates/list_caps.php';
@@ -1124,12 +1124,12 @@ class Civi_WP_Member_Sync_Admin {
 		}
 
 		// Bail if mode is not one of our values.
-		if ( $mode !== 'add' && $mode !== 'edit' ) {
+		if ( 'add' !== $mode && 'edit' !== $mode ) {
 			return;
 		}
 
 		// Are we populating the form?
-		if ( $mode === 'edit' ) {
+		if ( 'edit' === $mode ) {
 
 			// Get Type ID query var.
 			$type_id = 0;
@@ -1156,9 +1156,9 @@ class Civi_WP_Member_Sync_Admin {
 		$this->error_strings = apply_filters( 'civi_wp_member_sync_error_strings', $this->error_strings );
 
 		// Route by mode.
-		if ( $mode == 'add' ) {
+		if ( 'add' === $mode ) {
 			$this->page_rule_add();
-		} elseif ( $mode == 'edit' ) {
+		} elseif ( 'edit' === $mode ) {
 			$this->page_rule_edit();
 		}
 
@@ -1187,7 +1187,7 @@ class Civi_WP_Member_Sync_Admin {
 		$rules = $this->rules_get_by_method( $method );
 
 		// If we get some.
-		if ( $rules !== false && is_array( $rules ) && count( $rules ) > 0 ) {
+		if ( false !== $rules && is_array( $rules ) && count( $rules ) > 0 ) {
 
 			// Get used Membership Type IDs.
 			$type_ids = array_keys( $rules );
@@ -1205,7 +1205,7 @@ class Civi_WP_Member_Sync_Admin {
 		$multiple = ' multiple="multiple" style="min-width: 240px;"';
 
 		// Well?
-		if ( $method == 'roles' ) {
+		if ( 'roles' === $method ) {
 
 			// Get filtered Roles.
 			$roles = $this->plugin->users->wp_role_names_get_all();
@@ -1260,7 +1260,7 @@ class Civi_WP_Member_Sync_Admin {
 		$rules = $this->rules_get_by_method( $method );
 
 		// If we get some.
-		if ( $rules !== false && is_array( $rules ) && count( $rules ) > 0 ) {
+		if ( false !== $rules && is_array( $rules ) && count( $rules ) > 0 ) {
 
 			// Get used Membership Type IDs.
 			$type_ids = array_keys( $rules );
@@ -1275,7 +1275,7 @@ class Civi_WP_Member_Sync_Admin {
 		}
 
 		// Do we need Roles?
-		if ( $method == 'roles' ) {
+		if ( 'roles' === $method ) {
 
 			// Get filtered Roles.
 			$roles = $this->plugin->users->wp_role_names_get_all();
@@ -1477,7 +1477,7 @@ class Civi_WP_Member_Sync_Admin {
 		}
 
 		// Was a "Delete" link clicked?
-		if ( $sync_rule === 'delete' ) {
+		if ( 'delete' === $sync_rule ) {
 
 			// Get Type ID query var.
 			$type_id = 0;
@@ -1586,7 +1586,7 @@ class Civi_WP_Member_Sync_Admin {
 		$this->setting_set( 'schedule', ( $settings_schedule ? 1 : 0 ) );
 
 		// Is the schedule being deactivated?
-		if ( $existing_schedule == 1 && $settings_schedule === 0 ) {
+		if ( 1 === (int) $existing_schedule && 0 === $settings_schedule ) {
 
 			// Clear current scheduled event.
 			$this->plugin->schedule->unschedule();
@@ -1661,12 +1661,7 @@ class Civi_WP_Member_Sync_Admin {
 	 * @param string $setting_name The name of the setting.
 	 * @return bool Whether or not the setting exists.
 	 */
-	public function setting_exists( $setting_name = '' ) {
-
-		// Sanity check.
-		if ( $setting_name == '' ) {
-			die( esc_html__( 'You must supply a setting to setting_exists()', 'civicrm-wp-member-sync' ) );
-		}
+	public function setting_exists( $setting_name ) {
 
 		// Get existence of setting in array.
 		return array_key_exists( $setting_name, $this->settings );
@@ -1682,12 +1677,7 @@ class Civi_WP_Member_Sync_Admin {
 	 * @param mixed $default The default return value if no value exists.
 	 * @return mixed $setting The value of the setting.
 	 */
-	public function setting_get( $setting_name = '', $default = false ) {
-
-		// Sanity check.
-		if ( $setting_name == '' ) {
-			die( esc_html__( 'You must supply a setting to setting_get()', 'civicrm-wp-member-sync' ) );
-		}
+	public function setting_get( $setting_name, $default = false ) {
 
 		// Get setting.
 		return ( array_key_exists( $setting_name, $this->settings ) ) ? $this->settings[ $setting_name ] : $default;
@@ -1702,12 +1692,7 @@ class Civi_WP_Member_Sync_Admin {
 	 * @param str $setting_name The name of the setting.
 	 * @param mixed $value The value to set.
 	 */
-	public function setting_set( $setting_name = '', $value = '' ) {
-
-		// Sanity check.
-		if ( $setting_name == '' ) {
-			die( esc_html__( 'You must supply a setting to setting_set()', 'civicrm-wp-member-sync' ) );
-		}
+	public function setting_set( $setting_name, $value = '' ) {
 
 		// Set setting.
 		$this->settings[ $setting_name ] = $value;
@@ -1727,7 +1712,7 @@ class Civi_WP_Member_Sync_Admin {
 
 		// Get sync method and sanitize.
 		$method = $this->setting_get( 'method' );
-		$method = ( $method == 'roles' ) ? 'roles' : 'capabilities';
+		$method = ( 'roles' === $method ) ? 'roles' : 'capabilities';
 
 		// --<
 		return $method;
@@ -1845,7 +1830,7 @@ class Civi_WP_Member_Sync_Admin {
 		$data = $this->setting_get( 'data' );
 
 		// Sanitize method.
-		$method = ( $method == 'roles' ) ? 'roles' : 'capabilities';
+		$method = ( 'roles' === $method ) ? 'roles' : 'capabilities';
 
 		// Get subset by method.
 		$subset = ( isset( $data[ $method ] ) ) ? $data[ $method ] : false;
@@ -1923,7 +1908,7 @@ class Civi_WP_Member_Sync_Admin {
 		$data = $this->setting_get( 'data' );
 
 		// Sanitize method.
-		$method = ( $method == 'roles' ) ? 'roles' : 'capabilities';
+		$method = ( 'roles' === $method ) ? 'roles' : 'capabilities';
 
 		// Get subset by method.
 		$subset = ( isset( $data[ $method ] ) ) ? $data[ $method ] : false;
@@ -1958,7 +1943,7 @@ class Civi_WP_Member_Sync_Admin {
 		}
 
 		// Maybe apply edit mode.
-		if ( ! empty( $rules_mode ) && $rules_mode === 'edit' ) {
+		if ( ! empty( $rules_mode ) && 'edit' === $rules_mode ) {
 			$mode = 'edit';
 		}
 
@@ -1976,7 +1961,7 @@ class Civi_WP_Member_Sync_Admin {
 		}
 
 		// Maybe apply multiple mode.
-		if ( ! empty( $rules_multiple ) && $rules_multiple === 'yes' ) {
+		if ( ! empty( $rules_multiple ) && 'yes' === $rules_multiple ) {
 			$multiple = true;
 		}
 
@@ -1984,7 +1969,7 @@ class Civi_WP_Member_Sync_Admin {
 		$this->errors = [];
 
 		// Depending on the "multiple" flag, validate Membership Types.
-		if ( $multiple === true ) {
+		if ( true === $multiple ) {
 
 			// Check and sanitise CiviCRM Membership Types.
 			$civi_member_type_ids = filter_input( INPUT_POST, 'civi_member_type_id', FILTER_DEFAULT, FILTER_REQUIRE_ARRAY );
@@ -2061,7 +2046,7 @@ class Civi_WP_Member_Sync_Admin {
 		}
 
 		// Do we want Roles?
-		if ( $method == 'roles' ) {
+		if ( 'roles' === $method ) {
 
 			// Check and sanitise WordPress Role.
 			$current_wp_role = '';
@@ -2088,16 +2073,16 @@ class Civi_WP_Member_Sync_Admin {
 		}
 
 		// How did we do?
-		if ( $current_expire_clash === false && empty( $this->errors ) ) {
+		if ( false === $current_expire_clash && empty( $this->errors ) ) {
 
 			// Depending on the "multiple" flag, create rules.
-			if ( $multiple === true ) {
+			if ( true === $multiple ) {
 
 				// Save each rule in turn.
 				foreach ( $civi_member_type_ids as $civi_member_type_id ) {
 
 					// Which sync method are we using?
-					if ( $method == 'roles' ) {
+					if ( 'roles' === $method ) {
 
 						// Combine rule data into array.
 						$rule_data = [
@@ -2135,7 +2120,7 @@ class Civi_WP_Member_Sync_Admin {
 			} else {
 
 				// Which sync method are we using?
-				if ( $method == 'roles' ) {
+				if ( 'roles' === $method ) {
 
 					// Combine rule data into array.
 					$rule_data = [
@@ -2180,7 +2165,7 @@ class Civi_WP_Member_Sync_Admin {
 		} else {
 
 			// Are there status clashes?
-			if ( $current_expire_clash === false ) {
+			if ( false === $current_expire_clash ) {
 				$this->errors[] = 'clash-status';
 			}
 
@@ -2204,7 +2189,7 @@ class Civi_WP_Member_Sync_Admin {
 	public function rule_create_array( $method, $params ) {
 
 		// Which sync method are we using?
-		if ( $method == 'roles' ) {
+		if ( 'roles' === $method ) {
 
 			// Construct Role rule.
 			$rule = [
@@ -2397,7 +2382,7 @@ class Civi_WP_Member_Sync_Admin {
 		}
 
 		// Bail if we didn't get Memberships passed.
-		if ( $memberships === false ) {
+		if ( false === $memberships ) {
 			return $has_rule;
 		}
 		if ( empty( $memberships ) ) {
@@ -2422,7 +2407,7 @@ class Civi_WP_Member_Sync_Admin {
 			$association_rule = $this->rule_get_by_type( $membership_type_id, $method );
 
 			// Continue with next Membership if we have an error or no rule exists.
-			if ( $association_rule === false ) {
+			if ( false === $association_rule ) {
 				continue;
 			}
 
@@ -2435,7 +2420,7 @@ class Civi_WP_Member_Sync_Admin {
 			}
 
 			// Which sync method are we using?
-			if ( $method == 'roles' ) {
+			if ( 'roles' === $method ) {
 
 				// Continue with next Membership if something is wrong with rule.
 				if ( empty( $association_rule['current_wp_role'] ) ) {
@@ -2506,7 +2491,7 @@ class Civi_WP_Member_Sync_Admin {
 		}
 
 		// Kick out if we didn't get Memberships passed.
-		if ( $memberships === false ) {
+		if ( false === $memberships ) {
 			return $result;
 		}
 
@@ -2532,7 +2517,7 @@ class Civi_WP_Member_Sync_Admin {
 			$association_rule = $this->rule_get_by_type( $membership_type_id, $method );
 
 			// Continue with next rule if we have an error of some kind.
-			if ( $association_rule === false ) {
+			if ( false === $association_rule ) {
 				continue;
 			}
 
@@ -2541,7 +2526,7 @@ class Civi_WP_Member_Sync_Admin {
 			$expiry_rule = $association_rule['expiry_rule'];
 
 			// Which sync method are we using?
-			if ( $method == 'roles' ) {
+			if ( 'roles' === $method ) {
 
 				// SYNC ROLES.
 
@@ -2745,7 +2730,7 @@ class Civi_WP_Member_Sync_Admin {
 		}
 
 		// Kick out if we didn't get Memberships passed.
-		if ( $memberships === false ) {
+		if ( false === $memberships ) {
 			return $result;
 		}
 
@@ -2771,7 +2756,7 @@ class Civi_WP_Member_Sync_Admin {
 			$association_rule = $this->rule_get_by_type( $membership_type_id, $method );
 
 			// Continue with next rule if we have an error of some kind.
-			if ( $association_rule === false ) {
+			if ( false === $association_rule ) {
 				continue;
 			}
 
@@ -2780,7 +2765,7 @@ class Civi_WP_Member_Sync_Admin {
 			$expiry_rule = $association_rule['expiry_rule'];
 
 			// Which sync method are we using?
-			if ( $method == 'roles' ) {
+			if ( 'roles' === $method ) {
 
 				// SYNC ROLES.
 
@@ -2814,7 +2799,7 @@ class Civi_WP_Member_Sync_Admin {
 
 			// Gather data.
 			$user_data = [
-				'is_new' => ( $user->ID === PHP_INT_MAX ),
+				'is_new' => ( PHP_INT_MAX === $user->ID ),
 				'display_name' => $user->display_name,
 				'link' => '',
 				'username' => $user->user_login,
@@ -2878,7 +2863,7 @@ class Civi_WP_Member_Sync_Admin {
 		$association_rule = $this->rule_get_by_type( $membership->membership_type_id, $method );
 
 		// Bail if there isn't one.
-		if ( $association_rule === false ) {
+		if ( false === $association_rule ) {
 			return;
 		}
 
@@ -2886,7 +2871,7 @@ class Civi_WP_Member_Sync_Admin {
 		$memberships = $this->plugin->members->membership_get_by_contact_id( $membership->contact_id );
 
 		// Which sync method are we using?
-		if ( $method == 'roles' ) {
+		if ( 'roles' === $method ) {
 
 			/*
 			 * When there are multiple Memberships, remove both the current Role
@@ -2910,8 +2895,8 @@ class Civi_WP_Member_Sync_Admin {
 
 			// If this User has a remaining Membership.
 			if (
-				$memberships !== false &&
-				$memberships['is_error'] == 0 &&
+				false !== $memberships &&
+				0 === (int) $memberships['is_error'] &&
 				isset( $memberships['values'] ) &&
 				count( $memberships['values'] ) > 0
 			) {

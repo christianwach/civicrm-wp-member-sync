@@ -188,7 +188,7 @@ class Civi_WP_Member_Sync_BuddyPress {
 
 		// Since this is an AJAX request, check security.
 		$result = check_ajax_referer( 'cwms_ajax_nonce', false, false );
-		if ( $result === false ) {
+		if ( false === $result ) {
 			wp_send_json( $json );
 		}
 
@@ -635,10 +635,10 @@ class Civi_WP_Member_Sync_BuddyPress {
 
 		// Build list.
 		$markup = '&mdash;';
-		if ( $item['flag'] == 'current' && ! empty( $item['association_rule']['current_buddypress'] ) ) {
+		if ( 'current' === $item['flag'] && ! empty( $item['association_rule']['current_buddypress'] ) ) {
 			$markup = $this->markup_get_list_items( $item['association_rule']['current_buddypress'] );
 		}
-		if ( $item['flag'] == 'expired' && ! empty( $item['association_rule']['expiry_buddypress'] ) ) {
+		if ( 'expired' === $item['flag'] && ! empty( $item['association_rule']['expiry_buddypress'] ) ) {
 			$markup = $this->markup_get_list_items( $item['association_rule']['expiry_buddypress'] );
 		}
 

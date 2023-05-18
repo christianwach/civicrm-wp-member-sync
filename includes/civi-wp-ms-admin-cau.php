@@ -314,7 +314,7 @@ class Civi_WP_Member_Sync_Admin_CAU {
 		}
 
 		// Overwrite either the "include" or "exclude" array.
-		if ( $member_status === 'members' ) {
+		if ( 'members' === $member_status ) {
 			$args['include'] = $member_user_ids;
 		} else {
 			$args['exclude'] = $member_user_ids;
@@ -478,7 +478,7 @@ class Civi_WP_Member_Sync_Admin_CAU {
 
 		// Get the Contact ID for this User.
 		$contact_id = ! empty( $this->query_ids[ $user->ID ] ) ? $this->query_ids[ $user->ID ] : false;
-		if ( $contact_id === false ) {
+		if ( false === $contact_id ) {
 			return $retval;
 		}
 
@@ -555,7 +555,7 @@ class Civi_WP_Member_Sync_Admin_CAU {
 
 		// Get the Contact ID for this User.
 		$contact_id = ! empty( $this->query_ids[ $user->ID ] ) ? $this->query_ids[ $user->ID ] : false;
-		if ( $contact_id === false ) {
+		if ( false === $contact_id ) {
 			return $retval;
 		}
 
