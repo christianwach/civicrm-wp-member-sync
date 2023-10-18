@@ -767,7 +767,7 @@ class Civi_WP_Member_Sync_Users {
 
 			// Create a UF Match record if the User was successfully created.
 			if ( ! is_wp_error( $user_id ) && isset( $civi_contact['contact_id'] ) ) {
-				$this->ufmatch_create( $civi_contact['contact_id'], $user_id, $civi_contact['email'] );
+				$this->ufmatch_create(1, $civi_contact['contact_id'], $user_id, $civi_contact['email'] );
 			}
 
 			/**
