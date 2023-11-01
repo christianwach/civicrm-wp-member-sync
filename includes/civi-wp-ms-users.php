@@ -897,6 +897,8 @@ class Civi_WP_Member_Sync_Users {
 		// Maybe add Domain ID.
 		if ( ! empty( $domain_id ) ) {
 			$params['domain_id'] = $domain_id;
+		} else {
+			$params['domain_id'] = CRM_Core_Config::domainID();
 		}
 
 		// Create record via API.
