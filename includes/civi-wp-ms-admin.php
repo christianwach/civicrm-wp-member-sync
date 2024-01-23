@@ -162,12 +162,6 @@ class Civi_WP_Member_Sync_Admin {
 		// Store reference to plugin.
 		$this->plugin = $plugin;
 
-		// Maybe load our Migration utility.
-		if ( defined( 'CIVI_WP_MEMBER_SYNC_MIGRATE' ) && CIVI_WP_MEMBER_SYNC_MIGRATE ) {
-			require CIVI_WP_MEMBER_SYNC_PLUGIN_PATH . 'includes/civi-wp-ms-migrate.php';
-			$this->migrate = new Civi_WP_Member_Sync_Migrate( $this );
-		}
-
 		// Initialise first.
 		add_action( 'civi_wp_member_sync_initialised', [ $this, 'initialise' ], 1 );
 
