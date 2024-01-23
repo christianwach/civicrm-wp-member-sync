@@ -238,8 +238,13 @@ class Civi_WP_Member_Sync_Groups {
 		// Do query.
 		$group_table = _groups_get_tablename( 'group' );
 		$like = '%' . $wpdb->esc_like( $search ) . '%';
-		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.PreparedSQL.InterpolatedNotPrepared
-		$groups = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM $group_table WHERE name LIKE %s $and;", $like ) );
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
+		$groups = $wpdb->get_results(
+			$wpdb->prepare(
+				// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+				"SELECT * FROM $group_table WHERE name LIKE %s $and;", $like
+			)
+		);
 
 		// Add items to output array.
 		foreach ( $groups as $group ) {
