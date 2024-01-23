@@ -69,7 +69,7 @@ defined( 'ABSPATH' ) || exit;
 
 					echo sprintf(
 						/* translators: 1: Opening anchor tag, 2: Closing anchor tag, 3: Opening em tag, 4: Closing em tag */
-						__( 'In order to sync Contacts in CiviCRM that have been &#8220;soft deleted&#8221; (moved to the Trash but not fully deleted) you will need to install %1$sCiviCRM Admin Utilities%2$s version 0.6.8 or greater. Make sure the checkbox labelled %3$s&#8217;Check this to fix the Contact &#8220;soft delete&#8221; process&#8216;%4$s is checked so that Contacts that have been &#8220;soft deleted&#8221; continue to have their matching WordPress User&#8216;s status updated.', 'civicrm-wp-member-sync' ),
+						esc_html__( 'In order to sync Contacts in CiviCRM that have been &#8220;soft deleted&#8221; (moved to the Trash but not fully deleted) you will need to install %1$sCiviCRM Admin Utilities%2$s version 0.6.8 or greater. Make sure the checkbox labelled %3$s&#8217;Check this to fix the Contact &#8220;soft delete&#8221; process&#8216;%4$s is checked so that Contacts that have been &#8220;soft deleted&#8221; continue to have their matching WordPress User&#8216;s status updated.', 'civicrm-wp-member-sync' ),
 						'<a href="https://wordpress.org/plugins/civicrm-admin-utilities/">',
 						'</a>',
 						'<em>',
@@ -78,7 +78,18 @@ defined( 'ABSPATH' ) || exit;
 
 					?>
 				</p>
-				<p><?php echo sprintf( __( 'Note that this fix only applies to Contacts which have been &#8220;soft deleted&#8221; <em>after</em> CiviCRM Admin Utilities has been properly configured.', 'civicrm-wp-member-sync' ), $cau_link ); ?></p>
+				<p>
+					<?php
+
+					echo sprintf(
+						/* translators: 1: Opening em tag, 2: Closing em tag */
+						esc_html__( 'Note that this fix only applies to Contacts which have been &#8220;soft deleted&#8221; %1$safter%2$s CiviCRM Admin Utilities has been properly configured.', 'civicrm-wp-member-sync' ),
+						'<em>',
+						'</em>'
+					);
+
+					?>
+				</p>
 			</div>
 		<?php endif; ?>
 
@@ -90,7 +101,7 @@ defined( 'ABSPATH' ) || exit;
 
 					echo sprintf(
 						/* translators: 1: Opening anchor tag, 2: Closing anchor tag, 3: Opening em tag, 4: Closing em tag */
-						__( 'In order to sync Contacts in CiviCRM that have been &#8220;soft deleted&#8221; (moved to the Trash but not fully deleted) you will need to upgrade %1$sCiviCRM Admin Utilities%2$s to version 0.6.8 or higher. When you have done this, make sure the checkbox labelled %3$s&#8217;Check this to fix the Contact &#8220;soft delete&#8221; process&#8216;%4$s is checked so that Contacts that have been &#8220;soft deleted&#8221; continue to have their matching WordPress User&#8216;s status updated.', 'civicrm-wp-member-sync' ),
+						esc_html__( 'In order to sync Contacts in CiviCRM that have been &#8220;soft deleted&#8221; (moved to the Trash but not fully deleted) you will need to upgrade %1$sCiviCRM Admin Utilities%2$s to version 0.6.8 or higher. When you have done this, make sure the checkbox labelled %3$s&#8217;Check this to fix the Contact &#8220;soft delete&#8221; process&#8216;%4$s is checked so that Contacts that have been &#8220;soft deleted&#8221; continue to have their matching WordPress User&#8216;s status updated.', 'civicrm-wp-member-sync' ),
 						'<a href="https://wordpress.org/plugins/civicrm-admin-utilities/">',
 						'</a>',
 						'<em>',
@@ -99,7 +110,18 @@ defined( 'ABSPATH' ) || exit;
 
 					?>
 				</p>
-				<p><?php echo sprintf( __( 'Note that this fix only applies to Contacts which have been &#8220;soft deleted&#8221; <em>after</em> CiviCRM Admin Utilities has been properly configured.', 'civicrm-wp-member-sync' ), $cau_link ); ?></p>
+				<p>
+					<?php
+
+					echo sprintf(
+						/* translators: 1: Opening em tag, 2: Closing em tag */
+						esc_html__( 'Note that this fix only applies to Contacts which have been &#8220;soft deleted&#8221; %1$safter%2$s CiviCRM Admin Utilities has been properly configured.', 'civicrm-wp-member-sync' ),
+						'<em>',
+						'</em>'
+					);
+
+					?>
+				</p>
 			</div>
 		<?php endif; ?>
 
@@ -111,7 +133,7 @@ defined( 'ABSPATH' ) || exit;
 
 					echo sprintf(
 						/* translators: 1: Opening anchor tag, 2: Closing anchor tag, 3: Opening em tag, 4: Closing em tag */
-						__( 'In order to sync Contacts in CiviCRM that have been &#8220;soft deleted&#8221; (moved to the Trash but not fully deleted) you will need to visit the CiviCRM Admin Utilities %1$sSettings page%2$s and make sure the checkbox labelled %3$s&#8217;Check this to fix the Contact &#8220;soft delete&#8221; process&#8216;%4$s is checked so that Contacts which have been &#8220;soft deleted&#8221; continue to have their matching WordPress User&#8216;s status updated.', 'civicrm-wp-member-sync' ),
+						esc_html__( 'In order to sync Contacts in CiviCRM that have been &#8220;soft deleted&#8221; (moved to the Trash but not fully deleted) you will need to visit the CiviCRM Admin Utilities %1$sSettings page%2$s and make sure the checkbox labelled %3$s&#8217;Check this to fix the Contact &#8220;soft delete&#8221; process&#8216;%4$s is checked so that Contacts which have been &#8220;soft deleted&#8221; continue to have their matching WordPress User&#8216;s status updated.', 'civicrm-wp-member-sync' ),
 						'<a href="' . $cau_link . '">',
 						'</a>',
 						'<em>',
@@ -125,7 +147,7 @@ defined( 'ABSPATH' ) || exit;
 
 					echo sprintf(
 						/* translators: 1: Opening em tag, 2: Closing em tag */
-						__( 'Note that this fix only applies to Contacts which have been &#8220;soft deleted&#8221; %1$safter%2$s CiviCRM Admin Utilities has been properly configured.', 'civicrm-wp-member-sync' ),
+						esc_html__( 'Note that this fix only applies to Contacts which have been &#8220;soft deleted&#8221; %1$safter%2$s CiviCRM Admin Utilities has been properly configured.', 'civicrm-wp-member-sync' ),
 						'<em>',
 						'</em>'
 					);
