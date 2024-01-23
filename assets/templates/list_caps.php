@@ -33,55 +33,40 @@ defined( 'ABSPATH' ) || exit;
 		<?php endif; ?>
 	</h3>
 
-	<?php
+	<?php if ( ! empty( $sync_rule ) ) : ?>
+		<div id="message" class="updated">
+			<p>
+				<?php
 
-	// Get sync rule.
-	$sync_rule     = '';
-	$sync_rule_raw = filter_input( INPUT_GET, 'syncrule' );
-	if ( ! empty( $sync_rule_raw ) ) {
-		$sync_rule = trim( wp_unslash( $sync_rule_raw ) );
-	}
+				// Switch message based on result.
+				switch ( $sync_rule ) {
+					case 'edit':
+						esc_html_e( 'Association Rule updated.', 'civicrm-wp-member-sync' );
+						break;
+					case 'add':
+						esc_html_e( 'Association Rule added.', 'civicrm-wp-member-sync' );
+						break;
+					case 'delete':
+						esc_html_e( 'Association Rule deleted.', 'civicrm-wp-member-sync' );
+						break;
+					case 'delete-all':
+						esc_html_e( 'Association Rules deleted.', 'civicrm-wp-member-sync' );
+						break;
+				}
 
-	// If we've updated, show message.
-	if ( ! empty( $sync_rule ) ) {
-		echo '<div id="message" class="updated"><p>';
+				?>
 
-		// Switch message based on result.
-		switch ( $sync_rule ) {
-			case 'edit':
-				esc_html_e( 'Association Rule updated.', 'civicrm-wp-member-sync' );
-				break;
-			case 'add':
-				esc_html_e( 'Association Rule added.', 'civicrm-wp-member-sync' );
-				break;
-			case 'delete':
-				esc_html_e( 'Association Rule deleted.', 'civicrm-wp-member-sync' );
-				break;
-			case 'delete-all':
-				esc_html_e( 'Association Rules deleted.', 'civicrm-wp-member-sync' );
-				break;
-		}
+			</p>
+		</div>
+	<?php endif; ?>
 
-		echo '</p></div>';
-	}
-
-	// If we've updated, show message (note that this will only display if we have JS turned off).
-	if ( isset( $this->errors ) && is_array( $this->errors ) ) {
-
-		// Init messages.
-		$error_messages = [];
-
-		// Construct array of messages based on error code.
-		foreach ( $this->errors as $error_code ) {
-			$error_messages[] = $this->error_strings[ $error_code ];
-		}
-
-		// Show them.
-		echo '<div id="message" class="error"><p>' . implode( '<br>', $error_messages ) . '</p></div>';
-
-	}
-
-	?>
+	<?php /* If we've updated, show already-escaped messages - note that this will only display if we have JS turned off. */ ?>
+	<?php if ( ! empty( $error_messages ) ) : ?>
+		<div id="message" class="error">
+			<?php /* phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped */ ?>
+			<p><?php echo $error_messages; ?></p>
+		</div>
+	<?php endif; ?>
 
 	<table cellspacing="0" class="wp-list-table widefat fixed striped">
 

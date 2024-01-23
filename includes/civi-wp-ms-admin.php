@@ -1032,6 +1032,13 @@ class Civi_WP_Member_Sync_Admin {
 		// Build error strings for admin screens.
 		$this->error_strings_build();
 
+		// Get updated query var.
+		$updated     = '';
+		$updated_raw = filter_input( INPUT_GET, 'updated' );
+		if ( ! empty( $updated_raw ) ) {
+			$updated = trim( wp_unslash( $updated_raw ) );
+		}
+
 		// Include template file.
 		include CIVI_WP_MEMBER_SYNC_PLUGIN_PATH . 'assets/templates/settings.php';
 
@@ -1095,8 +1102,25 @@ class Civi_WP_Member_Sync_Admin {
 			$have_all_types = true;
 		}
 
+		// Get sync rule.
+		$sync_rule     = '';
+		$sync_rule_raw = filter_input( INPUT_GET, 'syncrule' );
+		if ( ! empty( $sync_rule_raw ) ) {
+			$sync_rule = trim( wp_unslash( $sync_rule_raw ) );
+		}
+
 		// Build error strings for admin screens.
 		$this->error_strings_build();
+
+		// Construct messages based on error code(s).
+		$error_messages = '';
+		if ( ! empty( $this->errors ) ) {
+			$errors = [];
+			foreach ( $this->errors as $error_code ) {
+				$errors[] = $this->error_strings[ $error_code ];
+			}
+			$error_messages = implode( '<br>', $errors );
+		}
 
 		// Include per method.
 		if ( 'roles' === $method ) {

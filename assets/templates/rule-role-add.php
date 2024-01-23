@@ -27,6 +27,7 @@ defined( 'ABSPATH' ) || exit;
 	<?php /* If we've updated, show message - note that this will only display if we have JS turned off. */ ?>
 	<?php if ( ! empty( $error_messages ) ) : ?>
 		<div id="message" class="error">
+			<?php /* phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped */ ?>
 			<p><?php echo $error_messages; ?></p>
 		</div>
 	<?php endif; ?>

@@ -22,26 +22,14 @@ defined( 'ABSPATH' ) || exit;
 		<a href="<?php echo $urls['manual_sync']; ?>" class="nav-tab"><?php esc_html_e( 'Manual Synchronize', 'civicrm-wp-member-sync' ); ?></a>
 	</h2>
 
-	<?php
-
-	// Get updated query var.
-	$updated     = '';
-	$updated_raw = filter_input( INPUT_GET, 'updated' );
-	if ( ! empty( $updated_raw ) ) {
-		$updated = trim( wp_unslash( $updated_raw ) );
-	}
-
-	// If we've updated, show message.
-	if ( $this->is_network_activated() && 'true' === $updated ) {
-		echo '<div id="setting-error-settings_updated" class="updated settings-error notice is-dismissible">' .
-			'<p><strong>' . esc_html__( 'Settings saved.', 'civicrm-wp-member-sync' ) . '</strong></p>' .
-			'<button type="button" class="notice-dismiss">' .
-				'<span class="screen-reader-text">' . esc_html__( 'Dismiss this notice.', 'civicrm-wp-member-sync' ) . '</span>' .
-			'</button>' .
-		'</div>';
-	}
-
-	?>
+	<?php if ( $this->is_network_activated() && 'true' === $updated ) : ?>
+		<div id="setting-error-settings_updated" class="updated settings-error notice is-dismissible">
+			<p><strong><?php esc_html_e( 'Settings saved.', 'civicrm-wp-member-sync' ); ?></strong></p>
+			<button type="button" class="notice-dismiss">
+				<span class="screen-reader-text"><?php esc_html_e( 'Dismiss this notice.', 'civicrm-wp-member-sync' ); ?></span>
+			</button>
+		</div>
+	<?php endif; ?>
 
 	<form method="post" id="civi_wp_member_sync_settings_form" action="<?php echo $this->admin_form_url_get(); ?>">
 
@@ -54,27 +42,13 @@ defined( 'ABSPATH' ) || exit;
 		<table class="form-table">
 
 			<tr>
-				<th scope="row"><label class="civi_wp_member_sync_settings_label" for="civi_wp_member_sync_settings_method"><?php esc_html_e( 'Choose Method', 'civicrm-wp-member-sync' ); ?></label></th>
+				<th scope="row">
+					<label class="civi_wp_member_sync_settings_label" for="civi_wp_member_sync_settings_method"><?php esc_html_e( 'Choose Method', 'civicrm-wp-member-sync' ); ?></label>
+				</th>
 				<td>
 					<select class="settings-select" name="civi_wp_member_sync_settings_method" id ="civi_wp_member_sync_settings_method">
-						<?php
-
-						$selected = '';
-						if ( ! isset( $method ) || 'capabilities' === $method ) {
-							$selected = ' selected="selected"';
-						}
-
-						?>
-						<option value="capabilities"<?php echo $selected; ?>><?php esc_html_e( 'Capabilities', 'civicrm-wp-member-sync' ); ?></option>
-						<?php
-
-						$selected = '';
-						if ( isset( $method ) && 'roles' === $method ) {
-							$selected = ' selected="selected"';
-						}
-
-						?>
-						<option value="roles"<?php echo $selected; ?>><?php esc_html_e( 'Roles', 'civicrm-wp-member-sync' ); ?></option>
+						<option value="capabilities"<?php selected( 'capabilities', $method ); ?>><?php esc_html_e( 'Capabilities', 'civicrm-wp-member-sync' ); ?></option>
+						<option value="roles"<?php selected( 'roles', $method ); ?>><?php esc_html_e( 'Roles', 'civicrm-wp-member-sync' ); ?></option>
 					</select>
 				</td>
 			</tr>
@@ -164,52 +138,31 @@ defined( 'ABSPATH' ) || exit;
 		<table class="form-table">
 
 			<tr>
-				<th scope="row"><?php esc_html_e( 'Login and Logout', 'civicrm-wp-member-sync' ); ?></th>
+				<th scope="row">
+					<?php esc_html_e( 'Login and Logout', 'civicrm-wp-member-sync' ); ?>
+				</th>
 				<td>
-					<?php
-
-					// Checked by default.
-					$checked = ' checked="checked"';
-					if ( isset( $login ) && 0 === $login ) {
-						$checked = '';
-					}
-
-					?>
-					<input type="checkbox" class="settings-checkbox" name="civi_wp_member_sync_settings_login" id="civi_wp_member_sync_settings_login" value="1"<?php echo $checked; ?> />
+					<input type="checkbox" class="settings-checkbox" name="civi_wp_member_sync_settings_login" id="civi_wp_member_sync_settings_login" value="1"<?php checked( 1, $login ); ?> />
 					<label class="civi_wp_member_sync_settings_label" for="civi_wp_member_sync_settings_login"><?php esc_html_e( 'Synchronize whenever a User logs in or logs out. This action is performed only on the User logging in or out.', 'civicrm-wp-member-sync' ); ?></label>
 				</td>
 			</tr>
 
 			<tr>
-				<th scope="row"><?php esc_html_e( 'CiviCRM Admin', 'civicrm-wp-member-sync' ); ?></th>
+				<th scope="row">
+					<?php esc_html_e( 'CiviCRM Admin', 'civicrm-wp-member-sync' ); ?>
+				</th>
 				<td>
-					<?php
-
-					// Checked by default.
-					$checked = ' checked="checked"';
-					if ( isset( $civicrm ) && 0 === $civicrm ) {
-						$checked = '';
-					}
-
-					?>
-					<input type="checkbox" class="settings-checkbox" name="civi_wp_member_sync_settings_civicrm" id="civi_wp_member_sync_settings_civicrm" value="1"<?php echo $checked; ?> />
+					<input type="checkbox" class="settings-checkbox" name="civi_wp_member_sync_settings_civicrm" id="civi_wp_member_sync_settings_civicrm" value="1"<?php checked( 1, $civicrm ); ?> />
 					<label class="civi_wp_member_sync_settings_label" for="civi_wp_member_sync_settings_civicrm"><?php esc_html_e( 'Synchronize when Membership is updated in CiviCRM admin pages.', 'civicrm-wp-member-sync' ); ?></label>
 				</td>
 			</tr>
 
 			<tr>
-				<th scope="row"><?php esc_html_e( 'Scheduled Events', 'civicrm-wp-member-sync' ); ?></th>
+				<th scope="row">
+					<?php esc_html_e( 'Scheduled Events', 'civicrm-wp-member-sync' ); ?>
+				</th>
 				<td>
-					<?php
-
-					// Checked by default.
-					$checked = ' checked="checked"';
-					if ( isset( $schedule ) && 0 === $schedule ) {
-						$checked = '';
-					}
-
-					?>
-					<input type="checkbox" class="settings-checkbox" name="civi_wp_member_sync_settings_schedule" id="civi_wp_member_sync_settings_schedule" value="1"<?php echo $checked; ?> />
+					<input type="checkbox" class="settings-checkbox" name="civi_wp_member_sync_settings_schedule" id="civi_wp_member_sync_settings_schedule" value="1"<?php checked( 1, $schedule ); ?> />
 					<label class="civi_wp_member_sync_settings_label" for="civi_wp_member_sync_settings_schedule"><?php esc_html_e( 'Synchronize using a recurring schedule. This action is performed on all Users and Contacts.', 'civicrm-wp-member-sync' ); ?></label>
 					<p class="description"><?php esc_html_e( 'This action can be very processor intensive if you have a lot of Users and Contacts. It is not recommended to have this switched on unless you have a good reason for doing so. Please note that this action is likely to be removed in future versions.', 'civicrm-wp-member-sync' ); ?></p>
 				</td>
@@ -219,22 +172,9 @@ defined( 'ABSPATH' ) || exit;
 				<th scope="row"><label class="civi_wp_member_sync_settings_label" for="civi_wp_member_sync_settings_interval"><?php esc_html_e( 'Schedule Interval', 'civicrm-wp-member-sync' ); ?></label></th>
 				<td>
 					<select class="settings-select" name="civi_wp_member_sync_settings_interval" id ="civi_wp_member_sync_settings_interval">
-						<?php
-
-						foreach ( $schedules as $key => $value ) {
-
-							$selected = '';
-							if ( isset( $interval ) && $key === $interval ) {
-								$selected = ' selected="selected"';
-							}
-
-							?>
-							<option value="<?php echo esc_attr( $key ); ?>"<?php echo $selected; ?>><?php echo esc_html( $value['display'] ); ?></option>
-							<?php
-
-						}
-
-						?>
+						<?php foreach ( $schedules as $key => $value ) : ?>
+							<option value="<?php echo esc_attr( $key ); ?>"<?php selected( $interval, $key ); ?>><?php echo esc_html( $value['display'] ); ?></option>
+						<?php endforeach; ?>
 					</select>
 				</td>
 			</tr>
@@ -250,16 +190,7 @@ defined( 'ABSPATH' ) || exit;
 			<tr>
 				<th scope="row"><?php esc_html_e( 'Synced Contact Types', 'civicrm-wp-member-sync' ); ?></th>
 				<td>
-					<?php
-
-					// Unchecked by default.
-					$checked = '';
-					if ( isset( $types ) && 1 === $types ) {
-						$checked = ' checked="checked"';
-					}
-
-					?>
-					<input type="checkbox" class="settings-checkbox" name="civi_wp_member_sync_settings_types" id="civi_wp_member_sync_settings_types" value="1"<?php echo $checked; ?> />
+					<input type="checkbox" class="settings-checkbox" name="civi_wp_member_sync_settings_types" id="civi_wp_member_sync_settings_types" value="1"<?php checked( 1, $types ); ?> />
 					<label class="civi_wp_member_sync_settings_label" for="civi_wp_member_sync_settings_types"><?php esc_html_e( 'Synchronize Individuals only.', 'civicrm-wp-member-sync' ); ?></label>
 					<p class="description"><?php esc_html_e( 'In versions of CiviCRM Member Sync prior to 0.3.5, all CiviCRM Memberships were synchronized to WordPress Users. This meant that Organisations and Households also had corresponding WordPress Users. If you want to restrict syncing to Individuals only, then check the box below.', 'civicrm-wp-member-sync' ); ?></p>
 				</td>
