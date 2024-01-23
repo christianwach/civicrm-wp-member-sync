@@ -161,11 +161,11 @@ class Civi_WP_Member_Sync {
 	public function setup_objects() {
 
 		// Instantiate our objects.
-		$this->users = new Civi_WP_Member_Sync_Users( $this );
-		$this->schedule = new Civi_WP_Member_Sync_Schedule( $this );
-		$this->admin = new Civi_WP_Member_Sync_Admin( $this );
-		$this->members = new Civi_WP_Member_Sync_Members( $this );
-		$this->groups = new Civi_WP_Member_Sync_Groups( $this );
+		$this->users      = new Civi_WP_Member_Sync_Users( $this );
+		$this->schedule   = new Civi_WP_Member_Sync_Schedule( $this );
+		$this->admin      = new Civi_WP_Member_Sync_Admin( $this );
+		$this->members    = new Civi_WP_Member_Sync_Members( $this );
+		$this->groups     = new Civi_WP_Member_Sync_Groups( $this );
 		$this->buddypress = new Civi_WP_Member_Sync_BuddyPress( $this );
 
 	}

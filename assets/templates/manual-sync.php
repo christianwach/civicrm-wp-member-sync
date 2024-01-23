@@ -25,7 +25,7 @@ defined( 'ABSPATH' ) || exit;
 	<?php
 
 	// Get updated query var.
-	$updated = '';
+	$updated     = '';
 	$updated_raw = filter_input( INPUT_GET, 'updated' );
 	if ( ! empty( $updated_raw ) ) {
 		$updated = trim( wp_unslash( $updated_raw ) );
@@ -76,7 +76,7 @@ defined( 'ABSPATH' ) || exit;
 
 		</table>
 
-		<?php if ( 'fgffgs' == get_option( '_civi_wpms_memberships_offset', 'fgffgs' ) ) : ?>
+		<?php if ( 'fgffgs' === get_option( '_civi_wpms_memberships_offset', 'fgffgs' ) ) : ?>
 			<?php $button = __( 'Synchronize Now', 'civicrm-wp-member-sync' ); ?>
 			<?php $stop = ''; ?>
 		<?php else : ?>

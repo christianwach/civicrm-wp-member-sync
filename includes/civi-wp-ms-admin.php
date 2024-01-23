@@ -178,7 +178,7 @@ class Civi_WP_Member_Sync_Admin {
 		$this->store_version();
 
 		// Store default settings option only if it does not exist.
-		if ( 'fgffgs' == $this->option_get( 'civi_wp_member_sync_settings', 'fgffgs' ) ) {
+		if ( 'fgffgs' === $this->option_get( 'civi_wp_member_sync_settings', 'fgffgs' ) ) {
 			$this->option_save( 'civi_wp_member_sync_settings', $this->settings_get_default() );
 		}
 
@@ -190,9 +190,7 @@ class Civi_WP_Member_Sync_Admin {
 	 * @since 0.1
 	 */
 	public function deactivate() {
-
 		// We delete our options in uninstall.php.
-
 	}
 
 	/**
@@ -754,7 +752,7 @@ class Civi_WP_Member_Sync_Admin {
 		}
 
 		// Get mode query var.
-		$mode = '';
+		$mode     = '';
 		$mode_raw = filter_input( INPUT_GET, 'mode' );
 		if ( ! empty( $mode_raw ) ) {
 			$mode = trim( wp_unslash( $mode_raw ) );
@@ -764,7 +762,7 @@ class Civi_WP_Member_Sync_Admin {
 		if ( 'edit' === $mode ) {
 
 			// Get Type ID query var.
-			$type_id = 0;
+			$type_id     = 0;
 			$type_id_raw = filter_input( INPUT_GET, 'type_id' );
 			if ( ! empty( $type_id_raw ) ) {
 				$type_id = (int) trim( wp_unslash( $type_id_raw ) );
@@ -928,7 +926,7 @@ class Civi_WP_Member_Sync_Admin {
 
 		// Set flags.
 		$dependencies_done = true;
-		$this->select2 = true;
+		$this->select2     = true;
 
 		// --<
 		return $dependencies;
@@ -972,7 +970,7 @@ class Civi_WP_Member_Sync_Admin {
 
 		// Set flags.
 		$dependencies_done = true;
-		$this->select2 = true;
+		$this->select2     = true;
 
 		// --<
 		return $dependencies;
@@ -1009,8 +1007,8 @@ class Civi_WP_Member_Sync_Admin {
 		$schedules = $this->plugin->schedule->intervals_get();
 
 		// Get our sync settings.
-		$login = (int) $this->setting_get( 'login' );
-		$civicrm = (int) $this->setting_get( 'civicrm' );
+		$login    = (int) $this->setting_get( 'login' );
+		$civicrm  = (int) $this->setting_get( 'civicrm' );
 		$schedule = (int) $this->setting_get( 'schedule' );
 
 		// Get our interval setting.
@@ -1122,7 +1120,7 @@ class Civi_WP_Member_Sync_Admin {
 		}
 
 		// Get mode query var.
-		$mode = 'add';
+		$mode     = 'add';
 		$mode_raw = filter_input( INPUT_GET, 'mode' );
 		if ( ! empty( $mode_raw ) ) {
 			$mode = trim( wp_unslash( $mode_raw ) );
@@ -1142,7 +1140,7 @@ class Civi_WP_Member_Sync_Admin {
 		if ( 'edit' === $mode ) {
 
 			// Get Type ID query var.
-			$type_id = 0;
+			$type_id     = 0;
 			$type_id_raw = filter_input( INPUT_GET, 'type_id' );
 			if ( ! empty( $type_id_raw ) ) {
 				$type_id = (int) trim( wp_unslash( $type_id_raw ) );
@@ -1257,7 +1255,7 @@ class Civi_WP_Member_Sync_Admin {
 		// Get requested Membership Type ID.
 		// TODO: Protect against malformed or missing Type ID.
 		$civi_member_type_id = 0;
-		$type_id_raw = filter_input( INPUT_GET, 'type_id' );
+		$type_id_raw         = filter_input( INPUT_GET, 'type_id' );
 		if ( ! empty( $type_id_raw ) ) {
 			$civi_member_type_id = (int) trim( wp_unslash( $type_id_raw ) );
 		}
@@ -1267,7 +1265,7 @@ class Civi_WP_Member_Sync_Admin {
 
 		// Set vars for populating form.
 		$current_rule = $selected_rule['current_rule'];
-		$expiry_rule = $selected_rule['expiry_rule'];
+		$expiry_rule  = $selected_rule['expiry_rule'];
 
 		// Get rules.
 		$rules = $this->rules_get_by_method( $method );
@@ -1280,7 +1278,7 @@ class Civi_WP_Member_Sync_Admin {
 
 			// Loop and remove from membership_types array.
 			foreach ( $type_ids as $type_id ) {
-				if ( isset( $membership_types[ $type_id ] ) && $civi_member_type_id != $type_id ) {
+				if ( isset( $membership_types[ $type_id ] ) && (int) $civi_member_type_id !== (int) $type_id ) {
 					unset( $membership_types[ $type_id ] );
 				}
 			}
@@ -1345,18 +1343,18 @@ class Civi_WP_Member_Sync_Admin {
 		if ( $this->is_network_activated() ) {
 
 			// Get admin page URLs via our adapted method.
-			$this->urls['settings'] = $this->network_menu_page_url( 'civi_wp_member_sync_settings', false );
+			$this->urls['settings']    = $this->network_menu_page_url( 'civi_wp_member_sync_settings', false );
 			$this->urls['manual_sync'] = $this->network_menu_page_url( 'civi_wp_member_sync_manual_sync', false );
-			$this->urls['list'] = $this->network_menu_page_url( 'civi_wp_member_sync_list', false );
-			$this->urls['rules'] = $this->network_menu_page_url( 'civi_wp_member_sync_rules', false );
+			$this->urls['list']        = $this->network_menu_page_url( 'civi_wp_member_sync_list', false );
+			$this->urls['rules']       = $this->network_menu_page_url( 'civi_wp_member_sync_rules', false );
 
 		} else {
 
 			// Get admin page URLs.
-			$this->urls['settings'] = menu_page_url( 'civi_wp_member_sync_settings', false );
+			$this->urls['settings']    = menu_page_url( 'civi_wp_member_sync_settings', false );
 			$this->urls['manual_sync'] = menu_page_url( 'civi_wp_member_sync_manual_sync', false );
-			$this->urls['list'] = menu_page_url( 'civi_wp_member_sync_list', false );
-			$this->urls['rules'] = menu_page_url( 'civi_wp_member_sync_rules', false );
+			$this->urls['list']        = menu_page_url( 'civi_wp_member_sync_list', false );
+			$this->urls['rules']       = menu_page_url( 'civi_wp_member_sync_rules', false );
 
 		}
 
@@ -1497,7 +1495,7 @@ class Civi_WP_Member_Sync_Admin {
 		}
 
 		// Get sync rule.
-		$sync_rule = '';
+		$sync_rule     = '';
 		$sync_rule_raw = filter_input( INPUT_GET, 'syncrule' );
 		if ( ! empty( $sync_rule_raw ) ) {
 			$sync_rule = trim( wp_unslash( $sync_rule_raw ) );
@@ -1507,7 +1505,7 @@ class Civi_WP_Member_Sync_Admin {
 		if ( 'delete' === $sync_rule ) {
 
 			// Get Type ID query var.
-			$type_id = 0;
+			$type_id     = 0;
 			$type_id_raw = filter_input( INPUT_GET, 'type_id' );
 			if ( ! empty( $type_id_raw ) ) {
 				$type_id = (int) trim( wp_unslash( $type_id_raw ) );
@@ -1538,15 +1536,15 @@ class Civi_WP_Member_Sync_Admin {
 		$settings = [];
 
 		// Set empty data arrays.
-		$settings['data']['roles'] = [];
+		$settings['data']['roles']        = [];
 		$settings['data']['capabilities'] = [];
 
 		// Set default method.
 		$settings['method'] = 'capabilities';
 
 		// Set initial sync settings.
-		$settings['login'] = 1;
-		$settings['civicrm'] = 1;
+		$settings['login']    = 1;
+		$settings['civicrm']  = 1;
 		$settings['schedule'] = 0;
 
 		// Set default schedule interval.
@@ -1577,7 +1575,7 @@ class Civi_WP_Member_Sync_Admin {
 		check_admin_referer( 'civi_wp_member_sync_settings_action', 'civi_wp_member_sync_nonce' );
 
 		// Synchronization method.
-		$settings_method = 'capabilities';
+		$settings_method     = 'capabilities';
 		$settings_method_raw = filter_input( INPUT_POST, 'civi_wp_member_sync_settings_method' );
 		if ( ! empty( $settings_method_raw ) ) {
 			$settings_method = trim( wp_unslash( $settings_method_raw ) );
@@ -1585,7 +1583,7 @@ class Civi_WP_Member_Sync_Admin {
 		$this->setting_set( 'method', $settings_method );
 
 		// Login/logout sync enabled.
-		$settings_login = 0;
+		$settings_login     = 0;
 		$settings_login_raw = filter_input( INPUT_POST, 'civi_wp_member_sync_settings_login' );
 		if ( ! empty( $settings_login_raw ) ) {
 			$settings_login = (int) trim( wp_unslash( $settings_login_raw ) );
@@ -1593,7 +1591,7 @@ class Civi_WP_Member_Sync_Admin {
 		$this->setting_set( 'login', ( $settings_login ? 1 : 0 ) );
 
 		// CiviCRM sync enabled.
-		$settings_civicrm = 0;
+		$settings_civicrm     = 0;
 		$settings_civicrm_raw = filter_input( INPUT_POST, 'civi_wp_member_sync_settings_civicrm' );
 		if ( ! empty( $settings_civicrm_raw ) ) {
 			$settings_civicrm = (int) trim( wp_unslash( $settings_civicrm_raw ) );
@@ -1604,7 +1602,7 @@ class Civi_WP_Member_Sync_Admin {
 		$existing_schedule = $this->setting_get( 'schedule' );
 
 		// Schedule sync enabled.
-		$settings_schedule = 0;
+		$settings_schedule     = 0;
 		$settings_schedule_raw = filter_input( INPUT_POST, 'civi_wp_member_sync_settings_schedule' );
 		if ( ! empty( $settings_schedule_raw ) ) {
 			$settings_schedule = (int) trim( wp_unslash( $settings_schedule_raw ) );
@@ -1630,7 +1628,7 @@ class Civi_WP_Member_Sync_Admin {
 			$settings_interval = esc_sql( trim( wp_unslash( $settings_interval_raw ) ) );
 
 			// Is the schedule active and has the interval changed?
-			if ( $settings_schedule && $settings_interval != $existing_interval ) {
+			if ( $settings_schedule && $settings_interval !== $existing_interval ) {
 
 				// Clear current scheduled event.
 				$this->plugin->schedule->unschedule();
@@ -1646,7 +1644,7 @@ class Civi_WP_Member_Sync_Admin {
 		}
 
 		// Sync restricted to Individuals?
-		$settings_types = 0;
+		$settings_types     = 0;
 		$settings_types_raw = filter_input( INPUT_POST, 'civi_wp_member_sync_settings_types' );
 		if ( ! empty( $settings_types_raw ) ) {
 			$settings_types = (int) wp_unslash( $settings_types_raw );
@@ -1980,7 +1978,7 @@ class Civi_WP_Member_Sync_Admin {
 		$multiple = false;
 
 		// Test our hidden "multiple" element.
-		$rules_multiple = '';
+		$rules_multiple     = '';
 		$rules_multiple_raw = filter_input( INPUT_POST, 'civi_wp_member_sync_rules_multiple' );
 		if ( ! empty( $rules_multiple_raw ) ) {
 			$rules_multiple = trim( wp_unslash( $rules_multiple_raw ) );
@@ -2075,7 +2073,7 @@ class Civi_WP_Member_Sync_Admin {
 		if ( 'roles' === $method ) {
 
 			// Check and sanitise WordPress Role.
-			$current_wp_role = '';
+			$current_wp_role     = '';
 			$current_wp_role_raw = filter_input( INPUT_POST, 'current_wp_role' );
 			if ( ! empty( $current_wp_role_raw ) ) {
 				$current_wp_role = esc_sql( trim( wp_unslash( $current_wp_role_raw ) ) );
@@ -2086,7 +2084,7 @@ class Civi_WP_Member_Sync_Admin {
 			}
 
 			// Check and sanitise Expiry Role.
-			$expired_wp_role = '';
+			$expired_wp_role     = '';
 			$expired_wp_role_raw = filter_input( INPUT_POST, 'expire_assign_wp_role' );
 			if ( ! empty( $expired_wp_role_raw ) ) {
 				$expired_wp_role = esc_sql( trim( wp_unslash( $expired_wp_role_raw ) ) );
@@ -2496,6 +2494,9 @@ class Civi_WP_Member_Sync_Admin {
 	 * can then be applied in one go, thus avoiding the overrides resulting from
 	 * the conflicting rules.
 	 *
+	 * Note: the check for an admin User has been Removed - DO NOT call this for
+	 * admins UNLESS you are using a plugin that enables multiple Roles.
+	 *
 	 * @since 0.1
 	 *
 	 * @param WP_User $user WP_User object of the User in question.
@@ -2503,11 +2504,6 @@ class Civi_WP_Member_Sync_Admin {
 	 * @return array $result Results of applying the rule.
 	 */
 	public function rule_apply( $user, $memberships = false ) {
-
-		/*
-		 * Removed check for admin User - DO NOT call this for admins UNLESS
-		 * You're using a plugin that enables multiple Roles.
-		 */
 
 		// Init return array.
 		$result = [];
@@ -2538,7 +2534,7 @@ class Civi_WP_Member_Sync_Admin {
 
 			// Get Membership Type and status rule.
 			$membership_type_id = $membership['membership_type_id'];
-			$status_id = $membership['status_id'];
+			$status_id          = $membership['status_id'];
 
 			// Get association rule for this Membership Type.
 			$association_rule = $this->rule_get_by_type( $membership_type_id, $method );
@@ -2550,7 +2546,7 @@ class Civi_WP_Member_Sync_Admin {
 
 			// Get status rules.
 			$current_rule = $association_rule['current_rule'];
-			$expiry_rule = $association_rule['expiry_rule'];
+			$expiry_rule  = $association_rule['expiry_rule'];
 
 			// Which sync method are we using?
 			if ( 'roles' === $method ) {
@@ -2777,7 +2773,7 @@ class Civi_WP_Member_Sync_Admin {
 
 			// Get Membership Type and status rule.
 			$membership_type_id = $membership['membership_type_id'];
-			$status_id = $membership['status_id'];
+			$status_id          = $membership['status_id'];
 
 			// Get association rule for this Membership Type.
 			$association_rule = $this->rule_get_by_type( $membership_type_id, $method );
@@ -2789,7 +2785,7 @@ class Civi_WP_Member_Sync_Admin {
 
 			// Get status rules.
 			$current_rule = $association_rule['current_rule'];
-			$expiry_rule = $association_rule['expiry_rule'];
+			$expiry_rule  = $association_rule['expiry_rule'];
 
 			// Which sync method are we using?
 			if ( 'roles' === $method ) {
@@ -3122,7 +3118,7 @@ class Civi_WP_Member_Sync_Admin {
 		}
 
 		// Not configured if "Fix Soft Delete" setting is not set.
-		if ( civicrm_au()->single->setting_get( 'fix_soft_delete', '0' ) == '0' ) {
+		if ( '0' === civicrm_au()->single->setting_get( 'fix_soft_delete', '0' ) ) {
 			return false;
 		}
 

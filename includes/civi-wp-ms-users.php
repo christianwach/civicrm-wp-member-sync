@@ -448,7 +448,7 @@ class Civi_WP_Member_Sync_Users {
 		if ( ! is_array( $status_rules ) ) {
 			return;
 		}
-		if ( count( $status_rules ) == 0 ) {
+		if ( 0 === count( $status_rules ) ) {
 			return;
 		}
 
@@ -508,7 +508,7 @@ class Civi_WP_Member_Sync_Users {
 	 * @since 0.1
 	 *
 	 * @param WP_User $user WP_User object of the logged-in User.
-	 * @return int $civi_contact_id The numerical CiviCRM Contact ID.
+	 * @return int $civi_contact_id The numeric CiviCRM Contact ID.
 	 */
 	public function civi_contact_id_get( $user ) {
 
@@ -610,7 +610,7 @@ class Civi_WP_Member_Sync_Users {
 
 		// Log and bail on failure.
 		if ( ! empty( $result['is_error'] ) ) {
-			$e = new \Exception();
+			$e     = new \Exception();
 			$trace = $e->getTraceAsString();
 			error_log( print_r( [
 				'method'    => __METHOD__,
@@ -650,7 +650,7 @@ class Civi_WP_Member_Sync_Users {
 	 *
 	 * @since 0.2.8
 	 *
-	 * @param int $civi_contact_id The numerical CiviCRM Contact ID.
+	 * @param int $civi_contact_id The numeric CiviCRM Contact ID.
 	 * @return object $user The WordPress User object, false on error.
 	 */
 	public function wp_user_create_from_contact_id( $civi_contact_id ) {
@@ -737,12 +737,12 @@ class Civi_WP_Member_Sync_Users {
 		$user_id = username_exists( $user_name );
 
 		// If not, check against email address.
-		if ( ! $user_id && email_exists( $civi_contact['email'] ) == false ) {
+		if ( ! $user_id && false === email_exists( $civi_contact['email'] ) ) {
 
 			// Generate a random password.
-			$length = 12;
+			$length                         = 12;
 			$include_standard_special_chars = false;
-			$random_password = wp_generate_password( $length, $include_standard_special_chars );
+			$random_password                = wp_generate_password( $length, $include_standard_special_chars );
 
 			// Remove filters.
 			$this->remove_filters();
@@ -840,7 +840,7 @@ class Civi_WP_Member_Sync_Users {
 		}
 
 		// Init flags.
-		$count = 1;
+		$count       = 1;
 		$user_exists = 1;
 
 		do {
@@ -906,7 +906,7 @@ class Civi_WP_Member_Sync_Users {
 
 		// Log and bail on failure.
 		if ( ! empty( $result['is_error'] ) ) {
-			$e = new \Exception();
+			$e     = new \Exception();
 			$trace = $e->getTraceAsString();
 			error_log( print_r( [
 				'method'    => __METHOD__,

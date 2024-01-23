@@ -88,7 +88,7 @@ class Civi_WP_Member_Sync_Admin_CAU {
 	public function __construct( $parent ) {
 
 		// Store references.
-		$this->admin = $parent;
+		$this->admin  = $parent;
 		$this->plugin = $parent->plugin;
 
 		// Initialise first.
@@ -303,7 +303,7 @@ class Civi_WP_Member_Sync_Admin_CAU {
 		$contact_ids = wp_list_pluck( $memberships['values'], 'contact_id' );
 
 		// Build the lists of User IDs with and without Membership.
-		$member_user_ids = [];
+		$member_user_ids     = [];
 		$non_member_user_ids = [];
 		foreach ( $ufmatch as $item ) {
 			if ( in_array( $item['contact_id'], $contact_ids ) ) {

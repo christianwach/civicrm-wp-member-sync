@@ -125,7 +125,7 @@ class Civi_WP_Member_Sync_Members {
 		$create_users = false;
 
 		// Grab "Create Users" value.
-		$manual_sync_create = '';
+		$manual_sync_create     = '';
 		$manual_sync_create_raw = filter_input( INPUT_POST, 'civi_wp_member_sync_manual_sync_create' );
 		if ( ! empty( $manual_sync_create_raw ) ) {
 			$manual_sync_create = trim( wp_unslash( $manual_sync_create_raw ) );
@@ -146,16 +146,16 @@ class Civi_WP_Member_Sync_Members {
 		}
 
 		// If the Memberships offset value doesn't exist.
-		if ( 'fgffgs' == get_option( '_civi_wpms_memberships_offset', 'fgffgs' ) ) {
+		if ( 'fgffgs' === get_option( '_civi_wpms_memberships_offset', 'fgffgs' ) ) {
 
 			// Start at the beginning.
 			$memberships_offset = 0;
-			$memberships_from = 0;
+			$memberships_from   = 0;
 
 			// Override if "From" field is populated.
 			$manual_sync_from = filter_input( INPUT_POST, 'civi_wp_member_sync_manual_sync_from' );
 			if ( ! empty( $manual_sync_from ) && is_numeric( trim( wp_unslash( $manual_sync_from ) ) ) ) {
-				$memberships_from = (int) trim( wp_unslash( $manual_sync_from ) );
+				$memberships_from   = (int) trim( wp_unslash( $manual_sync_from ) );
 				$memberships_offset = $memberships_from;
 			}
 
@@ -196,7 +196,7 @@ class Civi_WP_Member_Sync_Members {
 
 			// Set "from" and "to" flags.
 			$data['from'] = $memberships_offset;
-			$data['to'] = $data['from'] + $batch_count;
+			$data['to']   = $data['from'] + $batch_count;
 
 			// Init processed array.
 			$processed = [];
@@ -371,7 +371,7 @@ class Civi_WP_Member_Sync_Members {
 	public function sync_on_logout() {
 
 		// Get User.
-		$user = wp_get_current_user();
+		$user       = wp_get_current_user();
 		$user_login = $user->user_login;
 
 		// Call login method.
@@ -436,7 +436,7 @@ class Civi_WP_Member_Sync_Members {
 		}
 
 		// Let's mimic a User.
-		$user = new WP_User();
+		$user     = new WP_User();
 		$user->ID = PHP_INT_MAX;
 
 		// Create username from display name.
@@ -458,8 +458,8 @@ class Civi_WP_Member_Sync_Members {
 
 		// Add Display Name and First & Last Names.
 		$user->display_name = $civi_contact['display_name'];
-		$user->first_name = $civi_contact['first_name'];
-		$user->last_name = $civi_contact['last_name'];
+		$user->first_name   = $civi_contact['first_name'];
+		$user->last_name    = $civi_contact['last_name'];
 
 		// --<
 		return $user;
@@ -553,12 +553,12 @@ class Civi_WP_Member_Sync_Members {
 	 *
 	 * @since 0.1
 	 *
-	 * @param string  $op the type of database operation.
-	 * @param string  $objectName the type of object.
-	 * @param integer $objectId the ID of the object.
-	 * @param object  $objectRef the object.
+	 * @param string  $op The type of database operation.
+	 * @param string  $object_name The type of object.
+	 * @param integer $object_id The ID of the object.
+	 * @param object  $object_ref The object.
 	 */
-	public function membership_pre_update( $op, $objectName, $objectId, $objectRef ) {
+	public function membership_pre_update( $op, $object_name, $object_id, $object_ref ) {
 
 		// Only process edit operations.
 		if ( 'edit' !== $op ) {
@@ -566,7 +566,7 @@ class Civi_WP_Member_Sync_Members {
 		}
 
 		// Target our object type.
-		if ( 'Membership' !== $objectName ) {
+		if ( 'Membership' !== $object_name ) {
 			return;
 		}
 
@@ -574,7 +574,7 @@ class Civi_WP_Member_Sync_Members {
 		$params = [
 			'version'    => 3,
 			'sequential' => 1,
-			'id'         => $objectId,
+			'id'         => $object_id,
 		];
 
 		// Get full CiviCRM Membership data.
@@ -582,7 +582,7 @@ class Civi_WP_Member_Sync_Members {
 
 		// Log and bail on error.
 		if ( ! empty( $result['is_error'] ) ) {
-			$e = new \Exception();
+			$e     = new \Exception();
 			$trace = $e->getTraceAsString();
 			error_log( print_r( [
 				'method'    => __METHOD__,
@@ -613,19 +613,19 @@ class Civi_WP_Member_Sync_Members {
 	 * @since 0.1
 	 *
 	 * @param string  $op The type of database operation.
-	 * @param string  $objectName The type of object.
-	 * @param integer $objectId The ID of the object.
-	 * @param object  $objectRef The object.
+	 * @param string  $object_name The type of object.
+	 * @param integer $object_id The ID of the object.
+	 * @param object  $object_ref The object.
 	 */
-	public function membership_updated( $op, $objectName, $objectId, $objectRef ) {
+	public function membership_updated( $op, $object_name, $object_id, $object_ref ) {
 
 		// Target our object type.
-		if ( 'Membership' !== $objectName ) {
+		if ( 'Membership' !== $object_name ) {
 			return;
 		}
 
 		// Kick out if we don't have a Contact ID.
-		if ( ! isset( $objectRef->contact_id ) ) {
+		if ( ! isset( $object_ref->contact_id ) ) {
 			return;
 		}
 
@@ -638,11 +638,11 @@ class Civi_WP_Member_Sync_Members {
 		$previous_membership = null;
 
 		// For edit operations, we first need to check for renewals.
-		if ( 'edit' === $op && isset( $this->membership_pre ) && isset( $objectRef->membership_type_id ) ) {
+		if ( 'edit' === $op && isset( $this->membership_pre ) && isset( $object_ref->membership_type_id ) ) {
 
 			// Make sure we're comparing like with like.
 			$previous_type_id = (int) $this->membership_pre['values'][0]['membership_type_id'];
-			$current_type_id = (int) $objectRef->membership_type_id;
+			$current_type_id  = (int) $object_ref->membership_type_id;
 
 			// Do we have different CiviCRM Membership Types?
 			if ( $previous_type_id !== $current_type_id ) {
@@ -668,13 +668,13 @@ class Civi_WP_Member_Sync_Members {
 		if ( $this->plugin->admin->rule_exists( $previous_membership ) ) {
 
 			// Get WordPress User for this Contact ID.
-			$user = $this->plugin->users->wp_user_get_by_civi_id( $objectRef->contact_id );
+			$user = $this->plugin->users->wp_user_get_by_civi_id( $object_ref->contact_id );
 
 			// If we don't receive a valid User.
 			if ( ! ( $user instanceof WP_User ) ) {
 
 				// Create WordPress User and prepare for sync.
-				$user = $this->user_prepare_for_sync( $objectRef->contact_id );
+				$user = $this->user_prepare_for_sync( $object_ref->contact_id );
 
 				// Bail if something went wrong.
 				if ( false === $user ) {
@@ -700,7 +700,7 @@ class Civi_WP_Member_Sync_Members {
 		}
 
 		// Get all the Memberships for this Contact.
-		$memberships = $this->membership_get_by_contact_id( $objectRef->contact_id );
+		$memberships = $this->membership_get_by_contact_id( $object_ref->contact_id );
 
 		// Bail if there are no applicable rules for these Memberships.
 		if ( ! $this->plugin->admin->rule_exists( $memberships ) ) {
@@ -711,13 +711,13 @@ class Civi_WP_Member_Sync_Members {
 		if ( ! isset( $user ) ) {
 
 			// Get WordPress User for this Contact ID.
-			$user = $this->plugin->users->wp_user_get_by_civi_id( $objectRef->contact_id );
+			$user = $this->plugin->users->wp_user_get_by_civi_id( $object_ref->contact_id );
 
 			// If we don't receive a valid User.
 			if ( ! ( $user instanceof WP_User ) ) {
 
 				// Create WordPress User and prepare for sync.
-				$user = $this->user_prepare_for_sync( $objectRef->contact_id );
+				$user = $this->user_prepare_for_sync( $object_ref->contact_id );
 
 				// Bail if something went wrong.
 				if ( false === $user ) {
@@ -746,10 +746,10 @@ class Civi_WP_Member_Sync_Members {
 		 *
 		 * @param str $op The type of operation.
 		 * @param WP_User $user The WordPress User object.
-		 * @param object $objectRef The CiviCRM Membership being updated.
+		 * @param object $object_ref The CiviCRM Membership being updated.
 		 * @param object $previous_membership The previous CiviCRM Membership if this is a renewal.
 		 */
-		do_action( 'civi_wp_member_sync_membership_updated', $op, $user, $objectRef, $previous_membership );
+		do_action( 'civi_wp_member_sync_membership_updated', $op, $user, $object_ref, $previous_membership );
 
 	}
 
@@ -758,20 +758,20 @@ class Civi_WP_Member_Sync_Members {
 	 *
 	 * @since 0.3
 	 *
-	 * @param string  $op the type of database operation.
-	 * @param string  $objectName the type of object.
-	 * @param integer $objectId the ID of the object.
-	 * @param object  $objectRef the object.
+	 * @param string  $op The type of database operation.
+	 * @param string  $object_name The type of object.
+	 * @param integer $object_id The ID of the object.
+	 * @param object  $object_ref The object.
 	 */
-	public function membership_deleted( $op, $objectName, $objectId, $objectRef ) {
+	public function membership_deleted( $op, $object_name, $object_id, $object_ref ) {
 
 		// Target our object type.
-		if ( 'Membership' !== $objectName ) {
+		if ( 'Membership' !== $object_name ) {
 			return;
 		}
 
 		// Kick out if we don't have a Contact ID.
-		if ( ! isset( $objectRef->contact_id ) ) {
+		if ( ! isset( $object_ref->contact_id ) ) {
 			return;
 		}
 
@@ -781,7 +781,7 @@ class Civi_WP_Member_Sync_Members {
 		}
 
 		// Get WordPress User for this Contact ID.
-		$user = $this->plugin->users->wp_user_get_by_civi_id( $objectRef->contact_id );
+		$user = $this->plugin->users->wp_user_get_by_civi_id( $object_ref->contact_id );
 
 		// Bail if we don't receive a valid User.
 		if ( ! ( $user instanceof WP_User ) ) {
@@ -794,7 +794,7 @@ class Civi_WP_Member_Sync_Members {
 		}
 
 		// Undo WordPress User's Membership.
-		$this->plugin->admin->rule_undo( $user, $objectRef );
+		$this->plugin->admin->rule_undo( $user, $object_ref );
 
 		/**
 		 * Fires when a Membership has been deleted.
@@ -802,9 +802,9 @@ class Civi_WP_Member_Sync_Members {
 		 * @since 0.5.1
 		 *
 		 * @param WP_User $user The WordPress User object.
-		 * @param object $objectRef The CiviCRM Membership being deleted.
+		 * @param object $object_ref The CiviCRM Membership being deleted.
 		 */
-		do_action( 'civi_wp_member_sync_membership_deleted', $user, $objectRef );
+		do_action( 'civi_wp_member_sync_membership_deleted', $user, $object_ref );
 
 	}
 
@@ -813,10 +813,10 @@ class Civi_WP_Member_Sync_Members {
 	 *
 	 * @since 0.1
 	 *
-	 * @param string $formName the CiviCRM form name.
-	 * @param object $form the CiviCRM form object.
+	 * @param string $form_name The CiviCRM form name.
+	 * @param object $form The CiviCRM form object.
 	 */
-	public function membership_form_process( $formName, &$form ) {
+	public function membership_form_process( $form_name, &$form ) {
 
 		// Kick out if not Membership form.
 		if ( ! ( $form instanceof CRM_Member_Form_Membership ) ) {
@@ -840,11 +840,11 @@ class Civi_WP_Member_Sync_Members {
 	 *
 	 * @since 0.1
 	 *
-	 * @param int $offset The numerical offset to apply.
-	 * @param int $limit The numerical limit to apply.
-	 * @param int $contact_id The numerical CiviCRM Contact ID.
-	 * @param int $type_id The numerical CiviCRM Membership Type ID.
-	 * @param int $status_id The numerical CiviCRM Membership Status ID.
+	 * @param int $offset The numeric offset to apply.
+	 * @param int $limit The numeric limit to apply.
+	 * @param int $contact_id The numeric CiviCRM Contact ID.
+	 * @param int $type_id The numeric CiviCRM Membership Type ID.
+	 * @param int $status_id The numeric CiviCRM Membership Status ID.
 	 * @return bool|array $data CiviCRM formatted Membership data or false on failure.
 	 */
 	public function memberships_get( $offset = 0, $limit = 0, $contact_id = 0, $type_id = 0, $status_id = 0 ) {
@@ -892,7 +892,7 @@ class Civi_WP_Member_Sync_Members {
 
 		// Amend params using Contact ID if supplied.
 		if ( 0 !== $contact_id ) {
-			$params['contact_id'] = $contact_id;
+			$params['contact_id']      = $contact_id;
 			$params['options']['sort'] = 'status_id.is_current_member ASC, end_date ASC';
 		}
 
@@ -911,7 +911,7 @@ class Civi_WP_Member_Sync_Members {
 
 		// Log and bail on error.
 		if ( ! empty( $result['is_error'] ) ) {
-			$e = new \Exception();
+			$e     = new \Exception();
 			$trace = $e->getTraceAsString();
 			error_log( print_r( [
 				'method'    => __METHOD__,
@@ -985,7 +985,7 @@ class Civi_WP_Member_Sync_Members {
 
 		// Log and bail on error.
 		if ( ! empty( $result['is_error'] ) ) {
-			$e = new \Exception();
+			$e     = new \Exception();
 			$trace = $e->getTraceAsString();
 			error_log( print_r( [
 				'method'     => __METHOD__,
@@ -1020,7 +1020,7 @@ class Civi_WP_Member_Sync_Members {
 
 			// Maybe overwrite with an expired status.
 			if ( ! empty( $expired ) && false === $expired['is_expired'] ) {
-				$membership['status_id'] = $expired['status_id'];
+				$membership['status_id']                   = $expired['status_id'];
 				$membership['status_id.is_current_member'] = 0;
 			}
 
@@ -1068,7 +1068,7 @@ class Civi_WP_Member_Sync_Members {
 
 		// Get Membership Type and status rule.
 		$membership_type_id = $membership['membership_type_id'];
-		$status_id = $membership['status_id'];
+		$status_id          = $membership['status_id'];
 
 		// Get association rule for this Membership Type.
 		$association_rule = $this->plugin->admin->rule_get_by_type( $membership_type_id, $method );
@@ -1078,7 +1078,7 @@ class Civi_WP_Member_Sync_Members {
 
 		// Get status rules.
 		$current_rule = $association_rule['current_rule'];
-		$expiry_rule = $association_rule['expiry_rule'];
+		$expiry_rule  = $association_rule['expiry_rule'];
 
 		// Always add an expired Status ID.
 		$expired['status_id'] = array_shift( $expiry_rule );
@@ -1100,7 +1100,7 @@ class Civi_WP_Member_Sync_Members {
 	 *
 	 * @since 0.1
 	 *
-	 * @param int $civi_contact_id The numerical CiviCRM Contact ID.
+	 * @param int $civi_contact_id The numeric CiviCRM Contact ID.
 	 * @return array $membership CiviCRM formatted Membership data.
 	 */
 	public function membership_get_by_contact_id( $civi_contact_id ) {
@@ -1112,7 +1112,7 @@ class Civi_WP_Member_Sync_Members {
 
 		// Pass to centralised method.
 		$offset = 0;
-		$limit = 0;
+		$limit  = 0;
 		return $this->memberships_get( $offset, $limit, $civi_contact_id );
 
 	}
@@ -1143,7 +1143,7 @@ class Civi_WP_Member_Sync_Members {
 		if ( ! is_array( $membership_types ) ) {
 			return false;
 		}
-		if ( count( $membership_types ) == 0 ) {
+		if ( 0 === count( $membership_types ) ) {
 			return false;
 		}
 
@@ -1205,7 +1205,7 @@ class Civi_WP_Member_Sync_Members {
 
 			// Get Membership Type and status rule.
 			$membership_type_id = $membership['membership_type_id'];
-			$status_id = $membership['status_id'];
+			$status_id          = $membership['status_id'];
 
 			// Get association rule for this Membership Type.
 			$association_rule = $this->plugin->admin->rule_get_by_type( $membership_type_id, $method );
@@ -1225,7 +1225,7 @@ class Civi_WP_Member_Sync_Members {
 
 			// Get status rules.
 			$current_rule = $association_rule['current_rule'];
-			$expiry_rule = $association_rule['expiry_rule'];
+			$expiry_rule  = $association_rule['expiry_rule'];
 
 			// Which sync method are we using?
 			if ( 'roles' === $method ) {
@@ -1346,7 +1346,7 @@ class Civi_WP_Member_Sync_Members {
 
 		// Log and bail on error.
 		if ( ! empty( $result['is_error'] ) ) {
-			$e = new \Exception();
+			$e     = new \Exception();
 			$trace = $e->getTraceAsString();
 			error_log( print_r( [
 				'method'    => __METHOD__,
@@ -1403,7 +1403,7 @@ class Civi_WP_Member_Sync_Members {
 
 		// Log and bail on error.
 		if ( ! empty( $result['is_error'] ) ) {
-			$e = new \Exception();
+			$e     = new \Exception();
 			$trace = $e->getTraceAsString();
 			error_log( print_r( [
 				'method'    => __METHOD__,
@@ -1450,7 +1450,7 @@ class Civi_WP_Member_Sync_Members {
 		if ( ! is_array( $membership_statuses ) ) {
 			return false;
 		}
-		if ( count( $membership_statuses ) == 0 ) {
+		if ( 0 === count( $membership_statuses ) ) {
 			return false;
 		}
 
@@ -1514,7 +1514,7 @@ class Civi_WP_Member_Sync_Members {
 		if ( ! is_array( $status_rules ) ) {
 			return false;
 		}
-		if ( count( $status_rules ) == 0 ) {
+		if ( 0 === count( $status_rules ) ) {
 			return false;
 		}
 

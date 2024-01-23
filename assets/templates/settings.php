@@ -25,7 +25,7 @@ defined( 'ABSPATH' ) || exit;
 	<?php
 
 	// Get updated query var.
-	$updated = '';
+	$updated     = '';
 	$updated_raw = filter_input( INPUT_GET, 'updated' );
 	if ( ! empty( $updated_raw ) ) {
 		$updated = trim( wp_unslash( $updated_raw ) );
@@ -224,7 +224,7 @@ defined( 'ABSPATH' ) || exit;
 						foreach ( $schedules as $key => $value ) {
 
 							$selected = '';
-							if ( isset( $interval ) && $key == $interval ) {
+							if ( isset( $interval ) && $key === $interval ) {
 								$selected = ' selected="selected"';
 							}
 

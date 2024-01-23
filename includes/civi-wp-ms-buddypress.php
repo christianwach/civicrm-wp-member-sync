@@ -195,7 +195,7 @@ class Civi_WP_Member_Sync_BuddyPress {
 		}
 
 		// Grab search string.
-		$search = '';
+		$search     = '';
 		$search_raw = filter_input( INPUT_POST, 's' );
 		if ( ! empty( $search_raw ) ) {
 			$search = trim( wp_unslash( $search_raw ) );
@@ -207,7 +207,7 @@ class Civi_WP_Member_Sync_BuddyPress {
 		}
 
 		// Grab comma-separated excludes.
-		$exclude = '';
+		$exclude     = '';
 		$exclude_raw = filter_input( INPUT_POST, 'exclude' );
 		if ( ! empty( $exclude_raw ) ) {
 			$exclude = trim( wp_unslash( $exclude_raw ) );
@@ -367,7 +367,7 @@ class Civi_WP_Member_Sync_BuddyPress {
 
 		// Maybe log on failure?
 		if ( ! $success ) {
-			$e = new Exception();
+			$e     = new Exception();
 			$trace = $e->getTraceAsString();
 			error_log( print_r( [
 				'method'    => __METHOD__,
@@ -464,7 +464,7 @@ class Civi_WP_Member_Sync_BuddyPress {
 
 		// Add to the rule.
 		$rule['current_buddypress'] = $current;
-		$rule['expiry_buddypress'] = $expiry;
+		$rule['expiry_buddypress']  = $expiry;
 
 		// --<
 		return $rule;
@@ -665,7 +665,7 @@ class Civi_WP_Member_Sync_BuddyPress {
 
 		// Init options.
 		$options_html = '';
-		$options = [];
+		$options      = [];
 
 		if ( ! empty( $group_ids ) ) {
 
@@ -702,7 +702,7 @@ class Civi_WP_Member_Sync_BuddyPress {
 
 		// Init options.
 		$options_html = '';
-		$options = [];
+		$options      = [];
 
 		if ( ! empty( $group_ids ) ) {
 

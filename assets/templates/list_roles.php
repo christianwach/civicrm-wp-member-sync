@@ -32,7 +32,7 @@ defined( 'ABSPATH' ) || exit;
 	<?php
 
 	// Get sync rule.
-	$sync_rule = '';
+	$sync_rule     = '';
 	$sync_rule_raw = filter_input( INPUT_GET, 'syncrule' );
 	if ( ! empty( $sync_rule_raw ) ) {
 		$sync_rule = trim( wp_unslash( $sync_rule_raw ) );
@@ -128,7 +128,7 @@ defined( 'ABSPATH' ) || exit;
 			foreach ( $data as $key => $item ) {
 
 				// Construct URLs for this item.
-				$edit_url = $urls['rules'] . '&mode=edit&type_id=' . $key;
+				$edit_url   = $urls['rules'] . '&mode=edit&type_id=' . $key;
 				$delete_url = wp_nonce_url(
 					$urls['list'] . '&syncrule=delete&type_id=' . $key,
 					'civi_wp_member_sync_delete_link',

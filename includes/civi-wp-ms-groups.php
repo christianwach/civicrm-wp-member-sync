@@ -120,11 +120,6 @@ class Civi_WP_Member_Sync_Groups {
 		// Hook into manual sync process, before sync.
 		add_action( 'civi_wp_member_sync_pre_sync_all', [ $this, 'groups_pre_sync' ] );
 
-		/*
-		// Hook into save post and auto-restrict.
-		add_action( 'save_post', [ $this, 'groups_intercept_save_post' ], 1, 2 );
-		*/
-
 		// Bail if "Groups" is not version 2.8.0 or greater.
 		if ( version_compare( GROUPS_CORE_VERSION, '2.8.0', '<' ) ) {
 			return;
@@ -202,7 +197,7 @@ class Civi_WP_Member_Sync_Groups {
 		}
 
 		// Grab search string.
-		$search = '';
+		$search     = '';
 		$search_raw = filter_input( INPUT_POST, 's' );
 		if ( ! empty( $search_raw ) ) {
 			$search = trim( wp_unslash( $search_raw ) );
@@ -214,7 +209,7 @@ class Civi_WP_Member_Sync_Groups {
 		}
 
 		// Grab comma-separated excludes.
-		$exclude = '';
+		$exclude     = '';
 		$exclude_raw = filter_input( INPUT_POST, 'exclude' );
 		if ( ! empty( $exclude_raw ) ) {
 			$exclude = trim( wp_unslash( $exclude_raw ) );
@@ -237,7 +232,7 @@ class Civi_WP_Member_Sync_Groups {
 
 		// Do query.
 		$group_table = _groups_get_tablename( 'group' );
-		$like = '%' . $wpdb->esc_like( $search ) . '%';
+		$like        = '%' . $wpdb->esc_like( $search ) . '%';
 		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 		$groups = $wpdb->get_results(
 			$wpdb->prepare(
@@ -387,7 +382,7 @@ class Civi_WP_Member_Sync_Groups {
 
 		// Maybe log on failure?
 		if ( ! $success ) {
-			$e = new Exception();
+			$e     = new Exception();
 			$trace = $e->getTraceAsString();
 			error_log( print_r( [
 				'method'    => __METHOD__,
@@ -424,7 +419,7 @@ class Civi_WP_Member_Sync_Groups {
 
 		// Maybe log on failure?
 		if ( ! $success ) {
-			$e = new Exception();
+			$e     = new Exception();
 			$trace = $e->getTraceAsString();
 			error_log( print_r( [
 				'method'    => __METHOD__,
@@ -482,7 +477,7 @@ class Civi_WP_Member_Sync_Groups {
 
 		// Add to the rule.
 		$rule['current_groups'] = $current;
-		$rule['expiry_groups'] = $expiry;
+		$rule['expiry_groups']  = $expiry;
 
 		// --<
 		return $rule;
@@ -683,7 +678,7 @@ class Civi_WP_Member_Sync_Groups {
 
 		// Init options.
 		$options_html = '';
-		$options = [];
+		$options      = [];
 
 		if ( ! empty( $group_ids ) ) {
 
@@ -720,7 +715,7 @@ class Civi_WP_Member_Sync_Groups {
 
 		// Init options.
 		$options_html = '';
-		$options = [];
+		$options      = [];
 
 		if ( ! empty( $group_ids ) ) {
 
@@ -902,11 +897,14 @@ class Civi_WP_Member_Sync_Groups {
 	/**
 	 * Auto-restrict a Post based on the Post Type.
 	 *
-	 * @since 0.2.3
-	 * @since 0.3.9 Moved into this class.
-	 *
 	 * This is a placeholder in case we want to extend this plugin to handle
 	 * automatic content restriction.
+	 *
+	 * // Hook into save post to auto-restrict.
+	 * add_action( 'save_post', [ $this, 'groups_intercept_save_post' ], 1, 2 );
+	 *
+	 * @since 0.2.3
+	 * @since 0.3.9 Moved into this class.
 	 *
 	 * @param int    $post_id The numeric ID of the Post.
 	 * @param object $post The WordPress Post object.
