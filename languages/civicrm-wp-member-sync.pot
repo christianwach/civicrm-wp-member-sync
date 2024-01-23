@@ -1,31 +1,30 @@
-# Copyright (C) 2023 Christian Wach
+# Copyright (C) 2024 Christian Wach
 # This file is distributed under the same license as the CiviCRM Member Sync plugin.
 msgid ""
 msgstr ""
-"Project-Id-Version: CiviCRM Member Sync 0.6.0a\n"
+"Project-Id-Version: CiviCRM Member Sync 0.6.1a\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/civicrm-wp-member-sync\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2023-05-18T19:23:00+00:00\n"
+"POT-Creation-Date: 2024-01-23T14:21:57+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"X-Generator: WP-CLI 2.7.1\n"
+"X-Generator: WP-CLI 2.9.0\n"
 "X-Domain: civicrm-wp-member-sync\n"
 
 #. Plugin Name of the plugin
 #: assets/templates/list_caps.php:17
 #: assets/templates/list_roles.php:17
 #: assets/templates/manual-sync.php:17
-#: assets/templates/migrate.php:17
 #: assets/templates/rule-cap-add.php:17
 #: assets/templates/rule-cap-edit.php:17
 #: assets/templates/rule-role-add.php:17
 #: assets/templates/rule-role-edit.php:17
 #: assets/templates/settings.php:17
-#: includes/civi-wp-ms-admin.php:461
-#: includes/civi-wp-ms-admin.php:873
+#: includes/civi-wp-ms-admin.php:453
+#: includes/civi-wp-ms-admin.php:865
 msgid "CiviCRM Member Sync"
 msgstr ""
 
@@ -95,21 +94,19 @@ msgstr ""
 #: assets/templates/list_caps.php:20
 #: assets/templates/list_roles.php:20
 #: assets/templates/manual-sync.php:20
-#: assets/templates/migrate.php:20
 #: assets/templates/rule-cap-add.php:20
 #: assets/templates/rule-cap-edit.php:20
 #: assets/templates/rule-role-add.php:20
 #: assets/templates/rule-role-edit.php:20
 #: assets/templates/settings.php:20
-#: civicrm-wp-member-sync.php:314
-#: includes/civi-wp-ms-admin.php:489
+#: civicrm-wp-member-sync.php:309
+#: includes/civi-wp-ms-admin.php:481
 msgid "Settings"
 msgstr ""
 
 #: assets/templates/list_caps.php:21
 #: assets/templates/list_roles.php:21
 #: assets/templates/manual-sync.php:21
-#: assets/templates/migrate.php:21
 #: assets/templates/rule-cap-add.php:21
 #: assets/templates/rule-cap-edit.php:21
 #: assets/templates/rule-role-add.php:21
@@ -121,7 +118,6 @@ msgstr ""
 #: assets/templates/list_caps.php:22
 #: assets/templates/list_roles.php:22
 #: assets/templates/manual-sync.php:22
-#: assets/templates/migrate.php:22
 #: assets/templates/rule-cap-add.php:22
 #: assets/templates/rule-cap-edit.php:22
 #: assets/templates/rule-role-add.php:22
@@ -131,97 +127,97 @@ msgid "Manual Synchronize"
 msgstr ""
 
 #: assets/templates/list_caps.php:25
-#: assets/templates/rule-cap-add.php:49
-#: assets/templates/rule-cap-edit.php:49
+#: assets/templates/rule-cap-add.php:37
+#: assets/templates/rule-cap-edit.php:37
 msgid "Current Status adds a Membership Capability to the WordPress User, while Expired Status removes the Membership Capability from the WordPress User. This Capability will be of the form \"civimember_ID\", where \"ID\" is the numeric ID of the Membership Type. So, for Membership Type 2, the Capability will be \"civimember_2\". If you have the \"Members\" plugin active, then the \"restrict_content\" Capability will also be added."
 msgstr ""
 
 #: assets/templates/list_caps.php:27
-#: assets/templates/rule-cap-add.php:51
-#: assets/templates/rule-cap-edit.php:51
+#: assets/templates/rule-cap-add.php:39
+#: assets/templates/rule-cap-edit.php:39
 msgid "An additional Membership Status Capability will also be added to the WordPress User that is tied to the status of their Membership. This Capability will be of the form \"civimember_ID_NUM\", where \"ID\" is the numeric ID of the Membership Type and \"NUM\" is the numeric ID of the Membership Status. So, for Membership Type 2 with Membership Status 4, the Capability will be \"civimember_2_4\"."
 msgstr ""
 
 #: assets/templates/list_caps.php:30
-#: assets/templates/list_roles.php:25
+#: assets/templates/list_roles.php:26
 msgid "All Association Rules"
 msgstr ""
 
 #: assets/templates/list_caps.php:32
-#: assets/templates/list_roles.php:31
+#: assets/templates/list_roles.php:28
 msgid "Add New"
 msgstr ""
 
-#: assets/templates/list_caps.php:52
-#: assets/templates/list_roles.php:53
+#: assets/templates/list_caps.php:44
+#: assets/templates/list_roles.php:40
 msgid "Association Rule updated."
 msgstr ""
 
-#: assets/templates/list_caps.php:55
-#: assets/templates/list_roles.php:56
+#: assets/templates/list_caps.php:47
+#: assets/templates/list_roles.php:43
 msgid "Association Rule added."
 msgstr ""
 
-#: assets/templates/list_caps.php:58
-#: assets/templates/list_roles.php:59
+#: assets/templates/list_caps.php:50
+#: assets/templates/list_roles.php:46
 msgid "Association Rule deleted."
 msgstr ""
 
-#: assets/templates/list_caps.php:61
-#: assets/templates/list_roles.php:62
+#: assets/templates/list_caps.php:53
+#: assets/templates/list_roles.php:49
 msgid "Association Rules deleted."
 msgstr ""
 
-#: assets/templates/list_caps.php:90
-#: assets/templates/list_roles.php:91
+#: assets/templates/list_caps.php:75
+#: assets/templates/list_roles.php:71
 msgid "CiviCRM Membership Type"
 msgstr ""
 
-#: assets/templates/list_caps.php:91
+#: assets/templates/list_caps.php:76
 msgid "Current Codes"
 msgstr ""
 
-#: assets/templates/list_caps.php:102
+#: assets/templates/list_caps.php:87
 msgid "Expired Codes"
 msgstr ""
 
-#: assets/templates/list_caps.php:113
+#: assets/templates/list_caps.php:98
 msgid "Membership Capability"
 msgstr ""
 
-#: assets/templates/list_caps.php:148
-#: assets/templates/list_roles.php:150
+#: assets/templates/list_caps.php:133
+#: assets/templates/list_roles.php:130
 msgid "Edit"
 msgstr ""
 
-#: assets/templates/list_caps.php:149
-#: assets/templates/list_roles.php:151
+#: assets/templates/list_caps.php:134
+#: assets/templates/list_roles.php:131
 msgid "Delete"
 msgstr ""
 
-#: assets/templates/list_caps.php:226
-#: assets/templates/list_roles.php:214
+#: assets/templates/list_caps.php:211
+#: assets/templates/list_roles.php:194
 msgid "Clear Association Rules"
 msgstr ""
 
-#: assets/templates/list_caps.php:227
-#: assets/templates/list_roles.php:215
+#: assets/templates/list_caps.php:212
+#: assets/templates/list_roles.php:195
 msgid "Warning: this will delete all your existing Association Rules."
 msgstr ""
 
-#: assets/templates/list_roles.php:92
+#: assets/templates/list_roles.php:72
 msgid "Current Member Codes"
 msgstr ""
 
-#: assets/templates/list_roles.php:93
+#: assets/templates/list_roles.php:73
 msgid "Current WP Role"
 msgstr ""
 
-#: assets/templates/list_roles.php:104
+#: assets/templates/list_roles.php:84
 msgid "Expired Member Codes"
 msgstr ""
 
-#: assets/templates/list_roles.php:105
+#: assets/templates/list_roles.php:85
 msgid "Expiry WP Role"
 msgstr ""
 
@@ -281,62 +277,42 @@ msgstr ""
 msgid "When this box is checked, no changes will be made and you will get feedback on what would happen."
 msgstr ""
 
-#: assets/templates/manual-sync.php:79
+#: assets/templates/manual-sync.php:80
 msgid "Synchronize Now"
 msgstr ""
 
-#: assets/templates/manual-sync.php:79
+#: assets/templates/manual-sync.php:83
 msgid "Continue Sync"
 msgstr ""
 
-#: assets/templates/manual-sync.php:79
+#: assets/templates/manual-sync.php:90
 msgid "Stop Sync"
 msgstr ""
 
-#: assets/templates/manual-sync.php:93
+#: assets/templates/manual-sync.php:106
 msgid "New"
 msgstr ""
 
-#: assets/templates/manual-sync.php:94
+#: assets/templates/manual-sync.php:107
 msgid "Contact Name"
 msgstr ""
 
-#: assets/templates/manual-sync.php:95
+#: assets/templates/manual-sync.php:108
 msgid "Username"
 msgstr ""
 
-#: assets/templates/manual-sync.php:96
+#: assets/templates/manual-sync.php:109
 msgid "Membership Type"
 msgstr ""
 
-#: assets/templates/manual-sync.php:97
+#: assets/templates/manual-sync.php:110
 msgid "Status"
 msgstr ""
 
-#: assets/templates/migrate.php:36
-msgid "Migration complete. You can now deactivate the old plugin."
-msgstr ""
-
-#: assets/templates/migrate.php:45
-msgid "Legacy civi_member_sync plugin detected"
-msgstr ""
-
-#: assets/templates/migrate.php:47
-msgid "A version of the civi_member_sync plugin has been detected."
-msgstr ""
-
-#: assets/templates/migrate.php:49
-msgid "Click the \"Migrate Data Now\" button below to import all association rules into CiviCRM Member Sync."
-msgstr ""
-
-#: assets/templates/migrate.php:51
-msgid "Migrate Data Now"
-msgstr ""
-
 #: assets/templates/rule-cap-add.php:25
-#: assets/templates/rule-cap-add.php:123
+#: assets/templates/rule-cap-add.php:115
 #: assets/templates/rule-role-add.php:25
-#: assets/templates/rule-role-add.php:143
+#: assets/templates/rule-role-add.php:139
 msgid "Add Association Rule"
 msgstr ""
 
@@ -347,26 +323,26 @@ msgstr ""
 msgid "Cancel"
 msgstr ""
 
-#: assets/templates/rule-cap-add.php:47
+#: assets/templates/rule-cap-add.php:35
 msgid "Choose one or more CiviMember Membership Types and select the Current and Expired Statuses for them. All statuses must be allocated as either Current or Expired."
 msgstr ""
 
-#: assets/templates/rule-cap-add.php:61
-#: assets/templates/rule-role-add.php:57
+#: assets/templates/rule-cap-add.php:49
+#: assets/templates/rule-role-add.php:45
 msgid "Select CiviMember Membership Type(s)"
 msgstr ""
 
-#: assets/templates/rule-cap-add.php:73
-#: assets/templates/rule-cap-edit.php:103
-#: assets/templates/rule-role-add.php:69
-#: assets/templates/rule-role-edit.php:97
+#: assets/templates/rule-cap-add.php:62
+#: assets/templates/rule-cap-edit.php:62
+#: assets/templates/rule-role-add.php:58
+#: assets/templates/rule-role-edit.php:58
 msgid "Current Status"
 msgstr ""
 
-#: assets/templates/rule-cap-add.php:96
-#: assets/templates/rule-cap-edit.php:142
-#: assets/templates/rule-role-add.php:104
-#: assets/templates/rule-role-edit.php:158
+#: assets/templates/rule-cap-add.php:87
+#: assets/templates/rule-cap-edit.php:88
+#: assets/templates/rule-role-add.php:97
+#: assets/templates/rule-role-edit.php:97
 msgid "Expire Status"
 msgstr ""
 
@@ -375,159 +351,156 @@ msgstr ""
 msgid "Edit Association Rule"
 msgstr ""
 
-#: assets/templates/rule-cap-edit.php:47
+#: assets/templates/rule-cap-edit.php:35
 msgid "Edit the CiviMember Membership Type and select the Current and Expired Statuses for it. All statuses must be allocated as either Current or Expired."
 msgstr ""
 
-#: assets/templates/rule-cap-edit.php:60
-#: assets/templates/rule-role-edit.php:56
+#: assets/templates/rule-cap-edit.php:49
+#: assets/templates/rule-role-edit.php:45
 msgid "CiviMember Membership Type"
 msgstr ""
 
-#: assets/templates/rule-cap-edit.php:183
-#: assets/templates/rule-role-edit.php:221
+#: assets/templates/rule-cap-edit.php:116
+#: assets/templates/rule-role-edit.php:139
 msgid "Save Association Rule"
 msgstr ""
 
-#: assets/templates/rule-role-add.php:47
+#: assets/templates/rule-role-add.php:35
 msgid "Choose one or more CiviMember Membership Types and a WordPress Role below. This will associate those Membership Types with the WordPress Role."
 msgstr ""
 
-#: assets/templates/rule-role-add.php:79
-#: assets/templates/rule-role-edit.php:122
-msgid "Select a WordPress Current Role"
+#: assets/templates/rule-role-add.php:70
+#: assets/templates/rule-role-edit.php:70
+msgid "WordPress Current Role"
 msgstr ""
 
-#: assets/templates/rule-role-add.php:82
-#: assets/templates/rule-role-add.php:117
+#: assets/templates/rule-role-add.php:74
+#: assets/templates/rule-role-add.php:113
 msgid "Select Role"
 msgstr ""
 
-#: assets/templates/rule-role-add.php:114
-#: assets/templates/rule-role-edit.php:182
-msgid "Select a WordPress Expiry Role"
+#: assets/templates/rule-role-add.php:109
+#: assets/templates/rule-role-edit.php:109
+msgid "WordPress Expiry Role"
 msgstr ""
 
-#: assets/templates/rule-role-edit.php:47
+#: assets/templates/rule-role-edit.php:35
 msgid "Choose a CiviMember Membership Type and a WordPress Role below. This will associate that Membership Type with the WordPress Role."
 msgstr ""
 
-#: assets/templates/settings.php:37
+#: assets/templates/settings.php:27
 msgid "Settings saved."
 msgstr ""
 
-#: assets/templates/settings.php:39
+#: assets/templates/settings.php:29
 msgid "Dismiss this notice."
 msgstr ""
 
-#: assets/templates/settings.php:50
+#: assets/templates/settings.php:38
 msgid "Synchronization Method"
 msgstr ""
 
-#: assets/templates/settings.php:52
+#: assets/templates/settings.php:40
 msgid "Select whether you want CiviCRM Member Sync to synchronize CiviCRM Memberships to WordPress Roles or WordPress Capabilities. If, for example, you need your WordPress User Roles to be independent of Membership Status, then choose Capabilities."
 msgstr ""
 
-#: assets/templates/settings.php:57
+#: assets/templates/settings.php:46
 msgid "Choose Method"
 msgstr ""
 
-#: assets/templates/settings.php:68
+#: assets/templates/settings.php:50
 msgid "Capabilities"
 msgstr ""
 
-#: assets/templates/settings.php:77
+#: assets/templates/settings.php:51
 msgid "Roles"
 msgstr ""
 
-#: assets/templates/settings.php:86
+#: assets/templates/settings.php:60
 msgid "Synchronization Events"
 msgstr ""
 
-#: assets/templates/settings.php:88
+#: assets/templates/settings.php:62
 msgid "The most common trigger for synchronization of CiviCRM Memberships and WordPress Users is when CiviCRM cron runs. If you want to enable additional events that CiviCRM Member Sync will use to trigger synchronization, select them below. If you choose User login/logout, you will have to run \"Manual Synchronize\" after you create a new rule for it to be applied to all Users and Contacts. Leave the default settings if you are unsure which methods to use."
 msgstr ""
 
-#: assets/templates/settings.php:92
-#: assets/templates/settings.php:113
-#: assets/templates/settings.php:134
+#: assets/templates/settings.php:66
+#: assets/templates/settings.php:98
+#: assets/templates/settings.php:130
 msgid "Important Fix"
 msgstr ""
 
 #. translators: 1: Opening anchor tag, 2: Closing anchor tag, 3: Opening em tag, 4: Closing em tag
-#: assets/templates/settings.php:98
+#: assets/templates/settings.php:72
 msgid "In order to sync Contacts in CiviCRM that have been &#8220;soft deleted&#8221; (moved to the Trash but not fully deleted) you will need to install %1$sCiviCRM Admin Utilities%2$s version 0.6.8 or greater. Make sure the checkbox labelled %3$s&#8217;Check this to fix the Contact &#8220;soft delete&#8221; process&#8216;%4$s is checked so that Contacts that have been &#8220;soft deleted&#8221; continue to have their matching WordPress User&#8216;s status updated."
 msgstr ""
 
-#: assets/templates/settings.php:107
-#: assets/templates/settings.php:128
-msgid "Note that this fix only applies to Contacts which have been &#8220;soft deleted&#8221; <em>after</em> CiviCRM Admin Utilities has been properly configured."
+#. translators: 1: Opening em tag, 2: Closing em tag
+#: assets/templates/settings.php:86
+#: assets/templates/settings.php:118
+#: assets/templates/settings.php:150
+msgid "Note that this fix only applies to Contacts which have been &#8220;soft deleted&#8221; %1$safter%2$s CiviCRM Admin Utilities has been properly configured."
 msgstr ""
 
 #. translators: 1: Opening anchor tag, 2: Closing anchor tag, 3: Opening em tag, 4: Closing em tag
-#: assets/templates/settings.php:119
+#: assets/templates/settings.php:104
 msgid "In order to sync Contacts in CiviCRM that have been &#8220;soft deleted&#8221; (moved to the Trash but not fully deleted) you will need to upgrade %1$sCiviCRM Admin Utilities%2$s to version 0.6.8 or higher. When you have done this, make sure the checkbox labelled %3$s&#8217;Check this to fix the Contact &#8220;soft delete&#8221; process&#8216;%4$s is checked so that Contacts that have been &#8220;soft deleted&#8221; continue to have their matching WordPress User&#8216;s status updated."
 msgstr ""
 
 #. translators: 1: Opening anchor tag, 2: Closing anchor tag, 3: Opening em tag, 4: Closing em tag
-#: assets/templates/settings.php:140
+#: assets/templates/settings.php:136
 msgid "In order to sync Contacts in CiviCRM that have been &#8220;soft deleted&#8221; (moved to the Trash but not fully deleted) you will need to visit the CiviCRM Admin Utilities %1$sSettings page%2$s and make sure the checkbox labelled %3$s&#8217;Check this to fix the Contact &#8220;soft delete&#8221; process&#8216;%4$s is checked so that Contacts which have been &#8220;soft deleted&#8221; continue to have their matching WordPress User&#8216;s status updated."
 msgstr ""
 
-#. translators: 1: Opening em tag, 2: Closing em tag
-#: assets/templates/settings.php:154
-msgid "Note that this fix only applies to Contacts which have been &#8220;soft deleted&#8221; %1$safter%2$s CiviCRM Admin Utilities has been properly configured."
-msgstr ""
-
-#: assets/templates/settings.php:167
+#: assets/templates/settings.php:164
 msgid "Login and Logout"
 msgstr ""
 
-#: assets/templates/settings.php:179
+#: assets/templates/settings.php:168
 msgid "Synchronize whenever a User logs in or logs out. This action is performed only on the User logging in or out."
 msgstr ""
 
-#: assets/templates/settings.php:184
+#: assets/templates/settings.php:174
 msgid "CiviCRM Admin"
 msgstr ""
 
-#: assets/templates/settings.php:196
+#: assets/templates/settings.php:178
 msgid "Synchronize when Membership is updated in CiviCRM admin pages."
 msgstr ""
 
-#: assets/templates/settings.php:201
+#: assets/templates/settings.php:184
 msgid "Scheduled Events"
 msgstr ""
 
-#: assets/templates/settings.php:213
+#: assets/templates/settings.php:188
 msgid "Synchronize using a recurring schedule. This action is performed on all Users and Contacts."
 msgstr ""
 
-#: assets/templates/settings.php:214
+#: assets/templates/settings.php:189
 msgid "This action can be very processor intensive if you have a lot of Users and Contacts. It is not recommended to have this switched on unless you have a good reason for doing so. Please note that this action is likely to be removed in future versions."
 msgstr ""
 
-#: assets/templates/settings.php:219
+#: assets/templates/settings.php:194
 msgid "Schedule Interval"
 msgstr ""
 
-#: assets/templates/settings.php:246
+#: assets/templates/settings.php:208
 msgid "Other Settings"
 msgstr ""
 
-#: assets/templates/settings.php:251
+#: assets/templates/settings.php:213
 msgid "Synced Contact Types"
 msgstr ""
 
-#: assets/templates/settings.php:263
+#: assets/templates/settings.php:216
 msgid "Synchronize Individuals only."
 msgstr ""
 
-#: assets/templates/settings.php:264
+#: assets/templates/settings.php:217
 msgid "In versions of CiviCRM Member Sync prior to 0.3.5, all CiviCRM Memberships were synchronized to WordPress Users. This meant that Organisations and Households also had corresponding WordPress Users. If you want to restrict syncing to Individuals only, then check the box below."
 msgstr ""
 
-#: assets/templates/settings.php:272
+#: assets/templates/settings.php:225
 msgid "Save Changes"
 msgstr ""
 
@@ -541,93 +514,93 @@ msgctxt "Label for the CiviCRM Admin Utilities \"Manage Users\" table \"Membersh
 msgid "Membership Status"
 msgstr ""
 
-#: includes/civi-wp-ms-admin.php:416
+#: includes/civi-wp-ms-admin.php:408
 msgid "Please select a CiviCRM Membership Type"
 msgstr ""
 
-#: includes/civi-wp-ms-admin.php:417
+#: includes/civi-wp-ms-admin.php:409
 msgid "Please select a WordPress Current Role"
 msgstr ""
 
-#: includes/civi-wp-ms-admin.php:418
+#: includes/civi-wp-ms-admin.php:410
 msgid "Please select a Current Status"
 msgstr ""
 
-#: includes/civi-wp-ms-admin.php:419
+#: includes/civi-wp-ms-admin.php:411
 msgid "Please select an Expire Status"
 msgstr ""
 
-#: includes/civi-wp-ms-admin.php:420
+#: includes/civi-wp-ms-admin.php:412
 msgid "Please select a WordPress Expiry Role"
 msgstr ""
 
-#: includes/civi-wp-ms-admin.php:421
+#: includes/civi-wp-ms-admin.php:413
 msgid "You can not have the same Status Rule registered as both \"Current\" and \"Expired\""
 msgstr ""
 
-#: includes/civi-wp-ms-admin.php:460
-#: includes/civi-wp-ms-admin.php:472
-#: includes/civi-wp-ms-admin.php:488
+#: includes/civi-wp-ms-admin.php:452
+#: includes/civi-wp-ms-admin.php:464
+#: includes/civi-wp-ms-admin.php:480
 msgid "CiviCRM Member Sync: Settings"
 msgstr ""
 
-#: includes/civi-wp-ms-admin.php:473
+#: includes/civi-wp-ms-admin.php:465
 msgid "Member Sync"
 msgstr ""
 
-#: includes/civi-wp-ms-admin.php:503
+#: includes/civi-wp-ms-admin.php:495
 msgid "CiviCRM Member Sync: Manual Sync"
 msgstr ""
 
-#: includes/civi-wp-ms-admin.php:504
+#: includes/civi-wp-ms-admin.php:496
 msgid "Manual Sync"
 msgstr ""
 
-#: includes/civi-wp-ms-admin.php:520
+#: includes/civi-wp-ms-admin.php:512
 msgid "CiviCRM Member Sync: List Rules"
 msgstr ""
 
-#: includes/civi-wp-ms-admin.php:521
+#: includes/civi-wp-ms-admin.php:513
 msgid "List Rules"
 msgstr ""
 
-#: includes/civi-wp-ms-admin.php:536
+#: includes/civi-wp-ms-admin.php:528
 msgid "CiviCRM Member Sync: Association Rule"
 msgstr ""
 
-#: includes/civi-wp-ms-admin.php:537
+#: includes/civi-wp-ms-admin.php:529
 msgid "Association Rule"
 msgstr ""
 
-#: includes/civi-wp-ms-admin.php:656
+#: includes/civi-wp-ms-admin.php:648
 msgid "{{total}} memberships to sync..."
 msgstr ""
 
-#: includes/civi-wp-ms-admin.php:657
+#: includes/civi-wp-ms-admin.php:649
 msgid "Processing memberships {{from}} to {{to}}"
 msgstr ""
 
-#: includes/civi-wp-ms-admin.php:658
+#: includes/civi-wp-ms-admin.php:650
 msgid "Processing memberships {{from}} to {{to}} complete"
 msgstr ""
 
-#: includes/civi-wp-ms-admin.php:659
+#: includes/civi-wp-ms-admin.php:651
 msgid "All done!"
 msgstr ""
 
-#: includes/civi-wp-ms-admin.php:826
+#: includes/civi-wp-ms-admin.php:818
 msgid "Delete this Association Rule?"
 msgstr ""
 
-#: includes/civi-wp-ms-admin.php:827
+#: includes/civi-wp-ms-admin.php:819
 msgid "Delete all Association Rules?"
 msgstr ""
 
-#: includes/civi-wp-ms-admin.php:892
+#: includes/civi-wp-ms-admin.php:884
 msgid "For further information about using CiviCRM Member Sync, please refer to the README.md that comes with this plugin."
 msgstr ""
 
-#: includes/civi-wp-ms-admin.php:2314
+#: includes/civi-wp-ms-admin.php:2350
 msgid "Cheating, eh?"
 msgstr ""
 
