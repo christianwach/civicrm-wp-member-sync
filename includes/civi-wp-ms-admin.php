@@ -3160,9 +3160,9 @@ class Civi_WP_Member_Sync_Admin {
 	 */
 	public function cau_page_get_url() {
 
-		// Sanity check.
-		if ( ! $this->cau_configured() ) {
-			return '';
+		// Fail if version is less than 0.6.8.
+		if ( ! $this->cau_version_ok() ) {
+			return false;
 		}
 
 		// Get all site URLs.
