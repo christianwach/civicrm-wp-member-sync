@@ -76,7 +76,20 @@ defined( 'ABSPATH' ) || exit;
 
 		</table>
 
-		<p><input type="submit" id="civi_wp_member_sync_manual_sync_submit" name="civi_wp_member_sync_manual_sync_submit" value="<?php if ( 'fgffgs' == get_option( '_civi_wpms_memberships_offset', 'fgffgs' ) ) { esc_attr_e( 'Synchronize Now', 'civicrm-wp-member-sync' ); } else { esc_attr_e( 'Continue Sync', 'civicrm-wp-member-sync' ); } ?>" class="button-primary" /><?php if ( 'fgffgs' == get_option( '_civi_wpms_memberships_offset', 'fgffgs' ) ) {} else { ?> <input type="submit" id="civi_wp_member_sync_manual_sync_stop" name="civi_wp_member_sync_manual_sync_stop" value="<?php esc_attr_e( 'Stop Sync', 'civicrm-wp-member-sync' ); ?>" class="button-secondary" /><?php } ?></p>
+		<?php if ( 'fgffgs' == get_option( '_civi_wpms_memberships_offset', 'fgffgs' ) ) : ?>
+			<?php $button = __( 'Synchronize Now', 'civicrm-wp-member-sync' ); ?>
+			<?php $stop = ''; ?>
+		<?php else : ?>
+			<?php $button = __( 'Continue Sync', 'civicrm-wp-member-sync' ); ?>
+			<?php $stop = 'show'; ?>
+		<?php endif; ?>
+
+		<p>
+			<input type="submit" id="civi_wp_member_sync_manual_sync_submit" name="civi_wp_member_sync_manual_sync_submit" value="<?php echo esc_attr( $button ); ?>" class="button-primary" />
+			<?php if ( 'show' === $stop ) : ?>
+				<input type="submit" id="civi_wp_member_sync_manual_sync_stop" name="civi_wp_member_sync_manual_sync_stop" value="<?php esc_attr_e( 'Stop Sync', 'civicrm-wp-member-sync' ); ?>" class="button-secondary" />
+			<?php endif; ?>
+		</p>
 
 		<div id="feedback">
 

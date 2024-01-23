@@ -22,17 +22,12 @@ defined( 'ABSPATH' ) || exit;
 		<a href="<?php echo $urls['manual_sync']; ?>" class="nav-tab"><?php esc_html_e( 'Manual Synchronize', 'civicrm-wp-member-sync' ); ?></a>
 	</h2>
 
-	<h3><?php esc_html_e( 'All Association Rules', 'civicrm-wp-member-sync' ); ?><?php
-
-	// If we don't have all our Membership Types populated.
-	if ( ! $have_all_types ) {
-
-		// Show the 'Add New' button.
-		?> <a class="add-new-h2" href="<?php echo $urls['rules']; ?>"><?php esc_html_e( 'Add New', 'civicrm-wp-member-sync' ); ?></a><?php
-
-	}
-
-	?></h3>
+	<h3>
+		<?php esc_html_e( 'All Association Rules', 'civicrm-wp-member-sync' ); ?>
+		<?php if ( ! $have_all_types ) : ?>
+			<a class="add-new-h2" href="<?php echo $urls['rules']; ?>"><?php esc_html_e( 'Add New', 'civicrm-wp-member-sync' ); ?></a>
+		<?php endif; ?>
+	</h3>
 
 	<?php
 

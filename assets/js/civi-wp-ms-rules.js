@@ -46,7 +46,7 @@ jQuery(document).ready( function($) {
 	 *
 	 * @param {Object} e The click event object.
 	 */
-	$('.required-current').click( function(e) {
+	$('.required-current').on( 'click', function(e) {
 
 		var current_on,
 			current_id,
@@ -75,7 +75,7 @@ jQuery(document).ready( function($) {
 	 *
 	 * @param {Object} e The click event object.
 	 */
-	$('.required-expire').click( function(e) {
+	$('.required-expire').on( 'click', function(e) {
 
 		var expire_on,
 			expire_id,
@@ -104,7 +104,7 @@ jQuery(document).ready( function($) {
 	 *
 	 * @param {Object} e The click event object.
 	 */
-	$(':submit').click( function(e) {
+	$(':submit').on( 'click', function(e) {
 
 		// Init vars.
 		var passed = true,

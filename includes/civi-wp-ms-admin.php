@@ -1207,7 +1207,17 @@ class Civi_WP_Member_Sync_Admin {
 		// Build error strings for admin screens.
 		$this->error_strings_build();
 
-		// Well?
+		// Construct messages based on error code(s).
+		$error_messages = '';
+		if ( ! empty( $this->errors ) ) {
+			$errors = [];
+			foreach ( $this->errors as $error_code ) {
+				$errors[] = $this->error_strings[ $error_code ];
+			}
+			$error_messages = implode( '<br>', $errors );
+		}
+
+		// Do we need Roles?
 		if ( 'roles' === $method ) {
 
 			// Get filtered Roles.
@@ -1279,6 +1289,16 @@ class Civi_WP_Member_Sync_Admin {
 
 		// Build error strings for admin screens.
 		$this->error_strings_build();
+
+		// Construct messages based on error code(s).
+		$error_messages = '';
+		if ( ! empty( $this->errors ) ) {
+			$errors = [];
+			foreach ( $this->errors as $error_code ) {
+				$errors[] = $this->error_strings[ $error_code ];
+			}
+			$error_messages = implode( '<br>', $errors );
+		}
 
 		// Do we need Roles?
 		if ( 'roles' === $method ) {

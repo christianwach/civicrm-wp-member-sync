@@ -24,25 +24,12 @@ defined( 'ABSPATH' ) || exit;
 
 	<h3><?php esc_html_e( 'Add Association Rule', 'civicrm-wp-member-sync' ); ?> <a class="add-new-h2" href="<?php echo $urls['list']; ?>"><?php esc_html_e( 'Cancel', 'civicrm-wp-member-sync' ); ?></a></h3>
 
-	<?php
-
-	// If we've updated, show message (note that this will only display if we have JS turned off).
-	if ( isset( $this->errors ) && is_array( $this->errors ) ) {
-
-		// Init messages.
-		$error_messages = [];
-
-		// Construct array of messages based on error code.
-		foreach ( $this->errors as $error_code ) {
-			$error_messages[] = esc_html( $this->error_strings[ $error_code ] );
-		}
-
-		// Show them.
-		echo '<div id="message" class="error"><p>' . implode( '<br>', $error_messages ) . '</p></div>';
-
-	}
-
-	?>
+	<?php /* If we've updated, show message - note that this will only display if we have JS turned off. */ ?>
+	<?php if ( ! empty( $error_messages ) ) : ?>
+		<div id="message" class="error">
+			<p><?php echo $error_messages; ?></p>
+		</div>
+	<?php endif; ?>
 
 	<p><?php esc_html_e( 'Choose one or more CiviMember Membership Types and a WordPress Role below. This will associate those Membership Types with the WordPress Role.', 'civicrm-wp-member-sync' ); ?></p>
 
@@ -54,7 +41,7 @@ defined( 'ABSPATH' ) || exit;
 
 			<tr class="form-field form-required">
 				<th scope="row">
-					<label class="civi_member_type_id_label" for="civi_member_type_id"><?php esc_html_e( 'Select CiviMember Membership Type(s)', 'civicrm-wp-member-sync' ); ?> *</label>
+					<label class="civi_member_type_id_label" for="civi_member_type_id"><?php esc_html_e( 'Select CiviMember Membership Type(s)', 'civicrm-wp-member-sync' ); ?> <span class="required">*</span></label>
 				</th>
 				<td>
 					<select name="civi_member_type_id[]" id="civi_member_type_id" class ="required required-type" multiple="multiple" style="min-width: 240px;">
@@ -66,7 +53,9 @@ defined( 'ABSPATH' ) || exit;
 			</tr>
 
 			<tr>
-				<th scope="row"><label class="current_label" for="current"><?php esc_html_e( 'Current Status', 'civicrm-wp-member-sync' ); ?> *</label></th>
+				<th scope="row">
+					<?php esc_html_e( 'Current Status', 'civicrm-wp-member-sync' ); ?> <span class="required">*</span>
+				</th>
 				<td>
 				<?php foreach ( $status_rules as $key => $value ) { ?>
 					<input type="checkbox" class="required-current current-<?php echo esc_attr( $key ); ?>" name="<?php echo esc_attr( 'current[' . $key . ']' ); ?>" id="<?php echo esc_attr( 'current[' . $key . ']' ); ?>" value="<?php echo esc_attr( $key ); ?>" />
@@ -76,7 +65,9 @@ defined( 'ABSPATH' ) || exit;
 			</tr>
 
 			<tr class="form-field form-required">
-				<th scope="row"><label class="wp_role_label" for="current_wp_role"><?php esc_html_e( 'Select a WordPress Current Role', 'civicrm-wp-member-sync' ); ?> *</label></th>
+				<th scope="row">
+					<label class="wp_role_label" for="current_wp_role"><?php esc_html_e( 'WordPress Current Role', 'civicrm-wp-member-sync' ); ?> <span class="required">*</span></label>
+				</th>
 				<td>
 					<select name="current_wp_role" id="current_wp_role" class="required required-role">
 						<option value="">- <?php esc_html_e( 'Select Role', 'civicrm-wp-member-sync' ); ?> -</option>
@@ -101,7 +92,9 @@ defined( 'ABSPATH' ) || exit;
 			?>
 
 			<tr>
-				<th scope="row"><label class="expire_label" for="expire"><?php esc_html_e( 'Expire Status', 'civicrm-wp-member-sync' ); ?> *</label></th>
+				<th scope="row">
+					<?php esc_html_e( 'Expire Status', 'civicrm-wp-member-sync' ); ?> <span class="required">*</span>
+				</th>
 				<td>
 				<?php foreach ( $status_rules as $key => $value ) { ?>
 					<input type="checkbox" class="required-expire expire-<?php echo esc_attr( $key ); ?>" name="<?php echo esc_attr( 'expire[' . $key . ']' ); ?>" id="<?php echo esc_attr( 'expire[' . $key . ']' ); ?>" value="<?php echo esc_attr( $key ); ?>" />
@@ -111,7 +104,9 @@ defined( 'ABSPATH' ) || exit;
 			</tr>
 
 			<tr class="form-field form-required">
-				<th scope="row"><label class="expire_assign_wp_role_label" for="expire_assign_wp_role"><?php esc_html_e( 'Select a WordPress Expiry Role', 'civicrm-wp-member-sync' ); ?> *</label></th>
+				<th scope="row">
+					<label class="expire_assign_wp_role_label" for="expire_assign_wp_role"><?php esc_html_e( 'WordPress Expiry Role', 'civicrm-wp-member-sync' ); ?> <span class="required">*</span></label>
+				</th>
 				<td>
 					<select name="expire_assign_wp_role" id ="expire_assign_wp_role" class ="required required-role">
 						<option value="">- <?php esc_html_e( 'Select Role', 'civicrm-wp-member-sync' ); ?> -</option>

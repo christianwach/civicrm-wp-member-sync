@@ -38,7 +38,7 @@ jQuery(document).ready( function($) {
 	 *
 	 * @param {Object} event The click event object.
 	 */
-	$('.submitdelete').click( function(event) {
+	$('.submitdelete').on( 'click', function(event) {
 
 		// Open dialog.
 		var dialog = confirm( cwms_dialog_text );
@@ -67,7 +67,7 @@ jQuery(document).ready( function($) {
 	 *
 	 * @param {Object} event The click event object.
 	 */
-	$('#civi_wp_member_sync_clear_submit').click( function(event) {
+	$('#civi_wp_member_sync_clear_submit').on( 'click', function(event) {
 
 		// Open dialog.
 		var dialog = confirm( cwms_dialog_text_all );
