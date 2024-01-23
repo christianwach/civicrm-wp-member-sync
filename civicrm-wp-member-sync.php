@@ -11,7 +11,6 @@
  * Requires PHP: 7.1
  * Text Domain: civicrm-wp-member-sync
  * Domain Path: /languages
- * Depends: CiviCRM
  *
  * Thanks to:
  *
