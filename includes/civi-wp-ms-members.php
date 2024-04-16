@@ -581,7 +581,7 @@ class Civi_WP_Member_Sync_Members {
 		$result = civicrm_api( 'Membership', 'get', $params );
 
 		// Log and bail on error.
-		if ( ! empty( $result['is_error'] ) ) {
+		if ( ! empty( $result['is_error'] ) && 1 === (int) $result['is_error'] ) {
 			$e     = new \Exception();
 			$trace = $e->getTraceAsString();
 			$log   = [
@@ -911,7 +911,7 @@ class Civi_WP_Member_Sync_Members {
 		$result = civicrm_api( 'Membership', 'get', $params );
 
 		// Log and bail on error.
-		if ( ! empty( $result['is_error'] ) ) {
+		if ( ! empty( $result['is_error'] ) && 1 === (int) $result['is_error'] ) {
 			$e     = new \Exception();
 			$trace = $e->getTraceAsString();
 			$log   = [
@@ -986,7 +986,7 @@ class Civi_WP_Member_Sync_Members {
 		$result = civicrm_api( 'Contact', 'get', $query );
 
 		// Log and bail on error.
-		if ( ! empty( $result['is_error'] ) ) {
+		if ( ! empty( $result['is_error'] ) && 1 === (int) $result['is_error'] ) {
 			$e     = new \Exception();
 			$trace = $e->getTraceAsString();
 			$log   = [
@@ -1348,7 +1348,7 @@ class Civi_WP_Member_Sync_Members {
 		$result = civicrm_api( 'MembershipType', 'get', $params );
 
 		// Log and bail on error.
-		if ( ! empty( $result['is_error'] ) ) {
+		if ( ! empty( $result['is_error'] ) && 1 === (int) $result['is_error'] ) {
 			$e     = new \Exception();
 			$trace = $e->getTraceAsString();
 			$log   = [
@@ -1406,7 +1406,7 @@ class Civi_WP_Member_Sync_Members {
 		$result = civicrm_api( 'MembershipStatus', 'get', $params );
 
 		// Log and bail on error.
-		if ( ! empty( $result['is_error'] ) ) {
+		if ( ! empty( $result['is_error'] ) && 1 === (int) $result['is_error'] ) {
 			$e     = new \Exception();
 			$trace = $e->getTraceAsString();
 			$log   = [
