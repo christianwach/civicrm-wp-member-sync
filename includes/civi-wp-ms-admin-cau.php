@@ -27,7 +27,7 @@ class Civi_WP_Member_Sync_Admin_CAU {
 	 *
 	 * @since 0.5
 	 * @access public
-	 * @var object
+	 * @var Civi_WP_Member_Sync
 	 */
 	public $plugin;
 
@@ -36,7 +36,7 @@ class Civi_WP_Member_Sync_Admin_CAU {
 	 *
 	 * @since 0.5
 	 * @access public
-	 * @var object
+	 * @var Civi_WP_Member_Sync_Admin
 	 */
 	public $admin;
 

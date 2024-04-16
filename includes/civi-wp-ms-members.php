@@ -27,7 +27,7 @@ class Civi_WP_Member_Sync_Members {
 	 *
 	 * @since 0.1
 	 * @access public
-	 * @var object
+	 * @var Civi_WP_Member_Sync
 	 */
 	public $plugin;
 
@@ -48,7 +48,7 @@ class Civi_WP_Member_Sync_Members {
 
 	}
 
-	// -------------------------------------------------------------------------
+	// -----------------------------------------------------------------------------------
 
 	/**
 	 * Initialise this object.
@@ -104,7 +104,7 @@ class Civi_WP_Member_Sync_Members {
 
 	}
 
-	// -------------------------------------------------------------------------
+	// -----------------------------------------------------------------------------------
 
 	/**
 	 * Sync Membership rules for all CiviCRM Memberships.

@@ -1,16 +1,18 @@
 <?php
 /**
- * Plugin Name: CiviCRM Member Sync
- * Plugin URI: https://github.com/christianwach/civicrm-wp-member-sync
+ * CiviCRM Member Sync
+ *
+ * Plugin Name:       CiviCRM Member Sync
+ * Description:       Synchronize CiviCRM Memberships with WordPress User Roles or Capabilities.
+ * Plugin URI:        https://github.com/christianwach/civicrm-wp-member-sync
  * GitHub Plugin URI: https://github.com/christianwach/civicrm-wp-member-sync
- * Description: Synchronize CiviCRM Memberships with WordPress User Roles or Capabilities.
- * Author: Christian Wach
- * Author URI: https://haystack.co.uk
- * Version: 0.6.2a
+ * Version:           0.6.2a
+ * Author:            Christian Wach
+ * Author URI:        https://haystack.co.uk
  * Requires at least: 4.9
- * Requires PHP: 7.1
- * Text Domain: civicrm-wp-member-sync
- * Domain Path: /languages
+ * Requires PHP:      7.4
+ * Text Domain:       civicrm-wp-member-sync
+ * Domain Path:       /languages
  *
  * Thanks to:
  *
@@ -25,8 +27,6 @@
 
 // Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
-
-
 
 // Define Capability prefix.
 if ( ! defined( 'CIVI_WP_MEMBER_SYNC_CAP_PREFIX' ) ) {
@@ -49,8 +49,6 @@ if ( ! defined( 'CIVI_WP_MEMBER_SYNC_PLUGIN_PATH' ) ) {
 	define( 'CIVI_WP_MEMBER_SYNC_PLUGIN_PATH', plugin_dir_path( CIVI_WP_MEMBER_SYNC_PLUGIN_FILE ) );
 }
 
-
-
 /**
  * Plugin class.
  *
@@ -65,7 +63,7 @@ class Civi_WP_Member_Sync {
 	 *
 	 * @since 0.1
 	 * @access public
-	 * @var object
+	 * @var Civi_WP_Member_Sync_Users
 	 */
 	public $users;
 
@@ -74,7 +72,7 @@ class Civi_WP_Member_Sync {
 	 *
 	 * @since 0.1
 	 * @access public
-	 * @var object
+	 * @var Civi_WP_Member_Sync_Schedule
 	 */
 	public $schedule;
 
@@ -83,7 +81,7 @@ class Civi_WP_Member_Sync {
 	 *
 	 * @since 0.1
 	 * @access public
-	 * @var object
+	 * @var Civi_WP_Member_Sync_Admin
 	 */
 	public $admin;
 
@@ -92,7 +90,7 @@ class Civi_WP_Member_Sync {
 	 *
 	 * @since 0.1
 	 * @access public
-	 * @var object
+	 * @var Civi_WP_Member_Sync_Members
 	 */
 	public $members;
 
@@ -101,7 +99,7 @@ class Civi_WP_Member_Sync {
 	 *
 	 * @since 0.3.9
 	 * @access public
-	 * @var object
+	 * @var Civi_WP_Member_Sync_Groups
 	 */
 	public $groups;
 
@@ -110,7 +108,7 @@ class Civi_WP_Member_Sync {
 	 *
 	 * @since 0.4.7
 	 * @access public
-	 * @var object
+	 * @var Civi_WP_Member_Sync_BuddyPress
 	 */
 	public $buddypress;
 
@@ -196,7 +194,7 @@ class Civi_WP_Member_Sync {
 
 	}
 
-	// -------------------------------------------------------------------------
+	// -----------------------------------------------------------------------------------
 
 	/**
 	 * Perform plugin activation tasks.
@@ -222,7 +220,7 @@ class Civi_WP_Member_Sync {
 
 	}
 
-	// -------------------------------------------------------------------------
+	// -----------------------------------------------------------------------------------
 
 	/**
 	 * Load translations.
@@ -242,8 +240,6 @@ class Civi_WP_Member_Sync {
 	}
 
 }
-
-
 
 /**
  * Utility for retrieving a reference to this plugin.
@@ -278,8 +274,6 @@ register_deactivation_hook( __FILE__, [ civicrm_wpms(), 'deactivate' ] );
  * Uninstall uses the 'uninstall.php' method.
  * @see https://developer.wordpress.org/reference/functions/register_uninstall_hook/
  */
-
-
 
 /**
  * Add courtesy links on WordPress plugin listings pages.

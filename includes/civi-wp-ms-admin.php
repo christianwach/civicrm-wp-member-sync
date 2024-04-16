@@ -27,7 +27,7 @@ class Civi_WP_Member_Sync_Admin {
 	 *
 	 * @since 0.1
 	 * @access public
-	 * @var object
+	 * @var Civi_WP_Member_Sync
 	 */
 	public $plugin;
 
@@ -36,18 +36,9 @@ class Civi_WP_Member_Sync_Admin {
 	 *
 	 * @since 0.5
 	 * @access public
-	 * @var object
+	 * @var Civi_WP_Member_Sync_Admin_CAU
 	 */
 	public $cau;
-
-	/**
-	 * Migration object.
-	 *
-	 * @since 0.1
-	 * @access public
-	 * @var object
-	 */
-	public $migrate;
 
 	/**
 	 * Parent Page.
@@ -424,7 +415,7 @@ class Civi_WP_Member_Sync_Admin {
 
 	}
 
-	// -------------------------------------------------------------------------
+	// -----------------------------------------------------------------------------------
 
 	/**
 	 * Add this plugin's Settings Page to the WordPress admin menu.
@@ -888,7 +879,7 @@ class Civi_WP_Member_Sync_Admin {
 
 	}
 
-	// -------------------------------------------------------------------------
+	// -----------------------------------------------------------------------------------
 
 	/**
 	 * Filter CSS dependencies on the "Add Rule" and "Edit Rule" pages.
@@ -977,7 +968,7 @@ class Civi_WP_Member_Sync_Admin {
 
 	}
 
-	// -------------------------------------------------------------------------
+	// -----------------------------------------------------------------------------------
 
 	/**
 	 * Show settings page.
@@ -993,12 +984,6 @@ class Civi_WP_Member_Sync_Admin {
 
 		// Get admin page URLs.
 		$urls = $this->page_get_urls();
-
-		// If we have the legacy plugin, include template file and bail.
-		if ( isset( $this->migrate ) && $this->migrate->legacy_plugin_exists() ) {
-			include CIVI_WP_MEMBER_SYNC_PLUGIN_PATH . 'assets/templates/migrate.php';
-			return;
-		}
 
 		// Get our sync method.
 		$method = $this->setting_get_method();
@@ -1344,7 +1329,7 @@ class Civi_WP_Member_Sync_Admin {
 
 	}
 
-	// -------------------------------------------------------------------------
+	// -----------------------------------------------------------------------------------
 
 	/**
 	 * Get admin page URLs.
@@ -1447,7 +1432,7 @@ class Civi_WP_Member_Sync_Admin {
 
 	}
 
-	// -------------------------------------------------------------------------
+	// -----------------------------------------------------------------------------------
 
 	/**
 	 * Route settings updates to relevant methods.
@@ -1460,12 +1445,6 @@ class Civi_WP_Member_Sync_Admin {
 
 		// Init result.
 		$result = false;
-
-		// Was the "Migrate" form submitted?
-		$migrate_submit = filter_input( INPUT_POST, 'civi_wp_member_sync_migrate_submit' );
-		if ( ! empty( $migrate_submit ) ) {
-			$result = $this->migrate->legacy_migrate();
-		}
 
 		// Was the "Settings" form submitted?
 		$settings_submit = filter_input( INPUT_POST, 'civi_wp_member_sync_settings_submit' );
@@ -1799,7 +1778,7 @@ class Civi_WP_Member_Sync_Admin {
 
 	}
 
-	// -------------------------------------------------------------------------
+	// -----------------------------------------------------------------------------------
 
 	/**
 	 * Get a WordPress option.
@@ -1861,7 +1840,7 @@ class Civi_WP_Member_Sync_Admin {
 
 	}
 
-	// -------------------------------------------------------------------------
+	// -----------------------------------------------------------------------------------
 
 	/**
 	 * Get all association rules by method.
@@ -3045,7 +3024,7 @@ class Civi_WP_Member_Sync_Admin {
 
 	}
 
-	// -------------------------------------------------------------------------
+	// -----------------------------------------------------------------------------------
 
 	/**
 	 * Get a CiviCRM admin link.
@@ -3082,7 +3061,7 @@ class Civi_WP_Member_Sync_Admin {
 
 	}
 
-	// -------------------------------------------------------------------------
+	// -----------------------------------------------------------------------------------
 
 	/**
 	 * Check if CiviCRM Admin Utilities has been installed and activated.
