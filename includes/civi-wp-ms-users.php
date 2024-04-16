@@ -612,12 +612,13 @@ class Civi_WP_Member_Sync_Users {
 		if ( ! empty( $result['is_error'] ) ) {
 			$e     = new \Exception();
 			$trace = $e->getTraceAsString();
-			error_log( print_r( [
+			$log   = [
 				'method'    => __METHOD__,
 				'params'    => $params,
 				'result'    => $result,
 				'backtrace' => $trace,
-			], true ) );
+			];
+			$this->plugin->log_error( $log );
 			return false;
 		}
 
@@ -756,14 +757,17 @@ class Civi_WP_Member_Sync_Users {
 			 */
 			do_action( 'civi_wp_member_sync_before_insert_user', $civi_contact );
 
-			// Create the User.
-			$user_id = wp_insert_user( [
+			// Build args to create User.
+			$args = [
 				'user_login' => $user_name,
 				'user_pass'  => $random_password,
 				'user_email' => $civi_contact['email'],
 				'first_name' => $civi_contact['first_name'],
 				'last_name'  => $civi_contact['last_name'],
-			] );
+			];
+
+			// Create the User.
+			$user_id = wp_insert_user( $args );
 
 			// Create a UF Match record if the User was successfully created.
 			if ( ! is_wp_error( $user_id ) && isset( $civi_contact['contact_id'] ) ) {
@@ -908,12 +912,13 @@ class Civi_WP_Member_Sync_Users {
 		if ( ! empty( $result['is_error'] ) ) {
 			$e     = new \Exception();
 			$trace = $e->getTraceAsString();
-			error_log( print_r( [
+			$log   = [
 				'method'    => __METHOD__,
 				'params'    => $params,
 				'result'    => $result,
 				'backtrace' => $trace,
-			], true ) );
+			];
+			$this->plugin->log_error( $log );
 			return false;
 		}
 

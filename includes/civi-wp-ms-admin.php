@@ -851,11 +851,12 @@ class Civi_WP_Member_Sync_Admin {
 		}
 
 		// Add a tab - we can add more later.
-		$screen->add_help_tab( [
+		$args = [
 			'id'      => 'civi_wp_member_sync',
 			'title'   => esc_html__( 'CiviCRM Member Sync', 'civicrm-wp-member-sync' ),
 			'content' => $this->get_help(),
-		] );
+		];
+		$screen->add_help_tab( $args );
 
 		// --<
 		return $screen;

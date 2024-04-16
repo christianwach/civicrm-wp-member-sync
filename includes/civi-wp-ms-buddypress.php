@@ -219,14 +219,17 @@ class Civi_WP_Member_Sync_BuddyPress {
 			$excludes = explode( ',', $exclude );
 		}
 
-		// Get Groups this User can see for this search.
-		$groups = groups_get_groups( [
+		// Build query to get Groups this User can see for this search.
+		$args = [
 			'user_id'         => is_super_admin() ? 0 : bp_loggedin_user_id(),
 			'search_terms'    => $search,
 			'show_hidden'     => true,
 			'populate_extras' => false,
 			'exclude'         => $excludes,
-		] );
+		];
+
+		// Do the query.
+		$groups = groups_get_groups( $args );
 
 		// Add items to output array.
 		$json = [];
@@ -369,13 +372,14 @@ class Civi_WP_Member_Sync_BuddyPress {
 		if ( ! $success ) {
 			$e     = new Exception();
 			$trace = $e->getTraceAsString();
-			error_log( print_r( [
+			$log   = [
 				'method'    => __METHOD__,
 				'message'   => esc_html__( 'Could not add user to group.', 'civicrm-wp-member-sync' ),
 				'user_id'   => $user_id,
 				'group_id'  => $group_id,
 				'backtrace' => $trace,
-			], true ) );
+			];
+			$this->plugin->log_error( $log );
 		}
 
 		// --<
@@ -442,9 +446,12 @@ class Civi_WP_Member_Sync_BuddyPress {
 		if ( ! empty( $current ) ) {
 
 			// Sanitise array items.
-			array_walk( $current, function( &$item ) {
-				$item = (int) trim( $item );
-			});
+			array_walk(
+				$current,
+				function( &$item ) {
+					$item = (int) trim( $item );
+				}
+			);
 
 		} else {
 			$current = [];
@@ -453,10 +460,14 @@ class Civi_WP_Member_Sync_BuddyPress {
 		// Get the "expiry" Groups.
 		$expiry = filter_input( INPUT_POST, 'cwms_buddypress_select_expiry', FILTER_DEFAULT, FILTER_REQUIRE_ARRAY );
 		if ( ! empty( $expiry ) ) {
+
 			// Sanitise array items.
-			array_walk( $expiry, function( &$item ) {
-				$item = (int) trim( $item );
-			});
+			array_walk(
+				$expiry,
+				function( &$item ) {
+					$item = (int) trim( $item );
+				}
+			);
 
 		} else {
 			$expiry = [];
@@ -669,12 +680,15 @@ class Civi_WP_Member_Sync_BuddyPress {
 
 		if ( ! empty( $group_ids ) ) {
 
-			// Get the Groups.
-			$groups = groups_get_groups( [
+			// Build args.
+			$args = [
 				'order_by' => 'name',
 				'order'    => 'ASC',
 				'include'  => $group_ids,
-			] );
+			];
+
+			// Get the Groups.
+			$groups = groups_get_groups( $args );
 
 			// Add options to build array.
 			foreach ( $groups['groups'] as $group ) {
@@ -706,13 +720,16 @@ class Civi_WP_Member_Sync_BuddyPress {
 
 		if ( ! empty( $group_ids ) ) {
 
-			// Get the Groups.
-			$groups = groups_get_groups( [
+			// Build args.
+			$args = [
 				'order_by'    => 'name',
 				'order'       => 'ASC',
 				'show_hidden' => true,
 				'include'     => $group_ids,
-			] );
+			];
+
+			// Get the Groups.
+			$groups = groups_get_groups( $args );
 
 			// Add options to build array.
 			foreach ( $groups['groups'] as $group ) {

@@ -237,7 +237,8 @@ class Civi_WP_Member_Sync_Groups {
 		$groups = $wpdb->get_results(
 			$wpdb->prepare(
 				// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
-				"SELECT * FROM $group_table WHERE name LIKE %s $and;", $like
+				"SELECT * FROM $group_table WHERE name LIKE %s $and;",
+				$like
 			)
 		);
 
@@ -374,23 +375,27 @@ class Civi_WP_Member_Sync_Groups {
 			return true;
 		}
 
-		// Add User to Group.
-		$success = Groups_User_Group::create( [
+		// Build add args.
+		$args = [
 			'user_id'  => $user_id,
 			'group_id' => $group_id,
-		] );
+		];
+
+		// Add User to Group.
+		$success = Groups_User_Group::create( $args );
 
 		// Maybe log on failure?
 		if ( ! $success ) {
 			$e     = new Exception();
 			$trace = $e->getTraceAsString();
-			error_log( print_r( [
+			$log   = [
 				'method'    => __METHOD__,
 				'message'   => esc_html__( 'Could not add user to group.', 'civicrm-wp-member-sync' ),
 				'user_id'   => $user_id,
 				'group_id'  => $group_id,
 				'backtrace' => $trace,
-			], true ) );
+			];
+			$this->plugin->log_error( $log );
 		}
 
 		// --<
@@ -421,13 +426,14 @@ class Civi_WP_Member_Sync_Groups {
 		if ( ! $success ) {
 			$e     = new Exception();
 			$trace = $e->getTraceAsString();
-			error_log( print_r( [
+			$log   = [
 				'method'    => __METHOD__,
 				'message'   => esc_html__( 'Could not delete user from group.', 'civicrm-wp-member-sync' ),
 				'user_id'   => $user_id,
 				'group_id'  => $group_id,
 				'backtrace' => $trace,
-			], true ) );
+			];
+			$this->plugin->log_error( $log );
 		}
 
 		// --<
@@ -454,9 +460,12 @@ class Civi_WP_Member_Sync_Groups {
 		if ( ! empty( $current ) ) {
 
 			// Sanitise array items.
-			array_walk( $current, function( &$item ) {
-				$item = (int) trim( $item );
-			});
+			array_walk(
+				$current,
+				function( &$item ) {
+					$item = (int) trim( $item );
+				}
+			);
 
 		} else {
 			$current = [];
@@ -467,9 +476,12 @@ class Civi_WP_Member_Sync_Groups {
 		if ( ! empty( $expiry ) ) {
 
 			// Sanitise array items.
-			array_walk( $expiry, function( &$item ) {
-				$item = (int) trim( $item );
-			});
+			array_walk(
+				$expiry,
+				function( &$item ) {
+					$item = (int) trim( $item );
+				}
+			);
 
 		} else {
 			$expiry = [];
@@ -682,12 +694,15 @@ class Civi_WP_Member_Sync_Groups {
 
 		if ( ! empty( $group_ids ) ) {
 
-			// Get the Groups.
-			$groups = Groups_Group::get_groups( [
+			// Build query args.
+			$args = [
 				'order_by' => 'name',
 				'order'    => 'ASC',
 				'include'  => $group_ids,
-			] );
+			];
+
+			// Get the Groups.
+			$groups = Groups_Group::get_groups( $args );
 
 			// Add options to build array.
 			foreach ( $groups as $group ) {
@@ -719,12 +734,15 @@ class Civi_WP_Member_Sync_Groups {
 
 		if ( ! empty( $group_ids ) ) {
 
-			// Get the Groups.
-			$groups = Groups_Group::get_groups( [
+			// Build query args.
+			$args = [
 				'order_by' => 'name',
 				'order'    => 'ASC',
 				'include'  => $group_ids,
-			] );
+			];
+
+			// Get the Groups.
+			$groups = Groups_Group::get_groups( $args );
 
 			// Add options to build array.
 			foreach ( $groups as $group ) {
@@ -921,10 +939,11 @@ class Civi_WP_Member_Sync_Groups {
 
 			case 'post':
 				// Add your default Capabilities.
-				Groups_Post_Access::create( [
+				$args = [
 					'post_id'    => $post_id,
 					'capability' => 'Premium',
-				] );
+				];
+				Groups_Post_Access::create( $args );
 				break;
 
 			default:

@@ -584,12 +584,13 @@ class Civi_WP_Member_Sync_Members {
 		if ( ! empty( $result['is_error'] ) ) {
 			$e     = new \Exception();
 			$trace = $e->getTraceAsString();
-			error_log( print_r( [
+			$log   = [
 				'method'    => __METHOD__,
 				'params'    => $params,
 				'result'    => $result,
 				'backtrace' => $trace,
-			], true ) );
+			];
+			$this->plugin->log_error( $log );
 			return;
 		}
 
@@ -913,12 +914,13 @@ class Civi_WP_Member_Sync_Members {
 		if ( ! empty( $result['is_error'] ) ) {
 			$e     = new \Exception();
 			$trace = $e->getTraceAsString();
-			error_log( print_r( [
+			$log   = [
 				'method'    => __METHOD__,
 				'params'    => $params,
 				'result'    => $result,
 				'backtrace' => $trace,
-			], true ) );
+			];
+			$this->plugin->log_error( $log );
 			return $data;
 		}
 
@@ -987,13 +989,14 @@ class Civi_WP_Member_Sync_Members {
 		if ( ! empty( $result['is_error'] ) ) {
 			$e     = new \Exception();
 			$trace = $e->getTraceAsString();
-			error_log( print_r( [
+			$log   = [
 				'method'     => __METHOD__,
 				'contact_id' => $contact_id,
 				'result'     => $result,
 				'query'      => $query,
 				'backtrace'  => $trace,
-			], true ) );
+			];
+			$this->plugin->log_error( $log );
 			return $data;
 		}
 
@@ -1348,12 +1351,13 @@ class Civi_WP_Member_Sync_Members {
 		if ( ! empty( $result['is_error'] ) ) {
 			$e     = new \Exception();
 			$trace = $e->getTraceAsString();
-			error_log( print_r( [
+			$log   = [
 				'method'    => __METHOD__,
 				'params'    => $params,
 				'result'    => $result,
 				'backtrace' => $trace,
-			], true ) );
+			];
+			$this->plugin->log_error( $log );
 			return [];
 		}
 
@@ -1405,12 +1409,13 @@ class Civi_WP_Member_Sync_Members {
 		if ( ! empty( $result['is_error'] ) ) {
 			$e     = new \Exception();
 			$trace = $e->getTraceAsString();
-			error_log( print_r( [
+			$log   = [
 				'method'    => __METHOD__,
 				'params'    => $params,
 				'result'    => $result,
 				'backtrace' => $trace,
-			], true ) );
+			];
+			$this->plugin->log_error( $log );
 			return [];
 		}
 
@@ -1485,9 +1490,12 @@ class Civi_WP_Member_Sync_Members {
 		if ( false !== $current_rules && is_array( $current_rules ) ) {
 
 			// Sanitise array items.
-			array_walk( $current_rules, function( &$item ) {
-				$item = esc_html( trim( $item ) );
-			});
+			array_walk(
+				$current_rules,
+				function( &$item ) {
+					$item = esc_html( trim( $item ) );
+				}
+			);
 
 			// Separate with line break.
 			$status_rules = implode( '<br>', $current_rules );
