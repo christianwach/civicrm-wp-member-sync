@@ -142,6 +142,15 @@ class Civi_WP_Member_Sync_Admin {
 	public $select2 = false;
 
 	/**
+	 * Admin page URLs array.
+	 *
+	 * @since 0.1
+	 * @access public
+	 * @var array
+	 */
+	public $urls;
+
+	/**
 	 * Constructor.
 	 *
 	 * @since 0.1

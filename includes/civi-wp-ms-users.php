@@ -32,6 +32,15 @@ class Civi_WP_Member_Sync_Users {
 	public $plugin;
 
 	/**
+	 * Role names array.
+	 *
+	 * @since 0.1
+	 * @access public
+	 * @var array
+	 */
+	public $role_names;
+
+	/**
 	 * Constructor.
 	 *
 	 * @since 0.1

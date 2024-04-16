@@ -32,6 +32,24 @@ class Civi_WP_Member_Sync_Members {
 	public $plugin;
 
 	/**
+	 * Membership Status rules array.
+	 *
+	 * @since 0.1
+	 * @access public
+	 * @var array
+	 */
+	public $membership_status_rules;
+
+	/**
+	 * Membership Types array.
+	 *
+	 * @since 0.1
+	 * @access public
+	 * @var array
+	 */
+	public $membership_types;
+
+	/**
 	 * Constructor.
 	 *
 	 * @since 0.1
