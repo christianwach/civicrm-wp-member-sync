@@ -25,7 +25,7 @@
 		<exclude name="Squiz.PHP.CommentedOutCode.Found" />
 		<exclude name="Squiz.Commenting.BlockComment.HasEmptyLineBefore" />
 
-		<!-- Remove some checks to allow phpcbf to run in bulk mode -->
+		<!-- Remaining checks. -->
 		<exclude name="WordPress.PHP.StrictInArray.MissingTrueStrict" />
 		<exclude name="WordPress.Security.EscapeOutput.OutputNotEscaped" />
 
