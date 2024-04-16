@@ -17,9 +17,9 @@ defined( 'ABSPATH' ) || exit;
 	<h1><?php esc_html_e( 'CiviCRM Member Sync', 'civicrm-wp-member-sync' ); ?></h1>
 
 	<h2 class="nav-tab-wrapper">
-		<a href="<?php echo $urls['settings']; ?>" class="nav-tab nav-tab-active"><?php esc_html_e( 'Settings', 'civicrm-wp-member-sync' ); ?></a>
-		<a href="<?php echo $urls['list']; ?>" class="nav-tab"><?php esc_html_e( 'Association Rules', 'civicrm-wp-member-sync' ); ?></a>
-		<a href="<?php echo $urls['manual_sync']; ?>" class="nav-tab"><?php esc_html_e( 'Manual Synchronize', 'civicrm-wp-member-sync' ); ?></a>
+		<a href="<?php echo $urls['settings']; /* phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped */ ?>" class="nav-tab nav-tab-active"><?php esc_html_e( 'Settings', 'civicrm-wp-member-sync' ); ?></a>
+		<a href="<?php echo $urls['list']; /* phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped */ ?>" class="nav-tab"><?php esc_html_e( 'Association Rules', 'civicrm-wp-member-sync' ); ?></a>
+		<a href="<?php echo $urls['manual_sync']; /* phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped */ ?>" class="nav-tab"><?php esc_html_e( 'Manual Synchronize', 'civicrm-wp-member-sync' ); ?></a>
 	</h2>
 
 	<?php if ( $this->is_network_activated() && 'true' === $updated ) : ?>
@@ -134,6 +134,7 @@ defined( 'ABSPATH' ) || exit;
 					echo sprintf(
 						/* translators: 1: Opening anchor tag, 2: Closing anchor tag, 3: Opening em tag, 4: Closing em tag */
 						esc_html__( 'In order to sync Contacts in CiviCRM that have been &#8220;soft deleted&#8221; (moved to the Trash but not fully deleted) you will need to visit the CiviCRM Admin Utilities %1$sSettings page%2$s and make sure the checkbox labelled %3$s&#8217;Check this to fix the Contact &#8220;soft delete&#8221; process&#8216;%4$s is checked so that Contacts which have been &#8220;soft deleted&#8221; continue to have their matching WordPress User&#8216;s status updated.', 'civicrm-wp-member-sync' ),
+						// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 						'<a href="' . $cau_link . '">',
 						'</a>',
 						'<em>',

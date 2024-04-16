@@ -18,10 +18,10 @@ defined( 'ABSPATH' ) || exit;
 
 		printf(
 			/* translators: %s is the placeholder for the count html `<span class="count"/>` */
-			_n( 'Members %s', 'Members %s', $member_count, 'civicrm-wp-member-sync' ),
+			_n( 'Members %s', 'Members %s', $member_count, 'civicrm-wp-member-sync' ), // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 			sprintf(
 				'<span class="count">(%s)</span>',
-				number_format_i18n( $member_count )
+				esc_html( number_format_i18n( $member_count ) )
 			)
 		);
 
@@ -35,10 +35,10 @@ defined( 'ABSPATH' ) || exit;
 
 		printf(
 			/* translators: %s is the placeholder for the count html `<span class="count"/>` */
-			_n( 'Non Members %s', 'Non Members %s', $non_member_count, 'civicrm-wp-member-sync' ),
+			_n( 'Non Members %s', 'Non Members %s', $non_member_count, 'civicrm-wp-member-sync' ), // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 			sprintf(
 				'<span class="count">(%s)</span>',
-				number_format_i18n( $non_member_count )
+				esc_html( number_format_i18n( $non_member_count ) )
 			)
 		);
 

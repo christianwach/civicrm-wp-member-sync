@@ -17,9 +17,9 @@ defined( 'ABSPATH' ) || exit;
 	<h1><?php esc_html_e( 'CiviCRM Member Sync', 'civicrm-wp-member-sync' ); ?></h1>
 
 	<h2 class="nav-tab-wrapper">
-		<a href="<?php echo $urls['settings']; ?>" class="nav-tab"><?php esc_html_e( 'Settings', 'civicrm-wp-member-sync' ); ?></a>
-		<a href="<?php echo $urls['list']; ?>" class="nav-tab nav-tab-active"><?php esc_html_e( 'Association Rules', 'civicrm-wp-member-sync' ); ?></a>
-		<a href="<?php echo $urls['manual_sync']; ?>" class="nav-tab"><?php esc_html_e( 'Manual Synchronize', 'civicrm-wp-member-sync' ); ?></a>
+		<a href="<?php echo $urls['settings']; /* phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped */ ?>" class="nav-tab"><?php esc_html_e( 'Settings', 'civicrm-wp-member-sync' ); ?></a>
+		<a href="<?php echo $urls['list']; /* phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped */ ?>" class="nav-tab nav-tab-active"><?php esc_html_e( 'Association Rules', 'civicrm-wp-member-sync' ); ?></a>
+		<a href="<?php echo $urls['manual_sync']; /* phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped */ ?>" class="nav-tab"><?php esc_html_e( 'Manual Synchronize', 'civicrm-wp-member-sync' ); ?></a>
 	</h2>
 
 	<p><?php esc_html_e( 'Current Status adds a Membership Capability to the WordPress User, while Expired Status removes the Membership Capability from the WordPress User. This Capability will be of the form "civimember_ID", where "ID" is the numeric ID of the Membership Type. So, for Membership Type 2, the Capability will be "civimember_2". If you have the "Members" plugin active, then the "restrict_content" Capability will also be added.', 'civicrm-wp-member-sync' ); ?></p>
@@ -29,7 +29,7 @@ defined( 'ABSPATH' ) || exit;
 	<h3>
 		<?php esc_html_e( 'All Association Rules', 'civicrm-wp-member-sync' ); ?>
 		<?php if ( ! $have_all_types ) : ?>
-			<a class="add-new-h2" href="<?php echo $urls['rules']; ?>"><?php esc_html_e( 'Add New', 'civicrm-wp-member-sync' ); ?></a>
+			<a class="add-new-h2" href="<?php echo $urls['rules']; /* phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped */ ?>"><?php esc_html_e( 'Add New', 'civicrm-wp-member-sync' ); ?></a>
 		<?php endif; ?>
 	</h3>
 
@@ -127,14 +127,17 @@ defined( 'ABSPATH' ) || exit;
 				<tr>
 					<td class="comment column-comment has-row-actions column-primary">
 						<strong>
-							<a href="<?php echo $edit_url; ?>"><?php echo esc_html( $this->plugin->members->membership_name_get_by_id( $key ) ); ?></a>
+							<a href="<?php echo $edit_url; /* phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped */ ?>"><?php echo esc_html( $this->plugin->members->membership_name_get_by_id( $key ) ); ?></a>
 						</strong>
 						<div class="row-actions">
-							<span class="edit"><a href="<?php echo $edit_url; ?>"><?php esc_html_e( 'Edit', 'civicrm-wp-member-sync' ); ?></a> | </span>
-							<span class="delete"><a href="<?php echo $delete_url; ?>" class="submitdelete"><?php esc_html_e( 'Delete', 'civicrm-wp-member-sync' ); ?></a></span>
+							<span class="edit"><a href="<?php echo $edit_url; /* phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped */ ?>"><?php esc_html_e( 'Edit', 'civicrm-wp-member-sync' ); ?></a> | </span>
+							<span class="delete"><a href="<?php echo $delete_url; /* phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped */ ?>" class="submitdelete"><?php esc_html_e( 'Delete', 'civicrm-wp-member-sync' ); ?></a></span>
 						</div>
 					</td>
-					<td><?php echo $this->plugin->members->status_rules_get_current( $item['current_rule'] ); ?></td>
+					<td>
+						<?php /* phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped */ ?>
+						<?php echo $this->plugin->members->status_rules_get_current( $item['current_rule'] ); ?>
+					</td>
 					<?php
 
 					/**
@@ -148,7 +151,10 @@ defined( 'ABSPATH' ) || exit;
 					do_action( 'civi_wp_member_sync_list_caps_td_after_current', $key, $item );
 
 					?>
-					<td><?php echo $this->plugin->members->status_rules_get_current( $item['expiry_rule'] ); ?></td>
+					<td>
+						<?php /* phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped */ ?>
+						<?php echo $this->plugin->members->status_rules_get_current( $item['expiry_rule'] ); ?>
+					</td>
 					<?php
 
 					/**
