@@ -11,7 +11,8 @@
 // Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
 
-?><!-- assets/templates/cau-user-views.php -->
+?>
+<!-- assets/templates/cau-user-views.php -->
 <li class="members">
 	| <a href="<?php echo esc_url( add_query_arg( 'user_status', 'members', $url_base ) ); ?>" class="<?php echo ( 'members' === $user_status ) ? 'current' : ''; ?>">
 		<?php

@@ -11,7 +11,8 @@
 // Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
 
-?><!-- assets/templates/manual-sync.php -->
+?>
+<!-- assets/templates/manual-sync.php -->
 <div class="wrap">
 
 	<h1><?php esc_html_e( 'CiviCRM Member Sync', 'civicrm-wp-member-sync' ); ?></h1>
@@ -51,7 +52,9 @@ defined( 'ABSPATH' ) || exit;
 		<table class="form-table">
 
 			<tr>
-				<th scope="row"><?php esc_html_e( 'Create WordPress Users', 'civicrm-wp-member-sync' ); ?></th>
+				<th scope="row">
+					<?php esc_html_e( 'Create WordPress Users', 'civicrm-wp-member-sync' ); ?>
+				</th>
 				<td>
 					<input type="checkbox" class="settings-checkbox" name="civi_wp_member_sync_manual_sync_create" id="civi_wp_member_sync_manual_sync_create" value="1" />
 					<label class="civi_wp_member_sync_manual_sync_label" for="civi_wp_member_sync_manual_sync_create"><?php esc_html_e( 'Create a WordPress User for each Membership when one does not already exist.', 'civicrm-wp-member-sync' ); ?></label>
@@ -59,7 +62,9 @@ defined( 'ABSPATH' ) || exit;
 			</tr>
 
 			<tr>
-				<th scope="row"><?php esc_html_e( 'Selected Memberships', 'civicrm-wp-member-sync' ); ?></th>
+				<th scope="row">
+					<?php esc_html_e( 'Selected Memberships', 'civicrm-wp-member-sync' ); ?>
+				</th>
 				<td>
 					<p><label class="civi_wp_member_sync_manual_sync_label" for="civi_wp_member_sync_manual_sync_from"><?php esc_html_e( 'From:', 'civicrm-wp-member-sync' ); ?></label> <input type="number" class="settings-text-field small-text" name="civi_wp_member_sync_manual_sync_from" id="civi_wp_member_sync_manual_sync_from" value="" /> <label class="civi_wp_member_sync_manual_sync_label" for="civi_wp_member_sync_manual_sync_to"><?php esc_html_e( '&rarr; To:', 'civicrm-wp-member-sync' ); ?></label> <input type="number" class="settings-text-field small-text" name="civi_wp_member_sync_manual_sync_to" id="civi_wp_member_sync_manual_sync_to" value="" /></p>
 					<p class="description"><?php esc_html_e( 'Leave these fields empty to sync all Memberships. In some situations (e.g. to avoid external API rate limits) you may need the sync process to be limited to a certain "block" of Memberships. If so, enter the starting and ending Membership IDs to restrict the sync process.', 'civicrm-wp-member-sync' ); ?></p>
@@ -67,7 +72,9 @@ defined( 'ABSPATH' ) || exit;
 			</tr>
 
 			<tr>
-				<th scope="row"><?php esc_html_e( 'Dry Run', 'civicrm-wp-member-sync' ); ?></th>
+				<th scope="row">
+					<?php esc_html_e( 'Dry Run', 'civicrm-wp-member-sync' ); ?>
+				</th>
 				<td>
 					<input type="checkbox" class="settings-checkbox" name="civi_wp_member_sync_manual_sync_dry_run" id="civi_wp_member_sync_manual_sync_dry_run" value="1" checked="checked" />
 					<label class="civi_wp_member_sync_manual_sync_label" for="civi_wp_member_sync_manual_sync_dry_run"><?php esc_html_e( 'When this box is checked, no changes will be made and you will get feedback on what would happen.', 'civicrm-wp-member-sync' ); ?></label>
@@ -103,11 +110,21 @@ defined( 'ABSPATH' ) || exit;
 
 					<thead>
 						<tr>
-							<th class="manage-column column-is-new" id="cwms-is-new" scope="col"><?php esc_html_e( 'New', 'civicrm-wp-member-sync' ); ?></th>
-							<th class="manage-column column-contact-name" id="cwms-contact-name" scope="col"><?php esc_html_e( 'Contact Name', 'civicrm-wp-member-sync' ); ?></th>
-							<th class="manage-column column-username" id="cwms-user-name" scope="col"><?php esc_html_e( 'Username', 'civicrm-wp-member-sync' ); ?></th>
-							<th class="manage-column column-member-type" id="cwms-member-type" scope="col"><?php esc_html_e( 'Membership Type', 'civicrm-wp-member-sync' ); ?></th>
-							<th class="manage-column column-member-status" id="cwms-member-status" scope="col"><?php esc_html_e( 'Status', 'civicrm-wp-member-sync' ); ?></th>
+							<th class="manage-column column-is-new" id="cwms-is-new" scope="col">
+								<?php esc_html_e( 'New', 'civicrm-wp-member-sync' ); ?>
+							</th>
+							<th class="manage-column column-contact-name" id="cwms-contact-name" scope="col">
+								<?php esc_html_e( 'Contact Name', 'civicrm-wp-member-sync' ); ?>
+							</th>
+							<th class="manage-column column-username" id="cwms-user-name" scope="col">
+								<?php esc_html_e( 'Username', 'civicrm-wp-member-sync' ); ?>
+							</th>
+							<th class="manage-column column-member-type" id="cwms-member-type" scope="col">
+								<?php esc_html_e( 'Membership Type', 'civicrm-wp-member-sync' ); ?>
+							</th>
+							<th class="manage-column column-member-status" id="cwms-member-status" scope="col">
+								<?php esc_html_e( 'Status', 'civicrm-wp-member-sync' ); ?>
+							</th>
 							<?php
 
 							/**

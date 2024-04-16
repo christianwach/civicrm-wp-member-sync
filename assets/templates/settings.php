@@ -11,7 +11,8 @@
 // Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
 
-?><!-- assets/templates/settings.php -->
+?>
+<!-- assets/templates/settings.php -->
 <div class="wrap">
 
 	<h1><?php esc_html_e( 'CiviCRM Member Sync', 'civicrm-wp-member-sync' ); ?></h1>
@@ -192,7 +193,9 @@ defined( 'ABSPATH' ) || exit;
 			</tr>
 
 			<tr>
-				<th scope="row"><label class="civi_wp_member_sync_settings_label" for="civi_wp_member_sync_settings_interval"><?php esc_html_e( 'Schedule Interval', 'civicrm-wp-member-sync' ); ?></label></th>
+				<th scope="row">
+					<label class="civi_wp_member_sync_settings_label" for="civi_wp_member_sync_settings_interval"><?php esc_html_e( 'Schedule Interval', 'civicrm-wp-member-sync' ); ?></label>
+				</th>
 				<td>
 					<select class="settings-select" name="civi_wp_member_sync_settings_interval" id ="civi_wp_member_sync_settings_interval">
 						<?php foreach ( $schedules as $key => $value ) : ?>
@@ -211,7 +214,9 @@ defined( 'ABSPATH' ) || exit;
 		<table class="form-table">
 
 			<tr>
-				<th scope="row"><?php esc_html_e( 'Synced Contact Types', 'civicrm-wp-member-sync' ); ?></th>
+				<th scope="row">
+					<?php esc_html_e( 'Synced Contact Types', 'civicrm-wp-member-sync' ); ?>
+				</th>
 				<td>
 					<input type="checkbox" class="settings-checkbox" name="civi_wp_member_sync_settings_types" id="civi_wp_member_sync_settings_types" value="1"<?php checked( 1, $types ); ?> />
 					<label class="civi_wp_member_sync_settings_label" for="civi_wp_member_sync_settings_types"><?php esc_html_e( 'Synchronize Individuals only.', 'civicrm-wp-member-sync' ); ?></label>
@@ -223,7 +228,9 @@ defined( 'ABSPATH' ) || exit;
 
 		<hr />
 
-		<p class="submit"><input class="button-primary" type="submit" id="civi_wp_member_sync_settings_submit" name="civi_wp_member_sync_settings_submit" value="<?php esc_attr_e( 'Save Changes', 'civicrm-wp-member-sync' ); ?>" /></p>
+		<p class="submit">
+			<input class="button-primary" type="submit" id="civi_wp_member_sync_settings_submit" name="civi_wp_member_sync_settings_submit" value="<?php esc_attr_e( 'Save Changes', 'civicrm-wp-member-sync' ); ?>" />
+		</p>
 
 	</form>
 

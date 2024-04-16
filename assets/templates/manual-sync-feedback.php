@@ -11,13 +11,18 @@
 // Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
 
-?><!-- assets/templates/manual-sync-feedback.php -->
+?>
+<!-- assets/templates/manual-sync-feedback.php -->
 <?php foreach ( $result as $item ) : ?>
 	<tr>
 		<?php if ( $item['is_new'] ) : ?>
-			<td><span class="dashicons dashicons-yes-alt" title="<?php esc_html_e( 'User created', 'civicrm-wp-member-sync' ); ?>"></span></td>
+			<td>
+				<span class="dashicons dashicons-yes-alt" title="<?php esc_html_e( 'User created', 'civicrm-wp-member-sync' ); ?>"></span>
+			</td>
 		<?php else : ?>
-			<td><span class="dashicons dashicons-no" title="<?php esc_html_e( 'User exists', 'civicrm-wp-member-sync' ); ?>"></span></td>
+			<td>
+				<span class="dashicons dashicons-no" title="<?php esc_html_e( 'User exists', 'civicrm-wp-member-sync' ); ?>"></span>
+			</td>
 		<?php endif; ?>
 		<td class="comment column-comment column-primary">
 			<strong>
@@ -30,9 +35,15 @@ defined( 'ABSPATH' ) || exit;
 				<?php endif; ?>
 			</strong>
 		</td>
-		<td><?php echo esc_html( $item['username'] ); ?></td>
-		<td><?php echo esc_html( $item['membership_name'] ); ?></td>
-		<td><?php echo esc_html( $item['membership_status'] ); ?></td>
+		<td>
+			<?php echo esc_html( $item['username'] ); ?>
+		</td>
+		<td>
+			<?php echo esc_html( $item['membership_name'] ); ?>
+		</td>
+		<td>
+			<?php echo esc_html( $item['membership_status'] ); ?>
+		</td>
 		<?php
 
 		/**

@@ -11,13 +11,16 @@
 // Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
 
-?><!-- assets/templates/groups-edit-expiry.php -->
+?>
+<!-- assets/templates/groups-edit-expiry.php -->
 <tr>
-	<th scope="row"><label class="expiry_label" for="cwms_groups_select_expiry"><?php esc_html_e( 'Expiry Group(s)', 'civicrm-wp-member-sync' ); ?></label></th>
+	<th scope="row">
+		<label class="expiry_label" for="cwms_groups_select_expiry"><?php esc_html_e( 'Expiry Group(s)', 'civicrm-wp-member-sync' ); ?></label>
+	</th>
 	<td>
-	<select class="cwms_groups_select" id="cwms_groups_select_expiry" name="cwms_groups_select_expiry[]" multiple="multiple" placeholder="<?php esc_attr_e( 'Find a group', 'civicrm-wp-member-sync' ); ?>" style="min-width: 240px;">
-		<?php /* phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped */ ?>
-		<?php echo $options_html; ?>
-	</select>
+		<select class="cwms_groups_select" id="cwms_groups_select_expiry" name="cwms_groups_select_expiry[]" multiple="multiple" placeholder="<?php esc_attr_e( 'Find a group', 'civicrm-wp-member-sync' ); ?>" style="min-width: 240px;">
+			<?php /* phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped */ ?>
+			<?php echo $options_html; ?>
+		</select>
 	</td>
 </tr>

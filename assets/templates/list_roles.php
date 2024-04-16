@@ -11,7 +11,8 @@
 // Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
 
-?><!-- assets/templates/list_roles.php -->
+?>
+<!-- assets/templates/list_roles.php -->
 <div class="wrap">
 
 	<h1><?php esc_html_e( 'CiviCRM Member Sync', 'civicrm-wp-member-sync' ); ?></h1>
@@ -68,9 +69,15 @@ defined( 'ABSPATH' ) || exit;
 
 		<thead>
 			<tr>
-				<th class="manage-column column-type" id="civi_member_type_id" scope="col"><?php esc_html_e( 'CiviCRM Membership Type', 'civicrm-wp-member-sync' ); ?></th>
-				<th class="manage-column column-current-code" id="current_rule" scope="col"><?php esc_html_e( 'Current Member Codes', 'civicrm-wp-member-sync' ); ?></th>
-				<th class="manage-column column-current-wp-role" id="wp_mem_role" scope="col"><?php esc_html_e( 'Current WP Role', 'civicrm-wp-member-sync' ); ?></th>
+				<th class="manage-column column-type" id="civi_member_type_id" scope="col">
+					<?php esc_html_e( 'CiviCRM Membership Type', 'civicrm-wp-member-sync' ); ?>
+				</th>
+				<th class="manage-column column-current-code" id="current_rule" scope="col">
+					<?php esc_html_e( 'Current Member Codes', 'civicrm-wp-member-sync' ); ?>
+				</th>
+				<th class="manage-column column-current-wp-role" id="wp_mem_role" scope="col">
+					<?php esc_html_e( 'Current WP Role', 'civicrm-wp-member-sync' ); ?>
+				</th>
 				<?php
 
 				/**
@@ -81,8 +88,12 @@ defined( 'ABSPATH' ) || exit;
 				do_action( 'civi_wp_member_sync_list_roles_th_after_current' );
 
 				?>
-				<th class="manage-column column-expired-code" id="expiry_rule" scope="col"><?php esc_html_e( 'Expired Member Codes', 'civicrm-wp-member-sync' ); ?></th>
-				<th class="manage-column column-expired-wp-role" id="expired_wp_role" scope="col"><?php esc_html_e( 'Expiry WP Role', 'civicrm-wp-member-sync' ); ?></th>
+				<th class="manage-column column-expired-code" id="expiry_rule" scope="col">
+					<?php esc_html_e( 'Expired Member Codes', 'civicrm-wp-member-sync' ); ?>
+				</th>
+				<th class="manage-column column-expired-wp-role" id="expired_wp_role" scope="col">
+					<?php esc_html_e( 'Expiry WP Role', 'civicrm-wp-member-sync' ); ?>
+				</th>
 				<?php
 
 				/**

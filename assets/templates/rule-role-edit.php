@@ -11,7 +11,8 @@
 // Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
 
-?><!-- assets/templates/rule-role-edit.php -->
+?>
+<!-- assets/templates/rule-role-edit.php -->
 <div class="wrap">
 
 	<h1><?php esc_html_e( 'CiviCRM Member Sync', 'civicrm-wp-member-sync' ); ?></h1>

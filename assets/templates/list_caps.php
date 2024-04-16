@@ -11,7 +11,8 @@
 // Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
 
-?><!-- assets/templates/list_caps.php -->
+?>
+<!-- assets/templates/list_caps.php -->
 <div class="wrap">
 
 	<h1><?php esc_html_e( 'CiviCRM Member Sync', 'civicrm-wp-member-sync' ); ?></h1>
@@ -72,8 +73,12 @@ defined( 'ABSPATH' ) || exit;
 
 		<thead>
 			<tr>
-				<th class="manage-column column-type" id="civi_member_type_id" scope="col"><?php esc_html_e( 'CiviCRM Membership Type', 'civicrm-wp-member-sync' ); ?></th>
-				<th class="manage-column column-current-code" id="current_rule" scope="col"><?php esc_html_e( 'Current Codes', 'civicrm-wp-member-sync' ); ?></th>
+				<th class="manage-column column-type" id="civi_member_type_id" scope="col">
+					<?php esc_html_e( 'CiviCRM Membership Type', 'civicrm-wp-member-sync' ); ?>
+				</th>
+				<th class="manage-column column-current-code" id="current_rule" scope="col">
+					<?php esc_html_e( 'Current Codes', 'civicrm-wp-member-sync' ); ?>
+				</th>
 				<?php
 
 				/**
@@ -84,7 +89,9 @@ defined( 'ABSPATH' ) || exit;
 				do_action( 'civi_wp_member_sync_list_caps_th_after_current' );
 
 				?>
-				<th class="manage-column column-expired-code" id="expiry_rule" scope="col"><?php esc_html_e( 'Expired Codes', 'civicrm-wp-member-sync' ); ?></th>
+				<th class="manage-column column-expired-code" id="expiry_rule" scope="col">
+					<?php esc_html_e( 'Expired Codes', 'civicrm-wp-member-sync' ); ?>
+				</th>
 				<?php
 
 				/**
@@ -95,7 +102,9 @@ defined( 'ABSPATH' ) || exit;
 				do_action( 'civi_wp_member_sync_list_caps_th_after_expiry' );
 
 				?>
-				<th class="manage-column column-capability" id="wp_mem_cap" scope="col"><?php esc_html_e( 'Membership Capability', 'civicrm-wp-member-sync' ); ?></th>
+				<th class="manage-column column-capability" id="wp_mem_cap" scope="col">
+					<?php esc_html_e( 'Membership Capability', 'civicrm-wp-member-sync' ); ?>
+				</th>
 				<?php
 
 				/**
