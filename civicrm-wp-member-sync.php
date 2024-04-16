@@ -119,17 +119,10 @@ class Civi_WP_Member_Sync {
 	 */
 	public function __construct() {
 
-		// Use translation.
-		add_action( 'plugins_loaded', [ $this, 'translation' ] );
-
-		// Include files.
+		// Bootstrap plugin.
 		$this->include_files();
-
-		// Set up objects and references.
 		$this->setup_objects();
-
-		// Initialise plugin when CiviCRM initialises during "plugins_loaded".
-		add_action( 'civicrm_instance_loaded', [ $this, 'initialise' ] );
+		$this->register_hooks();
 
 	}
 
@@ -164,6 +157,25 @@ class Civi_WP_Member_Sync {
 		$this->members    = new Civi_WP_Member_Sync_Members( $this );
 		$this->groups     = new Civi_WP_Member_Sync_Groups( $this );
 		$this->buddypress = new Civi_WP_Member_Sync_BuddyPress( $this );
+
+	}
+
+	/**
+	 * Register hooks.
+	 *
+	 * @since 0.6.2
+	 */
+	public function register_hooks() {
+
+		// Initialise plugin when CiviCRM initialises during "plugins_loaded".
+		add_action( 'civicrm_instance_loaded', [ $this, 'initialise' ] );
+
+		// Use translation.
+		add_action( 'plugins_loaded', [ $this, 'translation' ] );
+
+		// Add settings link.
+		add_filter( 'network_admin_plugin_action_links', [ $this, 'plugin_action_links' ], 10, 2 );
+		add_filter( 'plugin_action_links', [ $this, 'plugin_action_links' ], 10, 2 );
 
 	}
 
@@ -240,6 +252,41 @@ class Civi_WP_Member_Sync {
 	}
 
 	/**
+	 * Utility to add link to settings page.
+	 *
+	 * @since 0.6.2
+	 *
+	 * @param array $links The existing links array.
+	 * @param str   $file The name of the plugin file.
+	 * @return array $links The modified links array.
+	 */
+	public function plugin_action_links( $links, $file ) {
+
+		// Maybe add settings link.
+		if ( plugin_basename( dirname( __FILE__ ) . '/civicrm-wp-member-sync.php' ) !== $file ) {
+			return $links;
+		}
+
+		// Is this Network Admin? Also check sub-site listings (since WordPress 4.4) and show for network admins.
+		if ( is_network_admin() || ( is_super_admin() && civicrm_wpms()->admin->is_network_activated() ) ) {
+			$link = add_query_arg( [ 'page' => 'civi_wp_member_sync_parent' ], network_admin_url( 'settings.php' ) );
+		} else {
+			$link = add_query_arg( [ 'page' => 'civi_wp_member_sync_parent' ], admin_url( 'admin.php' ) );
+		}
+
+		// Add settings link.
+		$links[] = '<a href="' . esc_url( $link ) . '">' . esc_html__( 'Settings', 'civicrm-wp-member-sync' ) . '</a>';
+
+		// Add Paypal link.
+		$paypal  = 'https://www.paypal.me/interactivist';
+		$links[] = '<a href="' . esc_url( $paypal ) . '" target="_blank">' . esc_html__( 'Donate!', 'civicrm-wp-member-sync' ) . '</a>';
+
+		// --<
+		return $links;
+
+	}
+
+	/**
 	 * Write to the error log.
 	 *
 	 * @since 0.6.2
@@ -303,37 +350,3 @@ register_deactivation_hook( __FILE__, [ civicrm_wpms(), 'deactivate' ] );
  * Uninstall uses the 'uninstall.php' method.
  * @see https://developer.wordpress.org/reference/functions/register_uninstall_hook/
  */
-
-/**
- * Add courtesy links on WordPress plugin listings pages.
- *
- * @since 0.1
- *
- * @param array $links The existing list of plugin links.
- * @param str   $file The name of the plugin file.
- * @return array $links The amended list of plugin links.
- */
-function civi_wp_member_sync_plugin_add_settings_link( $links, $file ) {
-
-	// Maybe add settings link.
-	if ( plugin_basename( dirname( __FILE__ ) . '/civicrm-wp-member-sync.php' ) !== $file ) {
-		return $links;
-	}
-
-	// Is this Network Admin? Also check sub-site listings (since WordPress 4.4) and show for network admins.
-	if ( is_network_admin() || ( is_super_admin() && civicrm_wpms()->admin->is_network_activated() ) ) {
-		$link = add_query_arg( [ 'page' => 'civi_wp_member_sync_parent' ], network_admin_url( 'settings.php' ) );
-	} else {
-		$link = add_query_arg( [ 'page' => 'civi_wp_member_sync_parent' ], admin_url( 'admin.php' ) );
-	}
-
-	// Add settings link.
-	$links[] = '<a href="' . esc_url( $link ) . '">' . esc_html__( 'Settings', 'civicrm-wp-member-sync' ) . '</a>';
-
-	// --<
-	return $links;
-
-}
-
-add_filter( 'network_admin_plugin_action_links', 'civi_wp_member_sync_plugin_add_settings_link', 10, 2 );
-add_filter( 'plugin_action_links', 'civi_wp_member_sync_plugin_add_settings_link', 10, 2 );
