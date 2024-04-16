@@ -4,7 +4,7 @@ Donate link: https://www.paypal.me/interactivist
 Tags: civicrm, member, membership, sync
 Requires at least: 4.9
 Tested up to: 6.5
-Requires PHP: 7.1
+Requires PHP: 7.4
 Stable tag: 0.6.2a
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/old-licenses/gpl-2.0.html
