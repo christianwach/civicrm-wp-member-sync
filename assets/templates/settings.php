@@ -47,7 +47,7 @@ defined( 'ABSPATH' ) || exit;
 					<label class="civi_wp_member_sync_settings_label" for="civi_wp_member_sync_settings_method"><?php esc_html_e( 'Choose Method', 'civicrm-wp-member-sync' ); ?></label>
 				</th>
 				<td>
-					<select class="settings-select" name="civi_wp_member_sync_settings_method" id ="civi_wp_member_sync_settings_method">
+					<select class="settings-select" name="civi_wp_member_sync_settings_method" id="civi_wp_member_sync_settings_method">
 						<option value="capabilities"<?php selected( 'capabilities', $method ); ?>><?php esc_html_e( 'Capabilities', 'civicrm-wp-member-sync' ); ?></option>
 						<option value="roles"<?php selected( 'roles', $method ); ?>><?php esc_html_e( 'Roles', 'civicrm-wp-member-sync' ); ?></option>
 					</select>
@@ -197,7 +197,7 @@ defined( 'ABSPATH' ) || exit;
 					<label class="civi_wp_member_sync_settings_label" for="civi_wp_member_sync_settings_interval"><?php esc_html_e( 'Schedule Interval', 'civicrm-wp-member-sync' ); ?></label>
 				</th>
 				<td>
-					<select class="settings-select" name="civi_wp_member_sync_settings_interval" id ="civi_wp_member_sync_settings_interval">
+					<select class="settings-select" name="civi_wp_member_sync_settings_interval" id="civi_wp_member_sync_settings_interval">
 						<?php foreach ( $schedules as $key => $value ) : ?>
 							<option value="<?php echo esc_attr( $key ); ?>"<?php selected( $interval, $key ); ?>><?php echo esc_html( $value['display'] ); ?></option>
 						<?php endforeach; ?>

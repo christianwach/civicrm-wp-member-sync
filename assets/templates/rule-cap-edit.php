@@ -50,7 +50,7 @@ defined( 'ABSPATH' ) || exit;
 					<label class="civi_member_type_id_label" for="civi_member_type_id"><?php esc_html_e( 'CiviMember Membership Type', 'civicrm-wp-member-sync' ); ?> <span class="required">*</span></label>
 				</th>
 				<td>
-					<select name="civi_member_type_id" id="civi_member_type_id" class ="required required-type">
+					<select name="civi_member_type_id" id="civi_member_type_id" class="required required-type">
 						<?php foreach ( $membership_types as $key => $value ) : ?>
 							<option value="<?php echo esc_attr( $key ); ?>"<?php selected( $civi_member_type_id, $key ); ?>><?php echo esc_html( $value ); ?></option>
 						<?php endforeach; ?>
