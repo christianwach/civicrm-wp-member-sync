@@ -142,6 +142,10 @@ class Civi_WP_Member_Sync_BuddyPress {
 		add_action( 'civi_wp_member_sync_rule_apply_roles_current', [ $this, 'rule_apply_current' ], 10, 4 );
 		add_action( 'civi_wp_member_sync_rule_apply_roles_expired', [ $this, 'rule_apply_expired' ], 10, 4 );
 
+		// Hook into Rule Undo process.
+		add_action( 'civi_wp_member_sync_rule_undo_roles', [ $this, 'rule_undo' ], 10, 4 );
+		add_action( 'civi_wp_member_sync_rule_undo_caps', [ $this, 'rule_undo' ], 10, 4 );
+
 		// Hook into Capabilities and Roles lists.
 		add_action( 'civi_wp_member_sync_list_caps_th_after_current', [ $this, 'list_current_header' ] );
 		add_action( 'civi_wp_member_sync_list_caps_td_after_current', [ $this, 'list_current_row' ], 10, 2 );
@@ -342,6 +346,37 @@ class Civi_WP_Member_Sync_BuddyPress {
 		if ( ! empty( $association_rule['expiry_buddypress'] ) ) {
 			foreach ( $association_rule['expiry_buddypress'] as $group_id ) {
 				$this->group_member_add( $user->ID, $group_id );
+			}
+		}
+
+	}
+
+	/**
+	 * Intercept Rule Undo when Membership is deleted.
+	 *
+	 * We remove the User from both "current" and "expired" Groups, since there should
+	 * be no remaining trace of the Membership.
+	 *
+	 * @since 0.6.3
+	 *
+	 * @param WP_User $user The WordPress User object.
+	 * @param object  $membership The CiviCRM Membership data object.
+	 * @param array   $association_rule The rule used to apply the changes.
+	 * @param array   $memberships The array of remaining CiviCRM Memberships.
+	 */
+	public function rule_undo( $user, $membership, $association_rule, $memberships ) {
+
+		// Remove the User from the current Groups.
+		if ( ! empty( $association_rule['current_groups'] ) ) {
+			foreach ( $association_rule['current_groups'] as $group_id ) {
+				$this->group_member_delete( $user->ID, $group_id );
+			}
+		}
+
+		// Remove the User from the expired Groups.
+		if ( ! empty( $association_rule['expiry_groups'] ) ) {
+			foreach ( $association_rule['expiry_groups'] as $group_id ) {
+				$this->group_member_delete( $user->ID, $group_id );
 			}
 		}
 
