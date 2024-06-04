@@ -122,7 +122,7 @@ class Civi_WP_Member_Sync_Users {
 		foreach ( $user->roles as $role ) {
 
 			// Return the first valid one.
-			if ( $role && in_array( $role, $filtered_roles ) ) {
+			if ( $role && in_array( $role, $filtered_roles, true ) ) {
 				return $role;
 			}
 
@@ -168,7 +168,7 @@ class Civi_WP_Member_Sync_Users {
 		foreach ( $user->roles as $role ) {
 
 			// Add Role to return array if it's a "blog" Role.
-			if ( $role && in_array( $role, $filtered_roles ) ) {
+			if ( $role && in_array( $role, $filtered_roles, true ) ) {
 				$user_roles[] = $role;
 			}
 

@@ -186,11 +186,14 @@ class Civi_WP_Member_Sync_Admin_CAU {
 			return $args;
 		}
 
+		// Make sure Contact IDs are integers.
+		$contact_ids = array_map( 'intval', $contact_ids );
+
 		// Build the list of User IDs with that Membership Type.
 		$user_ids = [];
 		foreach ( $ufmatch as $item ) {
-			if ( in_array( $item['contact_id'], $contact_ids ) ) {
-				$user_ids[] = $item['uf_id'];
+			if ( in_array( (int) $item['contact_id'], $contact_ids, true ) ) {
+				$user_ids[] = (int) $item['uf_id'];
 			}
 		}
 
@@ -244,11 +247,14 @@ class Civi_WP_Member_Sync_Admin_CAU {
 			return $args;
 		}
 
+		// Make sure Contact IDs are integers.
+		$contact_ids = array_map( 'intval', $contact_ids );
+
 		// Build the list of User IDs with that Membership Type.
 		$user_ids = [];
 		foreach ( $ufmatch as $item ) {
-			if ( in_array( $item['contact_id'], $contact_ids ) ) {
-				$user_ids[] = $item['uf_id'];
+			if ( in_array( (int) $item['contact_id'], $contact_ids, true ) ) {
+				$user_ids[] = (int) $item['uf_id'];
 			}
 		}
 
@@ -286,12 +292,15 @@ class Civi_WP_Member_Sync_Admin_CAU {
 		// Get the views param.
 		// phpcs:ignore WordPress.Security.NonceVerification.Recommended, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 		$member_status = trim( wp_unslash( $_REQUEST['user_status'] ) );
-		if ( ! in_array( $member_status, [ 'members', 'non_members' ] ) ) {
+		if ( ! in_array( $member_status, [ 'members', 'non_members' ], true ) ) {
 			return $args;
 		}
 
 		// We need all Contact IDs to query by.
 		$all_contact_ids = wp_list_pluck( $ufmatch, 'contact_id' );
+
+		// Make sure all Contact IDs are integers.
+		$all_contact_ids = array_map( 'intval', $all_contact_ids );
 
 		// Query for Memberships of all Types for these Contacts.
 		$memberships = $this->plugin->members->memberships_get( 0, 0, [ 'IN' => $all_contact_ids ] );
@@ -302,14 +311,17 @@ class Civi_WP_Member_Sync_Admin_CAU {
 		// Extract the Contact IDs that have a Membership.
 		$contact_ids = wp_list_pluck( $memberships['values'], 'contact_id' );
 
+		// Make sure Contact IDs are integers.
+		$contact_ids = array_map( 'intval', $contact_ids );
+
 		// Build the lists of User IDs with and without Membership.
 		$member_user_ids     = [];
 		$non_member_user_ids = [];
 		foreach ( $ufmatch as $item ) {
-			if ( in_array( $item['contact_id'], $contact_ids ) ) {
-				$member_user_ids[] = $item['uf_id'];
+			if ( in_array( (int) $item['contact_id'], $contact_ids, true ) ) {
+				$member_user_ids[] = (int) $item['uf_id'];
 			} else {
-				$non_member_user_ids[] = $item['uf_id'];
+				$non_member_user_ids[] = (int) $item['uf_id'];
 			}
 		}
 
@@ -345,15 +357,15 @@ class Civi_WP_Member_Sync_Admin_CAU {
 		}
 
 		// Get the User IDs.
-		$user_ids = array_keys( $args['items'] );
+		$user_ids = array_map( 'intval', array_keys( $args['items'] ) );
 
 		// Strip out just the Contact IDs that are shown.
 		$this->query_ids = [];
 		foreach ( $args['ufmatch_all'] as $ufmatch ) {
-			if ( ! in_array( $ufmatch['uf_id'], $user_ids ) ) {
+			if ( ! in_array( (int) $ufmatch['uf_id'], $user_ids, true ) ) {
 				continue;
 			}
-			$this->query_ids[ $ufmatch['uf_id'] ] = $ufmatch['contact_id'];
+			$this->query_ids[ $ufmatch['uf_id'] ] = (int) $ufmatch['contact_id'];
 		}
 
 		// Query for the Memberships of these Contacts.
@@ -397,6 +409,9 @@ class Civi_WP_Member_Sync_Admin_CAU {
 			// Extract the Contact IDs.
 			$contact_ids = wp_list_pluck( $memberships['values'], 'contact_id' );
 
+			// Make sure Contact IDs are integers.
+			$contact_ids = array_map( 'intval', $contact_ids );
+
 			// Make unique (there may be multiple Memberships per Contact).
 			$unique_contact_ids = array_unique( $contact_ids );
 
@@ -405,6 +420,9 @@ class Civi_WP_Member_Sync_Admin_CAU {
 
 				// Grab the list of all Contact IDs.
 				$ufmatch_ids = wp_list_pluck( $this->ufmatch, 'contact_id' );
+
+				// Make sure Contact IDs are integers.
+				$ufmatch_ids = array_map( 'intval', $ufmatch_ids );
 
 				// Make unique for safety.
 				$unique_ufmatch_ids = array_unique( $ufmatch_ids );
@@ -415,8 +433,8 @@ class Civi_WP_Member_Sync_Admin_CAU {
 				// Build the list of User IDs with Membership.
 				$member_ids = [];
 				foreach ( $this->ufmatch as $item ) {
-					if ( ! in_array( $item['contact_id'], $diff ) ) {
-						$member_ids[] = $item['uf_id'];
+					if ( ! in_array( (int) $item['contact_id'], $diff, true ) ) {
+						$member_ids[] = (int) $item['uf_id'];
 					}
 				}
 

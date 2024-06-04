@@ -64,7 +64,7 @@ defined( 'ABSPATH' ) || exit;
 				</th>
 				<td>
 					<?php foreach ( $status_rules as $key => $value ) : ?>
-						<input type="checkbox" class="required-current current-<?php echo esc_attr( $key ); ?>" name="<?php echo esc_attr( 'current[' . $key . ']' ); ?>" id="<?php echo esc_attr( 'current[' . $key . ']' ); ?>" value="<?php echo esc_attr( $key ); ?>"<?php checked( array_search( $key, $current_rule ), $key ); ?> />
+						<input type="checkbox" class="required-current current-<?php echo esc_attr( $key ); ?>" name="<?php echo esc_attr( 'current[' . $key . ']' ); ?>" id="<?php echo esc_attr( 'current[' . $key . ']' ); ?>" value="<?php echo esc_attr( $key ); ?>"<?php checked( array_search( $key, $current_rule, true ), $key ); ?> />
 						<label for="<?php echo esc_attr( 'current[' . $key . ']' ); ?>"><?php echo esc_html( $value ); ?></label><br />
 					<?php endforeach; ?>
 				</td>
@@ -90,7 +90,7 @@ defined( 'ABSPATH' ) || exit;
 				</th>
 				<td>
 				<?php foreach ( $status_rules as $key => $value ) : ?>
-					<input type="checkbox" class="required-expire expire-<?php echo esc_attr( $key ); ?>" name="<?php echo esc_attr( 'expire[' . $key . ']' ); ?>" id="<?php echo esc_attr( 'expire[' . $key . ']' ); ?>" value="<?php echo esc_attr( $key ); ?>"<?php checked( array_search( $key, $expiry_rule ), $key ); ?> />
+					<input type="checkbox" class="required-expire expire-<?php echo esc_attr( $key ); ?>" name="<?php echo esc_attr( 'expire[' . $key . ']' ); ?>" id="<?php echo esc_attr( 'expire[' . $key . ']' ); ?>" value="<?php echo esc_attr( $key ); ?>"<?php checked( array_search( $key, $expiry_rule, true ), $key ); ?> />
 					<label for="<?php echo esc_attr( 'expire[' . $key . ']' ); ?>"><?php echo esc_html( $value ); ?></label><br />
 				<?php endforeach; ?>
 				</td>

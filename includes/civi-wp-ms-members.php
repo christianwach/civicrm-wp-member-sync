@@ -239,7 +239,7 @@ class Civi_WP_Member_Sync_Members {
 			foreach ( $memberships['values'] as $membership ) {
 
 				// Get Contact ID.
-				$civi_contact_id = isset( $membership['contact_id'] ) ? $membership['contact_id'] : false;
+				$civi_contact_id = isset( $membership['contact_id'] ) ? (int) $membership['contact_id'] : false;
 				if ( false === $civi_contact_id ) {
 					continue;
 				}
@@ -258,7 +258,7 @@ class Civi_WP_Member_Sync_Members {
 				 */
 
 				// Continue if we've already processed this Contact.
-				if ( in_array( $civi_contact_id, $processed ) ) {
+				if ( in_array( $civi_contact_id, $processed, true ) ) {
 					continue;
 				}
 
@@ -1048,12 +1048,15 @@ class Civi_WP_Member_Sync_Members {
 		// Extract the Contact IDs.
 		$contact_ids = wp_list_pluck( $result['values'], 'contact_id' );
 
+		// Make sure Contact IDs are integers.
+		$contact_ids = array_map( 'intval', $contact_ids );
+
 		// Override Membership Statuses.
 		$overrides = [];
 		foreach ( $data['values'] as $membership ) {
 
 			// Skip checks if this Membership doesn't refer to a Contact in Trash.
-			if ( ! in_array( $membership['contact_id'], $contact_ids ) ) {
+			if ( ! in_array( (int) $membership['contact_id'], $contact_ids, true ) ) {
 				$overrides[] = $membership;
 				continue;
 			}

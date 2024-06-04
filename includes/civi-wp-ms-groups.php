@@ -874,7 +874,7 @@ class Civi_WP_Member_Sync_Groups {
 
 		// Get current.
 		$current_read_caps = Groups_Options::get_option( Groups_Post_Access::READ_POST_CAPABILITIES, $default_read_caps );
-		if ( in_array( $capability, $current_read_caps ) ) {
+		if ( in_array( $capability, $current_read_caps, true ) ) {
 			return;
 		}
 
@@ -903,7 +903,7 @@ class Civi_WP_Member_Sync_Groups {
 		$current_read_caps = Groups_Options::get_option( Groups_Post_Access::READ_POST_CAPABILITIES, $default_read_caps );
 
 		// Get key if Capability is present.
-		$key = array_search( $capability, $current_read_caps );
+		$key = array_search( $capability, $current_read_caps, true );
 		if ( false === $key ) {
 			return;
 		}
