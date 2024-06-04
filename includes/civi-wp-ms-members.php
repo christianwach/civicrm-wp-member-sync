@@ -50,6 +50,19 @@ class Civi_WP_Member_Sync_Members {
 	public $membership_types;
 
 	/**
+	 * An array of Memberships prior to edit.
+	 *
+	 * There are situations where nested updates may take place (e.g. via CiviRules)
+	 * so we keep copies of the Memberships in an array and try and match them up in
+	 * the post edit hook.
+	 *
+	 * @since 0.6.3
+	 * @access private
+	 * @var array
+	 */
+	private $bridging_array = [];
+
+	/**
 	 * Constructor.
 	 *
 	 * @since 0.1
@@ -617,8 +630,11 @@ class Civi_WP_Member_Sync_Members {
 			return;
 		}
 
-		// Store in property for later inspection.
-		$this->membership_pre = $result;
+		// There should be only one result, so grab it.
+		$membership = reset( $result['values'] );
+
+		// Store in bridging array for later inspection.
+		$this->bridging_array[ (int) $membership['id'] ] = $result;
 
 	}
 
@@ -649,7 +665,7 @@ class Civi_WP_Member_Sync_Members {
 		}
 
 		// Only process create and edit operations.
-		if ( ! in_array( $op, [ 'create', 'edit' ] ) ) {
+		if ( ! in_array( $op, [ 'create', 'edit' ], true ) ) {
 			return;
 		}
 
@@ -657,10 +673,13 @@ class Civi_WP_Member_Sync_Members {
 		$previous_membership = null;
 
 		// For edit operations, we first need to check for renewals.
-		if ( 'edit' === $op && isset( $this->membership_pre ) && isset( $object_ref->membership_type_id ) ) {
+		if ( 'edit' === $op && isset( $this->bridging_array[ (int) $object_id ] ) && isset( $object_ref->membership_type_id ) ) {
+
+			// There should be only one result, so grab it.
+			$membership_pre = reset( $this->bridging_array[ (int) $object_id ]['values'] );
 
 			// Make sure we're comparing like with like.
-			$previous_type_id = (int) $this->membership_pre['values'][0]['membership_type_id'];
+			$previous_type_id = (int) $membership_pre['membership_type_id'];
 			$current_type_id  = (int) $object_ref->membership_type_id;
 
 			// Do we have different CiviCRM Membership Types?
@@ -677,7 +696,10 @@ class Civi_WP_Member_Sync_Members {
 				 */
 
 				// Assign Membership for processing below.
-				$previous_membership = $this->membership_pre;
+				$previous_membership = $this->bridging_array[ (int) $object_id ];
+
+				// Clear the processed item from the bridging array.
+				unset( $this->bridging_array[ (int) $object_id ] );
 
 			}
 
