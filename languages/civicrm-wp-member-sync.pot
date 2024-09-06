@@ -2,14 +2,14 @@
 # This file is distributed under the same license as the CiviCRM Member Sync plugin.
 msgid ""
 msgstr ""
-"Project-Id-Version: CiviCRM Member Sync 0.6.2a\n"
+"Project-Id-Version: CiviCRM Member Sync 0.6.3a\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/civicrm-wp-member-sync\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2024-04-16T15:37:38+00:00\n"
+"POT-Creation-Date: 2024-09-06T15:48:40+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.10.0\n"
 "X-Domain: civicrm-wp-member-sync\n"
@@ -24,8 +24,8 @@ msgstr ""
 #: assets/templates/rule-role-add.php:18
 #: assets/templates/rule-role-edit.php:18
 #: assets/templates/settings.php:18
-#: includes/civi-wp-ms-admin.php:444
-#: includes/civi-wp-ms-admin.php:856
+#: includes/civi-wp-ms-admin.php:453
+#: includes/civi-wp-ms-admin.php:865
 msgid "CiviCRM Member Sync"
 msgstr ""
 
@@ -51,7 +51,7 @@ msgstr ""
 
 #: assets/templates/buddypress-add-current.php:18
 #: assets/templates/buddypress-edit-current.php:18
-#: includes/civi-wp-ms-buddypress.php:495
+#: includes/civi-wp-ms-buddypress.php:530
 msgid "Current BuddyPress Group(s)"
 msgstr ""
 
@@ -68,7 +68,7 @@ msgstr ""
 
 #: assets/templates/buddypress-add-expiry.php:18
 #: assets/templates/buddypress-edit-expiry.php:18
-#: includes/civi-wp-ms-buddypress.php:566
+#: includes/civi-wp-ms-buddypress.php:601
 msgid "Expiry BuddyPress Group(s)"
 msgstr ""
 
@@ -105,7 +105,7 @@ msgstr ""
 #: assets/templates/rule-role-edit.php:21
 #: assets/templates/settings.php:21
 #: civicrm-wp-member-sync.php:278
-#: includes/civi-wp-ms-admin.php:472
+#: includes/civi-wp-ms-admin.php:481
 msgid "Settings"
 msgstr ""
 
@@ -513,127 +513,127 @@ msgstr ""
 msgid "Donate!"
 msgstr ""
 
-#: includes/civi-wp-ms-admin-cau.php:453
+#: includes/civi-wp-ms-admin-cau.php:471
 msgctxt "Label for the CiviCRM Admin Utilities \"Manage Users\" table \"Membership Type\" column"
 msgid "Membership Type"
 msgstr ""
 
-#: includes/civi-wp-ms-admin-cau.php:532
+#: includes/civi-wp-ms-admin-cau.php:550
 msgctxt "Label for the CiviCRM Admin Utilities \"Manage Users\" table \"Membership Status\" column"
 msgid "Membership Status"
 msgstr ""
 
-#: includes/civi-wp-ms-admin.php:399
+#: includes/civi-wp-ms-admin.php:408
 msgid "Please select a CiviCRM Membership Type"
 msgstr ""
 
-#: includes/civi-wp-ms-admin.php:400
+#: includes/civi-wp-ms-admin.php:409
 msgid "Please select a WordPress Current Role"
 msgstr ""
 
-#: includes/civi-wp-ms-admin.php:401
+#: includes/civi-wp-ms-admin.php:410
 msgid "Please select a Current Status"
 msgstr ""
 
-#: includes/civi-wp-ms-admin.php:402
+#: includes/civi-wp-ms-admin.php:411
 msgid "Please select an Expire Status"
 msgstr ""
 
-#: includes/civi-wp-ms-admin.php:403
+#: includes/civi-wp-ms-admin.php:412
 msgid "Please select a WordPress Expiry Role"
 msgstr ""
 
-#: includes/civi-wp-ms-admin.php:404
+#: includes/civi-wp-ms-admin.php:413
 msgid "You can not have the same Status Rule registered as both \"Current\" and \"Expired\""
 msgstr ""
 
-#: includes/civi-wp-ms-admin.php:443
-#: includes/civi-wp-ms-admin.php:455
-#: includes/civi-wp-ms-admin.php:471
+#: includes/civi-wp-ms-admin.php:452
+#: includes/civi-wp-ms-admin.php:464
+#: includes/civi-wp-ms-admin.php:480
 msgid "CiviCRM Member Sync: Settings"
 msgstr ""
 
-#: includes/civi-wp-ms-admin.php:456
+#: includes/civi-wp-ms-admin.php:465
 msgid "Member Sync"
 msgstr ""
 
-#: includes/civi-wp-ms-admin.php:486
+#: includes/civi-wp-ms-admin.php:495
 msgid "CiviCRM Member Sync: Manual Sync"
 msgstr ""
 
-#: includes/civi-wp-ms-admin.php:487
+#: includes/civi-wp-ms-admin.php:496
 msgid "Manual Sync"
 msgstr ""
 
-#: includes/civi-wp-ms-admin.php:503
+#: includes/civi-wp-ms-admin.php:512
 msgid "CiviCRM Member Sync: List Rules"
 msgstr ""
 
-#: includes/civi-wp-ms-admin.php:504
+#: includes/civi-wp-ms-admin.php:513
 msgid "List Rules"
 msgstr ""
 
-#: includes/civi-wp-ms-admin.php:519
+#: includes/civi-wp-ms-admin.php:528
 msgid "CiviCRM Member Sync: Association Rule"
 msgstr ""
 
-#: includes/civi-wp-ms-admin.php:520
+#: includes/civi-wp-ms-admin.php:529
 msgid "Association Rule"
 msgstr ""
 
-#: includes/civi-wp-ms-admin.php:639
+#: includes/civi-wp-ms-admin.php:648
 msgid "{{total}} memberships to sync..."
 msgstr ""
 
-#: includes/civi-wp-ms-admin.php:640
+#: includes/civi-wp-ms-admin.php:649
 msgid "Processing memberships {{from}} to {{to}}"
 msgstr ""
 
-#: includes/civi-wp-ms-admin.php:641
+#: includes/civi-wp-ms-admin.php:650
 msgid "Processing memberships {{from}} to {{to}} complete"
 msgstr ""
 
-#: includes/civi-wp-ms-admin.php:642
+#: includes/civi-wp-ms-admin.php:651
 msgid "All done!"
 msgstr ""
 
-#: includes/civi-wp-ms-admin.php:809
+#: includes/civi-wp-ms-admin.php:818
 msgid "Delete this Association Rule?"
 msgstr ""
 
-#: includes/civi-wp-ms-admin.php:810
+#: includes/civi-wp-ms-admin.php:819
 msgid "Delete all Association Rules?"
 msgstr ""
 
-#: includes/civi-wp-ms-admin.php:876
+#: includes/civi-wp-ms-admin.php:885
 msgid "For further information about using CiviCRM Member Sync, please refer to the README.md that comes with this plugin."
 msgstr ""
 
-#: includes/civi-wp-ms-admin.php:2330
+#: includes/civi-wp-ms-admin.php:2339
 msgid "Cheating, eh?"
 msgstr ""
 
-#: includes/civi-wp-ms-buddypress.php:377
-#: includes/civi-wp-ms-groups.php:393
+#: includes/civi-wp-ms-buddypress.php:412
+#: includes/civi-wp-ms-groups.php:428
 msgid "Could not add user to group."
 msgstr ""
 
-#: includes/civi-wp-ms-buddypress.php:637
+#: includes/civi-wp-ms-buddypress.php:672
 msgid "BuddyPress Group(s)"
 msgstr ""
 
-#: includes/civi-wp-ms-groups.php:431
+#: includes/civi-wp-ms-groups.php:466
 msgid "Could not delete user from group."
 msgstr ""
 
-#: includes/civi-wp-ms-groups.php:509
+#: includes/civi-wp-ms-groups.php:544
 msgid "Current \"Groups\" Group(s)"
 msgstr ""
 
-#: includes/civi-wp-ms-groups.php:580
+#: includes/civi-wp-ms-groups.php:615
 msgid "Expiry \"Groups\" Group(s)"
 msgstr ""
 
-#: includes/civi-wp-ms-groups.php:651
+#: includes/civi-wp-ms-groups.php:686
 msgid "\"Groups\" Group(s)"
 msgstr ""
