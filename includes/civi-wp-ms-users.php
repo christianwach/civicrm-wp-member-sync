@@ -728,7 +728,12 @@ class Civi_WP_Member_Sync_Users {
 		$new_user = false;
 
 		// Create username from display name.
-		$user_name = sanitize_title( sanitize_user( $civi_contact['display_name'] ) );
+		if ( ! empty( $civi_contact['nick_name'] ) )
+		{
+			$user_name = sanitize_user( $civi_contact['nick_name'] );
+		} else {
+			$user_name = sanitize_title( sanitize_user( $civi_contact['display_name'] ) );
+		}
 
 		// Ensure username is unique.
 		$user_name = $this->unique_username( $user_name, $civi_contact );

@@ -471,7 +471,12 @@ class Civi_WP_Member_Sync_Members {
 		$user->ID = PHP_INT_MAX;
 
 		// Create username from display name.
-		$user_name = sanitize_title( sanitize_user( $civi_contact['display_name'] ) );
+		if ( ! empty( $civi_contact['nick_name'] ) )
+		{
+			$user_name = sanitize_user( $civi_contact['nick_name'] );
+		} else {
+			$user_name = sanitize_title( sanitize_user( $civi_contact['display_name'] ) );
+		}
 		$user_name = $this->plugin->users->unique_username( $user_name, $civi_contact );
 
 		/**
