@@ -27,7 +27,6 @@
 
 		<!-- Remaining checks. -->
 		<exclude name="WordPress.PHP.StrictInArray.MissingTrueStrict" />
-		<exclude name="WordPress.Security.EscapeOutput.OutputNotEscaped" />
 
 	</rule>
 

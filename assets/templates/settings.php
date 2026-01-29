@@ -32,7 +32,7 @@ defined( 'ABSPATH' ) || exit;
 		</div>
 	<?php endif; ?>
 
-	<form method="post" id="civi_wp_member_sync_settings_form" action="<?php echo $this->admin_form_url_get(); ?>">
+	<form method="post" id="civi_wp_member_sync_settings_form" action="<?php echo esc_url( $this->admin_form_url_get() ); ?>">
 
 		<?php wp_nonce_field( 'civi_wp_member_sync_settings_action', 'civi_wp_member_sync_nonce' ); ?>
 

@@ -45,7 +45,7 @@ defined( 'ABSPATH' ) || exit;
 
 	<p><?php esc_html_e( 'Note: if no association rules exist then no synchronization will take place.', 'civicrm-wp-member-sync' ); ?></p>
 
-	<form method="post" id="civi_wp_member_sync_manual_sync_form" action="<?php echo $this->admin_form_url_get(); ?>">
+	<form method="post" id="civi_wp_member_sync_manual_sync_form" action="<?php echo esc_url( $this->admin_form_url_get() ); ?>">
 
 		<?php wp_nonce_field( 'civi_wp_member_sync_manual_sync_action', 'civi_wp_member_sync_nonce' ); ?>
 

@@ -35,7 +35,7 @@ defined( 'ABSPATH' ) || exit;
 
 	<p><?php esc_html_e( 'Choose a CiviMember Membership Type and a WordPress Role below. This will associate that Membership Type with the WordPress Role.', 'civicrm-wp-member-sync' ); ?></p>
 
-	<form method="post" id="civi_wp_member_sync_rules_form" action="<?php echo $this->admin_form_url_get(); ?>">
+	<form method="post" id="civi_wp_member_sync_rules_form" action="<?php echo esc_url( $this->admin_form_url_get() ); ?>">
 
 		<?php wp_nonce_field( 'civi_wp_member_sync_rule_action', 'civi_wp_member_sync_nonce' ); ?>
 
