@@ -5,7 +5,7 @@ CiviCRM Member Sync
 **Donate link:** https://www.paypal.me/interactivist<br/>
 **Tags:** civicrm, member, membership, sync<br/>
 **Requires at least:** 4.9<br/>
-**Tested up to:** 6.6<br/>
+**Tested up to:** 6.9<br/>
 **Stable tag:** 0.6.4a<br/>
 **License:** GPLv2 or later<br/>
 **License URI:** https://www.gnu.org/licenses/old-licenses/gpl-2.0.html
