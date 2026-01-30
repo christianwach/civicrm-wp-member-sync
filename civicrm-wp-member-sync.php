@@ -6,7 +6,7 @@
  * Description:       Synchronize CiviCRM Memberships with WordPress User Roles or Capabilities.
  * Plugin URI:        https://github.com/christianwach/civicrm-wp-member-sync
  * GitHub Plugin URI: https://github.com/christianwach/civicrm-wp-member-sync
- * Version:           0.6.4a
+ * Version:           0.6.4
  * Author:            Christian Wach
  * Author URI:        https://haystack.co.uk
  * Requires at least: 4.9
