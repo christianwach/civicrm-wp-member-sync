@@ -168,8 +168,8 @@ class Civi_WP_Member_Sync_Admin_CAU {
 		}
 
 		// Grab the Membership Type ID.
-		// phpcs:ignore WordPress.Security.NonceVerification.Recommended, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
-		$type_id = (int) wp_unslash( $_REQUEST['cwms_type_id'] );
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		$type_id = (int) sanitize_key( wp_unslash( $_REQUEST['cwms_type_id'] ) );
 
 		// Grab the queried Contact IDs.
 		$all_contact_ids = wp_list_pluck( $ufmatch, 'contact_id' );
@@ -229,8 +229,8 @@ class Civi_WP_Member_Sync_Admin_CAU {
 		}
 
 		// Grab the Membership Status ID.
-		// phpcs:ignore WordPress.Security.NonceVerification.Recommended, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
-		$status_id = (int) wp_unslash( $_REQUEST['cwms_status_id'] );
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		$status_id = (int) sanitize_key( wp_unslash( $_REQUEST['cwms_status_id'] ) );
 
 		// Grab the queried Contact IDs.
 		$all_contact_ids = wp_list_pluck( $ufmatch, 'contact_id' );
@@ -290,8 +290,8 @@ class Civi_WP_Member_Sync_Admin_CAU {
 		}
 
 		// Get the views param.
-		// phpcs:ignore WordPress.Security.NonceVerification.Recommended, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
-		$member_status = trim( wp_unslash( $_REQUEST['user_status'] ) );
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		$member_status = sanitize_key( wp_unslash( $_REQUEST['user_status'] ) );
 		if ( ! in_array( $member_status, [ 'members', 'non_members' ], true ) ) {
 			return $args;
 		}
@@ -449,8 +449,8 @@ class Civi_WP_Member_Sync_Admin_CAU {
 		}
 
 		// Get the views param if present.
-		// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized, WordPress.Security.NonceVerification.Recommended
-		$user_status = isset( $_REQUEST['user_status'] ) ? trim( wp_unslash( $_REQUEST['user_status'] ) ) : '';
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		$user_status = isset( $_REQUEST['user_status'] ) ? sanitize_key( wp_unslash( $_REQUEST['user_status'] ) ) : '';
 
 		// Include views template.
 		include CIVI_WP_MEMBER_SYNC_PLUGIN_PATH . 'assets/templates/cau-user-views.php';

@@ -1428,8 +1428,7 @@ class Civi_WP_Member_Sync_Admin {
 	public function admin_form_url_get() {
 
 		// Sanitise admin page url.
-		// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
-		$target_url = isset( $_SERVER['REQUEST_URI'] ) ? wp_unslash( $_SERVER['REQUEST_URI'] ) : '';
+		$target_url = isset( $_SERVER['REQUEST_URI'] ) ? esc_url_raw( wp_unslash( $_SERVER['REQUEST_URI'] ) ) : '';
 		if ( ! empty( $target_url ) ) {
 			$url_array = explode( '&', $target_url );
 			if ( $url_array ) {
