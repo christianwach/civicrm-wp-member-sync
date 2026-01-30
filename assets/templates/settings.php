@@ -38,7 +38,7 @@ defined( 'ABSPATH' ) || exit;
 
 		<h3><?php esc_html_e( 'Synchronization Method', 'civicrm-wp-member-sync' ); ?></h3>
 
-		<p><?php esc_html_e( 'Select whether you want CiviCRM Member Sync to synchronize CiviCRM Memberships to WordPress Roles or WordPress Capabilities. If, for example, you need your WordPress User Roles to be independent of Membership Status, then choose Capabilities.', 'civicrm-wp-member-sync' ); ?></p>
+		<p><?php esc_html_e( 'Select whether you want to synchronize CiviCRM Memberships to WordPress Roles or WordPress Capabilities. If, for example, you need your WordPress User Roles to be independent of Membership Status, then choose Capabilities. Whichever setting you choose, new WordPress Users will be created for CiviCRM Contacts that do not have one associated with them.', 'civicrm-wp-member-sync' ); ?></p>
 
 		<table class="form-table">
 
@@ -177,7 +177,7 @@ defined( 'ABSPATH' ) || exit;
 				</th>
 				<td>
 					<input type="checkbox" class="settings-checkbox" name="civi_wp_member_sync_settings_civicrm" id="civi_wp_member_sync_settings_civicrm" value="1"<?php checked( 1, $civicrm ); ?> />
-					<label class="civi_wp_member_sync_settings_label" for="civi_wp_member_sync_settings_civicrm"><?php esc_html_e( 'Synchronize when Membership is updated in CiviCRM admin pages.', 'civicrm-wp-member-sync' ); ?></label>
+					<label class="civi_wp_member_sync_settings_label" for="civi_wp_member_sync_settings_civicrm"><?php esc_html_e( 'Synchronize when Membership is updated in CiviCRM, e.g. via a scheduled job or modified on an admin page.', 'civicrm-wp-member-sync' ); ?></label>
 				</td>
 			</tr>
 
@@ -187,8 +187,9 @@ defined( 'ABSPATH' ) || exit;
 				</th>
 				<td>
 					<input type="checkbox" class="settings-checkbox" name="civi_wp_member_sync_settings_schedule" id="civi_wp_member_sync_settings_schedule" value="1"<?php checked( 1, $schedule ); ?> />
-					<label class="civi_wp_member_sync_settings_label" for="civi_wp_member_sync_settings_schedule"><?php esc_html_e( 'Synchronize using a recurring schedule. This action is performed on all Users and Contacts.', 'civicrm-wp-member-sync' ); ?></label>
-					<p class="description"><?php esc_html_e( 'This action can be very processor intensive if you have a lot of Users and Contacts. It is not recommended to have this switched on unless you have a good reason for doing so. Please note that this action is likely to be removed in future versions.', 'civicrm-wp-member-sync' ); ?></p>
+					<label class="civi_wp_member_sync_settings_label" for="civi_wp_member_sync_settings_schedule"><?php esc_html_e( 'Synchronize using a WordPress recurring schedule. This action is performed on all Users and Contacts.', 'civicrm-wp-member-sync' ); ?></label>
+					<p class="description"><?php esc_html_e( 'This action can be very processor intensive if you have a lot of Users and Contacts. It is not recommended to have this switched on unless you have a good reason for doing so.', 'civicrm-wp-member-sync' ); ?></p>
+					<div class="notice notice-warning inline"><p><?php esc_html_e( 'Please not that this action will be removed in the next major release.', 'civicrm-wp-member-sync' ); ?></p></div>
 				</td>
 			</tr>
 
