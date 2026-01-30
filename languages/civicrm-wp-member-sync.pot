@@ -1,17 +1,17 @@
-# Copyright (C) 2024 Christian Wach
+# Copyright (C) 2026 Christian Wach
 # This file is distributed under the same license as the CiviCRM Member Sync plugin.
 msgid ""
 msgstr ""
-"Project-Id-Version: CiviCRM Member Sync 0.6.3a\n"
+"Project-Id-Version: CiviCRM Member Sync 0.6.4a\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/civicrm-wp-member-sync\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2024-09-06T15:48:40+00:00\n"
+"POT-Creation-Date: 2026-01-30T12:04:04+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"X-Generator: WP-CLI 2.10.0\n"
+"X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: civicrm-wp-member-sync\n"
 
 #. Plugin Name of the plugin
@@ -74,6 +74,7 @@ msgstr ""
 
 #. translators: %s is the placeholder for the count html `<span class="count"/>`
 #: assets/templates/cau-user-views.php:22
+#, php-format
 msgid "Members %s"
 msgid_plural "Members %s"
 msgstr[0] ""
@@ -81,6 +82,7 @@ msgstr[1] ""
 
 #. translators: %s is the placeholder for the count html `<span class="count"/>`
 #: assets/templates/cau-user-views.php:39
+#, php-format
 msgid "Non Members %s"
 msgid_plural "Non Members %s"
 msgstr[0] ""
@@ -406,7 +408,7 @@ msgid "Synchronization Method"
 msgstr ""
 
 #: assets/templates/settings.php:41
-msgid "Select whether you want CiviCRM Member Sync to synchronize CiviCRM Memberships to WordPress Roles or WordPress Capabilities. If, for example, you need your WordPress User Roles to be independent of Membership Status, then choose Capabilities."
+msgid "Select whether you want to synchronize CiviCRM Memberships to WordPress Roles or WordPress Capabilities. If, for example, you need your WordPress User Roles to be independent of Membership Status, then choose Capabilities. Whichever setting you choose, new WordPress Users will be created for CiviCRM Contacts that do not have one associated with them."
 msgstr ""
 
 #: assets/templates/settings.php:47
@@ -437,6 +439,7 @@ msgstr ""
 
 #. translators: 1: Opening anchor tag, 2: Closing anchor tag, 3: Opening em tag, 4: Closing em tag
 #: assets/templates/settings.php:73
+#, php-format
 msgid "In order to sync Contacts in CiviCRM that have been &#8220;soft deleted&#8221; (moved to the Trash but not fully deleted) you will need to install %1$sCiviCRM Admin Utilities%2$s version 0.6.8 or greater. Make sure the checkbox labelled %3$s&#8217;Check this to fix the Contact &#8220;soft delete&#8221; process&#8216;%4$s is checked so that Contacts that have been &#8220;soft deleted&#8221; continue to have their matching WordPress User&#8216;s status updated."
 msgstr ""
 
@@ -444,16 +447,19 @@ msgstr ""
 #: assets/templates/settings.php:87
 #: assets/templates/settings.php:119
 #: assets/templates/settings.php:152
+#, php-format
 msgid "Note that this fix only applies to Contacts which have been &#8220;soft deleted&#8221; %1$safter%2$s CiviCRM Admin Utilities has been properly configured."
 msgstr ""
 
 #. translators: 1: Opening anchor tag, 2: Closing anchor tag, 3: Opening em tag, 4: Closing em tag
 #: assets/templates/settings.php:105
+#, php-format
 msgid "In order to sync Contacts in CiviCRM that have been &#8220;soft deleted&#8221; (moved to the Trash but not fully deleted) you will need to upgrade %1$sCiviCRM Admin Utilities%2$s to version 0.6.8 or higher. When you have done this, make sure the checkbox labelled %3$s&#8217;Check this to fix the Contact &#8220;soft delete&#8221; process&#8216;%4$s is checked so that Contacts that have been &#8220;soft deleted&#8221; continue to have their matching WordPress User&#8216;s status updated."
 msgstr ""
 
 #. translators: 1: Opening anchor tag, 2: Closing anchor tag, 3: Opening em tag, 4: Closing em tag
 #: assets/templates/settings.php:137
+#, php-format
 msgid "In order to sync Contacts in CiviCRM that have been &#8220;soft deleted&#8221; (moved to the Trash but not fully deleted) you will need to visit the CiviCRM Admin Utilities %1$sSettings page%2$s and make sure the checkbox labelled %3$s&#8217;Check this to fix the Contact &#8220;soft delete&#8221; process&#8216;%4$s is checked so that Contacts which have been &#8220;soft deleted&#8221; continue to have their matching WordPress User&#8216;s status updated."
 msgstr ""
 
@@ -470,7 +476,7 @@ msgid "CiviCRM Admin"
 msgstr ""
 
 #: assets/templates/settings.php:180
-msgid "Synchronize when Membership is updated in CiviCRM admin pages."
+msgid "Synchronize when Membership is updated in CiviCRM, e.g. via a scheduled job or modified on an admin page."
 msgstr ""
 
 #: assets/templates/settings.php:186
@@ -478,34 +484,38 @@ msgid "Scheduled Events"
 msgstr ""
 
 #: assets/templates/settings.php:190
-msgid "Synchronize using a recurring schedule. This action is performed on all Users and Contacts."
+msgid "Synchronize using a WordPress recurring schedule. This action is performed on all Users and Contacts."
 msgstr ""
 
 #: assets/templates/settings.php:191
-msgid "This action can be very processor intensive if you have a lot of Users and Contacts. It is not recommended to have this switched on unless you have a good reason for doing so. Please note that this action is likely to be removed in future versions."
+msgid "This action can be very processor intensive if you have a lot of Users and Contacts. It is not recommended to have this switched on unless you have a good reason for doing so."
 msgstr ""
 
-#: assets/templates/settings.php:197
+#: assets/templates/settings.php:192
+msgid "Please not that this action will be removed in the next major release."
+msgstr ""
+
+#: assets/templates/settings.php:198
 msgid "Schedule Interval"
 msgstr ""
 
-#: assets/templates/settings.php:212
+#: assets/templates/settings.php:213
 msgid "Other Settings"
 msgstr ""
 
-#: assets/templates/settings.php:218
+#: assets/templates/settings.php:219
 msgid "Synced Contact Types"
 msgstr ""
 
-#: assets/templates/settings.php:222
+#: assets/templates/settings.php:223
 msgid "Synchronize Individuals only."
 msgstr ""
 
-#: assets/templates/settings.php:223
+#: assets/templates/settings.php:224
 msgid "In versions of CiviCRM Member Sync prior to 0.3.5, all CiviCRM Memberships were synchronized to WordPress Users. This meant that Organisations and Households also had corresponding WordPress Users. If you want to restrict syncing to Individuals only, then check the box below."
 msgstr ""
 
-#: assets/templates/settings.php:232
+#: assets/templates/settings.php:233
 msgid "Save Changes"
 msgstr ""
 
@@ -609,7 +619,7 @@ msgstr ""
 msgid "For further information about using CiviCRM Member Sync, please refer to the README.md that comes with this plugin."
 msgstr ""
 
-#: includes/civi-wp-ms-admin.php:2339
+#: includes/civi-wp-ms-admin.php:2338
 msgid "Cheating, eh?"
 msgstr ""
 
