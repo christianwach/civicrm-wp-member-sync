@@ -727,8 +727,17 @@ class Civi_WP_Member_Sync_Users {
 		// Assume it's not a new User.
 		$new_user = false;
 
-		// Create username from display name.
-		$user_name = sanitize_title( sanitize_user( $civi_contact['display_name'] ) );
+		// Determine the source field for the username per plugin settings.
+		$username_field = $this->plugin->admin->setting_get_username_field();
+		$name_source    = ( 'nick_name' === $username_field && ! empty( $civi_contact['nick_name'] ) )
+			? $civi_contact['nick_name']
+			: $civi_contact['display_name'];
+		$user_name = sanitize_title( sanitize_user( $name_source ) );
+
+		// WordPress wp_users.user_login is VARCHAR(60); truncate to avoid insert failure.
+		if ( strlen( $user_name ) > 60 ) {
+			$user_name = rtrim( substr( $user_name, 0, 60 ), '-' );
+		}
 
 		// Ensure username is unique.
 		$user_name = $this->unique_username( $user_name, $civi_contact );
@@ -856,10 +865,16 @@ class Civi_WP_Member_Sync_Users {
 		$count       = 1;
 		$user_exists = 1;
 
+		// Determine the source field for the username per plugin settings.
+		$username_field  = $this->plugin->admin->setting_get_username_field();
+		$name_source_uniq = ( 'nick_name' === $username_field && ! empty( $civi_contact['nick_name'] ) )
+			? $civi_contact['nick_name']
+			: $civi_contact['display_name'];
+
 		do {
 
 			// Construct new username with numeric suffix.
-			$new_username = sanitize_title( sanitize_user( $civi_contact['display_name'] . ' ' . $count ) );
+			$new_username = sanitize_title( sanitize_user( $name_source_uniq . ' ' . $count ) );
 
 			// How did we do?
 			$user_exists = username_exists( $new_username );

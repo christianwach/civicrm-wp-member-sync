@@ -225,6 +225,19 @@ defined( 'ABSPATH' ) || exit;
 				</td>
 			</tr>
 
+			<tr>
+				<th scope="row">
+					<label class="civi_wp_member_sync_settings_label" for="civi_wp_member_sync_settings_username_field"><?php esc_html_e( 'Username Source Field', 'civicrm-wp-member-sync' ); ?></label>
+				</th>
+				<td>
+					<select class="settings-select" name="civi_wp_member_sync_settings_username_field" id="civi_wp_member_sync_settings_username_field">
+						<option value="display_name"<?php selected( 'display_name', $username_field ); ?>><?php esc_html_e( 'Display Name', 'civicrm-wp-member-sync' ); ?></option>
+						<option value="nick_name"<?php selected( 'nick_name', $username_field ); ?>><?php esc_html_e( 'Nickname', 'civicrm-wp-member-sync' ); ?></option>
+					</select>
+					<p class="description"><?php esc_html_e( 'Choose which CiviCRM Contact field is used to generate the WordPress username when a new User is created. If "Nickname" is selected but the Contact has no nickname, Display Name is used as a fallback.', 'civicrm-wp-member-sync' ); ?></p>
+				</td>
+			</tr>
+
 		</table>
 
 		<hr />

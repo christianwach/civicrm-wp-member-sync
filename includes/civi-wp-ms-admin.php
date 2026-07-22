@@ -1012,6 +1012,9 @@ class Civi_WP_Member_Sync_Admin {
 		// Get our types setting.
 		$types = (int) $this->setting_get( 'types' );
 
+		// Get username field setting.
+		$username_field = $this->setting_get_username_field();
+
 		// Check if CiviCRM Admin Utilities has been installed.
 		$cau_present = $this->cau_activated();
 
@@ -1566,6 +1569,9 @@ class Civi_WP_Member_Sync_Admin {
 		// Sync only the "Individual" Contact Type by default.
 		$settings['types'] = 1;
 
+		// Use display_name as the username source by default.
+		$settings['username_field'] = 'display_name';
+
 		/**
 		 * Allows the plugin settings to be filtered.
 		 *
@@ -1663,6 +1669,14 @@ class Civi_WP_Member_Sync_Admin {
 			$settings_types = (int) wp_unslash( $settings_types_raw );
 		}
 		$this->setting_set( 'types', ( $settings_types ? 1 : 0 ) );
+
+		// CiviCRM Contact field used as WordPress username source.
+		$settings_username_field     = 'display_name';
+		$settings_username_field_raw = filter_input( INPUT_POST, 'civi_wp_member_sync_settings_username_field' );
+		if ( ! empty( $settings_username_field_raw ) ) {
+			$settings_username_field = trim( wp_unslash( $settings_username_field_raw ) );
+		}
+		$this->setting_set( 'username_field', ( 'nick_name' === $settings_username_field ) ? 'nick_name' : 'display_name' );
 
 		// Save settings.
 		$this->settings_save();
@@ -1785,6 +1799,22 @@ class Civi_WP_Member_Sync_Admin {
 
 		// --<
 		return $count;
+
+	}
+
+	// -----------------------------------------------------------------------------------
+
+	/**
+	 * Get the CiviCRM Contact field to use as the WordPress username source.
+	 *
+	 * @since 0.6.0
+	 *
+	 * @return string Either 'display_name' or 'nick_name'.
+	 */
+	public function setting_get_username_field() {
+
+		$field = $this->setting_get( 'username_field', 'display_name' );
+		return ( 'nick_name' === $field ) ? 'nick_name' : 'display_name';
 
 	}
 

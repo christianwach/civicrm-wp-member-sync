@@ -470,8 +470,12 @@ class Civi_WP_Member_Sync_Members {
 		$user     = new WP_User();
 		$user->ID = PHP_INT_MAX;
 
-		// Create username from display name.
-		$user_name = sanitize_title( sanitize_user( $civi_contact['display_name'] ) );
+		// Determine the source field for the username per plugin settings.
+		$username_field  = $this->plugin->admin->setting_get_username_field();
+		$name_source_sim = ( 'nick_name' === $username_field && ! empty( $civi_contact['nick_name'] ) )
+			? $civi_contact['nick_name']
+			: $civi_contact['display_name'];
+		$user_name = sanitize_title( sanitize_user( $name_source_sim ) );
 		$user_name = $this->plugin->users->unique_username( $user_name, $civi_contact );
 
 		/**
