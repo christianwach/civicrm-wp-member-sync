@@ -1283,8 +1283,9 @@ class Civi_WP_Member_Sync_Admin {
 		$selected_rule = $this->rule_get_by_type( $civi_member_type_id, $method );
 
 		// Set vars for populating form.
-		$current_rule = $selected_rule['current_rule'];
-		$expiry_rule  = $selected_rule['expiry_rule'];
+		$current_rule     = $selected_rule['current_rule'];
+		$expiry_rule      = $selected_rule['expiry_rule'];
+		$ownership_filter = isset( $selected_rule['ownership_filter'] ) ? $selected_rule['ownership_filter'] : 'all';
 
 		// Get rules.
 		$rules = $this->rules_get_by_method( $method );
@@ -2067,6 +2068,16 @@ class Civi_WP_Member_Sync_Admin {
 			$this->errors[] = 'expire-status';
 		}
 
+		// Check and sanitise Membership Ownership filter.
+		$ownership_filter     = 'all';
+		$ownership_filter_raw = filter_input( INPUT_POST, 'ownership_filter' );
+		if ( ! empty( $ownership_filter_raw ) ) {
+			$ownership_filter_raw = trim( wp_unslash( $ownership_filter_raw ) );
+			if ( in_array( $ownership_filter_raw, [ 'primary', 'relationship' ], true ) ) {
+				$ownership_filter = $ownership_filter_raw;
+			}
+		}
+
 		// Init current-expire check (will end up true if there's a clash).
 		$current_expire_clash = false;
 
@@ -2122,10 +2133,11 @@ class Civi_WP_Member_Sync_Admin {
 
 						// Combine rule data into array.
 						$rule_data = [
-							'current_rule'    => $current_rule,
-							'current_wp_role' => $current_wp_role,
-							'expiry_rule'     => $expiry_rule,
-							'expired_wp_role' => $expired_wp_role,
+							'current_rule'     => $current_rule,
+							'current_wp_role'  => $current_wp_role,
+							'expiry_rule'      => $expiry_rule,
+							'expired_wp_role'  => $expired_wp_role,
+							'ownership_filter' => $ownership_filter,
 						];
 
 						// Get formatted array.
@@ -2141,6 +2153,7 @@ class Civi_WP_Member_Sync_Admin {
 							'current_rule'        => $current_rule,
 							'expiry_rule'         => $expiry_rule,
 							'civi_member_type_id' => $civi_member_type_id,
+							'ownership_filter'    => $ownership_filter,
 						];
 
 						// Get formatted array.
@@ -2160,10 +2173,11 @@ class Civi_WP_Member_Sync_Admin {
 
 					// Combine rule data into array.
 					$rule_data = [
-						'current_rule'    => $current_rule,
-						'current_wp_role' => $current_wp_role,
-						'expiry_rule'     => $expiry_rule,
-						'expired_wp_role' => $expired_wp_role,
+						'current_rule'     => $current_rule,
+						'current_wp_role'  => $current_wp_role,
+						'expiry_rule'      => $expiry_rule,
+						'expired_wp_role'  => $expired_wp_role,
+						'ownership_filter' => $ownership_filter,
 					];
 
 					// Get formatted array.
@@ -2179,6 +2193,7 @@ class Civi_WP_Member_Sync_Admin {
 						'current_rule'        => $current_rule,
 						'expiry_rule'         => $expiry_rule,
 						'civi_member_type_id' => $civi_member_type_id,
+						'ownership_filter'    => $ownership_filter,
 					];
 
 					// Get formatted array.
@@ -2229,19 +2244,21 @@ class Civi_WP_Member_Sync_Admin {
 
 			// Construct Role rule.
 			$rule = [
-				'current_rule'    => $params['current_rule'],
-				'current_wp_role' => $params['current_wp_role'],
-				'expiry_rule'     => $params['expiry_rule'],
-				'expired_wp_role' => $params['expired_wp_role'],
+				'current_rule'     => $params['current_rule'],
+				'current_wp_role'  => $params['current_wp_role'],
+				'expiry_rule'      => $params['expiry_rule'],
+				'expired_wp_role'  => $params['expired_wp_role'],
+				'ownership_filter' => $params['ownership_filter'],
 			];
 
 		} else {
 
 			// Construct Capability rule.
 			$rule = [
-				'current_rule' => $params['current_rule'],
-				'expiry_rule'  => $params['expiry_rule'],
-				'capability'   => CIVI_WP_MEMBER_SYNC_CAP_PREFIX . $params['civi_member_type_id'],
+				'current_rule'     => $params['current_rule'],
+				'expiry_rule'      => $params['expiry_rule'],
+				'capability'       => CIVI_WP_MEMBER_SYNC_CAP_PREFIX . $params['civi_member_type_id'],
+				'ownership_filter' => $params['ownership_filter'],
 			];
 
 		}
@@ -2396,6 +2413,38 @@ class Civi_WP_Member_Sync_Admin {
 	}
 
 	/**
+	 * Check whether a Membership matches an Association Rule's ownership filter.
+	 *
+	 * The "ownership_filter" setting restricts a rule to "all" Memberships,
+	 * "primary" Memberships only (owner_membership_id is empty) or
+	 * "relationship" Memberships only (owner_membership_id is set, i.e. the
+	 * Membership was inherited via a CiviCRM relationship). Rules saved before
+	 * this filter existed default to "all" for backwards compatibility.
+	 *
+	 * @since 0.6.0
+	 *
+	 * @param array $association_rule The Association Rule.
+	 * @param array $membership The CiviCRM Membership data.
+	 * @return bool True if the Membership matches the filter, false otherwise.
+	 */
+	public function rule_ownership_matches( $association_rule, $membership ) {
+
+		$ownership_filter = isset( $association_rule['ownership_filter'] ) ? $association_rule['ownership_filter'] : 'all';
+
+		if ( 'primary' === $ownership_filter ) {
+			return empty( $membership['owner_membership_id'] );
+		}
+
+		if ( 'relationship' === $ownership_filter ) {
+			return ! empty( $membership['owner_membership_id'] );
+		}
+
+		// 'all' or any unrecognised value.
+		return true;
+
+	}
+
+	/**
 	 * Check if there is at least one rule applied to a set of Memberships.
 	 *
 	 * The reason for this method is, as @andymyersau points out, that Users
@@ -2445,6 +2494,11 @@ class Civi_WP_Member_Sync_Admin {
 
 			// Continue with next Membership if we have an error or no rule exists.
 			if ( false === $association_rule ) {
+				continue;
+			}
+
+			// Continue with next Membership if the ownership filter doesn't match.
+			if ( ! $this->rule_ownership_matches( $association_rule, $membership ) ) {
 				continue;
 			}
 
@@ -2553,6 +2607,11 @@ class Civi_WP_Member_Sync_Admin {
 
 			// Continue with next rule if we have an error of some kind.
 			if ( false === $association_rule ) {
+				continue;
+			}
+
+			// Continue with next Membership if the ownership filter doesn't match.
+			if ( ! $this->rule_ownership_matches( $association_rule, $membership ) ) {
 				continue;
 			}
 
@@ -2792,6 +2851,11 @@ class Civi_WP_Member_Sync_Admin {
 
 			// Continue with next rule if we have an error of some kind.
 			if ( false === $association_rule ) {
+				continue;
+			}
+
+			// Continue with next Membership if the ownership filter doesn't match.
+			if ( ! $this->rule_ownership_matches( $association_rule, $membership ) ) {
 				continue;
 			}
 

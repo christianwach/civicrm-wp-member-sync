@@ -110,6 +110,20 @@ defined( 'ABSPATH' ) || exit;
 
 			?>
 
+			<tr>
+				<th scope="row">
+					<label class="ownership_filter_label" for="ownership_filter"><?php esc_html_e( 'Membership Ownership', 'civicrm-wp-member-sync' ); ?></label>
+				</th>
+				<td>
+					<select name="ownership_filter" id="ownership_filter">
+						<option value="all"<?php selected( 'all', $ownership_filter ); ?>><?php esc_html_e( 'All members (include members by relationship)', 'civicrm-wp-member-sync' ); ?></option>
+						<option value="primary"<?php selected( 'primary', $ownership_filter ); ?>><?php esc_html_e( 'Only primary members', 'civicrm-wp-member-sync' ); ?></option>
+						<option value="relationship"<?php selected( 'relationship', $ownership_filter ); ?>><?php esc_html_e( 'Only members by relationship', 'civicrm-wp-member-sync' ); ?></option>
+					</select>
+					<p class="description"><?php esc_html_e( 'Restrict this rule to primary Memberships, to Memberships inherited via a CiviCRM relationship, or leave as "All members" to apply to both (default).', 'civicrm-wp-member-sync' ); ?></p>
+				</td>
+			</tr>
+
 		</table>
 
 		<input type="hidden" id="civi_wp_member_sync_rules_mode" name="civi_wp_member_sync_rules_mode" value="edit" />

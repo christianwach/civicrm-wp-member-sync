@@ -920,6 +920,7 @@ class Civi_WP_Member_Sync_Members {
 				'is_test',
 				'is_pay_later',
 				'status_id.is_current_member',
+				'owner_membership_id',
 			],
 		];
 
