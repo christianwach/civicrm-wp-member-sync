@@ -176,48 +176,44 @@ class Civi_WP_Member_Sync_Members {
 			$dry_run = true;
 		}
 
-		// If the Memberships offset value doesn't exist.
+		// If the Memberships offset value doesn't exist (first batch call).
 		if ( 'fgffgs' === get_option( '_civi_wpms_memberships_offset', 'fgffgs' ) ) {
 
 			// Start at the beginning.
 			$memberships_offset = 0;
 			$memberships_from   = 0;
+			$memberships_to     = 0;
 
-			// Override if "From" field is populated.
+			// Override if "From" field is populated (used as membership ID filter).
 			$manual_sync_from = filter_input( INPUT_POST, 'civi_wp_member_sync_manual_sync_from' );
 			if ( ! empty( $manual_sync_from ) && is_numeric( trim( wp_unslash( $manual_sync_from ) ) ) ) {
-				$memberships_from   = (int) trim( wp_unslash( $manual_sync_from ) );
-				$memberships_offset = $memberships_from;
+				$memberships_from = (int) trim( wp_unslash( $manual_sync_from ) );
 			}
 
-			add_option( '_civi_wpms_memberships_offset', (string) $memberships_from );
+			// Override if "To" field is populated (used as membership ID filter).
+			$manual_sync_to = filter_input( INPUT_POST, 'civi_wp_member_sync_manual_sync_to' );
+			if ( ! empty( $manual_sync_to ) && is_numeric( trim( wp_unslash( $manual_sync_to ) ) ) ) {
+				$memberships_to = (int) trim( wp_unslash( $manual_sync_to ) );
+			}
+
+			add_option( '_civi_wpms_memberships_offset', '0' );
+			add_option( '_civi_wpms_memberships_id_from', (string) $memberships_from );
+			add_option( '_civi_wpms_memberships_id_to', (string) $memberships_to );
 
 		} else {
 
-			// Use the existing value.
+			// Use the existing values from options (subsequent batch calls).
 			$memberships_offset = (int) get_option( '_civi_wpms_memberships_offset', '0' );
+			$memberships_from   = (int) get_option( '_civi_wpms_memberships_id_from', '0' );
+			$memberships_to     = (int) get_option( '_civi_wpms_memberships_id_to', '0' );
 
 		}
 
 		// Get batch count.
 		$batch_count = $this->plugin->admin->setting_get_batch_count();
 
-		// If the "To" field is populated.
-		$manual_sync_to = filter_input( INPUT_POST, 'civi_wp_member_sync_manual_sync_to' );
-		if ( ! empty( $manual_sync_to ) && is_numeric( trim( wp_unslash( $manual_sync_to ) ) ) ) {
-
-			// Grab the "to" value.
-			$memberships_to = (int) trim( wp_unslash( $manual_sync_to ) );
-
-			// Update batch count if the end of the default batch is greater than the requested one.
-			if ( $memberships_to > 0 && $memberships_to < ( $memberships_offset + $batch_count ) ) {
-				$batch_count = $memberships_to - $memberships_offset;
-			}
-
-		}
-
-		// Get CiviCRM Memberships.
-		$memberships = $this->memberships_get( $memberships_offset, $batch_count );
+		// Get CiviCRM Memberships filtered by membership ID range.
+		$memberships = $this->memberships_get( $memberships_offset, $batch_count, 0, 0, 0, $memberships_from, $memberships_to );
 
 		// If we have Membership details.
 		if ( false !== $memberships && $batch_count > 0 ) {
@@ -343,8 +339,10 @@ class Civi_WP_Member_Sync_Members {
 
 		} else {
 
-			// Delete the option to start from the beginning.
+			// Delete the options to start from the beginning.
 			delete_option( '_civi_wpms_memberships_offset' );
+			delete_option( '_civi_wpms_memberships_id_from' );
+			delete_option( '_civi_wpms_memberships_id_to' );
 
 			// Set finished flag.
 			$data['finished'] = 'true';
@@ -892,7 +890,7 @@ class Civi_WP_Member_Sync_Members {
 	 * @param int $status_id The numeric CiviCRM Membership Status ID.
 	 * @return bool|array $data CiviCRM formatted Membership data or false on failure.
 	 */
-	public function memberships_get( $offset = 0, $limit = 0, $contact_id = 0, $type_id = 0, $status_id = 0 ) {
+	public function memberships_get( $offset = 0, $limit = 0, $contact_id = 0, $type_id = 0, $status_id = 0, $id_from = 0, $id_to = 0 ) {
 
 		// Init return as boolean.
 		$data = false;
@@ -935,6 +933,16 @@ class Civi_WP_Member_Sync_Members {
 
 		// Always add limit.
 		$params['options']['limit'] = $limit;
+
+		// Add membership ID range filter if supplied.
+		// CiviCRM API v3 ignores multi-operator arrays on 'id'; use BETWEEN for ranges.
+		if ( 0 !== $id_from && 0 !== $id_to ) {
+			$params['id'] = [ 'BETWEEN' => [ $id_from, $id_to ] ];
+		} elseif ( 0 !== $id_from ) {
+			$params['id'] = [ '>=' => $id_from ];
+		} elseif ( 0 !== $id_to ) {
+			$params['id'] = [ '<=' => $id_to ];
+		}
 
 		// Amend params using Contact ID if supplied.
 		if ( 0 !== $contact_id ) {
