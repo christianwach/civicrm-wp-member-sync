@@ -888,6 +888,8 @@ class Civi_WP_Member_Sync_Members {
 	 * @param int $contact_id The numeric CiviCRM Contact ID.
 	 * @param int $type_id The numeric CiviCRM Membership Type ID.
 	 * @param int $status_id The numeric CiviCRM Membership Status ID.
+	 * @param int $id_from The numeric starting CiviCRM Membership ID.
+	 * @param int $id_to The numeric ending CiviCRM Membership ID.
 	 * @return bool|array $data CiviCRM formatted Membership data or false on failure.
 	 */
 	public function memberships_get( $offset = 0, $limit = 0, $contact_id = 0, $type_id = 0, $status_id = 0, $id_from = 0, $id_to = 0 ) {
@@ -1548,7 +1550,7 @@ class Civi_WP_Member_Sync_Members {
 			// Sanitise array items.
 			array_walk(
 				$current_rules,
-				function( &$item ) {
+				function ( &$item ) {
 					$item = esc_html( trim( $item ) );
 				}
 			);

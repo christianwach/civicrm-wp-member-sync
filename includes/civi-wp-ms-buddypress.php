@@ -483,7 +483,7 @@ class Civi_WP_Member_Sync_BuddyPress {
 			// Sanitise array items.
 			array_walk(
 				$current,
-				function( &$item ) {
+				function ( &$item ) {
 					$item = (int) trim( $item );
 				}
 			);
@@ -499,7 +499,7 @@ class Civi_WP_Member_Sync_BuddyPress {
 			// Sanitise array items.
 			array_walk(
 				$expiry,
-				function( &$item ) {
+				function ( &$item ) {
 					$item = (int) trim( $item );
 				}
 			);

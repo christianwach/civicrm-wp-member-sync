@@ -2045,7 +2045,7 @@ class Civi_WP_Member_Sync_Admin {
 				// Sanitise array contents.
 				array_walk(
 					$civi_member_type_ids,
-					function( &$item ) {
+					function ( &$item ) {
 						$item = (int) trim( $item );
 					}
 				);
@@ -2073,7 +2073,7 @@ class Civi_WP_Member_Sync_Admin {
 			// Sanitise array contents.
 			array_walk(
 				$current_rule,
-				function( &$item ) {
+				function ( &$item ) {
 					$item = (int) trim( $item );
 				}
 			);
@@ -2089,7 +2089,7 @@ class Civi_WP_Member_Sync_Admin {
 			// Sanitise array contents.
 			array_walk(
 				$expiry_rule,
-				function( &$item ) {
+				function ( &$item ) {
 					$item = (int) trim( $item );
 				}
 			);

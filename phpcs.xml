@@ -16,6 +16,7 @@
 
 		<!-- I prefer my control structures. -->
 		<exclude name="WordPress.WhiteSpace.ControlStructureSpacing.BlankLineAfterEnd" />
+		<exclude name="PSR2.Methods.FunctionClosingBrace.SpacingBeforeClose" />
 
 		<!-- PSR4: Allow short file names. -->
 		<exclude name="WordPress.Files.FileName.InvalidClassFileName" />
@@ -27,17 +28,20 @@
 
 		<!-- Remaining checks. -->
 		<exclude name="WordPress.PHP.StrictInArray.MissingTrueStrict" />
+		<exclude name="PSR2.Classes.ClassDeclaration.CloseBraceAfterBody" />
+		<exclude name="Universal.Files.SeparateFunctionsFromOO.Mixed" />
+		<exclude name="Universal.ControlStructures.DisallowLonelyIf.Found" />
 
 	</rule>
 
 	<rule ref="WordPress.WP.I18n">
 		<properties>
-			<property name="text_domain" type="array" value="civicrm-wp-member-sync" />
+			<property name="text_domain" value="civicrm-wp-member-sync" />
 		</properties>
 	</rule>
 
 	<!-- Enforce short array syntax. -->
-	<rule ref="Generic.Arrays.DisallowShortArraySyntax.Found">
+	<rule ref="Universal.Arrays.DisallowShortArraySyntax.Found">
 		<severity>0</severity>
 	</rule>
 	<rule ref="Generic.Arrays.DisallowLongArraySyntax.Found" />

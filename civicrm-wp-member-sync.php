@@ -263,7 +263,7 @@ class Civi_WP_Member_Sync {
 	public function plugin_action_links( $links, $file ) {
 
 		// Maybe add settings link.
-		if ( plugin_basename( dirname( __FILE__ ) . '/civicrm-wp-member-sync.php' ) !== $file ) {
+		if ( plugin_basename( __DIR__ . '/civicrm-wp-member-sync.php' ) !== $file ) {
 			return $links;
 		}
 
@@ -314,7 +314,6 @@ class Civi_WP_Member_Sync {
 		error_log( $error );
 
 	}
-
 }
 
 /**
