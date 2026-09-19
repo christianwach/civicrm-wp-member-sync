@@ -171,7 +171,7 @@ class Civi_WP_Member_Sync {
 		add_action( 'civicrm_instance_loaded', [ $this, 'initialise' ] );
 
 		// Use translation.
-		add_action( 'plugins_loaded', [ $this, 'translation' ] );
+		add_action( 'init', [ $this, 'translation' ] );
 
 		// Add settings link.
 		add_filter( 'network_admin_plugin_action_links', [ $this, 'plugin_action_links' ], 10, 2 );
