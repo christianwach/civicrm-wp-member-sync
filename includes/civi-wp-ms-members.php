@@ -373,9 +373,35 @@ class Civi_WP_Member_Sync_Members {
 				$data['feedback'] = implode( "\n", $feedback );
 			}
 
-			// Increment Memberships offset option.
+			// When in AJAX context.
 			if ( ! defined( 'WP_CLI' ) ) {
-				update_option( '_civi_wpms_memberships_offset', (string) $data['to'] );
+
+				// Handle non-zero batch count.
+				if ( 0 < $batch_count ) {
+
+					// Increment Memberships offset option.
+					update_option( '_civi_wpms_memberships_offset', (string) $data['to'] );
+
+				} else {
+
+					/*
+					 * A zero batch count is possible (though unlikely) in an AJAX context
+					 * by using the "civi_wp_member_sync_get_batch_count" filter. When
+					 * this is the case, all Memberships will have been processed because
+					 * the batch count is used as the SQL "limit" and a zero limit is
+					 * unlimited. If this is the case, we're finished.
+					 */
+
+					// Delete the options to start from the beginning.
+					delete_option( '_civi_wpms_memberships_offset' );
+					delete_option( '_civi_wpms_memberships_id_from' );
+					delete_option( '_civi_wpms_memberships_id_to' );
+
+					// Set finished flag.
+					$data['finished'] = 'true';
+
+				}
+
 			}
 
 		} else {
