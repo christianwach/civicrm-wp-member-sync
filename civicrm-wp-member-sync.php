@@ -131,7 +131,7 @@ class Civi_WP_Member_Sync {
 	 *
 	 * @since 0.3.7
 	 */
-	public function include_files() {
+	private function include_files() {
 
 		// Load our class files.
 		require CIVI_WP_MEMBER_SYNC_PLUGIN_PATH . 'includes/civi-wp-ms-users.php';
@@ -148,7 +148,7 @@ class Civi_WP_Member_Sync {
 	 *
 	 * @since 0.3.7
 	 */
-	public function setup_objects() {
+	private function setup_objects() {
 
 		// Instantiate our objects.
 		$this->users      = new Civi_WP_Member_Sync_Users( $this );
@@ -165,7 +165,7 @@ class Civi_WP_Member_Sync {
 	 *
 	 * @since 0.6.2
 	 */
-	public function register_hooks() {
+	private function register_hooks() {
 
 		// Initialise plugin when CiviCRM initialises during "plugins_loaded".
 		add_action( 'civicrm_instance_loaded', [ $this, 'initialise' ] );
