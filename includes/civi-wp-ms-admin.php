@@ -1482,6 +1482,10 @@ class Civi_WP_Member_Sync_Admin {
 			/**
 			 * Fires just before syncing all Users.
 			 *
+			 * Used internally by:
+			 *
+			 * * Civi_WP_Member_Sync_Groups::groups_pre_sync() (Priority: 10)
+			 *
 			 * @since 0.1
 			 */
 			do_action( 'civi_wp_member_sync_pre_sync_all' );

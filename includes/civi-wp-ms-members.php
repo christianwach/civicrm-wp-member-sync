@@ -141,25 +141,34 @@ class Civi_WP_Member_Sync_Members {
 	 * Sync Membership rules for all CiviCRM Memberships.
 	 *
 	 * @since 0.2.8
+	 * @since 0.7.0 Added `$assoc_args` param.
+	 *
+	 * @param array $assoc_args The WP-CLI associative arguments.
+	 * @return array $data The results of applying the rules.
 	 */
-	public function sync_all_civicrm_memberships() {
+	public function sync_all_civicrm_memberships( $assoc_args = [] ) {
 
 		// Kick out if no CiviCRM.
 		if ( ! civi_wp()->initialize() ) {
 			return;
 		}
 
-		// Init AJAX return.
+		// Init data array.
 		$data = [];
 
 		// Assume not creating Users.
 		$create_users = false;
 
 		// Grab "Create Users" value.
-		$manual_sync_create     = '';
-		$manual_sync_create_raw = filter_input( INPUT_POST, 'civi_wp_member_sync_manual_sync_create' );
-		if ( ! empty( $manual_sync_create_raw ) ) {
-			$manual_sync_create = trim( wp_unslash( $manual_sync_create_raw ) );
+		$manual_sync_create = '';
+		if ( defined( 'WP_CLI' ) && WP_CLI ) {
+			$create_users_flag   = (bool) \WP_CLI\Utils\get_flag_value( $assoc_args, 'create-users', false );
+			$manual_sync_create = $create_users_flag ? 'y' : 'n';
+		} else {
+			$manual_sync_create_raw = filter_input( INPUT_POST, 'civi_wp_member_sync_manual_sync_create' );
+			if ( ! empty( $manual_sync_create_raw ) ) {
+				$manual_sync_create = sanitize_key( wp_unslash( $manual_sync_create_raw ) );
+			}
 		}
 
 		// Override "Create Users" flag if chosen.
@@ -171,59 +180,81 @@ class Civi_WP_Member_Sync_Members {
 		$dry_run = false;
 
 		// Override "dry run" flag if chosen.
-		$manual_sync_dry_run = filter_input( INPUT_POST, 'civi_wp_member_sync_manual_sync_dry_run' );
-		if ( ! empty( $manual_sync_dry_run ) && 'y' === trim( wp_unslash( $manual_sync_dry_run ) ) ) {
-			$dry_run = true;
+		if ( defined( 'WP_CLI' ) && WP_CLI ) {
+			$dry_run = (bool) \WP_CLI\Utils\get_flag_value( $assoc_args, 'dry-run', false );
+		} else {
+			$manual_sync_dry_run = filter_input( INPUT_POST, 'civi_wp_member_sync_manual_sync_dry_run' );
+			if ( ! empty( $manual_sync_dry_run ) && 'y' === trim( wp_unslash( $manual_sync_dry_run ) ) ) {
+				$dry_run = true;
+			}
 		}
 
-		// If the Memberships offset value doesn't exist (first batch call).
-		if ( 'fgffgs' === get_option( '_civi_wpms_memberships_offset', 'fgffgs' ) ) {
+		// WP-CLI does not use batches.
+		if ( defined( 'WP_CLI' ) && WP_CLI ) {
 
-			// Start at the beginning.
 			$memberships_offset = 0;
-			$memberships_from   = 0;
-			$memberships_to     = 0;
-
-			// Override if "From" field is populated (used as membership ID filter).
-			$manual_sync_from = filter_input( INPUT_POST, 'civi_wp_member_sync_manual_sync_from' );
-			if ( ! empty( $manual_sync_from ) && is_numeric( trim( wp_unslash( $manual_sync_from ) ) ) ) {
-				$memberships_from = (int) trim( wp_unslash( $manual_sync_from ) );
-			}
-
-			// Override if "To" field is populated (used as membership ID filter).
-			$manual_sync_to = filter_input( INPUT_POST, 'civi_wp_member_sync_manual_sync_to' );
-			if ( ! empty( $manual_sync_to ) && is_numeric( trim( wp_unslash( $manual_sync_to ) ) ) ) {
-				$memberships_to = (int) trim( wp_unslash( $manual_sync_to ) );
-			}
-
-			add_option( '_civi_wpms_memberships_offset', '0' );
-			add_option( '_civi_wpms_memberships_id_from', (string) $memberships_from );
-			add_option( '_civi_wpms_memberships_id_to', (string) $memberships_to );
+			$memberships_from   = (int) \WP_CLI\Utils\get_flag_value( $assoc_args, 'id-from', 0 );
+			$memberships_to     = (int) \WP_CLI\Utils\get_flag_value( $assoc_args, 'id-to', 0 );
 
 		} else {
 
-			// Use the existing values from options (subsequent batch calls).
-			$memberships_offset = (int) get_option( '_civi_wpms_memberships_offset', '0' );
-			$memberships_from   = (int) get_option( '_civi_wpms_memberships_id_from', '0' );
-			$memberships_to     = (int) get_option( '_civi_wpms_memberships_id_to', '0' );
+			// If the Memberships offset value doesn't exist (first batch call).
+			if ( 'fgffgs' === get_option( '_civi_wpms_memberships_offset', 'fgffgs' ) ) {
+
+				// Start at the beginning.
+				$memberships_offset = 0;
+				$memberships_from   = 0;
+				$memberships_to     = 0;
+
+				// Override if "From" field is populated (used as Membership ID filter).
+				$manual_sync_from = filter_input( INPUT_POST, 'civi_wp_member_sync_manual_sync_from' );
+				if ( ! empty( $manual_sync_from ) && is_numeric( trim( wp_unslash( $manual_sync_from ) ) ) ) {
+					$memberships_from = (int) trim( wp_unslash( $manual_sync_from ) );
+				}
+
+				// Override if "To" field is populated (used as Membership ID filter).
+				$manual_sync_to = filter_input( INPUT_POST, 'civi_wp_member_sync_manual_sync_to' );
+				if ( ! empty( $manual_sync_to ) && is_numeric( trim( wp_unslash( $manual_sync_to ) ) ) ) {
+					$memberships_to = (int) trim( wp_unslash( $manual_sync_to ) );
+				}
+
+				add_option( '_civi_wpms_memberships_offset', (string) $memberships_offset );
+				add_option( '_civi_wpms_memberships_id_from', (string) $memberships_from );
+				add_option( '_civi_wpms_memberships_id_to', (string) $memberships_to );
+
+			} else {
+
+				// Use the existing values from options (subsequent batch calls).
+				$memberships_offset = (int) get_option( '_civi_wpms_memberships_offset', '0' );
+				$memberships_from   = (int) get_option( '_civi_wpms_memberships_id_from', '0' );
+				$memberships_to     = (int) get_option( '_civi_wpms_memberships_id_to', '0' );
+
+			}
 
 		}
 
 		// Get batch count.
 		$batch_count = $this->plugin->admin->setting_get_batch_count();
 
-		// Get CiviCRM Memberships filtered by membership ID range.
+		// Get CiviCRM Memberships filtered by Membership ID range.
 		$memberships = $this->memberships_get( $memberships_offset, $batch_count, 0, 0, 0, $memberships_from, $memberships_to );
 
-		// If we have Membership details.
-		if ( false !== $memberships && $batch_count > 0 ) {
+		// If we have Memberships to process.
+		if ( false !== $memberships ) {
 
-			// Set finished flag.
-			$data['finished'] = 'false';
+			// WP-CLI doesn't use offsets.
+			if ( defined( 'WP_CLI' ) && WP_CLI ) {
+				$data['finished'] = 'true';
+			} else {
 
-			// Set "from" and "to" flags.
-			$data['from'] = $memberships_offset;
-			$data['to']   = $data['from'] + $batch_count;
+				// Set finished flag.
+				$data['finished'] = 'false';
+
+				// Set "from" and "to" flags.
+				$data['from'] = $memberships_offset;
+				$data['to']   = $data['from'] + $batch_count;
+
+			}
 
 			// Init processed array.
 			$processed = [];
@@ -323,19 +354,32 @@ class Civi_WP_Member_Sync_Members {
 					$result = $this->plugin->admin->rule_apply( $user, $all_memberships );
 				}
 
-				// Build feedback row from template.
-				ob_start();
-				include CIVI_WP_MEMBER_SYNC_PLUGIN_PATH . 'assets/templates/manual-sync-feedback.php';
-				$feedback[] = ob_get_contents();
-				ob_end_clean();
+				// WP-CLI only needs the result array.
+				if ( defined( 'WP_CLI' ) && WP_CLI ) {
+					$feedback[] = $result;
+				} else {
+
+					// Build feedback row from template.
+					ob_start();
+					include CIVI_WP_MEMBER_SYNC_PLUGIN_PATH . 'assets/templates/manual-sync-feedback.php';
+					$feedback[] = ob_get_contents();
+					ob_end_clean();
+
+				}
 
 			}
 
 			// Append to data.
-			$data['feedback'] = implode( "\n", $feedback );
+			if ( defined( 'WP_CLI' ) && WP_CLI ) {
+				$data['feedback'] = $feedback;
+			} else {
+				$data['feedback'] = implode( "\n", $feedback );
+			}
 
 			// Increment Memberships offset option.
-			update_option( '_civi_wpms_memberships_offset', (string) $data['to'] );
+			if ( ! defined( 'WP_CLI' ) ) {
+				update_option( '_civi_wpms_memberships_offset', (string) $data['to'] );
+			}
 
 		} else {
 
@@ -349,44 +393,58 @@ class Civi_WP_Member_Sync_Members {
 
 		}
 
-		// Send data to browser.
-		wp_send_json( $data );
+		// Send data to browser or return depending on context.
+		if ( defined( 'WP_CLI' ) && WP_CLI ) {
+			return $data;
+		} else {
+			wp_send_json( $data );
+		}
 
 	}
 
 	/**
-	 * Sync all Membership rules for existing WordPress Users.
+	 * Sync all Membership Rules for existing WordPress Users.
 	 *
 	 * @since 0.1
 	 *
-	 * @return bool $success True if successful, false otherwise.
+	 * @param bool $verbose The WP-CLI verbosity setting.
 	 */
-	public function sync_all_wp_user_memberships() {
+	public function sync_all_wp_user_memberships( $verbose = false ) {
 
-		// Kick out if no CiviCRM.
-		if ( ! civi_wp()->initialize() ) {
-			return;
-		}
-
-		// Make sure CiviCRM file is included.
-		require_once 'CRM/Core/BAO/UFMatch.php';
-
-		// Get all WordPress Users.
-		$users = get_users( [ 'all_with_meta' => true ] );
+		// Get all Users on the current site.
+		$args  = [
+			'all_with_meta' => true,
+			'blog_id'       => get_current_blog_id(),
+			'number'        => -1,
+		];
+		$users = get_users( $args );
 
 		// Loop through all Users.
 		foreach ( $users as $user ) {
 
 			// Skip if we don't have a valid User.
-			if ( ! ( $user instanceof WP_User ) ) {
-				continue;
-			}
-			if ( ! $user->exists() ) {
+			if ( ! ( $user instanceof WP_User ) || ! $user->exists() ) {
 				continue;
 			}
 
 			// Call login method.
-			$this->sync_to_user( $user->user_login, $user );
+			$result = $this->sync_to_user( $user->user_login, $user );
+
+			/*
+			 * WP-CLI feedback for successful sync.
+			 *
+			 * Do not show feedback for unsuccessful sync by default since there are any
+			 * number of reasons that this may happen, e.g. they are a WordPress admin,
+			 * they do not have a Contact, they do not have a Membership. The curious
+			 * can run with the `--vvv` flag to see full results.
+			 */
+			if ( defined( 'WP_CLI' ) && WP_CLI ) {
+				if ( ! empty( $result ) ) {
+					WP_CLI::log( sprintf( WP_CLI::colorize( '%gSynced Membership Rules for User%n %y(User ID: %d)%n' ), $user->ID ) );
+				} elseif ( true === $verbose ) {
+					WP_CLI::log( sprintf( WP_CLI::colorize( '%rCould not sync Membership Rules for User%n %y(User ID: %d)%n' ), $user->ID ) );
+				}
+			}
 
 		}
 
@@ -509,11 +567,8 @@ class Civi_WP_Member_Sync_Members {
 	 */
 	public function user_should_be_synced( $user ) {
 
-		// Kick out if we don't receive a valid User.
-		if ( ! ( $user instanceof WP_User ) ) {
-			return false;
-		}
-		if ( ! $user->exists() ) {
+		// Bail if we don't receive a valid User.
+		if ( ! ( $user instanceof WP_User ) || ! $user->exists() ) {
 			return false;
 		}
 
@@ -544,20 +599,19 @@ class Civi_WP_Member_Sync_Members {
 	 *
 	 * @param string  $user_login Logged in User's username.
 	 * @param WP_User $user WP_User object of the logged-in User.
+	 * @return array|bool $result Results of applying the rule, or false if not synced.
 	 */
 	public function sync_to_user( $user_login, $user ) {
 
 		// Should this User be synced?
 		if ( ! $this->user_should_be_synced( $user ) ) {
-			return;
+			return false;
 		}
 
 		// Get CiviCRM Contact ID.
 		$civi_contact_id = $this->plugin->users->civi_contact_id_get( $user );
-
-		// Bail if we don't have one.
 		if ( false === $civi_contact_id ) {
-			return;
+			return false;
 		}
 
 		// Get Memberships.
@@ -565,11 +619,14 @@ class Civi_WP_Member_Sync_Members {
 
 		// Bail if there are no applicable rules for these Memberships.
 		if ( ! $this->plugin->admin->rule_exists( $memberships ) ) {
-			return;
+			return false;
 		}
 
 		// Update WordPress User.
-		$this->plugin->admin->rule_apply( $user, $memberships );
+		$result = $this->plugin->admin->rule_apply( $user, $memberships );
+
+		// --<
+		return $result;
 
 	}
 
@@ -936,7 +993,7 @@ class Civi_WP_Member_Sync_Members {
 		// Always add limit.
 		$params['options']['limit'] = $limit;
 
-		// Add membership ID range filter if supplied.
+		// Add Membership ID range filter if supplied.
 		// CiviCRM API v3 ignores multi-operator arrays on 'id'; use BETWEEN for ranges.
 		if ( 0 !== $id_from && 0 !== $id_to ) {
 			$params['id'] = [ 'BETWEEN' => [ $id_from, $id_to ] ];

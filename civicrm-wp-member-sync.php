@@ -113,11 +113,16 @@ class Civi_WP_Member_Sync {
 	public $buddypress;
 
 	/**
-	 * Initialise this object.
+	 * Constructor.
 	 *
 	 * @since 0.1
 	 */
 	public function __construct() {
+
+		// Maybe include WP-CLI command.
+		if ( defined( 'WP_CLI' ) && WP_CLI ) {
+			require_once CIVI_WP_MEMBER_SYNC_PLUGIN_PATH . 'includes/wp-cli/wp-cli-cvwpms.php';
+		}
 
 		// Bootstrap plugin.
 		$this->include_files();
