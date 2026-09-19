@@ -159,7 +159,7 @@ class CiviCRM_WPMS_CLI_Command_Job extends CiviCRM_WPMS_CLI_Command {
 			}
 		);
 
-		// Sync all Memberships for *existing* WordPress Users.
+		// Sync all CiviCRM Memberships.
 		$results = $plugin->members->sync_all_civicrm_memberships( $assoc_args );
 
 		/** This action is documented in includes/civi-wp-ms-admin.php */
@@ -185,20 +185,44 @@ class CiviCRM_WPMS_CLI_Command_Job extends CiviCRM_WPMS_CLI_Command {
 			// Display output as table (default).
 			case 'table':
 			default:
-				// Define the columns.
+				// Define the table columns.
 				$fields = [ 'New', 'Contact Name', 'Username', 'Membership Type', 'Status' ];
+
+				/**
+				 * Filters the current table columns.
+				 *
+				 * @since 0.7.0
+				 *
+				 * @param array $fields The default array of fields.
+				 */
+				$fields = apply_filters( 'cwms/wpcli/sync_memberships/table/fields', $fields );
 
 				// Build the rows.
 				$rows = [];
 				foreach ( $results['feedback'] as $result ) {
 					foreach ( $result as $item ) {
-						$rows[] = [
-							'New'             => $item['is_new'] ? 'yes' : 'no',
+
+						$row = [
+							'New'             => $item['is_new'] ? 'Yes' : 'No',
 							'Contact Name'    => $item['display_name'],
 							'Username'        => $item['username'],
 							'Membership Type' => $item['membership_name'],
 							'Status'          => $item['membership_status'],
 						];
+
+						/**
+						 * Filters the current table row.
+						 *
+						 * @since 0.7.0
+						 *
+						 * @param array $row The default row.
+						 * @param array $item The item being processed.
+						 */
+						$row = apply_filters( 'cwms/wpcli/sync_memberships/table/row', $row, $item );
+
+						// Add to rows.
+						$rows[] = $row;
+
 					}
 				}
 

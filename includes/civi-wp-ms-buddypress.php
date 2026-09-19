@@ -172,6 +172,10 @@ class Civi_WP_Member_Sync_BuddyPress {
 		add_action( 'cwms/manual_sync/feedback/th', [ $this, 'simulate_header' ] );
 		add_action( 'cwms/manual_sync/feedback/td', [ $this, 'simulate_row' ], 10, 2 );
 
+		// Add WP-CLI command callbacks.
+		add_filter( 'cwms/wpcli/sync_memberships/table/fields', [ $this, 'wpcli_table_column' ] );
+		add_filter( 'cwms/wpcli/sync_memberships/table/row', [ $this, 'wpcli_table_row' ], 10, 2 );
+
 	}
 
 	// -----------------------------------------------------------------------------------
@@ -706,6 +710,7 @@ class Civi_WP_Member_Sync_BuddyPress {
 	 * @since 0.4.7
 	 *
 	 * @param array $group_ids The array of Group IDs.
+	 * @return string $options_html The rendered pseudo-list.
 	 */
 	public function markup_get_list_items( $group_ids ) {
 
@@ -746,6 +751,7 @@ class Civi_WP_Member_Sync_BuddyPress {
 	 * @since 0.4.7
 	 *
 	 * @param array $group_ids The array of Group IDs.
+	 * @return string $options_html The rendered pseudo-list.
 	 */
 	public function markup_get_options( $group_ids ) {
 
@@ -778,6 +784,92 @@ class Civi_WP_Member_Sync_BuddyPress {
 
 		// --<
 		return $options_html;
+
+	}
+
+	// -----------------------------------------------------------------------------------
+
+	/**
+	 * Adds the BuddyPress Groups column to the WP-CLI table fields.
+	 *
+	 * @since 0.7.0
+	 *
+	 * @param array $fields The default array of fields.
+	 * @return array $fields The modified array of fields.
+	 */
+	public function wpcli_table_column( $fields ) {
+
+		// Add column title.
+		$fields[] =  'BuddyPress Group(s)';
+
+		// --<
+		return $fields;
+
+	}
+
+	/**
+	 * Adds the BuddyPress Group names to the WP-CLI table row.
+	 *
+	 * @since 0.7.0
+	 *
+	 * @param array $row The default row.
+	 * @param array $item The item being processed.
+	 * @return array $row The modified row.
+	 */
+	public function wpcli_table_row( $row, $item ) {
+
+		// Build list.
+		$row['BuddyPress Group(s)'] = '-';
+		if ( 'current' === $item['flag'] && ! empty( $item['association_rule']['current_buddypress'] ) ) {
+			$row['BuddyPress Group(s)'] = $this->wpcli_get_list_items( $item['association_rule']['current_buddypress'] );
+		}
+		if ( 'expired' === $item['flag'] && ! empty( $item['association_rule']['expiry_buddypress'] ) ) {
+			$row['BuddyPress Group(s)'] = $this->wpcli_get_list_items( $item['association_rule']['expiry_buddypress'] );
+		}
+
+		// --<
+		return $row;
+
+	}
+
+	/**
+	 * Gets comma-delimited list of BuddyPress Group names.
+	 *
+	 * @since 0.7.0
+	 *
+	 * @param array $group_ids The array of Group IDs.
+	 * @return string $rendered The rendered pseudo-list.
+	 */
+	public function wpcli_get_list_items( $group_ids ) {
+
+		// Init options.
+		$rendered = '';
+		$options  = [];
+
+		if ( ! empty( $group_ids ) ) {
+
+			// Build query args.
+			$args = [
+				'order_by' => 'name',
+				'order'    => 'ASC',
+				'include'  => $group_ids,
+			];
+
+			// Get the Groups.
+			$groups = groups_get_groups( $args );
+
+			// Add options to build array.
+			foreach ( $groups['groups'] as $group ) {
+				$options[] = $group->name;
+			}
+
+			// Make comma delimited.
+			$rendered = implode( ', ', $options );
+
+		}
+
+		// --<
+		return $rendered;
 
 	}
 
