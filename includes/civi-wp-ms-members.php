@@ -108,9 +108,6 @@ class Civi_WP_Member_Sync_Members {
 		// Add hooks if set.
 		if ( 1 === $civicrm ) {
 
-			// Intercept CiviCRM Membership add/edit form submission.
-			add_action( 'civicrm_postProcess', [ $this, 'membership_form_process' ], 10, 2 );
-
 			// Intercept before a CiviCRM Membership update.
 			add_action( 'civicrm_pre', [ $this, 'membership_pre_update' ], 10, 4 );
 
@@ -905,23 +902,6 @@ class Civi_WP_Member_Sync_Members {
 		 * @param object $object_ref The CiviCRM Membership being deleted.
 		 */
 		do_action( 'civi_wp_member_sync_membership_deleted', $user, $object_ref );
-
-	}
-
-	/**
-	 * Update a WordPress User Role when a CiviCRM Membership is added.
-	 *
-	 * @since 0.1
-	 *
-	 * @param string $form_name The CiviCRM form name.
-	 * @param object $form The CiviCRM form object.
-	 */
-	public function membership_form_process( $form_name, &$form ) {
-
-		// Kick out if not Membership form.
-		if ( ! ( $form instanceof CRM_Member_Form_Membership ) ) {
-			return;
-		}
 
 	}
 
