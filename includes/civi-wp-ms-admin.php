@@ -2447,13 +2447,16 @@ class Civi_WP_Member_Sync_Admin {
 	}
 
 	/**
-	 * Check whether a Membership matches an Association Rule's ownership filter.
+	 * Checks whether a Membership matches an Association Rule's ownership filter.
 	 *
-	 * The "ownership_filter" setting restricts a rule to "all" Memberships,
-	 * "primary" Memberships only (owner_membership_id is empty) or
-	 * "relationship" Memberships only (owner_membership_id is set, i.e. the
-	 * Membership was inherited via a CiviCRM relationship). Rules saved before
-	 * this filter existed default to "all" for backwards compatibility.
+	 * The "ownership_filter" setting restricts a Rule to one of the following:
+	 *
+	 * * "all" Memberships (no restriction)
+	 * * "primary" Memberships only (`owner_membership_id` is empty)
+	 * * "relationship" Memberships only (`owner_membership_id` is set, i.e. the
+	 *   Membership was inherited via a CiviCRM relationship)
+	 *
+	 * Rules saved before this filter existed default to "all" for backwards compatibility.
 	 *
 	 * @since 0.6.0
 	 *

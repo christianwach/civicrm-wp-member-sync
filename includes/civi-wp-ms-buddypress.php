@@ -800,7 +800,7 @@ class Civi_WP_Member_Sync_BuddyPress {
 	public function wpcli_table_column( $fields ) {
 
 		// Add column title.
-		$fields[] =  'BuddyPress Group(s)';
+		$fields[] = 'BuddyPress Group(s)';
 
 		// --<
 		return $fields;

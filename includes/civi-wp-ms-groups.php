@@ -813,7 +813,7 @@ class Civi_WP_Member_Sync_Groups {
 	public function wpcli_table_column( $fields ) {
 
 		// Add column title.
-		$fields[] =  '"Groups" Group(s)';
+		$fields[] = '"Groups" Group(s)';
 
 		// --<
 		return $fields;
