@@ -376,14 +376,17 @@ class Civi_WP_Member_Sync_Admin {
 	 */
 	public function upgrade_settings() {
 
-		// The "types" setting may not exist.
+		// Add "types" setting if it does not exist.
 		if ( ! $this->setting_exists( 'types' ) ) {
-
-			// Add them from defaults.
 			$settings = $this->settings_get_default();
 			$this->setting_set( 'types', $settings['types'] );
 			$this->settings_save();
+		}
 
+		// Delete the "interval" setting if it exists.
+		if ( $this->setting_exists( 'interval' ) ) {
+			$this->setting_delete( 'interval' );
+			$this->settings_save();
 		}
 
 	}
@@ -1002,16 +1005,9 @@ class Civi_WP_Member_Sync_Admin {
 		// Get our sync method.
 		$method = $this->setting_get_method();
 
-		// Get all schedules.
-		$schedules = $this->plugin->schedule->intervals_get();
-
 		// Get our sync settings.
-		$login    = (int) $this->setting_get( 'login' );
-		$civicrm  = (int) $this->setting_get( 'civicrm' );
-		$schedule = (int) $this->setting_get( 'schedule' );
-
-		// Get our interval setting.
-		$interval = $this->setting_get( 'interval' );
+		$login   = (int) $this->setting_get( 'login' );
+		$civicrm = (int) $this->setting_get( 'civicrm' );
 
 		// Get our types setting.
 		$types = (int) $this->setting_get( 'types' );
@@ -1569,10 +1565,6 @@ class Civi_WP_Member_Sync_Admin {
 		// Set initial sync settings.
 		$settings['login']    = 1;
 		$settings['civicrm']  = 1;
-		$settings['schedule'] = 0;
-
-		// Set default schedule interval.
-		$settings['interval'] = 'daily';
 
 		// Sync only the "Individual" Contact Type by default.
 		$settings['types'] = 1;
@@ -1624,51 +1616,6 @@ class Civi_WP_Member_Sync_Admin {
 			$settings_civicrm = (int) trim( wp_unslash( $settings_civicrm_raw ) );
 		}
 		$this->setting_set( 'civicrm', ( $settings_civicrm ? 1 : 0 ) );
-
-		// Get existing schedule.
-		$existing_schedule = $this->setting_get( 'schedule' );
-
-		// Schedule sync enabled.
-		$settings_schedule     = 0;
-		$settings_schedule_raw = filter_input( INPUT_POST, 'civi_wp_member_sync_settings_schedule' );
-		if ( ! empty( $settings_schedule_raw ) ) {
-			$settings_schedule = (int) trim( wp_unslash( $settings_schedule_raw ) );
-		}
-		$this->setting_set( 'schedule', ( $settings_schedule ? 1 : 0 ) );
-
-		// Is the schedule being deactivated?
-		if ( 1 === (int) $existing_schedule && 0 === $settings_schedule ) {
-
-			// Clear current scheduled event.
-			$this->plugin->schedule->unschedule();
-
-		}
-
-		// Schedule interval.
-		$settings_interval_raw = filter_input( INPUT_POST, 'civi_wp_member_sync_settings_interval' );
-		if ( ! empty( $settings_interval_raw ) ) {
-
-			// Get existing interval.
-			$existing_interval = $this->setting_get( 'interval' );
-
-			// Get value passed in.
-			$settings_interval = esc_sql( trim( wp_unslash( $settings_interval_raw ) ) );
-
-			// Is the schedule active and has the interval changed?
-			if ( $settings_schedule && $settings_interval !== $existing_interval ) {
-
-				// Clear current scheduled event.
-				$this->plugin->schedule->unschedule();
-
-				// Now add new scheduled event.
-				$this->plugin->schedule->schedule( $settings_interval );
-
-			}
-
-			// Set new value whatever (for now).
-			$this->setting_set( 'interval', $settings_interval );
-
-		}
 
 		// Sync restricted to Individuals?
 		$settings_types     = 0;
@@ -1739,7 +1686,7 @@ class Civi_WP_Member_Sync_Admin {
 	public function setting_get( $setting_name, $default = false ) {
 
 		// Get setting.
-		return ( array_key_exists( $setting_name, $this->settings ) ) ? $this->settings[ $setting_name ] : $default;
+		return array_key_exists( $setting_name, $this->settings ) ? $this->settings[ $setting_name ] : $default;
 
 	}
 
@@ -1755,6 +1702,20 @@ class Civi_WP_Member_Sync_Admin {
 
 		// Set setting.
 		$this->settings[ $setting_name ] = $value;
+
+	}
+
+	/**
+	 * Deletes a specified setting.
+	 *
+	 * @since 0.7.0
+	 *
+	 * @param string $setting_name The name of the setting.
+	 */
+	public function setting_delete( $setting_name ) {
+
+		// Delete setting.
+		unset( $this->settings[ $setting_name ] );
 
 	}
 

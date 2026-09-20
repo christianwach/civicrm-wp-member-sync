@@ -59,7 +59,7 @@ if ( ! defined( 'CIVI_WP_MEMBER_SYNC_PLUGIN_PATH' ) ) {
 class Civi_WP_Member_Sync {
 
 	/**
-	 * WordPress Users utilities object.
+	 * WordPress Users object.
 	 *
 	 * @since 0.1
 	 * @access public
@@ -68,7 +68,7 @@ class Civi_WP_Member_Sync {
 	public $users;
 
 	/**
-	 * WordPress Scheduled Events utilities object.
+	 * WordPress Scheduled Events object.
 	 *
 	 * @since 0.1
 	 * @access public

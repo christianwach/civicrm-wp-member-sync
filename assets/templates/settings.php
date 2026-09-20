@@ -60,7 +60,7 @@ defined( 'ABSPATH' ) || exit;
 
 		<h3><?php esc_html_e( 'Synchronization Events', 'civicrm-wp-member-sync' ); ?></h3>
 
-		<p><?php esc_html_e( 'The most common trigger for synchronization of CiviCRM Memberships and WordPress Users is when CiviCRM cron runs. If you want to enable additional events that CiviCRM Member Sync will use to trigger synchronization, select them below. If you choose User login/logout, you will have to run "Manual Synchronize" after you create a new rule for it to be applied to all Users and Contacts. Leave the default settings if you are unsure which methods to use.', 'civicrm-wp-member-sync' ); ?></p>
+		<p><?php esc_html_e( 'The most common trigger for synchronization of CiviCRM Memberships and WordPress Users is when CiviCRM cron runs. If you want to enable additional events that CiviCRM Member Sync will use to trigger synchronization, select them below. If you choose User login/logout, you will have to run "Manual Synchronize" or the "sync-memberships" WP-CLI command after you create a new rule for it to be applied to all Users and Contacts. Leave the default settings if you are unsure which methods to use.', 'civicrm-wp-member-sync' ); ?></p>
 
 		<?php if ( false === $cau_present ) : ?>
 			<div class="notice notice-warning inline">
@@ -177,7 +177,7 @@ defined( 'ABSPATH' ) || exit;
 				</th>
 				<td>
 					<input type="checkbox" class="settings-checkbox" name="civi_wp_member_sync_settings_civicrm" id="civi_wp_member_sync_settings_civicrm" value="1"<?php checked( 1, $civicrm ); ?> />
-					<label class="civi_wp_member_sync_settings_label" for="civi_wp_member_sync_settings_civicrm"><?php esc_html_e( 'Synchronize when Membership is updated in CiviCRM, e.g. via a scheduled job or modified on an admin page.', 'civicrm-wp-member-sync' ); ?></label>
+					<label class="civi_wp_member_sync_settings_label" for="civi_wp_member_sync_settings_civicrm"><?php esc_html_e( 'Synchronize when Membership is updated in CiviCRM, e.g. via a cron job or modified on an admin page.', 'civicrm-wp-member-sync' ); ?></label>
 				</td>
 			</tr>
 
@@ -186,23 +186,14 @@ defined( 'ABSPATH' ) || exit;
 					<?php esc_html_e( 'Scheduled Events', 'civicrm-wp-member-sync' ); ?>
 				</th>
 				<td>
-					<input type="checkbox" class="settings-checkbox" name="civi_wp_member_sync_settings_schedule" id="civi_wp_member_sync_settings_schedule" value="1"<?php checked( 1, $schedule ); ?> />
-					<label class="civi_wp_member_sync_settings_label" for="civi_wp_member_sync_settings_schedule"><?php esc_html_e( 'Synchronize using a WordPress recurring schedule. This action is performed on all Users and Contacts.', 'civicrm-wp-member-sync' ); ?></label>
-					<p class="description"><?php esc_html_e( 'This action can be very processor intensive if you have a lot of Users and Contacts. It is not recommended to have this switched on unless you have a good reason for doing so.', 'civicrm-wp-member-sync' ); ?></p>
-					<div class="notice notice-warning inline"><p><?php esc_html_e( 'Please not that this action will be replaced by a WP-CLI command in the next major release.', 'civicrm-wp-member-sync' ); ?></p></div>
-				</td>
-			</tr>
-
-			<tr>
-				<th scope="row">
-					<label class="civi_wp_member_sync_settings_label" for="civi_wp_member_sync_settings_interval"><?php esc_html_e( 'Schedule Interval', 'civicrm-wp-member-sync' ); ?></label>
-				</th>
-				<td>
-					<select class="settings-select" name="civi_wp_member_sync_settings_interval" id="civi_wp_member_sync_settings_interval">
-						<?php foreach ( $schedules as $key => $value ) : ?>
-							<option value="<?php echo esc_attr( $key ); ?>"<?php selected( $interval, $key ); ?>><?php echo esc_html( $value['display'] ); ?></option>
-						<?php endforeach; ?>
-					</select>
+					<div class="notice notice-success inline">
+						<p><?php esc_html_e( 'This action has been replaced by two WP-CLI commands:', 'civicrm-wp-member-sync' ); ?></p>
+						<ul>
+							<li><code><?php esc_html_e( 'wp cvwpms job sync-memberships', 'civicrm-wp-member-sync' ); ?></code></li>
+							<li><code><?php esc_html_e( 'wp cvwpms job sync-users', 'civicrm-wp-member-sync' ); ?></code></li>
+						</ul>
+						<p><?php esc_html_e( 'Use WP-CLI help in your terminal for more details.', 'civicrm-wp-member-sync' ); ?></p>
+					</div>
 				</td>
 			</tr>
 
