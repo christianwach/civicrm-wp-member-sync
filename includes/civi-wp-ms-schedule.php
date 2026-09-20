@@ -34,7 +34,7 @@ class Civi_WP_Member_Sync_Schedule {
 	 *
 	 * @since 0.1
 	 *
-	 * @param object $plugin The plugin object.
+	 * @param Civi_WP_Member_Sync $plugin The plugin object.
 	 */
 	public function __construct( $plugin ) {
 
@@ -47,7 +47,7 @@ class Civi_WP_Member_Sync_Schedule {
 	}
 
 	/**
-	 * Initialise this object.
+	 * Initialises this object.
 	 *
 	 * @since 0.1
 	 */
@@ -77,7 +77,7 @@ class Civi_WP_Member_Sync_Schedule {
 	// -----------------------------------------------------------------------------------
 
 	/**
-	 * Set up our scheduled event.
+	 * Sets up a scheduled event.
 	 *
 	 * @since 0.1
 	 *
@@ -100,7 +100,7 @@ class Civi_WP_Member_Sync_Schedule {
 	}
 
 	/**
-	 * Clear our scheduled event.
+	 * Clears the scheduled event.
 	 *
 	 * @since 0.1
 	 */
@@ -121,7 +121,7 @@ class Civi_WP_Member_Sync_Schedule {
 	}
 
 	/**
-	 * Called when a scheduled event is triggered.
+	 * Performs tasks when a scheduled event is triggered.
 	 *
 	 * @since 0.1
 	 */
@@ -151,7 +151,7 @@ class Civi_WP_Member_Sync_Schedule {
 	// -----------------------------------------------------------------------------------
 
 	/**
-	 * Clear our legacy_scheduled event.
+	 * Clears the legacy_scheduled event.
 	 *
 	 * @since 0.1
 	 */

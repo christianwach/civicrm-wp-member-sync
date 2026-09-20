@@ -132,7 +132,7 @@ class Civi_WP_Member_Sync {
 	}
 
 	/**
-	 * Include files.
+	 * Includes plugin files.
 	 *
 	 * @since 0.3.7
 	 */
@@ -149,7 +149,7 @@ class Civi_WP_Member_Sync {
 	}
 
 	/**
-	 * Set up this plugin's objects.
+	 * Sets up this plugin's objects.
 	 *
 	 * @since 0.3.7
 	 */
@@ -166,7 +166,7 @@ class Civi_WP_Member_Sync {
 	}
 
 	/**
-	 * Register hooks.
+	 * Registers hooks.
 	 *
 	 * @since 0.6.2
 	 */
@@ -185,7 +185,7 @@ class Civi_WP_Member_Sync {
 	}
 
 	/**
-	 * Initialise objects when CiviCRM initialises.
+	 * Initialises plugin objects when CiviCRM initialises.
 	 *
 	 * @since 0.1
 	 */
@@ -197,12 +197,12 @@ class Civi_WP_Member_Sync {
 		 * This action is used internally in order to trigger initialisation.
 		 * There is a specific order to the callbacks:
 		 *
-		 * * Civi_WP_Member_Sync_Admin - Priority 1
-		 * * Civi_WP_Member_Sync_Users - Priority 3
-		 * * Civi_WP_Member_Sync_Schedule - Priority 5
-		 * * Civi_WP_Member_Sync_Members - Priority 7
-		 * * Civi_WP_Member_Sync_Groups - Priority 10
-		 * * Civi_WP_Member_Sync_BuddyPress - Priority 20
+		 * * Civi_WP_Member_Sync_Admin::initialise() - Priority 1
+		 * * Civi_WP_Member_Sync_Users::initialise() - Priority 3
+		 * * Civi_WP_Member_Sync_Schedule::initialise() - Priority 5
+		 * * Civi_WP_Member_Sync_Members::initialise() - Priority 7
+		 * * Civi_WP_Member_Sync_Groups::initialise() - Priority 10
+		 * * Civi_WP_Member_Sync_BuddyPress::initialise() - Priority 20
 		 *
 		 * @since 0.1
 		 * @since 0.3.9 All CWMS classes hook into this to trigger initialisation.
@@ -214,7 +214,7 @@ class Civi_WP_Member_Sync {
 	// -----------------------------------------------------------------------------------
 
 	/**
-	 * Perform plugin activation tasks.
+	 * Performs plugin activation tasks.
 	 *
 	 * @since 0.1
 	 */
@@ -226,7 +226,7 @@ class Civi_WP_Member_Sync {
 	}
 
 	/**
-	 * Perform plugin deactivation tasks.
+	 * Performs plugin deactivation tasks.
 	 *
 	 * @since 0.1
 	 */
@@ -240,7 +240,7 @@ class Civi_WP_Member_Sync {
 	// -----------------------------------------------------------------------------------
 
 	/**
-	 * Load translations.
+	 * Loads plugin translations.
 	 *
 	 * @since 0.1
 	 */
@@ -261,8 +261,8 @@ class Civi_WP_Member_Sync {
 	 *
 	 * @since 0.6.2
 	 *
-	 * @param array $links The existing links array.
-	 * @param str   $file The name of the plugin file.
+	 * @param array  $links The existing links array.
+	 * @param string $file The name of the plugin file.
 	 * @return array $links The modified links array.
 	 */
 	public function plugin_action_links( $links, $file ) {
@@ -292,7 +292,7 @@ class Civi_WP_Member_Sync {
 	}
 
 	/**
-	 * Write to the error log.
+	 * Writes to the error log.
 	 *
 	 * @since 0.6.2
 	 *
@@ -319,6 +319,7 @@ class Civi_WP_Member_Sync {
 		error_log( $error );
 
 	}
+
 }
 
 /**
@@ -326,7 +327,7 @@ class Civi_WP_Member_Sync {
  *
  * @since 0.2.7
  *
- * @return object $civi_wp_member_sync The plugin reference.
+ * @return Civi_WP_Member_Sync $civi_wp_member_sync The plugin reference.
  */
 function civicrm_wpms() {
 

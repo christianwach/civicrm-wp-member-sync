@@ -11,10 +11,8 @@
 // Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
 
-// Kick out if uninstall not called from WordPress.
-if ( ! defined( 'WP_UNINSTALL_PLUGIN' ) ) {
-	exit();
-}
+// Exit if uninstall not called from WordPress.
+defined( 'WP_UNINSTALL_PLUGIN' ) || exit;
 
 /**
  * We need to remove all Capabilities granted to Users via this plugin.
@@ -37,7 +35,7 @@ function civi_wp_member_sync_reset_caps() {
 		return;
 	}
 
-	// Get 'capabilities' association rules.
+	// Get 'capabilities' Association Rules.
 	$rules = $settings['data']['capabilities'];
 
 	// Init Capabilities list.

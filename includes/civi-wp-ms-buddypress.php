@@ -47,7 +47,7 @@ class Civi_WP_Member_Sync_BuddyPress {
 	 *
 	 * @since 0.4.7
 	 *
-	 * @param object $plugin The plugin object.
+	 * @param Civi_WP_Member_Sync $plugin The plugin object.
 	 */
 	public function __construct( $plugin ) {
 
@@ -60,7 +60,7 @@ class Civi_WP_Member_Sync_BuddyPress {
 	}
 
 	/**
-	 * Initialise this object.
+	 * Initialises this object.
 	 *
 	 * @since 0.4.7
 	 */
@@ -72,7 +72,7 @@ class Civi_WP_Member_Sync_BuddyPress {
 	}
 
 	/**
-	 * Test if BuddyPress plugin is active.
+	 * Checks if BuddyPress plugin is active.
 	 *
 	 * @since 0.4.7
 	 *
@@ -115,7 +115,7 @@ class Civi_WP_Member_Sync_BuddyPress {
 	// -----------------------------------------------------------------------------------
 
 	/**
-	 * Register BuddyPress plugin hooks if it's present.
+	 * Registers BuddyPress plugin hooks if it's present.
 	 *
 	 * @since 0.4.7
 	 */
@@ -181,7 +181,7 @@ class Civi_WP_Member_Sync_BuddyPress {
 	// -----------------------------------------------------------------------------------
 
 	/**
-	 * Search for BuddyPress Groups on the "Add Rule" and "Edit Rule" pages.
+	 * Searches for BuddyPress Groups on the "Add Rule" and "Edit Rule" pages.
 	 *
 	 * We still need to exclude Groups which are present in the "opposite"
 	 * select - i.e. exclude current Groups from expiry and vice versa.
@@ -256,7 +256,7 @@ class Civi_WP_Member_Sync_BuddyPress {
 	// -----------------------------------------------------------------------------------
 
 	/**
-	 * Intercept Rule Apply when method is "capabilities" and Membership is "current".
+	 * Intercepts Rule Apply when method is "capabilities" and Membership is "current".
 	 *
 	 * We need this method because the two related actions have different
 	 * signatures - `civi_wp_member_sync_rule_apply_caps_current` also passes
@@ -278,7 +278,7 @@ class Civi_WP_Member_Sync_BuddyPress {
 	}
 
 	/**
-	 * Intercept Rule Apply when method is "capabilities" and Membership is "expired".
+	 * Intercepts Rule Apply when method is "capabilities" and Membership is "expired".
 	 *
 	 * We need this method because the two related actions have different
 	 * signatures - `civi_wp_member_sync_rule_apply_caps_current` also passes
@@ -300,7 +300,7 @@ class Civi_WP_Member_Sync_BuddyPress {
 	}
 
 	/**
-	 * Intercept Rule Apply when Membership is "current".
+	 * Intercepts Rule Apply when Membership is "current".
 	 *
 	 * @since 0.4.7
 	 *
@@ -328,7 +328,7 @@ class Civi_WP_Member_Sync_BuddyPress {
 	}
 
 	/**
-	 * Intercept Rule Apply when Membership is "expired".
+	 * Intercepts Rule Apply when Membership is "expired".
 	 *
 	 * @since 0.4.7
 	 *
@@ -356,17 +356,17 @@ class Civi_WP_Member_Sync_BuddyPress {
 	}
 
 	/**
-	 * Intercept Rule Undo when Membership is deleted.
+	 * Intercepts Rule Undo when Membership is deleted.
 	 *
 	 * We remove the User from both "current" and "expired" Groups, since there should
 	 * be no remaining trace of the Membership.
 	 *
 	 * @since 0.6.3
 	 *
-	 * @param WP_User $user The WordPress User object.
-	 * @param object  $membership The CiviCRM Membership data object.
-	 * @param array   $association_rule The rule used to apply the changes.
-	 * @param array   $memberships The array of remaining CiviCRM Memberships.
+	 * @param WP_User  $user The WordPress User object.
+	 * @param stdClass $membership The CiviCRM Membership data object.
+	 * @param array    $association_rule The rule used to apply the changes.
+	 * @param array    $memberships The array of remaining CiviCRM Memberships.
 	 */
 	public function rule_undo( $user, $membership, $association_rule, $memberships ) {
 
@@ -389,7 +389,7 @@ class Civi_WP_Member_Sync_BuddyPress {
 	// -----------------------------------------------------------------------------------
 
 	/**
-	 * Add a WordPress User to a BuddyPress Group.
+	 * Adds a WordPress User to a BuddyPress Group.
 	 *
 	 * @since 0.4.7
 	 *
@@ -427,7 +427,7 @@ class Civi_WP_Member_Sync_BuddyPress {
 	}
 
 	/**
-	 * Delete a WordPress User from a BuddyPress Group.
+	 * Deletes a WordPress User from a BuddyPress Group.
 	 *
 	 * We cannot use 'groups_remove_member()' because the logged in User may not
 	 * pass the 'bp_is_item_admin()' check in that function.
@@ -469,14 +469,14 @@ class Civi_WP_Member_Sync_BuddyPress {
 	// -----------------------------------------------------------------------------------
 
 	/**
-	 * Amend the association rule that is about to be saved.
+	 * Amends the Association Rule that is about to be saved.
 	 *
 	 * @since 0.4.7
 	 *
-	 * @param array $rule The new or updated association rule.
-	 * @param array $data The complete set of association rule.
-	 * @param str   $mode The mode ('add' or 'edit').
-	 * @param str   $method The sync method.
+	 * @param array  $rule The new or updated Association Rule.
+	 * @param array  $data The complete set of Association Rule.
+	 * @param string $mode The mode ('add' or 'edit').
+	 * @param string $method The sync method.
 	 */
 	public function rule_pre_save( $rule, $data, $mode, $method ) {
 
@@ -524,7 +524,7 @@ class Civi_WP_Member_Sync_BuddyPress {
 	// -----------------------------------------------------------------------------------
 
 	/**
-	 * Show the Current Group header.
+	 * Shows the Current Group header.
 	 *
 	 * @since 0.4.7
 	 */
@@ -536,7 +536,7 @@ class Civi_WP_Member_Sync_BuddyPress {
 	}
 
 	/**
-	 * Show the Current BuddyPress Groups.
+	 * Shows the Current BuddyPress Groups.
 	 *
 	 * @since 0.4.7
 	 *
@@ -558,7 +558,7 @@ class Civi_WP_Member_Sync_BuddyPress {
 	}
 
 	/**
-	 * Show the Current Group.
+	 * Shows the Current Group.
 	 *
 	 * @since 0.4.7
 	 *
@@ -572,7 +572,7 @@ class Civi_WP_Member_Sync_BuddyPress {
 	}
 
 	/**
-	 * Show the Current Group.
+	 * Shows the Current Group.
 	 *
 	 * @since 0.4.7
 	 *
@@ -595,7 +595,7 @@ class Civi_WP_Member_Sync_BuddyPress {
 	// -----------------------------------------------------------------------------------
 
 	/**
-	 * Show the Expired Group header.
+	 * Shows the Expired Group header.
 	 *
 	 * @since 0.4.7
 	 */
@@ -607,7 +607,7 @@ class Civi_WP_Member_Sync_BuddyPress {
 	}
 
 	/**
-	 * Show the Expired BuddyPress Groups.
+	 * Shows the Expired BuddyPress Groups.
 	 *
 	 * @since 0.4.7
 	 *
@@ -629,7 +629,7 @@ class Civi_WP_Member_Sync_BuddyPress {
 	}
 
 	/**
-	 * Show the Expired Group.
+	 * Shows the Expired Group.
 	 *
 	 * @since 0.4.7
 	 *
@@ -643,7 +643,7 @@ class Civi_WP_Member_Sync_BuddyPress {
 	}
 
 	/**
-	 * Show the Expired Group.
+	 * Shows the Expired Group.
 	 *
 	 * @since 0.4.7
 	 *
@@ -666,7 +666,7 @@ class Civi_WP_Member_Sync_BuddyPress {
 	// -----------------------------------------------------------------------------------
 
 	/**
-	 * Show the Simulate header.
+	 * Shows the Simulate header.
 	 *
 	 * @since 0.5
 	 */
@@ -678,7 +678,7 @@ class Civi_WP_Member_Sync_BuddyPress {
 	}
 
 	/**
-	 * Show the Groups.
+	 * Shows the Groups.
 	 *
 	 * @since 0.5
 	 *
@@ -705,7 +705,7 @@ class Civi_WP_Member_Sync_BuddyPress {
 	// -----------------------------------------------------------------------------------
 
 	/**
-	 * Get the markup for a pseudo-list generated from a list of Groups data.
+	 * Gets the markup for a pseudo-list generated from a list of Groups data.
 	 *
 	 * @since 0.4.7
 	 *
@@ -746,7 +746,7 @@ class Civi_WP_Member_Sync_BuddyPress {
 	}
 
 	/**
-	 * Get the markup for options generated from a list of Groups data.
+	 * Gets the markup for options generated from a list of Groups data.
 	 *
 	 * @since 0.4.7
 	 *

@@ -49,6 +49,11 @@ defined( 'ABSPATH' ) || exit;
 		/**
 		 * Allows extra fields to be added after "Status".
 		 *
+		 * Used internally by:
+		 *
+		 * * Civi_WP_Member_Sync_BuddyPress::simulate_row() - Priority 10
+		 * * Civi_WP_Member_Sync_Groups::simulate_row() - Priority 10
+		 *
 		 * @since 0.5
 		 */
 		do_action( 'cwms/manual_sync/feedback/td', $item['membership_type_id'], $item );

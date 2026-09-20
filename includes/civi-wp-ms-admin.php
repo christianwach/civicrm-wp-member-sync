@@ -155,7 +155,7 @@ class Civi_WP_Member_Sync_Admin {
 	 *
 	 * @since 0.1
 	 *
-	 * @param object $plugin The plugin object.
+	 * @param Civi_WP_Member_Sync $plugin The plugin object.
 	 */
 	public function __construct( $plugin ) {
 
@@ -168,7 +168,7 @@ class Civi_WP_Member_Sync_Admin {
 	}
 
 	/**
-	 * Perform activation tasks.
+	 * Performs activation tasks.
 	 *
 	 * @since 0.1
 	 */
@@ -185,7 +185,7 @@ class Civi_WP_Member_Sync_Admin {
 	}
 
 	/**
-	 * Perform deactivation tasks.
+	 * Performs deactivation tasks.
 	 *
 	 * @since 0.1
 	 */
@@ -194,7 +194,7 @@ class Civi_WP_Member_Sync_Admin {
 	}
 
 	/**
-	 * Test if this plugin is network activated.
+	 * Checks if this plugin is network activated.
 	 *
 	 * @since 0.2.7
 	 *
@@ -231,7 +231,7 @@ class Civi_WP_Member_Sync_Admin {
 	}
 
 	/**
-	 * Initialise this object.
+	 * Initialises this object.
 	 *
 	 * @since 0.1
 	 */
@@ -252,6 +252,10 @@ class Civi_WP_Member_Sync_Admin {
 		/**
 		 * Fires when this class is loaded.
 		 *
+		 * Used internally by:
+		 *
+		 * * Civi_WP_Member_Sync_Admin_CAU::initialise() - Priority 1
+		 *
 		 * @since 0.5
 		 */
 		do_action( 'cwms/admin/loaded' );
@@ -259,7 +263,7 @@ class Civi_WP_Member_Sync_Admin {
 	}
 
 	/**
-	 * Initialise settings.
+	 * Initialises plugin settings.
 	 *
 	 * @since 0.5
 	 */
@@ -285,7 +289,7 @@ class Civi_WP_Member_Sync_Admin {
 	}
 
 	/**
-	 * Include files.
+	 * Includes files.
 	 *
 	 * @since 0.5
 	 */
@@ -297,7 +301,7 @@ class Civi_WP_Member_Sync_Admin {
 	}
 
 	/**
-	 * Set up this plugin's objects.
+	 * Sets up this plugin's objects.
 	 *
 	 * @since 0.5
 	 */
@@ -309,7 +313,7 @@ class Civi_WP_Member_Sync_Admin {
 	}
 
 	/**
-	 * Register hooks.
+	 * Registers hook callbacks.
 	 *
 	 * @since 0.5
 	 */
@@ -330,7 +334,7 @@ class Civi_WP_Member_Sync_Admin {
 	}
 
 	/**
-	 * Perform upgrade tasks.
+	 * Performs upgrade tasks.
 	 *
 	 * @since 0.2.7
 	 */
@@ -366,7 +370,7 @@ class Civi_WP_Member_Sync_Admin {
 	}
 
 	/**
-	 * Utility to do stuff when a settings upgrade is required.
+	 * Performs tasks when a settings upgrade is required.
 	 *
 	 * @since 0.3.6
 	 */
@@ -385,7 +389,7 @@ class Civi_WP_Member_Sync_Admin {
 	}
 
 	/**
-	 * Store the plugin version.
+	 * Stores the plugin version.
 	 *
 	 * @since 0.1
 	 */
@@ -427,7 +431,7 @@ class Civi_WP_Member_Sync_Admin {
 	// -----------------------------------------------------------------------------------
 
 	/**
-	 * Add this plugin's Settings Page to the WordPress admin menu.
+	 * Adds this plugin's Settings Page to the WordPress admin menu.
 	 *
 	 * @since 0.1
 	 */
@@ -544,7 +548,7 @@ class Civi_WP_Member_Sync_Admin {
 	}
 
 	/**
-	 * Tell WordPress to highlight the plugin's menu item, regardless of which
+	 * Tells WordPress to highlight the plugin's menu item, regardless of which
 	 * actual admin screen we are on.
 	 *
 	 * @since 0.1
@@ -575,7 +579,7 @@ class Civi_WP_Member_Sync_Admin {
 	}
 
 	/**
-	 * Initialise plugin help.
+	 * Initialises plugin help.
 	 *
 	 * @since 0.1
 	 */
@@ -590,7 +594,7 @@ class Civi_WP_Member_Sync_Admin {
 	}
 
 	/**
-	 * Enqueue common stylesheet for this plugin's admin pages.
+	 * Enqueues common stylesheet for this plugin's admin pages.
 	 *
 	 * @since 0.1
 	 *
@@ -610,7 +614,7 @@ class Civi_WP_Member_Sync_Admin {
 	}
 
 	/**
-	 * Enqueue stylesheet for this plugin's "Manual Sync" page.
+	 * Enqueues stylesheet for this plugin's "Manual Sync" page.
 	 *
 	 * @since 0.2.8
 	 */
@@ -628,7 +632,7 @@ class Civi_WP_Member_Sync_Admin {
 	}
 
 	/**
-	 * Enqueue required scripts on the Manual Sync page.
+	 * Enqueues required scripts on the Manual Sync page.
 	 *
 	 * @since 0.2.8
 	 */
@@ -674,7 +678,7 @@ class Civi_WP_Member_Sync_Admin {
 	}
 
 	/**
-	 * Enqueue stylesheets for this plugin's "Add Rule" and "Edit Rule" page.
+	 * Enqueues stylesheets for this plugin's "Add Rule" and "Edit Rule" page.
 	 *
 	 * @since 0.4
 	 */
@@ -698,7 +702,7 @@ class Civi_WP_Member_Sync_Admin {
 	}
 
 	/**
-	 * Enqueue required scripts on the Add Rule and Edit Rule pages.
+	 * Enqueues required scripts on the Add Rule and Edit Rule pages.
 	 *
 	 * @since 0.1
 	 */
@@ -785,7 +789,7 @@ class Civi_WP_Member_Sync_Admin {
 	}
 
 	/**
-	 * Enqueue required scripts on the List Rules page.
+	 * Enqueues required scripts on the List Rules page.
 	 *
 	 * @since 0.4.2
 	 */
@@ -833,8 +837,8 @@ class Civi_WP_Member_Sync_Admin {
 	 *
 	 * @since 0.1
 	 *
-	 * @param object $screen The existing WordPress screen object.
-	 * @return object $screen The amended WordPress screen object.
+	 * @param WP_Screen $screen The existing WordPress screen object.
+	 * @return WP_Screen $screen The amended WordPress screen object.
 	 */
 	public function admin_help( $screen ) {
 
@@ -873,7 +877,7 @@ class Civi_WP_Member_Sync_Admin {
 	}
 
 	/**
-	 * Get help text.
+	 * Gets help text.
 	 *
 	 * @since 0.1
 	 *
@@ -892,7 +896,7 @@ class Civi_WP_Member_Sync_Admin {
 	// -----------------------------------------------------------------------------------
 
 	/**
-	 * Filter CSS dependencies on the "Add Rule" and "Edit Rule" pages.
+	 * Filters CSS dependencies on the "Add Rule" and "Edit Rule" pages.
 	 *
 	 * @since 0.4
 	 * @since 0.4.2 Moved into this class.
@@ -935,7 +939,7 @@ class Civi_WP_Member_Sync_Admin {
 	}
 
 	/**
-	 * Filter script dependencies on the "Add Rule" and "Edit Rule" pages.
+	 * Filters script dependencies on the "Add Rule" and "Edit Rule" pages.
 	 *
 	 * @since 0.4
 	 * @since 0.4.2 Moved into this class.
@@ -981,7 +985,7 @@ class Civi_WP_Member_Sync_Admin {
 	// -----------------------------------------------------------------------------------
 
 	/**
-	 * Show settings page.
+	 * Shows the settings page.
 	 *
 	 * @since 0.1
 	 */
@@ -1043,7 +1047,7 @@ class Civi_WP_Member_Sync_Admin {
 	}
 
 	/**
-	 * Show manual sync page.
+	 * Shows the Manual Sync page.
 	 *
 	 * @since 0.1
 	 */
@@ -1066,7 +1070,7 @@ class Civi_WP_Member_Sync_Admin {
 	}
 
 	/**
-	 * Show rules list page.
+	 * Shows the Rules List page.
 	 *
 	 * @since 0.1
 	 */
@@ -1130,7 +1134,7 @@ class Civi_WP_Member_Sync_Admin {
 	}
 
 	/**
-	 * Decide whether to show add or edit page.
+	 * Decides whether to show Add or Edit page.
 	 *
 	 * @since 0.1
 	 */
@@ -1188,7 +1192,7 @@ class Civi_WP_Member_Sync_Admin {
 	}
 
 	/**
-	 * Show add rule page.
+	 * Shows Add Rule page.
 	 *
 	 * @since 0.1
 	 */
@@ -1256,7 +1260,7 @@ class Civi_WP_Member_Sync_Admin {
 	}
 
 	/**
-	 * Show edit rule page.
+	 * Shows Edit Rule page.
 	 *
 	 * @since 0.1
 	 */
@@ -1346,7 +1350,7 @@ class Civi_WP_Member_Sync_Admin {
 	// -----------------------------------------------------------------------------------
 
 	/**
-	 * Get admin page URLs.
+	 * Gets the admin page URLs.
 	 *
 	 * @since 0.1
 	 *
@@ -1387,7 +1391,7 @@ class Civi_WP_Member_Sync_Admin {
 	}
 
 	/**
-	 * Get the url to access a particular menu page based on the slug it was registered with.
+	 * Gets the URL to access a particular menu page based on the slug it was registered with.
 	 * If the slug hasn't been registered properly no url will be returned.
 	 *
 	 * @since 0.1
@@ -1423,7 +1427,7 @@ class Civi_WP_Member_Sync_Admin {
 	}
 
 	/**
-	 * Get the URL for the form action.
+	 * Gets the URL for the form action.
 	 *
 	 * @since 0.1
 	 *
@@ -1484,7 +1488,7 @@ class Civi_WP_Member_Sync_Admin {
 			 *
 			 * Used internally by:
 			 *
-			 * * Civi_WP_Member_Sync_Groups::groups_pre_sync() (Priority: 10)
+			 * * Civi_WP_Member_Sync_Groups::groups_pre_sync() - Priority 10
 			 *
 			 * @since 0.1
 			 */
@@ -1544,7 +1548,7 @@ class Civi_WP_Member_Sync_Admin {
 	}
 
 	/**
-	 * Get default plugin settings.
+	 * Gets the default plugin settings.
 	 *
 	 * @since 0.1
 	 *
@@ -1588,7 +1592,7 @@ class Civi_WP_Member_Sync_Admin {
 	}
 
 	/**
-	 * Update plugin settings.
+	 * Updates the plugin settings.
 	 *
 	 * @since 0.1
 	 */
@@ -1695,7 +1699,7 @@ class Civi_WP_Member_Sync_Admin {
 	}
 
 	/**
-	 * Save the plugin's settings array.
+	 * Saves the plugin's settings array.
 	 *
 	 * @since 0.1
 	 *
@@ -1709,7 +1713,7 @@ class Civi_WP_Member_Sync_Admin {
 	}
 
 	/**
-	 * Check whether a specified setting exists.
+	 * Checks whether a specified setting exists.
 	 *
 	 * @since 0.3.6
 	 *
@@ -1724,12 +1728,12 @@ class Civi_WP_Member_Sync_Admin {
 	}
 
 	/**
-	 * Return a value for a specified setting.
+	 * Returns a value for a specified setting.
 	 *
 	 * @since 0.1
 	 *
-	 * @param str   $setting_name The name of the setting.
-	 * @param mixed $default The default return value if no value exists.
+	 * @param string $setting_name The name of the setting.
+	 * @param mixed  $default The default return value if no value exists.
 	 * @return mixed $setting The value of the setting.
 	 */
 	public function setting_get( $setting_name, $default = false ) {
@@ -1740,12 +1744,12 @@ class Civi_WP_Member_Sync_Admin {
 	}
 
 	/**
-	 * Set a value for a specified setting.
+	 * Sets a value for a specified setting.
 	 *
 	 * @since 0.1
 	 *
-	 * @param str   $setting_name The name of the setting.
-	 * @param mixed $value The value to set.
+	 * @param string $setting_name The name of the setting.
+	 * @param mixed  $value The value to set.
 	 */
 	public function setting_set( $setting_name, $value = '' ) {
 
@@ -1755,13 +1759,13 @@ class Civi_WP_Member_Sync_Admin {
 	}
 
 	/**
-	 * Return the value for the 'method' setting.
+	 * Returns the value for the 'method' setting.
 	 *
 	 * Added as a separate method to ensure that only one of two values is returned.
 	 *
 	 * @since 0.3.6
 	 *
-	 * @return str $method The value of the 'method' setting.
+	 * @return string $method The value of the 'method' setting.
 	 */
 	public function setting_get_method() {
 
@@ -1775,7 +1779,7 @@ class Civi_WP_Member_Sync_Admin {
 	}
 
 	/**
-	 * Return the value for the batch count.
+	 * Returns the value for the batch count.
 	 *
 	 * Added as a separate method to allow filtering.
 	 *
@@ -1809,7 +1813,7 @@ class Civi_WP_Member_Sync_Admin {
 	// -----------------------------------------------------------------------------------
 
 	/**
-	 * Get the CiviCRM Contact field to use as the WordPress username source.
+	 * Gets the CiviCRM Contact field to use as the WordPress username source.
 	 *
 	 * @since 0.6.0
 	 *
@@ -1825,7 +1829,7 @@ class Civi_WP_Member_Sync_Admin {
 	// -----------------------------------------------------------------------------------
 
 	/**
-	 * Get a WordPress option.
+	 * Gets a WordPress option.
 	 *
 	 * @since 0.2.7
 	 *
@@ -1848,7 +1852,7 @@ class Civi_WP_Member_Sync_Admin {
 	}
 
 	/**
-	 * Save a WordPress option.
+	 * Saves a WordPress option.
 	 *
 	 * @since 0.2.7
 	 *
@@ -1867,7 +1871,7 @@ class Civi_WP_Member_Sync_Admin {
 	}
 
 	/**
-	 * Delete a WordPress option.
+	 * Deletes a WordPress option.
 	 *
 	 * @since 0.2.7
 	 *
@@ -1887,7 +1891,7 @@ class Civi_WP_Member_Sync_Admin {
 	// -----------------------------------------------------------------------------------
 
 	/**
-	 * Get all association rules by method.
+	 * Gets all Association Rules by method.
 	 *
 	 * @since 0.1
 	 *
@@ -1911,7 +1915,7 @@ class Civi_WP_Member_Sync_Admin {
 	}
 
 	/**
-	 * Clear all association rules for the current method.
+	 * Clears all Association Rules for the current method.
 	 *
 	 * @since 0.4.2
 	 */
@@ -1933,14 +1937,18 @@ class Civi_WP_Member_Sync_Admin {
 		foreach ( $subset as $type_id => $rule ) {
 
 			/**
-			 * Fires just before deleting an association rule.
+			 * Fires just before deleting an Association Rule.
 			 *
 			 * This creates two actions, depending on the sync method:
 			 *
 			 * * `civi_wp_member_sync_rule_delete_roles`
 			 * * `civi_wp_member_sync_rule_delete_capabilities`
 			 *
-			 * @param array $rule The association rule we're going to delete.
+			 * Used internally by:
+			 *
+			 * * Civi_WP_Member_Sync_Groups::groups_delete_cap() - Priority 10
+			 *
+			 * @param array $rule The Association Rule we're going to delete.
 			 */
 			do_action( 'civi_wp_member_sync_rule_delete_' . $method, $rule );
 
@@ -1965,7 +1973,7 @@ class Civi_WP_Member_Sync_Admin {
 	}
 
 	/**
-	 * Get an association rule by Membership Type ID.
+	 * Gets an Association Rule by Membership Type ID.
 	 *
 	 * @since 0.1
 	 *
@@ -1993,7 +2001,7 @@ class Civi_WP_Member_Sync_Admin {
 	}
 
 	/**
-	 * Update (or add) a Membership rule.
+	 * Updates (or adds) a Membership rule.
 	 *
 	 * @since 0.1
 	 *
@@ -2263,12 +2271,12 @@ class Civi_WP_Member_Sync_Admin {
 	}
 
 	/**
-	 * Create a Membership rule array.
+	 * Creates a Membership rule array.
 	 *
 	 * @since 0.4.2
 	 *
-	 * @param str   $method The sync method.
-	 * @param array $params The params to build the array from.
+	 * @param string $method The sync method.
+	 * @param array  $params The params to build the array from.
 	 * @return array $rule The constructed rule array.
 	 */
 	public function rule_create_array( $method, $params ) {
@@ -2303,14 +2311,14 @@ class Civi_WP_Member_Sync_Admin {
 	}
 
 	/**
-	 * Save a Membership rule.
+	 * Saves a Membership rule.
 	 *
 	 * @since 0.4.2
 	 *
-	 * @param array $rule The new or updated association rule.
-	 * @param str   $mode The mode ('add' or 'edit').
-	 * @param str   $method The sync method.
-	 * @param int   $civi_member_type_id The numeric ID of the Membership Type.
+	 * @param array  $rule The new or updated Association Rule.
+	 * @param string $mode The mode ('add' or 'edit').
+	 * @param string $method The sync method.
+	 * @param int    $civi_member_type_id The numeric ID of the Membership Type.
 	 */
 	public function rule_save( $rule, $mode, $method, $civi_member_type_id ) {
 
@@ -2318,19 +2326,19 @@ class Civi_WP_Member_Sync_Admin {
 		$data = $this->setting_get( 'data' );
 
 		/**
-		 * Filter our association rule before it is saved.
+		 * Filters the Association Rule before it is saved.
 		 *
 		 * @since 0.4
 		 *
-		 * @param array $rule The new or updated association rule.
-		 * @param array $data The complete set of association rule.
-		 * @param str $mode The mode ('add' or 'edit').
-		 * @param str $method The sync method.
+		 * @param array  $rule The new or updated Association Rule.
+		 * @param array  $data The complete set of Association Rule.
+		 * @param string $mode The mode ('add' or 'edit').
+		 * @param string $method The sync method.
 		 */
 		$rule = apply_filters( 'civi_wp_member_sync_rule_pre_save', $rule, $data, $mode, $method );
 
 		/**
-		 * Fires just before an association rule is saved.
+		 * Fires just before an Association Rule is saved.
 		 *
 		 * This creates four possible actions:
 		 *
@@ -2339,9 +2347,14 @@ class Civi_WP_Member_Sync_Admin {
 		 * * `civi_wp_member_sync_rule_edit_roles`
 		 * * `civi_wp_member_sync_rule_edit_capabilities`
 		 *
+		 * Used internally by:
+		 *
+		 * * Civi_WP_Member_Sync_Groups::groups_add_cap() - Priority 10
+		 * * Civi_WP_Member_Sync_Groups::groups_edit_cap() - Priority 10
+		 *
 		 * @since 0.2.3
 		 *
-		 * @param array $rule The new or updated association rule.
+		 * @param array $rule The new or updated Association Rule.
 		 */
 		do_action( 'civi_wp_member_sync_rule_' . $mode . '_' . $method, $rule );
 
@@ -2355,7 +2368,7 @@ class Civi_WP_Member_Sync_Admin {
 		$this->settings_save();
 
 		/**
-		 * Fires just after an association rule has been saved.
+		 * Fires just after an Association Rule has been saved.
 		 *
 		 * This creates four possible actions:
 		 *
@@ -2366,16 +2379,16 @@ class Civi_WP_Member_Sync_Admin {
 		 *
 		 * @since 0.3.9
 		 *
-		 * @param array $rule The new or updated association rule.
-		 * @param str $method The sync method.
-		 * @param int $civi_member_type_id The numeric ID of the CiviCRM Membership Type.
+		 * @param array  $rule The new or updated Association Rule.
+		 * @param string $method The sync method.
+		 * @param int    $civi_member_type_id The numeric ID of the CiviCRM Membership Type.
 		 */
 		do_action( 'civi_wp_member_sync_rule_' . $mode . '_' . $method . '_saved', $rule, $method, $civi_member_type_id );
 
 	}
 
 	/**
-	 * Delete a Membership rule.
+	 * Deletes a Membership rule.
 	 *
 	 * @since 0.1
 	 *
@@ -2414,14 +2427,20 @@ class Civi_WP_Member_Sync_Admin {
 		}
 
 		/**
-		 * Fires just before deleting an association rule.
+		 * Fires just before deleting an Association Rule.
 		 *
 		 * This creates two actions, depending on the sync method:
 		 *
 		 * * `civi_wp_member_sync_rule_delete_roles`
 		 * * `civi_wp_member_sync_rule_delete_capabilities`
 		 *
-		 * @param array The association rule we're going to delete.
+		 * Used internally by:
+		 *
+		 * * Civi_WP_Member_Sync_Groups::groups_delete_cap() - Priority 10
+		 *
+		 * @since 0.2.3
+		 *
+		 * @param array The Association Rule we're going to delete.
 		 */
 		do_action( 'civi_wp_member_sync_rule_delete_' . $method, $subset[ $type_id ] );
 
@@ -2482,7 +2501,7 @@ class Civi_WP_Member_Sync_Admin {
 	}
 
 	/**
-	 * Check if there is at least one rule applied to a set of Memberships.
+	 * Checks if there is at least one rule applied to a set of Memberships.
 	 *
 	 * The reason for this method is, as @andymyersau points out, that Users
 	 * should not be created unless there is an Association Rule that applies
@@ -2526,7 +2545,7 @@ class Civi_WP_Member_Sync_Admin {
 			// Get Membership Type.
 			$membership_type_id = $membership['membership_type_id'];
 
-			// Get association rule for this Membership Type.
+			// Get Association Rule for this Membership Type.
 			$association_rule = $this->rule_get_by_type( $membership_type_id, $method );
 
 			// Continue with next Membership if we have an error or no rule exists.
@@ -2578,13 +2597,13 @@ class Civi_WP_Member_Sync_Admin {
 	}
 
 	/**
-	 * Manage WordPress Roles or Capabilities based on the status of a User's Memberships.
+	 * Manages WordPress Roles or Capabilities based on the status of a User's Memberships.
 	 *
 	 * The following notes are to describe how this method should be enhanced:
 	 *
 	 * There are sometimes situations - when there are multiple Roles assigned via
 	 * multiple Memberships - where a Role may be incorrectly removed (and perhaps
-	 * added but I haven't tested that fully yet) if the association rules share a
+	 * added but I haven't tested that fully yet) if the Association Rules share a
 	 * common "expired" Role, such as "Anonymous User".
 	 *
 	 * The current logic may remove the expired Role because other rules may be
@@ -2639,7 +2658,7 @@ class Civi_WP_Member_Sync_Admin {
 			$membership_type_id = $membership['membership_type_id'];
 			$status_id          = $membership['status_id'];
 
-			// Get association rule for this Membership Type.
+			// Get Association Rule for this Membership Type.
 			$association_rule = $this->rule_get_by_type( $membership_type_id, $method );
 
 			// Continue with next rule if we have an error of some kind.
@@ -2669,7 +2688,7 @@ class Civi_WP_Member_Sync_Admin {
 					continue;
 				}
 
-				// Get Roles for this association rule.
+				// Get Roles for this Association Rule.
 				$current_wp_role = $association_rule['current_wp_role'];
 				$expired_wp_role = $association_rule['expired_wp_role'];
 
@@ -2714,12 +2733,19 @@ class Civi_WP_Member_Sync_Admin {
 				 * * `civi_wp_member_sync_rule_apply_roles_current`
 				 * * `civi_wp_member_sync_rule_apply_roles_expired`
 				 *
+				 * Used internally by:
+				 *
+				 * * Civi_WP_Member_Sync_BuddyPress::rule_apply_caps_current() - Priority 10
+				 * * Civi_WP_Member_Sync_BuddyPress::rule_apply_caps_exipred() - Priority 10
+				 * * Civi_WP_Member_Sync_Groups::rule_apply_caps_current() - Priority 10
+				 * * Civi_WP_Member_Sync_Groups::rule_apply_caps_exipred() - Priority 10
+				 *
 				 * @since 0.3.2
 				 *
 				 * @param WP_User $user The WordPress User object.
-				 * @param int $membership_type_id The ID of the CiviCRM Membership Type.
-				 * @param int $status_id The ID of the CiviCRM Membership Status.
-				 * @param array $association_rule The rule used to apply the changes.
+				 * @param int     $membership_type_id The ID of the CiviCRM Membership Type.
+				 * @param int     $status_id The ID of the CiviCRM Membership Status.
+				 * @param array   $association_rule The rule used to apply the changes.
 				 */
 				do_action( 'civi_wp_member_sync_rule_apply_roles_' . $flag, $user, $membership_type_id, $status_id, $association_rule );
 
@@ -2783,14 +2809,21 @@ class Civi_WP_Member_Sync_Admin {
 				 * $capability and $status_id and is therefore not needed when
 				 * firing this action.
 				 *
+				 * Used internally by:
+				 *
+				 * * Civi_WP_Member_Sync_BuddyPress::rule_apply_caps_current() - Priority 10
+				 * * Civi_WP_Member_Sync_BuddyPress::rule_apply_caps_expired() - Priority 10
+				 * * Civi_WP_Member_Sync_Groups::rule_apply_caps_current() - Priority 10
+				 * * Civi_WP_Member_Sync_Groups::rule_apply_caps_expired() - Priority 10
+				 *
 				 * @since 0.3.2
-				 * @since 0.4 Added association rule parameter.
+				 * @since 0.4 Added Association Rule parameter.
 				 *
 				 * @param WP_User $user The WordPress User object.
-				 * @param int $membership_type_id The ID of the CiviCRM Membership Type.
-				 * @param int $status_id The ID of the CiviCRM Membership Status.
-				 * @param array $capability The Membership Type Capability added or removed.
-				 * @param array $association_rule The rule used to apply the changes.
+				 * @param int     $membership_type_id The ID of the CiviCRM Membership Type.
+				 * @param int     $status_id The ID of the CiviCRM Membership Status.
+				 * @param array   $capability The Membership Type Capability added or removed.
+				 * @param array   $association_rule The rule used to apply the changes.
 				 */
 				do_action( 'civi_wp_member_sync_rule_apply_caps_' . $flag, $user, $membership_type_id, $status_id, $capability, $association_rule );
 
@@ -2827,8 +2860,8 @@ class Civi_WP_Member_Sync_Admin {
 		 * @since 0.3.6
 		 *
 		 * @param WP_User $user The WordPress User object.
-		 * @param array $memberships The Memberships of the WordPress User in question.
-		 * @param str $method The sync method - either 'caps' or 'roles'.
+		 * @param array   $memberships The Memberships of the WordPress User in question.
+		 * @param string  $method The sync method - either 'caps' or 'roles'.
 		 */
 		do_action( 'civi_wp_member_sync_rules_applied', $user, $memberships, $method );
 
@@ -2838,7 +2871,7 @@ class Civi_WP_Member_Sync_Admin {
 	}
 
 	/**
-	 * Simulate the application of "rule_apply".
+	 * Simulates the application of "rule_apply".
 	 *
 	 * Adding a new param to "rule_apply" would still fire the actions in that
 	 * method - which could have unforeseen consequences. This method simply
@@ -2883,7 +2916,7 @@ class Civi_WP_Member_Sync_Admin {
 			$membership_type_id = $membership['membership_type_id'];
 			$status_id          = $membership['status_id'];
 
-			// Get association rule for this Membership Type.
+			// Get Association Rule for this Membership Type.
 			$association_rule = $this->rule_get_by_type( $membership_type_id, $method );
 
 			// Continue with next rule if we have an error of some kind.
@@ -2959,13 +2992,13 @@ class Civi_WP_Member_Sync_Admin {
 		}
 
 		/**
-		 * Filter the return array.
+		 * Filters the return array.
 		 *
 		 * @since 0.5
 		 *
 		 * @param WP_User $user The WordPress User object.
-		 * @param array $memberships The Memberships of the WordPress User in question.
-		 * @param str $method The sync method - either 'caps' or 'roles'.
+		 * @param array   $memberships The Memberships of the WordPress User in question.
+		 * @param string  $method The sync method - either 'caps' or 'roles'.
 		 */
 		$result = apply_filters( 'cwms/admin/rule_simulate/applied', $result, $user, $memberships, $method );
 
@@ -2975,7 +3008,7 @@ class Civi_WP_Member_Sync_Admin {
 	}
 
 	/**
-	 * Remove WordPress Role or Capability when a Membership is deleted.
+	 * Removes WordPress Role or Capability when a Membership is deleted.
 	 *
 	 * This method is called:
 	 *
@@ -2987,8 +3020,8 @@ class Civi_WP_Member_Sync_Admin {
 	 *
 	 * @since 0.1
 	 *
-	 * @param WP_User $user WP_User object of the User in question.
-	 * @param object  $membership The Membership details of the WordPress User in question.
+	 * @param WP_User  $user WP_User object of the User in question.
+	 * @param stdClass $membership The Membership details of the WordPress User in question.
 	 */
 	public function rule_undo( $user, $membership = false ) {
 
@@ -3077,12 +3110,17 @@ class Civi_WP_Member_Sync_Admin {
 			/**
 			 * Fires after undoing a rule for a User when syncing Roles.
 			 *
+			 * Used internally by:
+			 *
+			 * * Civi_WP_Member_Sync_BuddyPress::rule_undo() - Priority 10
+			 * * Civi_WP_Member_Sync_Groups::rule_undo() - Priority 10
+			 *
 			 * @since 0.5.2
 			 *
-			 * @param WP_User $user The WordPress User object.
-			 * @param object $membership The CiviCRM Membership data object.
-			 * @param array $association_rule The rule used to apply the changes.
-			 * @param array $memberships The array of remaining CiviCRM Memberships.
+			 * @param WP_User  $user The WordPress User object.
+			 * @param stdClass $membership The CiviCRM Membership data object.
+			 * @param array    $association_rule The rule used to apply the changes.
+			 * @param array    $memberships The array of remaining CiviCRM Memberships.
 			 */
 			do_action( 'civi_wp_member_sync_rule_undo_roles', $user, $membership, $association_rule, $memberships );
 
@@ -3108,13 +3146,18 @@ class Civi_WP_Member_Sync_Admin {
 			/**
 			 * Fires after undoing a rule for a User when syncing Capabilities.
 			 *
+			 * Used internally by:
+			 *
+			 * * Civi_WP_Member_Sync_BuddyPress::rule_undo() - Priority 10
+			 * * Civi_WP_Member_Sync_Groups::rule_undo() - Priority 10
+			 *
 			 * @since 0.5.2
 			 *
-			 * @param WP_User $user The WordPress User object.
-			 * @param object $membership The CiviCRM Membership data object.
-			 * @param array $association_rule The rule used to apply the changes.
-			 * @param array $memberships The array of remaining CiviCRM Memberships.
-			 * @param array $capability The Membership Type Capability removed.
+			 * @param WP_User  $user The WordPress User object.
+			 * @param stdClass $membership The CiviCRM Membership data object.
+			 * @param array    $association_rule The rule used to apply the changes.
+			 * @param array    $memberships The array of remaining CiviCRM Memberships.
+			 * @param array    $capability The Membership Type Capability removed.
 			 */
 			do_action( 'civi_wp_member_sync_rule_undo_caps', $user, $membership, $association_rule, $memberships, $capability );
 
@@ -3125,10 +3168,10 @@ class Civi_WP_Member_Sync_Admin {
 		 *
 		 * @since 0.5.2
 		 *
-		 * @param WP_User $user The WordPress User object.
-		 * @param object $membership The CiviCRM Membership data object.
-		 * @param str $method The sync method - either 'caps' or 'roles'.
-		 * @param array $memberships The array of remaining CiviCRM Memberships.
+		 * @param WP_User  $user The WordPress User object.
+		 * @param stdClass $membership The CiviCRM Membership data object.
+		 * @param string   $method The sync method - either 'caps' or 'roles'.
+		 * @param array    $memberships The array of remaining CiviCRM Memberships.
 		 */
 		do_action( 'civi_wp_member_sync_rule_undone', $user, $membership, $method, $memberships );
 
@@ -3137,12 +3180,12 @@ class Civi_WP_Member_Sync_Admin {
 	// -----------------------------------------------------------------------------------
 
 	/**
-	 * Get a CiviCRM admin link.
+	 * Gets a CiviCRM admin link.
 	 *
 	 * @since 0.5
 	 *
-	 * @param str $path The CiviCRM path.
-	 * @param str $params The CiviCRM parameters.
+	 * @param string $path The CiviCRM path.
+	 * @param string $params The CiviCRM parameters.
 	 * @return string $link The URL of the CiviCRM page.
 	 */
 	public function get_link( $path = '', $params = null ) {
@@ -3174,7 +3217,7 @@ class Civi_WP_Member_Sync_Admin {
 	// -----------------------------------------------------------------------------------
 
 	/**
-	 * Check if CiviCRM Admin Utilities has been installed and activated.
+	 * Checks if CiviCRM Admin Utilities has been installed and activated.
 	 *
 	 * @since 0.7
 	 *
@@ -3193,7 +3236,7 @@ class Civi_WP_Member_Sync_Admin {
 	}
 
 	/**
-	 * Check if the CiviCRM Admin Utilities version meets the requirements.
+	 * Checks if the CiviCRM Admin Utilities version meets the requirements.
 	 *
 	 * @since 0.7
 	 *
@@ -3217,7 +3260,7 @@ class Civi_WP_Member_Sync_Admin {
 	}
 
 	/**
-	 * Check if CiviCRM Admin Utilities has been properly configured.
+	 * Checks if CiviCRM Admin Utilities has been properly configured.
 	 *
 	 * @since 0.7
 	 *
@@ -3241,7 +3284,7 @@ class Civi_WP_Member_Sync_Admin {
 	}
 
 	/**
-	 * Get the link to the CiviCRM Admin Utilities "Settings" page.
+	 * Gets the link to the CiviCRM Admin Utilities "Settings" page.
 	 *
 	 * @since 0.7
 	 *

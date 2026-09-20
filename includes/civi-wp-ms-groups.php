@@ -55,7 +55,7 @@ class Civi_WP_Member_Sync_Groups {
 	 *
 	 * @since 0.3.9
 	 *
-	 * @param object $plugin The plugin object.
+	 * @param Civi_WP_Member_Sync $plugin The plugin object.
 	 */
 	public function __construct( $plugin ) {
 
@@ -68,7 +68,7 @@ class Civi_WP_Member_Sync_Groups {
 	}
 
 	/**
-	 * Initialise this object.
+	 * Initialises this object.
 	 *
 	 * @since 0.3.9
 	 */
@@ -96,7 +96,7 @@ class Civi_WP_Member_Sync_Groups {
 	// -----------------------------------------------------------------------------------
 
 	/**
-	 * Register "Groups" plugin hooks if it's present.
+	 * Registers "Groups" plugin hooks if it's present.
 	 *
 	 * @since 0.2.3
 	 * @since 0.3.9 Moved into this class.
@@ -183,7 +183,7 @@ class Civi_WP_Member_Sync_Groups {
 	// -----------------------------------------------------------------------------------
 
 	/**
-	 * Search for Groups on the "Add Rule" and "Edit Rule" pages.
+	 * Searches for Groups on the "Add Rule" and "Edit Rule" pages.
 	 *
 	 * We still need to exclude Groups which are present in the "opposite"
 	 * select - i.e. exclude current Groups from expiry and vice versa.
@@ -266,7 +266,7 @@ class Civi_WP_Member_Sync_Groups {
 	// -----------------------------------------------------------------------------------
 
 	/**
-	 * Intercept Rule Apply when method is "capabilities" and Membership is "current".
+	 * Intercepts Rule Apply when method is "capabilities" and Membership is "current".
 	 *
 	 * We need this method because the two related actions have different
 	 * signatures - `civi_wp_member_sync_rule_apply_caps_current` also passes
@@ -288,7 +288,7 @@ class Civi_WP_Member_Sync_Groups {
 	}
 
 	/**
-	 * Intercept Rule Apply when method is "capabilities" and Membership is "expired".
+	 * Intercepts Rule Apply when method is "capabilities" and Membership is "expired".
 	 *
 	 * We need this method because the two related actions have different
 	 * signatures - `civi_wp_member_sync_rule_apply_caps_current` also passes
@@ -310,7 +310,7 @@ class Civi_WP_Member_Sync_Groups {
 	}
 
 	/**
-	 * Intercept Rule Apply when Membership is "current".
+	 * Intercepts Rule Apply when Membership is "current".
 	 *
 	 * @since 0.4
 	 *
@@ -366,17 +366,17 @@ class Civi_WP_Member_Sync_Groups {
 	}
 
 	/**
-	 * Intercept Rule Undo when Membership is deleted.
+	 * Intercepts Rule Undo when Membership is deleted.
 	 *
 	 * We remove the User from both "current" and "expired" Groups, since there should
 	 * be no remaining trace of the Membership.
 	 *
 	 * @since 0.6.3
 	 *
-	 * @param WP_User $user The WordPress User object.
-	 * @param object  $membership The CiviCRM Membership data object.
-	 * @param array   $association_rule The rule used to apply the changes.
-	 * @param array   $memberships The array of remaining CiviCRM Memberships.
+	 * @param WP_User  $user The WordPress User object.
+	 * @param stdClass $membership The CiviCRM Membership data object.
+	 * @param array    $association_rule The rule used to apply the changes.
+	 * @param array    $memberships The array of remaining CiviCRM Memberships.
 	 */
 	public function rule_undo( $user, $membership, $association_rule, $memberships ) {
 
@@ -399,7 +399,7 @@ class Civi_WP_Member_Sync_Groups {
 	// -----------------------------------------------------------------------------------
 
 	/**
-	 * Add a WordPress User to a "Groups" Group.
+	 * Adds a WordPress User to a "Groups" Group.
 	 *
 	 * @since 0.4
 	 *
@@ -443,7 +443,7 @@ class Civi_WP_Member_Sync_Groups {
 	}
 
 	/**
-	 * Delete a WordPress User from a "Groups" Group.
+	 * Deletes a WordPress User from a "Groups" Group.
 	 *
 	 * @since 0.4
 	 *
@@ -483,14 +483,14 @@ class Civi_WP_Member_Sync_Groups {
 	// -----------------------------------------------------------------------------------
 
 	/**
-	 * Amend the association rule that is about to be saved.
+	 * Amends the Association Rule that is about to be saved.
 	 *
 	 * @since 0.4
 	 *
-	 * @param array $rule The new or updated association rule.
-	 * @param array $data The complete set of association rule.
-	 * @param str   $mode The mode ('add' or 'edit').
-	 * @param str   $method The sync method.
+	 * @param array  $rule The new or updated Association Rule.
+	 * @param array  $data The complete set of Association Rule.
+	 * @param string $mode The mode ('add' or 'edit').
+	 * @param string $method The sync method.
 	 */
 	public function rule_pre_save( $rule, $data, $mode, $method ) {
 
@@ -538,7 +538,7 @@ class Civi_WP_Member_Sync_Groups {
 	// -----------------------------------------------------------------------------------
 
 	/**
-	 * Show the Current Group header.
+	 * Shows the Current Group header.
 	 *
 	 * @since 0.4
 	 */
@@ -550,7 +550,7 @@ class Civi_WP_Member_Sync_Groups {
 	}
 
 	/**
-	 * Show the Current Groups.
+	 * Shows the Current Groups.
 	 *
 	 * @since 0.4
 	 *
@@ -572,7 +572,7 @@ class Civi_WP_Member_Sync_Groups {
 	}
 
 	/**
-	 * Show the Current Group.
+	 * Shows the Current Group.
 	 *
 	 * @since 0.4
 	 *
@@ -586,7 +586,7 @@ class Civi_WP_Member_Sync_Groups {
 	}
 
 	/**
-	 * Show the Current Group.
+	 * Shows the Current Group.
 	 *
 	 * @since 0.4
 	 *
@@ -609,7 +609,7 @@ class Civi_WP_Member_Sync_Groups {
 	// -----------------------------------------------------------------------------------
 
 	/**
-	 * Show the Expired Group header.
+	 * Shows the Expired Group header.
 	 *
 	 * @since 0.4
 	 */
@@ -621,7 +621,7 @@ class Civi_WP_Member_Sync_Groups {
 	}
 
 	/**
-	 * Show the Expired Groups.
+	 * Shows the Expired Groups.
 	 *
 	 * @since 0.4
 	 *
@@ -643,7 +643,7 @@ class Civi_WP_Member_Sync_Groups {
 	}
 
 	/**
-	 * Show the Expired Group.
+	 * Shows the Expired Group.
 	 *
 	 * @since 0.4
 	 *
@@ -657,7 +657,7 @@ class Civi_WP_Member_Sync_Groups {
 	}
 
 	/**
-	 * Show the Expired Group.
+	 * Shows the Expired Group.
 	 *
 	 * @since 0.4
 	 *
@@ -680,7 +680,7 @@ class Civi_WP_Member_Sync_Groups {
 	// -----------------------------------------------------------------------------------
 
 	/**
-	 * Show the Simulate header.
+	 * Shows the Simulate header.
 	 *
 	 * @since 0.5
 	 */
@@ -692,7 +692,7 @@ class Civi_WP_Member_Sync_Groups {
 	}
 
 	/**
-	 * Show the Groups.
+	 * Shows the Groups.
 	 *
 	 * @since 0.5
 	 *
@@ -719,7 +719,7 @@ class Civi_WP_Member_Sync_Groups {
 	// -----------------------------------------------------------------------------------
 
 	/**
-	 * Get the markup for a pseudo-list generated from a list of Groups data.
+	 * Gets the markup for a pseudo-list generated from a list of Groups data.
 	 *
 	 * @since 0.4
 	 *
@@ -760,7 +760,7 @@ class Civi_WP_Member_Sync_Groups {
 	}
 
 	/**
-	 * Get the markup for options generated from a list of Groups data.
+	 * Gets the markup for options generated from a list of Groups data.
 	 *
 	 * @since 0.4
 	 *
@@ -889,12 +889,12 @@ class Civi_WP_Member_Sync_Groups {
 	// -----------------------------------------------------------------------------------
 
 	/**
-	 * When an association rule is created, add Capability to "Groups" plugin.
+	 * When an Association Rule is created, adds Capability to "Groups" plugin.
 	 *
 	 * @since 0.2.3
 	 * @since 0.3.9 Moved into this class.
 	 *
-	 * @param array $data The association rule data.
+	 * @param array $data The Association Rule data.
 	 */
 	public function groups_add_cap( $data ) {
 
@@ -913,12 +913,12 @@ class Civi_WP_Member_Sync_Groups {
 	}
 
 	/**
-	 * When an association rule is edited, edit Capability in "Groups" plugin.
+	 * When an Association Rule is edited, edits Capability in "Groups" plugin.
 	 *
 	 * @since 0.2.3
 	 * @since 0.3.9 Moved into this class.
 	 *
-	 * @param array $data The association rule data.
+	 * @param array $data The Association Rule data.
 	 */
 	public function groups_edit_cap( $data ) {
 
@@ -928,12 +928,12 @@ class Civi_WP_Member_Sync_Groups {
 	}
 
 	/**
-	 * When an association rule is deleted, delete Capability from "Groups" plugin.
+	 * When an Association Rule is deleted, deletes Capability from "Groups" plugin.
 	 *
 	 * @since 0.2.3
 	 * @since 0.3.9 Moved into this class.
 	 *
-	 * @param array $data The association rule data.
+	 * @param array $data The Association Rule data.
 	 */
 	public function groups_delete_cap( $data ) {
 
@@ -952,7 +952,7 @@ class Civi_WP_Member_Sync_Groups {
 	}
 
 	/**
-	 * Add "read post" Capability to "Groups" plugin.
+	 * Adds "read post" Capability to "Groups" plugin.
 	 *
 	 * @since 0.2.3
 	 * @since 0.3.9 Moved into this class.
@@ -979,7 +979,7 @@ class Civi_WP_Member_Sync_Groups {
 	}
 
 	/**
-	 * Delete "read post" Capability from "Groups" plugin.
+	 * Deletes "read post" Capability from "Groups" plugin.
 	 *
 	 * @since 0.2.3
 	 * @since 0.3.9 Moved into this class.
@@ -1009,7 +1009,7 @@ class Civi_WP_Member_Sync_Groups {
 	}
 
 	/**
-	 * Before a manual sync, make sure "Groups" plugin is in sync.
+	 * Before a manual sync, makes sure "Groups" plugin is in sync.
 	 *
 	 * @since 0.2.3
 	 * @since 0.3.9 Moved into this class.
@@ -1040,7 +1040,7 @@ class Civi_WP_Member_Sync_Groups {
 	}
 
 	/**
-	 * Auto-restrict a Post based on the Post Type.
+	 * Auto-restricts a Post based on the Post Type.
 	 *
 	 * This is a placeholder in case we want to extend this plugin to handle
 	 * automatic content restriction.
@@ -1051,8 +1051,8 @@ class Civi_WP_Member_Sync_Groups {
 	 * @since 0.2.3
 	 * @since 0.3.9 Moved into this class.
 	 *
-	 * @param int    $post_id The numeric ID of the Post.
-	 * @param object $post The WordPress Post object.
+	 * @param int     $post_id The numeric ID of the Post.
+	 * @param WP_Post $post The WordPress Post object.
 	 */
 	public function groups_intercept_save_post( $post_id, $post ) {
 

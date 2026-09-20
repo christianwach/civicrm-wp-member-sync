@@ -130,6 +130,11 @@ defined( 'ABSPATH' ) || exit;
 							/**
 							 * Allows extra columns to be added after "Status".
 							 *
+							 * Used internally by:
+							 *
+							 * * Civi_WP_Member_Sync_BuddyPress::simulate_header() - Priority 10
+							 * * Civi_WP_Member_Sync_Groups::simulate_header() - Priority 10
+							 *
 							 * @since 0.5
 							 */
 							do_action( 'cwms/manual_sync/feedback/th' );

@@ -83,7 +83,7 @@ class Civi_WP_Member_Sync_Admin_CAU {
 	 *
 	 * @since 0.5
 	 *
-	 * @param object $parent The calling object.
+	 * @param Civi_WP_Member_Sync_Admin $parent The calling object.
 	 */
 	public function __construct( $parent ) {
 
@@ -97,19 +97,19 @@ class Civi_WP_Member_Sync_Admin_CAU {
 	}
 
 	/**
-	 * Initialise this object.
+	 * Initialises this object.
 	 *
 	 * @since 0.5
 	 */
 	public function initialise() {
 
-		// Register hooks.
+		// Register hook callbacks.
 		$this->register_hooks();
 
 	}
 
 	/**
-	 * Register hooks.
+	 * Registers hook callbacks.
 	 *
 	 * @since 0.5
 	 */
@@ -142,7 +142,7 @@ class Civi_WP_Member_Sync_Admin_CAU {
 	}
 
 	/**
-	 * Filter the CiviCRM Admin Utilities "Manage Users" table to include Users
+	 * Filters the CiviCRM Admin Utilities "Manage Users" table to include Users
 	 * of a specified Membership Type.
 	 *
 	 * @since 0.5
@@ -206,7 +206,7 @@ class Civi_WP_Member_Sync_Admin_CAU {
 	}
 
 	/**
-	 * Filter the CiviCRM Admin Utilities "Manage Users" table to include Users
+	 * Filters the CiviCRM Admin Utilities "Manage Users" table to include Users
 	 * of a specified Membership Status.
 	 *
 	 * @since 0.5
@@ -267,7 +267,7 @@ class Civi_WP_Member_Sync_Admin_CAU {
 	}
 
 	/**
-	 * Filter the CiviCRM Admin Utilities "Manage Users" table to include Users
+	 * Filters the CiviCRM Admin Utilities "Manage Users" table to include Users
 	 * with or without a Membership.
 	 *
 	 * @since 0.5
@@ -338,7 +338,7 @@ class Civi_WP_Member_Sync_Admin_CAU {
 	}
 
 	/**
-	 * Add Membership Type column to the CiviCRM Admin Utilities "Manage Users" table.
+	 * Adds Membership Type column to the CiviCRM Admin Utilities "Manage Users" table.
 	 *
 	 * @since 0.5
 	 *
@@ -380,12 +380,12 @@ class Civi_WP_Member_Sync_Admin_CAU {
 	}
 
 	/**
-	 * Add views to the CiviCRM Admin Utilities "Manage Users" table.
+	 * Adds views to the CiviCRM Admin Utilities "Manage Users" table.
 	 *
 	 * @since 0.5
 	 *
-	 * @param string $url_base The current URL base for view.
-	 * @param object $table The table object.
+	 * @param string                      $url_base The current URL base for view.
+	 * @param CAU_Single_Users_List_Table $table The table object.
 	 */
 	public function views_add( $url_base, $table ) {
 
@@ -458,7 +458,7 @@ class Civi_WP_Member_Sync_Admin_CAU {
 	}
 
 	/**
-	 * Add Membership Type column to the CiviCRM Admin Utilities "Manage Users" table.
+	 * Adds Membership Type column to the CiviCRM Admin Utilities "Manage Users" table.
 	 *
 	 * @since 0.5
 	 *
@@ -476,7 +476,7 @@ class Civi_WP_Member_Sync_Admin_CAU {
 	}
 
 	/**
-	 * Return Membership Type for display.
+	 * Returns the Membership Type for display.
 	 *
 	 * We could make this a link to filter Users by.
 	 *
@@ -537,7 +537,7 @@ class Civi_WP_Member_Sync_Admin_CAU {
 	}
 
 	/**
-	 * Add Membership Status column to the CiviCRM Admin Utilities "Manage Users" table.
+	 * Adds the Membership Status column to the CiviCRM Admin Utilities "Manage Users" table.
 	 *
 	 * @since 0.5
 	 *
@@ -555,7 +555,7 @@ class Civi_WP_Member_Sync_Admin_CAU {
 	}
 
 	/**
-	 * Return Membership Status for display.
+	 * Returns the Membership Status for display.
 	 *
 	 * @since 0.5
 	 *

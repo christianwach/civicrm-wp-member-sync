@@ -85,6 +85,11 @@ defined( 'ABSPATH' ) || exit;
 			/**
 			 * Allows extra rows to be added.
 			 *
+			 * Used internally by:
+			 *
+			 * * Civi_WP_Member_Sync_BuddyPress::rule_current_add() - Priority 10
+			 * * Civi_WP_Member_Sync_Groups::rule_current_add() - Priority 10
+			 *
 			 * @since 0.3.9
 			 *
 			 * @param array $status_rules The status rules.
@@ -123,6 +128,11 @@ defined( 'ABSPATH' ) || exit;
 
 			/**
 			 * Allows extra rows to be added.
+			 *
+			 * Used internally by:
+			 *
+			 * * Civi_WP_Member_Sync_BuddyPress::rule_expiry_add() - Priority 10
+			 * * Civi_WP_Member_Sync_Groups::rule_expiry_add() - Priority 10
 			 *
 			 * @since 0.3.9
 			 *

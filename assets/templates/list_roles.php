@@ -83,6 +83,11 @@ defined( 'ABSPATH' ) || exit;
 				/**
 				 * Allows extra columns to be added after "Current WP Role".
 				 *
+				 * Used internally by:
+				 *
+				 * * Civi_WP_Member_Sync_BuddyPress::list_current_header() - Priority 10
+				 * * Civi_WP_Member_Sync_Groups::list_current_header() - Priority 10
+				 *
 				 * @since 0.4
 				 */
 				do_action( 'civi_wp_member_sync_list_roles_th_after_current' );
@@ -98,6 +103,11 @@ defined( 'ABSPATH' ) || exit;
 
 				/**
 				 * Allows extra columns to be added after "Expiry WP Role".
+				 *
+				 * Used internally by:
+				 *
+				 * * Civi_WP_Member_Sync_BuddyPress::list_expiry_header() - Priority 10
+				 * * Civi_WP_Member_Sync_Groups::list_expiry_header() - Priority 10
 				 *
 				 * @since 0.4
 				 */
@@ -154,9 +164,14 @@ defined( 'ABSPATH' ) || exit;
 					/**
 					 * Allows extra columns to be added after "Current WP Role".
 					 *
+					 * Used internally by:
+					 *
+					 * * Civi_WP_Member_Sync_BuddyPress::list_current_row() - Priority 10
+					 * * Civi_WP_Member_Sync_Groups::list_current_row() - Priority 10
+					 *
 					 * @since 0.4
 					 *
-					 * @param int $key The current key (type ID).
+					 * @param int   $key The current key (type ID).
 					 * @param array $item The current item.
 					 */
 					do_action( 'civi_wp_member_sync_list_roles_td_after_current', $key, $item );
@@ -174,9 +189,14 @@ defined( 'ABSPATH' ) || exit;
 					/**
 					 * Allows extra columns to be added after "Expired WP Role".
 					 *
+					 * Used internally by:
+					 *
+					 * * Civi_WP_Member_Sync_BuddyPress::list_expiry_row() - Priority 10
+					 * * Civi_WP_Member_Sync_Groups::list_expiry_row() - Priority 10
+					 *
 					 * @since 0.4
 					 *
-					 * @param int $key The current key (type ID).
+					 * @param int   $key The current key (type ID).
 					 * @param array $item The current item.
 					 */
 					do_action( 'civi_wp_member_sync_list_roles_td_after_expiry', $key, $item );
@@ -189,7 +209,7 @@ defined( 'ABSPATH' ) || exit;
 					 *
 					 * @since 0.3.9
 					 *
-					 * @param int $key The current key (type ID).
+					 * @param int   $key The current key (type ID).
 					 * @param array $item The current item.
 					 */
 					do_action( 'civi_wp_member_sync_list_roles_td', $key, $item );
