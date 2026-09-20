@@ -49,6 +49,16 @@ if ( ! defined( 'CIVI_WP_MEMBER_SYNC_PLUGIN_PATH' ) ) {
 	define( 'CIVI_WP_MEMBER_SYNC_PLUGIN_PATH', plugin_dir_path( CIVI_WP_MEMBER_SYNC_PLUGIN_FILE ) );
 }
 
+/*
+ * Set production debug flag.
+ *
+ * Setting this to true will write to the log even when WP_DEBUG is off, for example in
+ * production environments. This setting is ignored when WP_DEBUG is on.
+ */
+if ( ! defined( 'CIVI_WP_MEMBER_SYNC_DEBUG' ) ) {
+	define( 'CIVI_WP_MEMBER_SYNC_DEBUG', true );
+}
+
 /**
  * Plugin class.
  *
@@ -300,8 +310,9 @@ class Civi_WP_Member_Sync {
 	 */
 	public function log_error( $data = [] ) {
 
-		// Skip if not debugging.
-		if ( ! defined( 'WP_DEBUG' ) || ! WP_DEBUG ) {
+		// Skip if not debugging in production, but allow if WP_DEBUG is on.
+		$wp_debugging = defined( 'WP_DEBUG' ) && WP_DEBUG;
+		if ( CIVI_WP_MEMBER_SYNC_DEBUG === false && ! $wp_debugging ) {
 			return;
 		}
 
