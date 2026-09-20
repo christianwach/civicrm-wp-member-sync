@@ -15,19 +15,18 @@ defined( 'ABSPATH' ) || exit;
 defined( 'WP_UNINSTALL_PLUGIN' ) || exit;
 
 /**
- * We need to remove all Capabilities granted to Users via this plugin.
+ * Remove all Capabilities granted to Users via this plugin.
+ *
+ * @since 0.1
  */
 function civi_wp_member_sync_reset_caps() {
 
 	// Get existing settings.
 	$settings = get_option( 'civi_wp_member_sync_settings', [] );
 
-	// Try network options if we have no data.
+	// Try network options if we have no site data.
 	if ( ! array_key_exists( 'data', $settings ) ) {
-
-		// Get existing network settings.
 		$settings = get_site_option( 'civi_wp_member_sync_settings', [] );
-
 	}
 
 	// Bail if we still have no data.
@@ -51,20 +50,14 @@ function civi_wp_member_sync_reset_caps() {
 			// Add current rule caps.
 			if ( count( $rule['current_rule'] ) > 0 ) {
 				foreach ( $rule['current_rule'] as $status ) {
-
-					// Add status Capability.
 					$capabilities[] = $rule['capability'] . '_' . $status;
-
 				}
 			}
 
 			// Add expired rule caps.
 			if ( count( $rule['expiry_rule'] ) > 0 ) {
 				foreach ( $rule['expiry_rule'] as $status ) {
-
-					// Add status Capability.
 					$capabilities[] = $rule['capability'] . '_' . $status;
-
 				}
 			}
 
@@ -78,10 +71,7 @@ function civi_wp_member_sync_reset_caps() {
 	foreach ( $users as $user ) {
 
 		// Skip if we don't have a valid User.
-		if ( ! ( $user instanceof WP_User ) ) {
-			continue;
-		}
-		if ( ! $user->exists() ) {
+		if ( ! ( $user instanceof WP_User ) || ! $user->exists() ) {
 			continue;
 		}
 
