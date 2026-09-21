@@ -16,7 +16,6 @@
 
 		<!-- I prefer my control structures. -->
 		<exclude name="WordPress.WhiteSpace.ControlStructureSpacing.BlankLineAfterEnd" />
-		<exclude name="PSR2.Methods.FunctionClosingBrace.SpacingBeforeClose" />
 
 		<!-- PSR4: Allow short file names. -->
 		<exclude name="WordPress.Files.FileName.InvalidClassFileName" />
@@ -26,11 +25,14 @@
 		<exclude name="Squiz.PHP.CommentedOutCode.Found" />
 		<exclude name="Squiz.Commenting.BlockComment.HasEmptyLineBefore" />
 
-		<!-- Remaining checks. -->
-		<exclude name="WordPress.PHP.StrictInArray.MissingTrueStrict" />
+		<!-- Allow certain stylistic choices. -->
 		<exclude name="PSR2.Classes.ClassDeclaration.CloseBraceAfterBody" />
+		<exclude name="PSR2.Methods.FunctionClosingBrace.SpacingBeforeClose" />
 		<exclude name="Universal.Files.SeparateFunctionsFromOO.Mixed" />
 		<exclude name="Universal.ControlStructures.DisallowLonelyIf.Found" />
+
+		<!-- Remaining checks. -->
+		<exclude name="WordPress.PHP.StrictInArray.MissingTrueStrict" />
 
 	</rule>
 
