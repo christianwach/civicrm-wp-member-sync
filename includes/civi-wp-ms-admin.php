@@ -661,6 +661,7 @@ class Civi_WP_Member_Sync_Admin {
 		// Init settings.
 		$settings = [
 			'ajax_url'          => admin_url( 'admin-ajax.php' ),
+			'ajax_nonce'        => wp_create_nonce( 'cwms_sync_ajax_nonce' ),
 			'total_memberships' => $this->plugin->members->memberships_get_count(),
 			'batch_count'       => $this->setting_get_batch_count(),
 		];

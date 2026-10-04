@@ -433,6 +433,7 @@ var CiviCRM_WP_Member_Sync_Manual_Sync = CiviCRM_WP_Member_Sync_Manual_Sync || {
 
 				// Token received by WordPress.
 				action: 'sync_memberships',
+				_ajax_nonce: CiviCRM_WP_Member_Sync_Manual_Sync.settings.get_setting( 'ajax_nonce' ),
 
 				// Send "Create Users" flag.
 				civi_wp_member_sync_manual_sync_create: CiviCRM_WP_Member_Sync_Manual_Sync.settings.get_create_users(),

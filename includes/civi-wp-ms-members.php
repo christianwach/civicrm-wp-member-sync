@@ -119,12 +119,9 @@ class Civi_WP_Member_Sync_Members {
 
 		}
 
-		// Is this the back end?
+		// Add AJAX handler on the back end.
 		if ( is_admin() ) {
-
-			// Add AJAX handler.
-			add_action( 'wp_ajax_sync_memberships', [ $this, 'sync_all_civicrm_memberships' ] );
-
+			add_action( 'wp_ajax_sync_memberships', [ $this, 'ajax_sync_civicrm_memberships' ] );
 		}
 
 		// Filter Memberships and override for Contact in Trash.
@@ -133,6 +130,27 @@ class Civi_WP_Member_Sync_Members {
 	}
 
 	// -----------------------------------------------------------------------------------
+
+	/**
+	 * AJAX callback that calls Membership sync.
+	 *
+	 * @since 0.7.0
+	 */
+	public function ajax_sync_civicrm_memberships() {
+
+		// Init data array.
+		$json = [];
+
+		// Since this is an AJAX request, check security.
+		$result = check_ajax_referer( 'cwms_sync_ajax_nonce', false, false );
+		if ( false === $result ) {
+			wp_send_json( $json );
+		}
+
+		// Now call method.
+		$this->sync_all_civicrm_memberships();
+
+	}
 
 	/**
 	 * Syncs Membership rules for all CiviCRM Memberships.
@@ -145,13 +163,17 @@ class Civi_WP_Member_Sync_Members {
 	 */
 	public function sync_all_civicrm_memberships( $assoc_args = [] ) {
 
-		// Kick out if no CiviCRM.
-		if ( ! civi_wp()->initialize() ) {
-			return;
-		}
-
 		// Init data array.
 		$data = [];
+
+		// Bail if no CiviCRM.
+		if ( ! civi_wp()->initialize() ) {
+			if ( defined( 'WP_CLI' ) && WP_CLI ) {
+				return $data;
+			} else {
+				wp_send_json( $data );
+			}
+		}
 
 		// Assume not creating Users.
 		$create_users = false;
