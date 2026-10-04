@@ -80,6 +80,11 @@ Code that used the `civi_wp_member_sync_after_insert_user` hook to send User Not
 
 == Changelog ==
 
+= 0.7.0 =
+
+* Replaces inefficient WordPress Schedule with a WP-CLI command
+* Fixes the starting and ending Membership IDs filter on the Manual Sync screen
+
 = 0.6.3 =
 
 * Deletes BuddyPress and "Groups" group memberships when a CiviCRM Membership is deleted
